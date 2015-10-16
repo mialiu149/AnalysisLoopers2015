@@ -1,0 +1,15 @@
+*_dict*
+*~
+*.o
+*.d
+*.so
+CORE
+Software
+Tools
+ZMET2015/output
+
+dilepbabymaker/batchsubmit/log_merge_*
+dilepbabymaker/batchsubmit/submit_logs
+dilepbabymaker/batchsubmit/job_logs
+dilepbabymaker/batchsubmit/configs*
+dilepbabymaker/*.root
