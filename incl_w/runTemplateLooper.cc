@@ -17,7 +17,6 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
   TChain* ch = new TChain("t");
   if ( sample == "data" ){
-	// ch->Add(Form("/home/users/mliu/analysis2015/CMSSW_7_4_1_patch1/analysis2015_dev/analysis2015/dilepbabymaker/unknown_test_data.root"    , iter.c_str() ));
 	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_ee*.root" , iter.c_str() ));
 	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_em*.root" , iter.c_str() ));
 	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_mm*.root" , iter.c_str() ));

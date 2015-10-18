@@ -1,44 +1,36 @@
 #! /bin/bash
-# export analysis_version="V00-00-17"
+export analysis="incl_w" 
 export analysis_version="V07-04-05"
+export study="datavsmc"
 echo "Analysis version = $analysis_version"
 localdirectory=`pwd`
 
-function link_output
-{
-	if [ ! -L "$localdirectory/output" ]; then
-		echo "Linking to output directory: /nfs-7/userdata/$USER/output"
-		ln -s /nfs-7/userdata/$USER/output
-	else
-		echo "Saving output to: /nfs-7/userdata/$USER/output"
-	fi
-}
 
 function create_analysis_output
 {
-	if [ ! -d $localdirectory/output/$analysis_version ]; then
-		echo "Creating directory, $localdirectory/output/$analysis_version"
-		mkdir $localdirectory/output/$analysis_version
+	if [ ! -d $HOME/public_html/rootfiles/$analysis/$analysis_version/$study ]; then
+		echo "Creating directory: $HOME/public_html/$analysis/$analysis_version/$study/rootfiles/"
+		mkdir -p $HOME/public_html/rootfiles/$analysis/$analysis_version/$study/rootfiles
 		sleep 1
 	else
-		echo "Saving looper output to $localdirectory/output/$analysis_version"
+		echo "Saving output to: $HOME/public_html/$analysis/$analysis_version/$study/rootfiles"
 		sleep 1
 	fi
 }
 
 function create_plot_output
 {
-	if [ ! -d output/ZMET2015/$analysis_version/plots/Closure ]; then
-		echo "Creating directory, output/ZMET2015/$analysis_version/plots/Closure"
-		mkdir -p output/ZMET2015/$analysis_version/plots/Closure
+	if [ ! -d $HOME/public_html/$analysis/$analysis_version/$study/plots/ ]; then
+		echo "Will save plots to a new directory:$HOME/public_html/$analysis/$analysis_version/$study/plots"
+		mkdir -p $HOME/public_html/$analysis/$analysis_version/$study/plots
 		sleep 1
 	else
-		echo "Saving plots to output/ZMET2015/$analysis_version/plots/Closure"
+		echo "Willl save plots to : $HOME/public_html/$analysis/$analysis_version/$study/plots/"
 		sleep 1
 	fi
 
-	if [ ! -e output/ZMET2015/$analysis_version/plots/Closure/index.php ]; then
-		cp index.php output/ZMET2015/$analysis_version/plots/Closure/
+	if [ ! -e $HOME/public_html/$analysis/$analysis_version/$study/plots/index.php ]; then
+		cp index.php $HOME/public_html/$analysis/$analysis_version/$study/plots
 	fi
 }
 
