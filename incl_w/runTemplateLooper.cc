@@ -17,12 +17,8 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
   TChain* ch = new TChain("t");
   if ( sample == "data" ){
-	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_ee*.root" , iter.c_str() ));
-	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_em*.root" , iter.c_str() ));
-	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_mm*.root" , iter.c_str() ));
-	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_ph*.root" , iter.c_str() ));
-	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_se*.root" , iter.c_str() ));
-	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_sm*.root" , iter.c_str() ));
+        ch->Add("/afs/cern.ch/work/m/mliu/private/CMSSW_7_4_0_patch1/src/AnalysisLoopers2015/incl_w/../../data_single_muon_2015C_25ns.root");
+//	ch->Add(Form("/nfs-6/userdata/mliu/ZMETbabies/%s/data_50ns_sm*.root" , iter.c_str() ));
   }
   
   else if ( sample == "All_MC" ){

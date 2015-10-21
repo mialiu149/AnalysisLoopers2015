@@ -15,9 +15,8 @@
 #include "Math/VectorUtil.h"
 
 #include "templateLooper.h"
-
+#include "../sharedCode/V_00_04.h"
 #include "../sharedCode/histTools.h"
-#include "../sharedCode/V00_00_01.h"
 #include "../sharedCode/METTemplateSelections.h"
 
 #include "../../CORE/Tools/dorky/dorky.h"
@@ -42,10 +41,8 @@ void templateLooper::bookHistos(){
 
   // hist naming convention: "h_<leptype>_<object>_<variable>_<selection>"
   vector <string> leptype;
-  leptype.push_back("ee");
-  leptype.push_back("mm");
-  leptype.push_back("em");
-  leptype.push_back("ll");
+  leptype.push_back("el");
+  leptype.push_back("mu");
   vector <string> object;
   object.push_back("event");
   vector <string> selection;
@@ -55,26 +52,13 @@ void templateLooper::bookHistos(){
   vector <string> variable;      vector <float> variable_bins;
 
   variable.push_back("ptl1");    variable_bins.push_back(1000);  
-  variable.push_back("ptdil");   variable_bins.push_back(1000);  
   variable.push_back("met");     variable_bins.push_back(500 );  
   // variable.push_back("met_phi"); variable_bins.push_back(500 );  
   // variable.push_back("met_phir");variable_bins.push_back(500 );  
-  variable.push_back("met_raw"); variable_bins.push_back(500 );  
-  variable.push_back("met_rawgt1jet"); variable_bins.push_back(500 );  
-  variable.push_back("met_raw_vince"); variable_bins.push_back(500 );  
+  //variable.push_back("met_raw"); variable_bins.push_back(500 );  
   variable.push_back("ht");	     variable_bins.push_back(1000);  
-  variable.push_back("mt3");     variable_bins.push_back(500);  
   variable.push_back("njets");   variable_bins.push_back(20  );  
-  variable.push_back("mll");     variable_bins.push_back(300 );  
   variable.push_back("nVert");   variable_bins.push_back(50 );  
-  variable.push_back("MHTFW");   variable_bins.push_back(1000 );  
-  variable.push_back("MHTBA");   variable_bins.push_back(1000 );  
-  variable.push_back("MHTFB");   variable_bins.push_back(1000 );  
-  variable.push_back("MHTFBgt1jet");   variable_bins.push_back(1000 );
-  
-  variable.push_back("met0jet");  variable_bins.push_back(500 );  
-  variable.push_back("met1jet");  variable_bins.push_back(500 );  
-  variable.push_back("metgt1jet");variable_bins.push_back(500 );  
 
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
 	for( unsigned int objind = 0; objind < object.size(); objind++ ){
@@ -165,7 +149,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   double npass = 0;
   
   // do this once per job
-  const char* json_file ="../../dilepbabymaker/json_270715_golden.txt";
+  const char* json_file ="../json/json_270715_golden.txt";
   set_goodrun_file(json_file);
 
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
@@ -215,13 +199,13 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
         }
       }
 
-	  if ( cms3.isData() && usejson && !goodrun(cms3.run(), cms3.lumi()) ) continue;
+	  if ( cms3.is_data() && usejson && !goodrun(cms3.run(), cms3.ls()) ) continue;
 
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
 	  //Deal with duplicates in data//
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
-	  if( cms3.isData() ) {
-		DorkyEventIdentifier id(cms3.run(), cms3.evt(), cms3.lumi());
+	  if( cms3.is_data() ) {
+		DorkyEventIdentifier id(cms3.run(), cms3.evt(), cms3.ls());
 		if (is_duplicate(id) ){
 		  ++nDuplicates;
 		  continue;
@@ -237,54 +221,52 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //   event weights       //
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 	  float weight = 1.0;
-	  if( cms3.isData() ){
+	  if( cms3.is_data() ){
 		weight = 1.0;
-	  }else if( !cms3.isData() ){
-		weight *= cms3.evt_scale1fb();
+	  }else if( !cms3.is_data() ){
+		weight *= cms3.scale1fb();
 	  }
 
-	  if( !cms3.isData() && dovtxreweighting ){
-		// cout<<h_vtxweight->GetBinContent(h_vtxweight->FindBin(cms3.nVert()));
-		weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(cms3.nVert()));		
-		// weight *= h_vtxweight->GetBinContent(cms3.nVert());		
+	  if( !cms3.is_data() && dovtxreweighting ){
+		weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(cms3.nvtxs()));		
 	  }
 	  
-	  float event_met_pt = cms3.met_pt();
-	  float event_met_ph = cms3.met_phi();
-
+	  float event_met_pt = cms3.pfmet();
+	  float event_met_ph = cms3.pfmet_phi();
 
 	  //~-~-~-~-~-~-~-~-//
           // event selection// 
 	  //~-~-~-~-~-~-~-~-//
-          if( !usejson && cms3.isData() && !cms3.evt_passgoodrunlist()   ) continue; // good runs lists
-	  if( !(cms3.HLT_SingleMu() || cms3.HLT_SingleEl() )) continue;
+          //if( !usejson && cms3.is_data() && !cms3.evt_passgoodrunlist()   ) continue; // good runs lists
+          if( !usejson && cms3.is_data() ) continue; // good runs lists
+	  if( !(cms3.HLT_SingleMu())) continue;
 
-	  if( cms3.nlep()                        < 1         ) continue; // require at least 1 good lepton
-	  if( cms3.lep_pt().at(0)                < 40        ) continue; // leading lep pT > 40 GeV
-	  if( cms3.lep_pt().size()               > 1         ) continue; // second lepton veto
+	  if( cms3.ngoodleps()                   < 1         ) continue; // require at least 1 good lepton
+	  if( cms3.lep1_pt()                < 40        ) continue; // leading lep pT > 40 GeV
+//	  if( cms3.lep1_pt().size()               > 1         ) continue; // second lepton veto
 
-	  if( abs(cms3.lep_p4().at(0).eta())     > 2.4       ) continue; // eta < 2.4
-	  if( abs(cms3.lep_p4().at(0).eta())     > 1.4 &&
-	  	  abs(cms3.lep_p4().at(0).eta())     < 1.6       ) continue; //excluding tracker crack region 
+	  if( abs(cms3.lep1_p4().eta())     > 2.4       ) continue; // eta < 2.4
+	  if( abs(cms3.lep1_p4().eta())     > 1.4 &&
+	  	  abs(cms3.lep1_p4().eta())     < 1.6       ) continue; //excluding tracker crack region 
 	  
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//	  
-	  fillHist( "event", "njets"  , "passtrig", cms3.njets()        , weight );
+	  fillHist( "event", "njets"  , "passtrig", cms3.ngoodjets()    , weight );
 	  fillHist( "event", "met"    , "passtrig", event_met_pt        , weight );
-	  fillHist( "event", "met_raw", "passtrig", cms3.met_rawPt()    , weight );
-	  fillHist( "event", "ht"     , "passtrig", cms3.ht()           , weight );
-	  fillHist( "event", "ptl1"   , "passtrig", cms3.lep_pt().at(0) , weight );	  
-	  fillHist( "event", "nVert"  , "passtrig", cms3.nVert()        , weight );	  
+//	  fillHist( "event", "met_raw", "passtrig", cms3.met_rawPt()    , weight );
+	  fillHist( "event", "ht"     , "passtrig", cms3.ak4_HT()       , weight );
+	  fillHist( "event", "ptl1"   , "passtrig", cms3.lep1_pt()      , weight );	  
+	  fillHist( "event", "nVert"  , "passtrig", cms3.nvtxs()        , weight );	  
 	  fillHist( "event", "metphi" , "passtrig", event_met_ph        , weight );	  
-	  fillHist( "event", "metphir", "passtrig", cms3.met_rawPhi()   , weight );	  
+//	  fillHist( "event", "metphir", "passtrig", cms3.met_rawPhi()   , weight );	  
 
-	  if( cms3.njets() == 0 ) fillHist( "event", "met0jet"   , "passtrig", event_met_pt        , weight );
-	  if( cms3.njets() == 1 ) fillHist( "event", "met1jet"   , "passtrig", event_met_pt        , weight );
-	  if( cms3.njets() >= 2 ) fillHist( "event", "metgt1jet" , "passtrig", event_met_pt        , weight );
+	  if( cms3.ngoodjets() == 0 ) fillHist( "event", "met0jet"   , "passtrig", event_met_pt        , weight );
+	  if( cms3.ngoodjets() == 1 ) fillHist( "event", "met1jet"   , "passtrig", event_met_pt        , weight );
+	  if( cms3.ngoodjets() >= 2 ) fillHist( "event", "metgt1jet" , "passtrig", event_met_pt        , weight );
 
 	  // MHTFW
-	  LorentzVector MHTFB_p4(0,0,0,0);// =  - cms3.lep1.p4()  - cms3.lep2.p4()  - cms3.jet1.p4();
+/*	  LorentzVector MHTFB_p4(0,0,0,0);// =  - cms3.lep1.p4()  - cms3.lep2.p4()  - cms3.jet1.p4();
 	  LorentzVector MHTFW_p4(0,0,0,0);// =  - cms3.lep1.p4()  - cms3.lep2.p4()  - cms3.jet1.p4();
 	  LorentzVector MHTBA_p4(0,0,0,0);// =  - cms3.lep1.p4()  - cms3.lep2.p4()  - cms3.jet1.p4();
 	  for( size_t lepind = 0; lepind < cms3.lep_p4().size(); lepind++ ){
@@ -319,11 +301,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  }
 	  
 	  if( event_met_pt < 50 && cms3.hyp_type() == 2 ) nem_2jets += weight;
-		  
+*/		  
 	  //-~-~-~-~-~-~-~-~-~-//
 	  //Fill Template hists//
 	  //-~-~-~-~-~-~-~-~-~-//	  
-	  if( cms3.njets() < 2 ) continue; // require at least 2 good jets
+	  if( cms3.ngoodjets() < 2 ) continue; // require at least 2 good jets
           npass += weight;
 
     } // end loop over events
@@ -368,20 +350,12 @@ void templateLooper::fillHist( string obj, string var, string sel, float value, 
   string hist = "h_";
   try
 	{
-	  if( cms3.hyp_type() == 0 ){
-		hist = Form("h_ee_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+	  if( cms3.lep1_is_el() ){
+		hist = Form("h_el_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
 	  }
-	  if( cms3.hyp_type() == 1 ){
-		hist = Form("h_mm_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
-		fillUnderOverFlow(event_hists.at( hist ), value, weight);
-	  }
-	  if( cms3.hyp_type() == 2 ){
-		hist = Form("h_em_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
-		fillUnderOverFlow(event_hists.at( hist ), value, weight);
-	  }
-	  if( cms3.hyp_type() == 0 || cms3.hyp_type() == 1 ){
-		hist = Form("h_ll_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+	  if( cms3.lep1_is_mu() ){
+		hist = Form("h_mu_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
 	  }
 	}

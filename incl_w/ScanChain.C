@@ -13,8 +13,8 @@
 #include "TROOT.h"
 #include "TTreeCache.h"
 
-// V00_00_01
-#include "V00_00_01.cc"
+// V_00_04
+#include "V_00_04.cc"
 
 using namespace std;
 using namespace tas;
@@ -60,7 +60,7 @@ int ScanChain( TChain* chain, bool fast = true, int nEvents = -1, string skimFil
       ++nEventsTotal;
     
       // Progress
-      V00_00_01::progress( nEventsTotal, nEventsChain );
+      V_00_04::progress( nEventsTotal, nEventsChain );
 
       // Analysis Code
 
