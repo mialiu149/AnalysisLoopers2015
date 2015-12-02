@@ -268,7 +268,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
 	  if( is_data() ) {
 		DorkyEventIdentifier id(run(), evt(), ls());
-		if (is_duplicate(id) ){
+	if (is_duplicate(id) ){
 		  ++nDuplicates;
 		  continue;
 		}
@@ -391,7 +391,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //-~-~-~-~-~-~-~-~-~-//
 	  //Fill Template hists//
 	  //-~-~-~-~-~-~-~-~-~-//	  
-          npass += weight;
+         npass += weight;
     } // end loop over events
   } // end loop over files
 
@@ -448,7 +448,7 @@ void templateLooper::fillHist( string obj, string var, string sel, float value, 
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
           }
 	  if( lep1_is_mu() ){
-		hist = Form("h_mu_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+         	hist = Form("h_mu_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
 	  }
 	}
