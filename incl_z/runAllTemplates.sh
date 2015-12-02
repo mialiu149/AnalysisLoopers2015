@@ -1,20 +1,16 @@
 #! /bin/bash
 
-source ../settings.sh
+source settings.sh
 
 compile_looper
 # create_analysis_output
 
-if [ ! -d "../output/$analysis_version/" ]; then
-	mkdir -p ../output/$analysis_version/
-fi
-
 selection="_inclusive"
-# ./runTemplateLooper $selection V07-04-03_updatedHLT data  &
-
 ./runTemplateLooper $selection $analysis_version data  &
-#./runTemplateLooper $selection V07-04-03_extraMETVariables zjets &
-#./runTemplateLooper $selection V07-04-03_extraMETVariables ttbar &
+./runTemplateLooper $selection $analysis_version zjets &
+./runTemplateLooper $selection $analysis_version ttbar &
+./runTemplateLooper $selection $analysis_version wjets &
+./runTemplateLooper $selection $analysis_version QCD &
 # ./runTemplateLooper $selection V07-04-03_goodtrigs All_MC  &
 
 # # For Closure tests

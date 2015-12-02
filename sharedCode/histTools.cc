@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "TH1.h"
 #include "TFile.h"
 #include "TList.h"
@@ -63,8 +62,7 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity )
 
   canvas->cd();
   TLatex *lumitex = NULL;
-  lumitex = new TLatex(0.66,0.955, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
-  // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
+  lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
   lumitex->SetNDC();    
   lumitex->SetTextSize(0.04);    
   lumitex->SetLineWidth(2);
@@ -108,15 +106,32 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity, float cmsleftmargin, flo
 
 void getBackground( TH1F* &backgroundhist, std::string iter, std::string bgfileprefix, std::string variable, std::string leptype, std::string selection )
 {
-  std::string filename = Form("../output/%s/%s_hists.root", iter.c_str(), bgfileprefix.c_str() );
+  std::string filename = Form("$analysis_output/%s_hists.root", bgfileprefix.c_str() );
   TFile *infile = TFile::Open(filename.c_str(),"READ");
+  //std::cout<<Form("h_%s_event_%s_%s", leptype.c_str(), variable.c_str(), selection.c_str() )<<std::endl;
   backgroundhist = dynamic_cast<TH1F*>(infile->Get(Form("h_%s_event_%s_%s", leptype.c_str(), variable.c_str(), selection.c_str() ))->Clone("backgroundhist"));
+  return;
+}
+
+void getYield( TH1D* &backgroundhist, std::string iter, std::string bgfileprefix, std::string variable, std::string leptype, std::string selection )
+{
+  std::string filename = Form("$analysis_output/%s_hists.root", bgfileprefix.c_str() );
+  TFile *infile = TFile::Open(filename.c_str(),"READ");
+  backgroundhist = dynamic_cast<TH1D*>(infile->Get(Form("h_%s_event_%s_%s", leptype.c_str(), variable.c_str(), selection.c_str() ))->Clone("backgroundhist"));
+  return;
+}
+
+void getBackgroundGenSplit( TH1F* &backgroundhist, std::string iter, std::string bgfileprefix, std::string variable, std::string leptype,std::string gentype ,std::string selection )
+{
+  std::string filename = Form("$analysis_output/%s_hists.root", bgfileprefix.c_str() );
+  TFile *infile = TFile::Open(filename.c_str(),"READ");
+  backgroundhist = dynamic_cast<TH1F*>(infile->Get(Form("h_%s_%s_event_%s_%s", leptype.c_str(),gentype.c_str() ,variable.c_str(), selection.c_str() ))->Clone("backgroundhist"));
   return;
 }
 
 void getTemplateMET( TH1F* &methist, std::string iter, std::string bgfileprefix )
 {
-  std::string filename = Form("../output/%s/%s_hists.root", iter.c_str(), bgfileprefix.c_str() );
+  std::string filename = Form("$analysis_output/%s_hists.root", bgfileprefix.c_str() );
   TFile *infile = TFile::Open(filename.c_str(),"READ");
   methist = dynamic_cast<TH1F*>(infile->Get("h_templ_met")->Clone(Form("methist_%s", bgfileprefix.c_str())));  
   return;
@@ -135,4 +150,5 @@ void updateoverflow( TH1F * &hist, float xmax )
   
   return;
 }
+
 

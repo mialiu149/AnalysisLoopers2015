@@ -13,4926 +13,5641 @@
 #include <unistd.h> 
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
+// Generated with the command
+// makeCMS3ClassFiles("chain files", "t", "V00_00_01", "V00_00_01_np", "cms3")
+
 using namespace std; 
 class V00_00_01 {
 private: 
 protected: 
 	unsigned int index;
-	int	run_;
+	unsigned int	run_;
 	TBranch *run_branch;
 	bool run_isLoaded;
-	int	lumi_;
-	TBranch *lumi_branch;
-	bool lumi_isLoaded;
-	unsigned long long	evt_;
+	unsigned int	ls_;
+	TBranch *ls_branch;
+	bool ls_isLoaded;
+	unsigned int	evt_;
 	TBranch *evt_branch;
 	bool evt_isLoaded;
-	int	isData_;
-	TBranch *isData_branch;
-	bool isData_isLoaded;
-	bool	evt_passgoodrunlist_;
-	TBranch *evt_passgoodrunlist_branch;
-	bool evt_passgoodrunlist_isLoaded;
-	float	evt_scale1fb_;
-	TBranch *evt_scale1fb_branch;
-	bool evt_scale1fb_isLoaded;
-	float	evt_xsec_;
-	TBranch *evt_xsec_branch;
-	bool evt_xsec_isLoaded;
-	float	evt_kfactor_;
-	TBranch *evt_kfactor_branch;
-	bool evt_kfactor_isLoaded;
-	float	evt_filter_;
-	TBranch *evt_filter_branch;
-	bool evt_filter_isLoaded;
-	int	evt_nEvts_;
-	TBranch *evt_nEvts_branch;
-	bool evt_nEvts_isLoaded;
-	float	puWeight_;
-	TBranch *puWeight_branch;
-	bool puWeight_isLoaded;
-	int	nVert_;
-	TBranch *nVert_branch;
-	bool nVert_isLoaded;
-	int	nTrueInt_;
-	TBranch *nTrueInt_branch;
-	bool nTrueInt_isLoaded;
-	float	rho_;
-	TBranch *rho_branch;
-	bool rho_isLoaded;
-	float	rho25_;
-	TBranch *rho25_branch;
-	bool rho25_isLoaded;
-	int	njets_;
-	TBranch *njets_branch;
-	bool njets_isLoaded;
-	float	ht_;
-	TBranch *ht_branch;
-	bool ht_isLoaded;
-	float	gen_ht_;
-	TBranch *gen_ht_branch;
-	bool gen_ht_isLoaded;
-	int	njets_eta30_;
-	TBranch *njets_eta30_branch;
-	bool njets_eta30_isLoaded;
-	float	ht_eta30_;
-	TBranch *ht_eta30_branch;
-	bool ht_eta30_isLoaded;
-	float	mt2_;
-	TBranch *mt2_branch;
-	bool mt2_isLoaded;
-	float	mt2j_;
-	TBranch *mt2j_branch;
-	bool mt2j_isLoaded;
-	float	mt2j_eta30_;
-	TBranch *mt2j_eta30_branch;
-	bool mt2j_eta30_isLoaded;
-	int	nJet40_;
-	TBranch *nJet40_branch;
-	bool nJet40_isLoaded;
-	int	nBJet40_;
-	TBranch *nBJet40_branch;
-	bool nBJet40_isLoaded;
-	int	nBJetTight_;
-	TBranch *nBJetTight_branch;
-	bool nBJetTight_isLoaded;
-	int	nBJetMedium_;
-	TBranch *nBJetMedium_branch;
-	bool nBJetMedium_isLoaded;
-	int	nBJetLoose_;
-	TBranch *nBJetLoose_branch;
-	bool nBJetLoose_isLoaded;
-	int	nMuons10_;
-	TBranch *nMuons10_branch;
-	bool nMuons10_isLoaded;
-	int	nElectrons10_;
-	TBranch *nElectrons10_branch;
-	bool nElectrons10_isLoaded;
-	int	nTaus20_;
-	TBranch *nTaus20_branch;
-	bool nTaus20_isLoaded;
-	int	nGammas20_;
-	TBranch *nGammas20_branch;
-	bool nGammas20_isLoaded;
-	float	met_pt_;
-	TBranch *met_pt_branch;
-	bool met_pt_isLoaded;
-	float	met_phi_;
-	TBranch *met_phi_branch;
-	bool met_phi_isLoaded;
-	float	met_rawPt_;
-	TBranch *met_rawPt_branch;
-	bool met_rawPt_isLoaded;
-	float	met_rawPhi_;
-	TBranch *met_rawPhi_branch;
-	bool met_rawPhi_isLoaded;
-	float	met_caloPt_;
-	TBranch *met_caloPt_branch;
-	bool met_caloPt_isLoaded;
-	float	met_caloPhi_;
-	TBranch *met_caloPhi_branch;
-	bool met_caloPhi_isLoaded;
-	float	met_genPt_;
-	TBranch *met_genPt_branch;
-	bool met_genPt_isLoaded;
-	float	met_genPhi_;
-	TBranch *met_genPhi_branch;
-	bool met_genPhi_isLoaded;
-	float	sumet_raw_;
-	TBranch *sumet_raw_branch;
-	bool sumet_raw_isLoaded;
-	float	jzb_raw_;
-	TBranch *jzb_raw_branch;
-	bool jzb_raw_isLoaded;
-	float	jzb_T1_;
-	TBranch *jzb_T1_branch;
-	bool jzb_T1_isLoaded;
-	float	jgb_raw_;
-	TBranch *jgb_raw_branch;
-	bool jgb_raw_isLoaded;
-	float	jgb_T1_;
-	TBranch *jgb_T1_branch;
-	bool jgb_T1_isLoaded;
-	int	Flag_EcalDeadCellTriggerPrimitiveFilter_;
-	TBranch *Flag_EcalDeadCellTriggerPrimitiveFilter_branch;
-	bool Flag_EcalDeadCellTriggerPrimitiveFilter_isLoaded;
-	int	Flag_trkPOG_manystripclus53X_;
-	TBranch *Flag_trkPOG_manystripclus53X_branch;
-	bool Flag_trkPOG_manystripclus53X_isLoaded;
-	int	Flag_ecalLaserCorrFilter_;
-	TBranch *Flag_ecalLaserCorrFilter_branch;
-	bool Flag_ecalLaserCorrFilter_isLoaded;
-	int	Flag_trkPOG_toomanystripclus53X_;
-	TBranch *Flag_trkPOG_toomanystripclus53X_branch;
-	bool Flag_trkPOG_toomanystripclus53X_isLoaded;
-	int	Flag_hcalLaserEventFilter_;
-	TBranch *Flag_hcalLaserEventFilter_branch;
-	bool Flag_hcalLaserEventFilter_isLoaded;
-	int	Flag_trkPOG_logErrorTooManyClusters_;
-	TBranch *Flag_trkPOG_logErrorTooManyClusters_branch;
-	bool Flag_trkPOG_logErrorTooManyClusters_isLoaded;
-	int	Flag_trkPOGFilters_;
-	TBranch *Flag_trkPOGFilters_branch;
-	bool Flag_trkPOGFilters_isLoaded;
-	int	Flag_trackingFailureFilter_;
-	TBranch *Flag_trackingFailureFilter_branch;
-	bool Flag_trackingFailureFilter_isLoaded;
-	int	Flag_CSCTightHaloFilter_;
-	TBranch *Flag_CSCTightHaloFilter_branch;
-	bool Flag_CSCTightHaloFilter_isLoaded;
-	int	Flag_HBHENoiseFilter_;
-	TBranch *Flag_HBHENoiseFilter_branch;
-	bool Flag_HBHENoiseFilter_isLoaded;
-	int	Flag_goodVertices_;
-	TBranch *Flag_goodVertices_branch;
-	bool Flag_goodVertices_isLoaded;
-	int	Flag_eeBadScFilter_;
-	TBranch *Flag_eeBadScFilter_branch;
-	bool Flag_eeBadScFilter_isLoaded;
-	int	Flag_METFilters_;
-	TBranch *Flag_METFilters_branch;
-	bool Flag_METFilters_isLoaded;
-	int	HLT_HT900_;
-	TBranch *HLT_HT900_branch;
-	bool HLT_HT900_isLoaded;
-	int	HLT_MET170_;
-	TBranch *HLT_MET170_branch;
-	bool HLT_MET170_isLoaded;
-	int	HLT_ht350met120_;
-	TBranch *HLT_ht350met120_branch;
-	bool HLT_ht350met120_isLoaded;
+	int	nvtxs_;
+	TBranch *nvtxs_branch;
+	bool nvtxs_isLoaded;
+	int	firstGoodVtxIdx_;
+	TBranch *firstGoodVtxIdx_branch;
+	bool firstGoodVtxIdx_isLoaded;
+	int	firstVtx_isfake_;
+	TBranch *firstVtx_isfake_branch;
+	bool firstVtx_isfake_isLoaded;
+	float	firstVtx_ndof_;
+	TBranch *firstVtx_ndof_branch;
+	bool firstVtx_ndof_isLoaded;
+	float	firstVtx_posRho_;
+	TBranch *firstVtx_posRho_branch;
+	bool firstVtx_posRho_isLoaded;
+	float	firstVtx_posZ_;
+	TBranch *firstVtx_posZ_branch;
+	bool firstVtx_posZ_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *firstVtx_posp4_;
+	TBranch *firstVtx_posp4_branch;
+	bool firstVtx_posp4_isLoaded;
+	int	pu_nvtxs_;
+	TBranch *pu_nvtxs_branch;
+	bool pu_nvtxs_isLoaded;
+	float	pfmet_;
+	TBranch *pfmet_branch;
+	bool pfmet_isLoaded;
+	float	pfmet_phi_;
+	TBranch *pfmet_phi_branch;
+	bool pfmet_phi_isLoaded;
+	float	calomet_;
+	TBranch *calomet_branch;
+	bool calomet_isLoaded;
+	float	calomet_phi_;
+	TBranch *calomet_phi_branch;
+	bool calomet_phi_isLoaded;
+	float	filt_cscbeamhalo_;
+	TBranch *filt_cscbeamhalo_branch;
+	bool filt_cscbeamhalo_isLoaded;
+	float	filt_ecallaser_;
+	TBranch *filt_ecallaser_branch;
+	bool filt_ecallaser_isLoaded;
+	float	filt_ecaltp_;
+	TBranch *filt_ecaltp_branch;
+	bool filt_ecaltp_isLoaded;
+	float	filt_eebadsc_;
+	TBranch *filt_eebadsc_branch;
+	bool filt_eebadsc_isLoaded;
+	float	filt_goodvtx_;
+	TBranch *filt_goodvtx_branch;
+	bool filt_goodvtx_isLoaded;
+	float	filt_hbhenoise_;
+	TBranch *filt_hbhenoise_branch;
+	bool filt_hbhenoise_isLoaded;
+	float	filt_hbhenoise_25ns_;
+	TBranch *filt_hbhenoise_25ns_branch;
+	bool filt_hbhenoise_25ns_isLoaded;
+	float	filt_hbhenoise_50ns_;
+	TBranch *filt_hbhenoise_50ns_branch;
+	bool filt_hbhenoise_50ns_isLoaded;
+	float	filt_hcallaser_;
+	TBranch *filt_hcallaser_branch;
+	bool filt_hcallaser_isLoaded;
+	float	filt_met_;
+	TBranch *filt_met_branch;
+	bool filt_met_isLoaded;
+	float	filt_trkfail_;
+	TBranch *filt_trkfail_branch;
+	bool filt_trkfail_isLoaded;
+	float	filt_trkPOG_;
+	TBranch *filt_trkPOG_branch;
+	bool filt_trkPOG_isLoaded;
+	float	filt_trkPOG_tmc_;
+	TBranch *filt_trkPOG_tmc_branch;
+	bool filt_trkPOG_tmc_isLoaded;
+	float	filt_trkPOG_tms_;
+	TBranch *filt_trkPOG_tms_branch;
+	bool filt_trkPOG_tms_isLoaded;
+	float	filt_eff_;
+	TBranch *filt_eff_branch;
+	bool filt_eff_isLoaded;
+	float	scale1fb_;
+	TBranch *scale1fb_branch;
+	bool scale1fb_isLoaded;
+	float	xsec_;
+	TBranch *xsec_branch;
+	bool xsec_isLoaded;
+	float	kfactor_;
+	TBranch *kfactor_branch;
+	bool kfactor_isLoaded;
+	float	pu_ntrue_;
+	TBranch *pu_ntrue_branch;
+	bool pu_ntrue_isLoaded;
+	int	ngoodleps_;
+	TBranch *ngoodleps_branch;
+	bool ngoodleps_isLoaded;
+	int	nlooseleps_;
+	TBranch *nlooseleps_branch;
+	bool nlooseleps_isLoaded;
+	int	nvetoleps_;
+	TBranch *nvetoleps_branch;
+	bool nvetoleps_isLoaded;
+	bool	is_data_;
+	TBranch *is_data_branch;
+	bool is_data_isLoaded;
+	string *dataset_;
+	TBranch *dataset_branch;
+	bool dataset_isLoaded;
+	string *filename_;
+	TBranch *filename_branch;
+	bool filename_isLoaded;
+	string *cms3tag_;
+	TBranch *cms3tag_branch;
+	bool cms3tag_isLoaded;
+	unsigned int	nEvents_;
+	TBranch *nEvents_branch;
+	bool nEvents_isLoaded;
+	unsigned int	nEvents_goodvtx_;
+	TBranch *nEvents_goodvtx_branch;
+	bool nEvents_goodvtx_isLoaded;
+	unsigned int	nEvents_MET30_;
+	TBranch *nEvents_MET30_branch;
+	bool nEvents_MET30_isLoaded;
+	unsigned int	nEvents_1goodlep_;
+	TBranch *nEvents_1goodlep_branch;
+	bool nEvents_1goodlep_isLoaded;
+	unsigned int	nEvents_2goodjets_;
+	TBranch *nEvents_2goodjets_branch;
+	bool nEvents_2goodjets_isLoaded;
+	int	genlepsfromtop_;
+	TBranch *genlepsfromtop_branch;
+	bool genlepsfromtop_isLoaded;
+	float	MT2W_;
+	TBranch *MT2W_branch;
+	bool MT2W_isLoaded;
+	float	MT2W_lep2_;
+	TBranch *MT2W_lep2_branch;
+	bool MT2W_lep2_isLoaded;
+	float	mindphi_met_j1_j2_;
+	TBranch *mindphi_met_j1_j2_branch;
+	bool mindphi_met_j1_j2_isLoaded;
+	float	mt_met_lep_;
+	TBranch *mt_met_lep_branch;
+	bool mt_met_lep_isLoaded;
+	float	mt_met_lep2_;
+	TBranch *mt_met_lep2_branch;
+	bool mt_met_lep2_isLoaded;
+	float	dR_lep_leadb_;
+	TBranch *dR_lep_leadb_branch;
+	bool dR_lep_leadb_isLoaded;
+	float	dR_lep2_leadb_;
+	TBranch *dR_lep2_leadb_branch;
+	bool dR_lep2_leadb_isLoaded;
+	float	hadronic_top_chi2_;
+	TBranch *hadronic_top_chi2_branch;
+	bool hadronic_top_chi2_isLoaded;
+	float	dphi_Wlep_;
+	TBranch *dphi_Wlep_branch;
+	bool dphi_Wlep_isLoaded;
+	float	MET_over_sqrtHT_;
+	TBranch *MET_over_sqrtHT_branch;
+	bool MET_over_sqrtHT_isLoaded;
+	float	ak4pfjets_rho_;
+	TBranch *ak4pfjets_rho_branch;
+	bool ak4pfjets_rho_isLoaded;
+	vector<string> *genweightsID_;
+	TBranch *genweightsID_branch;
+	bool genweightsID_isLoaded;
+	vector<float> *genweights_;
+	TBranch *genweights_branch;
+	bool genweights_isLoaded;
+	vector<string> *sparms_names_;
+	TBranch *sparms_names_branch;
+	bool sparms_names_isLoaded;
+	float	sparms_filterEfficiency_;
+	TBranch *sparms_filterEfficiency_branch;
+	bool sparms_filterEfficiency_isLoaded;
+	float	sparms_pdfScale_;
+	TBranch *sparms_pdfScale_branch;
+	bool sparms_pdfScale_isLoaded;
+	float	sparms_pdfWeight1_;
+	TBranch *sparms_pdfWeight1_branch;
+	bool sparms_pdfWeight1_isLoaded;
+	float	sparms_pdfWeight2_;
+	TBranch *sparms_pdfWeight2_branch;
+	bool sparms_pdfWeight2_isLoaded;
+	float	sparms_weight_;
+	TBranch *sparms_weight_branch;
+	bool sparms_weight_isLoaded;
+	float	sparms_xsec_;
+	TBranch *sparms_xsec_branch;
+	bool sparms_xsec_isLoaded;
+	vector<float> *sparms_values_;
+	TBranch *sparms_values_branch;
+	bool sparms_values_isLoaded;
+	int	sparms_subProcessId_;
+	TBranch *sparms_subProcessId_branch;
+	bool sparms_subProcessId_isLoaded;
+	float	mass_lsp_;
+	TBranch *mass_lsp_branch;
+	bool mass_lsp_isLoaded;
+	float	mass_chargino_;
+	TBranch *mass_chargino_branch;
+	bool mass_chargino_isLoaded;
+	float	mass_stop_;
+	TBranch *mass_stop_branch;
+	bool mass_stop_isLoaded;
+	float	genmet_;
+	TBranch *genmet_branch;
+	bool genmet_isLoaded;
+	float	genmet_phi_;
+	TBranch *genmet_phi_branch;
+	bool genmet_phi_isLoaded;
+	bool	PassTrackVeto_;
+	TBranch *PassTrackVeto_branch;
+	bool PassTrackVeto_isLoaded;
+	bool	PassTrackVeto_v2_;
+	TBranch *PassTrackVeto_v2_branch;
+	bool PassTrackVeto_v2_isLoaded;
+	bool	PassTrackVeto_v3_;
+	TBranch *PassTrackVeto_v3_branch;
+	bool PassTrackVeto_v3_isLoaded;
+	bool	PassTauVeto_;
+	TBranch *PassTauVeto_branch;
+	bool PassTauVeto_isLoaded;
+	float	EA_all_rho_;
+	TBranch *EA_all_rho_branch;
+	bool EA_all_rho_isLoaded;
+	float	EA_allcalo_rho_;
+	TBranch *EA_allcalo_rho_branch;
+	bool EA_allcalo_rho_isLoaded;
+	float	EA_centralcalo_rho_;
+	TBranch *EA_centralcalo_rho_branch;
+	bool EA_centralcalo_rho_isLoaded;
+	float	EA_centralchargedpileup_rho_;
+	TBranch *EA_centralchargedpileup_rho_branch;
+	bool EA_centralchargedpileup_rho_isLoaded;
+	float	EA_centralneutral_rho_;
+	TBranch *EA_centralneutral_rho_branch;
+	bool EA_centralneutral_rho_isLoaded;
+	float	topness_;
+	TBranch *topness_branch;
+	bool topness_isLoaded;
+	float	topness_lep2_;
+	TBranch *topness_lep2_branch;
+	bool topness_lep2_isLoaded;
+	float	topnessMod_;
+	TBranch *topnessMod_branch;
+	bool topnessMod_isLoaded;
+	float	topnessMod_lep2_;
+	TBranch *topnessMod_lep2_branch;
+	bool topnessMod_lep2_isLoaded;
+	float	MT2_lb_b_;
+	TBranch *MT2_lb_b_branch;
+	bool MT2_lb_b_isLoaded;
+	float	MT2_lb_b_lep2_;
+	TBranch *MT2_lb_b_lep2_branch;
+	bool MT2_lb_b_lep2_isLoaded;
+	float	MT2_lb_b_mass_;
+	TBranch *MT2_lb_b_mass_branch;
+	bool MT2_lb_b_mass_isLoaded;
+	float	MT2_lb_b_mass_lep2_;
+	TBranch *MT2_lb_b_mass_lep2_branch;
+	bool MT2_lb_b_mass_lep2_isLoaded;
+	float	MT2_lb_bqq_;
+	TBranch *MT2_lb_bqq_branch;
+	bool MT2_lb_bqq_isLoaded;
+	float	MT2_lb_bqq_lep2_;
+	TBranch *MT2_lb_bqq_lep2_branch;
+	bool MT2_lb_bqq_lep2_isLoaded;
+	float	MT2_lb_bqq_mass_;
+	TBranch *MT2_lb_bqq_mass_branch;
+	bool MT2_lb_bqq_mass_isLoaded;
+	float	MT2_lb_bqq_mass_lep2_;
+	TBranch *MT2_lb_bqq_mass_lep2_branch;
+	bool MT2_lb_bqq_mass_lep2_isLoaded;
+	float	Mlb_closestb_;
+	TBranch *Mlb_closestb_branch;
+	bool Mlb_closestb_isLoaded;
+	float	Mlb_lead_bdiscr_;
+	TBranch *Mlb_lead_bdiscr_branch;
+	bool Mlb_lead_bdiscr_isLoaded;
+	float	Mlb_closestb_lep2_;
+	TBranch *Mlb_closestb_lep2_branch;
+	bool Mlb_closestb_lep2_isLoaded;
+	float	Mlb_lead_bdiscr_lep2_;
+	TBranch *Mlb_lead_bdiscr_lep2_branch;
+	bool Mlb_lead_bdiscr_lep2_isLoaded;
+	float	Mjjj_;
+	TBranch *Mjjj_branch;
+	bool Mjjj_isLoaded;
+	float	Mjjj_lep2_;
+	TBranch *Mjjj_lep2_branch;
+	bool Mjjj_lep2_isLoaded;
+	int	HLT_SingleEl_;
+	TBranch *HLT_SingleEl_branch;
+	bool HLT_SingleEl_isLoaded;
 	int	HLT_SingleMu_;
 	TBranch *HLT_SingleMu_branch;
 	bool HLT_SingleMu_isLoaded;
-	int	HLT_DoubleEl_;
-	TBranch *HLT_DoubleEl_branch;
-	bool HLT_DoubleEl_isLoaded;
-	int	HLT_DoubleEl_DZ_;
-	TBranch *HLT_DoubleEl_DZ_branch;
-	bool HLT_DoubleEl_DZ_isLoaded;
-	int	HLT_DoubleEl_noiso_;
-	TBranch *HLT_DoubleEl_noiso_branch;
-	bool HLT_DoubleEl_noiso_isLoaded;
-	int	HLT_MuEG_;
-	TBranch *HLT_MuEG_branch;
-	bool HLT_MuEG_isLoaded;
-	int	HLT_MuEG_2_;
-	TBranch *HLT_MuEG_2_branch;
-	bool HLT_MuEG_2_isLoaded;
-	int	HLT_DoubleMu_;
-	TBranch *HLT_DoubleMu_branch;
-	bool HLT_DoubleMu_isLoaded;
-	int	HLT_DoubleMu_tk_;
-	TBranch *HLT_DoubleMu_tk_branch;
-	bool HLT_DoubleMu_tk_isLoaded;
-	int	HLT_l1prescale_;
-	TBranch *HLT_l1prescale_branch;
-	bool HLT_l1prescale_isLoaded;
-	int	HLT_Photons_;
-	TBranch *HLT_Photons_branch;
-	bool HLT_Photons_isLoaded;
-	int	HLT_Photon22_;
-	TBranch *HLT_Photon22_branch;
-	bool HLT_Photon22_isLoaded;
-	int	HLT_Photon30_;
-	TBranch *HLT_Photon30_branch;
-	bool HLT_Photon30_isLoaded;
-	int	HLT_Photon36_;
-	TBranch *HLT_Photon36_branch;
-	bool HLT_Photon36_isLoaded;
-	int	HLT_Photon50_;
-	TBranch *HLT_Photon50_branch;
-	bool HLT_Photon50_isLoaded;
-	int	HLT_Photon75_;
-	TBranch *HLT_Photon75_branch;
-	bool HLT_Photon75_isLoaded;
-	int	HLT_Photon90_;
-	TBranch *HLT_Photon90_branch;
-	bool HLT_Photon90_isLoaded;
-	int	HLT_Photon120_;
-	TBranch *HLT_Photon120_branch;
-	bool HLT_Photon120_isLoaded;
+	int	HLT_MET170_;
+	TBranch *HLT_MET170_branch;
+	bool HLT_MET170_isLoaded;
+	int	HLT_MET120Btag_;
+	TBranch *HLT_MET120Btag_branch;
+	bool HLT_MET120Btag_isLoaded;
+	int	HLT_MET120Mu5_;
+	TBranch *HLT_MET120Mu5_branch;
+	bool HLT_MET120Mu5_isLoaded;
+	int	HLT_HT350MET120_;
+	TBranch *HLT_HT350MET120_branch;
+	bool HLT_HT350MET120_isLoaded;
+	int	HLT_DiEl_;
+	TBranch *HLT_DiEl_branch;
+	bool HLT_DiEl_isLoaded;
+	int	HLT_DiMu_;
+	TBranch *HLT_DiMu_branch;
+	bool HLT_DiMu_isLoaded;
+	int	HLT_Mu8El17_;
+	TBranch *HLT_Mu8El17_branch;
+	bool HLT_Mu8El17_isLoaded;
+	int	HLT_Mu8El23_;
+	TBranch *HLT_Mu8El23_branch;
+	bool HLT_Mu8El23_isLoaded;
+	int	HLT_Mu17El12_;
+	TBranch *HLT_Mu17El12_branch;
+	bool HLT_Mu17El12_isLoaded;
+	int	HLT_Mu23El12_;
+	TBranch *HLT_Mu23El12_branch;
+	bool HLT_Mu23El12_isLoaded;
+	int	HLT_SingleEl27_;
+	TBranch *HLT_SingleEl27_branch;
+	bool HLT_SingleEl27_isLoaded;
+	int	HLT_SingleEl27Tight_;
+	TBranch *HLT_SingleEl27Tight_branch;
+	bool HLT_SingleEl27Tight_isLoaded;
+	int	HLT_SingleElTight_;
+	TBranch *HLT_SingleElTight_branch;
+	bool HLT_SingleElTight_isLoaded;
+	int	HLT_SingleElHT200_;
+	TBranch *HLT_SingleElHT200_branch;
+	bool HLT_SingleElHT200_isLoaded;
+	int	HLT_SingleMuNoEta_;
+	TBranch *HLT_SingleMuNoEta_branch;
+	bool HLT_SingleMuNoEta_isLoaded;
+	int	HLT_SingleMuNoIso_;
+	TBranch *HLT_SingleMuNoIso_branch;
+	bool HLT_SingleMuNoIso_isLoaded;
+	int	HLT_SingleMuNoIsoNoEta_;
+	TBranch *HLT_SingleMuNoIsoNoEta_branch;
+	bool HLT_SingleMuNoIsoNoEta_isLoaded;
+	int	HLT_Mu6HT200MET100_;
+	TBranch *HLT_Mu6HT200MET100_branch;
+	bool HLT_Mu6HT200MET100_isLoaded;
+	int	HLT_HT350MET100_;
+	TBranch *HLT_HT350MET100_branch;
+	bool HLT_HT350MET100_isLoaded;
+	int	HLT_SingleMu17_;
+	TBranch *HLT_SingleMu17_branch;
+	bool HLT_SingleMu17_isLoaded;
+	int	HLT_SingleMu20_;
+	TBranch *HLT_SingleMu20_branch;
+	bool HLT_SingleMu20_isLoaded;
+	int	HLT_SingleMu24_;
+	TBranch *HLT_SingleMu24_branch;
+	bool HLT_SingleMu24_isLoaded;
+	int	HLT_MonoCentPFJet80_METNoMu90_MHTNoMu90_IDTight_;
+	TBranch *HLT_MonoCentPFJet80_METNoMu90_MHTNoMu90_IDTight_branch;
+	bool HLT_MonoCentPFJet80_METNoMu90_MHTNoMu90_IDTight_isLoaded;
+	int	HLT_MET90_MHT90_IDTight_;
+	TBranch *HLT_MET90_MHT90_IDTight_branch;
+	bool HLT_MET90_MHT90_IDTight_isLoaded;
+	int	HLT_METNoMu90_NoiseCleaned_MHTNoMu90_IDTight_;
+	TBranch *HLT_METNoMu90_NoiseCleaned_MHTNoMu90_IDTight_branch;
+	bool HLT_METNoMu90_NoiseCleaned_MHTNoMu90_IDTight_isLoaded;
+	int	HLT_Photon90_CaloIdL_PFHT500_;
+	TBranch *HLT_Photon90_CaloIdL_PFHT500_branch;
+	bool HLT_Photon90_CaloIdL_PFHT500_isLoaded;
+	int	HLT_Photon165_R9Id90_HE10_IsoM_;
+	TBranch *HLT_Photon165_R9Id90_HE10_IsoM_branch;
+	bool HLT_Photon165_R9Id90_HE10_IsoM_isLoaded;
 	int	HLT_Photon175_;
 	TBranch *HLT_Photon175_branch;
 	bool HLT_Photon175_isLoaded;
 	int	HLT_Photon165_HE10_;
 	TBranch *HLT_Photon165_HE10_branch;
 	bool HLT_Photon165_HE10_isLoaded;
-	int	HLT_Photon22_R9Id90_HE10_IsoM_;
-	TBranch *HLT_Photon22_R9Id90_HE10_IsoM_branch;
-	bool HLT_Photon22_R9Id90_HE10_IsoM_isLoaded;
-	int	HLT_Photon30_R9Id90_HE10_IsoM_;
-	TBranch *HLT_Photon30_R9Id90_HE10_IsoM_branch;
-	bool HLT_Photon30_R9Id90_HE10_IsoM_isLoaded;
-	int	HLT_Photon36_R9Id90_HE10_IsoM_;
-	TBranch *HLT_Photon36_R9Id90_HE10_IsoM_branch;
-	bool HLT_Photon36_R9Id90_HE10_IsoM_isLoaded;
-	int	HLT_Photon50_R9Id90_HE10_IsoM_;
-	TBranch *HLT_Photon50_R9Id90_HE10_IsoM_branch;
-	bool HLT_Photon50_R9Id90_HE10_IsoM_isLoaded;
-	int	HLT_Photon75_R9Id90_HE10_IsoM_;
-	TBranch *HLT_Photon75_R9Id90_HE10_IsoM_branch;
-	bool HLT_Photon75_R9Id90_HE10_IsoM_isLoaded;
-	int	HLT_Photon90_R9Id90_HE10_IsoM_;
-	TBranch *HLT_Photon90_R9Id90_HE10_IsoM_branch;
-	bool HLT_Photon90_R9Id90_HE10_IsoM_isLoaded;
-	int	HLT_Photon120_R9Id90_HE10_IsoM_;
-	TBranch *HLT_Photon120_R9Id90_HE10_IsoM_branch;
-	bool HLT_Photon120_R9Id90_HE10_IsoM_isLoaded;
-	int	HLT_Photon165_R9Id90_HE10_IsoM_;
-	TBranch *HLT_Photon165_R9Id90_HE10_IsoM_branch;
-	bool HLT_Photon165_R9Id90_HE10_IsoM_isLoaded;
-	float	dilmass_;
-	TBranch *dilmass_branch;
-	bool dilmass_isLoaded;
-	float	dilpt_;
-	TBranch *dilpt_branch;
-	bool dilpt_isLoaded;
-	float	dRll_;
-	TBranch *dRll_branch;
-	bool dRll_isLoaded;
-	float	matched_neutralemf_;
-	TBranch *matched_neutralemf_branch;
-	bool matched_neutralemf_isLoaded;
-	bool	elveto_;
-	TBranch *elveto_branch;
-	bool elveto_isLoaded;
-	int	nlep_;
-	TBranch *nlep_branch;
-	bool nlep_isLoaded;
-	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *lep_p4_;
-	TBranch *lep_p4_branch;
-	bool lep_p4_isLoaded;
-	vector<float> *lep_pt_;
-	TBranch *lep_pt_branch;
-	bool lep_pt_isLoaded;
-	vector<float> *lep_eta_;
-	TBranch *lep_eta_branch;
-	bool lep_eta_isLoaded;
-	vector<float> *lep_phi_;
-	TBranch *lep_phi_branch;
-	bool lep_phi_isLoaded;
-	vector<float> *lep_mass_;
-	TBranch *lep_mass_branch;
-	bool lep_mass_isLoaded;
-	vector<int> *lep_charge_;
-	TBranch *lep_charge_branch;
-	bool lep_charge_isLoaded;
-	vector<int> *lep_pdgId_;
-	TBranch *lep_pdgId_branch;
-	bool lep_pdgId_isLoaded;
-	vector<float> *lep_dxy_;
-	TBranch *lep_dxy_branch;
-	bool lep_dxy_isLoaded;
-	vector<float> *lep_etaSC_;
-	TBranch *lep_etaSC_branch;
-	bool lep_etaSC_isLoaded;
-	vector<float> *lep_dz_;
-	TBranch *lep_dz_branch;
-	bool lep_dz_isLoaded;
-	vector<int> *lep_tightId_;
-	TBranch *lep_tightId_branch;
-	bool lep_tightId_isLoaded;
-	vector<float> *lep_relIso03_;
-	TBranch *lep_relIso03_branch;
-	bool lep_relIso03_isLoaded;
-	vector<float> *lep_relIso03MREA_;
-	TBranch *lep_relIso03MREA_branch;
-	bool lep_relIso03MREA_isLoaded;
-	vector<float> *lep_relIso03MRDB_;
-	TBranch *lep_relIso03MRDB_branch;
-	bool lep_relIso03MRDB_isLoaded;
-	vector<float> *lep_relIso03MRNC_;
-	TBranch *lep_relIso03MRNC_branch;
-	bool lep_relIso03MRNC_isLoaded;
-	vector<float> *lep_relIso04_;
-	TBranch *lep_relIso04_branch;
-	bool lep_relIso04_isLoaded;
-	vector<int> *lep_mcMatchId_;
-	TBranch *lep_mcMatchId_branch;
-	bool lep_mcMatchId_isLoaded;
-	vector<int> *lep_lostHits_;
-	TBranch *lep_lostHits_branch;
-	bool lep_lostHits_isLoaded;
-	vector<int> *lep_convVeto_;
-	TBranch *lep_convVeto_branch;
-	bool lep_convVeto_isLoaded;
-	vector<int> *lep_tightCharge_;
-	TBranch *lep_tightCharge_branch;
-	bool lep_tightCharge_isLoaded;
-	vector<int> *lep_islead_;
-	TBranch *lep_islead_branch;
-	bool lep_islead_isLoaded;
-	vector<int> *lep_istail_;
-	TBranch *lep_istail_branch;
-	bool lep_istail_isLoaded;
-	int	ntau_;
-	TBranch *ntau_branch;
-	bool ntau_isLoaded;
-	vector<float> *tau_pt_;
-	TBranch *tau_pt_branch;
-	bool tau_pt_isLoaded;
-	vector<float> *tau_eta_;
-	TBranch *tau_eta_branch;
-	bool tau_eta_isLoaded;
-	vector<float> *tau_phi_;
-	TBranch *tau_phi_branch;
-	bool tau_phi_isLoaded;
+	float	pu_weight_;
+	TBranch *pu_weight_branch;
+	bool pu_weight_isLoaded;
+	float	lep_sf_;
+	TBranch *lep_sf_branch;
+	bool lep_sf_isLoaded;
+	float	btag_sf_;
+	TBranch *btag_sf_branch;
+	bool btag_sf_isLoaded;
+	float	HLT_SingleEl_eff_;
+	TBranch *HLT_SingleEl_eff_branch;
+	bool HLT_SingleEl_eff_isLoaded;
+	float	HLT_SingleMu_eff_;
+	TBranch *HLT_SingleMu_eff_branch;
+	bool HLT_SingleMu_eff_isLoaded;
+	int	nPhotons_;
+	TBranch *nPhotons_branch;
+	bool nPhotons_isLoaded;
+	int	ph_selectedidx_;
+	TBranch *ph_selectedidx_branch;
+	bool ph_selectedidx_isLoaded;
+	int	ph_ngoodjets_;
+	TBranch *ph_ngoodjets_branch;
+	bool ph_ngoodjets_isLoaded;
+	int	ph_ngoodbtags_;
+	TBranch *ph_ngoodbtags_branch;
+	bool ph_ngoodbtags_isLoaded;
+	float	ph_met_;
+	TBranch *ph_met_branch;
+	bool ph_met_isLoaded;
+	float	ph_met_phi_;
+	TBranch *ph_met_phi_branch;
+	bool ph_met_phi_isLoaded;
+	float	ph_HT_;
+	TBranch *ph_HT_branch;
+	bool ph_HT_isLoaded;
+	float	ph_htssm_;
+	TBranch *ph_htssm_branch;
+	bool ph_htssm_isLoaded;
+	float	ph_htosm_;
+	TBranch *ph_htosm_branch;
+	bool ph_htosm_isLoaded;
+	float	ph_htratiom_;
+	TBranch *ph_htratiom_branch;
+	bool ph_htratiom_isLoaded;
+	float	ph_mt_met_lep_;
+	TBranch *ph_mt_met_lep_branch;
+	bool ph_mt_met_lep_isLoaded;
+	float	ph_dphi_Wlep_;
+	TBranch *ph_dphi_Wlep_branch;
+	bool ph_dphi_Wlep_isLoaded;
+	float	ph_MT2W_;
+	TBranch *ph_MT2W_branch;
+	bool ph_MT2W_isLoaded;
+	float	ph_topness_;
+	TBranch *ph_topness_branch;
+	bool ph_topness_isLoaded;
+	float	ph_topnessMod_;
+	TBranch *ph_topnessMod_branch;
+	bool ph_topnessMod_isLoaded;
+	float	ph_MT2_lb_b_mass_;
+	TBranch *ph_MT2_lb_b_mass_branch;
+	bool ph_MT2_lb_b_mass_isLoaded;
+	float	ph_MT2_lb_b_;
+	TBranch *ph_MT2_lb_b_branch;
+	bool ph_MT2_lb_b_isLoaded;
+	float	ph_MT2_lb_bqq_mass_;
+	TBranch *ph_MT2_lb_bqq_mass_branch;
+	bool ph_MT2_lb_bqq_mass_isLoaded;
+	float	ph_MT2_lb_bqq_;
+	TBranch *ph_MT2_lb_bqq_branch;
+	bool ph_MT2_lb_bqq_isLoaded;
+	float	ph_hadronic_top_chi2_;
+	TBranch *ph_hadronic_top_chi2_branch;
+	bool ph_hadronic_top_chi2_isLoaded;
+	float	ph_mindphi_met_j1_j2_;
+	TBranch *ph_mindphi_met_j1_j2_branch;
+	bool ph_mindphi_met_j1_j2_isLoaded;
+	float	ph_Mlb_lead_bdiscr_;
+	TBranch *ph_Mlb_lead_bdiscr_branch;
+	bool ph_Mlb_lead_bdiscr_isLoaded;
+	float	ph_dR_lep_leadb_;
+	TBranch *ph_dR_lep_leadb_branch;
+	bool ph_dR_lep_leadb_isLoaded;
+	float	ph_Mlb_closestb_;
+	TBranch *ph_Mlb_closestb_branch;
+	bool ph_Mlb_closestb_isLoaded;
+	float	ph_Mjjj_;
+	TBranch *ph_Mjjj_branch;
+	bool ph_Mjjj_isLoaded;
+	int	Zll_idl1_;
+	TBranch *Zll_idl1_branch;
+	bool Zll_idl1_isLoaded;
+	int	Zll_idl2_;
+	TBranch *Zll_idl2_branch;
+	bool Zll_idl2_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *Zll_p4l1_;
+	TBranch *Zll_p4l1_branch;
+	bool Zll_p4l1_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *Zll_p4l2_;
+	TBranch *Zll_p4l2_branch;
+	bool Zll_p4l2_isLoaded;
+	bool	Zll_OS_;
+	TBranch *Zll_OS_branch;
+	bool Zll_OS_isLoaded;
+	bool	Zll_SF_;
+	TBranch *Zll_SF_branch;
+	bool Zll_SF_isLoaded;
+	bool	Zll_isZmass_;
+	TBranch *Zll_isZmass_branch;
+	bool Zll_isZmass_isLoaded;
+	float	Zll_M_;
+	TBranch *Zll_M_branch;
+	bool Zll_M_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *Zll_p4_;
+	TBranch *Zll_p4_branch;
+	bool Zll_p4_isLoaded;
+	int	Zll_selLep_;
+	TBranch *Zll_selLep_branch;
+	bool Zll_selLep_isLoaded;
+	float	Zll_met_;
+	TBranch *Zll_met_branch;
+	bool Zll_met_isLoaded;
+	float	Zll_met_phi_;
+	TBranch *Zll_met_phi_branch;
+	bool Zll_met_phi_isLoaded;
+	float	Zll_mindphi_met_j1_j2_;
+	TBranch *Zll_mindphi_met_j1_j2_branch;
+	bool Zll_mindphi_met_j1_j2_isLoaded;
+	float	Zll_mt_met_lep_;
+	TBranch *Zll_mt_met_lep_branch;
+	bool Zll_mt_met_lep_isLoaded;
+	float	Zll_dphi_Wlep_;
+	TBranch *Zll_dphi_Wlep_branch;
+	bool Zll_dphi_Wlep_isLoaded;
+	float	Zll_MT2W_;
+	TBranch *Zll_MT2W_branch;
+	bool Zll_MT2W_isLoaded;
+	float	Zll_topness_;
+	TBranch *Zll_topness_branch;
+	bool Zll_topness_isLoaded;
+	float	Zll_topnessMod_;
+	TBranch *Zll_topnessMod_branch;
+	bool Zll_topnessMod_isLoaded;
+	float	Zll_MT2_lb_b_mass_;
+	TBranch *Zll_MT2_lb_b_mass_branch;
+	bool Zll_MT2_lb_b_mass_isLoaded;
+	float	Zll_MT2_lb_b_;
+	TBranch *Zll_MT2_lb_b_branch;
+	bool Zll_MT2_lb_b_isLoaded;
+	float	Zll_MT2_lb_bqq_mass_;
+	TBranch *Zll_MT2_lb_bqq_mass_branch;
+	bool Zll_MT2_lb_bqq_mass_isLoaded;
+	float	Zll_MT2_lb_bqq_;
+	TBranch *Zll_MT2_lb_bqq_branch;
+	bool Zll_MT2_lb_bqq_isLoaded;
+	bool	lep1_is_mu_;
+	TBranch *lep1_is_mu_branch;
+	bool lep1_is_mu_isLoaded;
+	bool	lep1_is_el_;
+	TBranch *lep1_is_el_branch;
+	bool lep1_is_el_isLoaded;
+	int	lep1_charge_;
+	TBranch *lep1_charge_branch;
+	bool lep1_charge_isLoaded;
+	int	lep1_pdgid_;
+	TBranch *lep1_pdgid_branch;
+	bool lep1_pdgid_isLoaded;
+	int	lep1_type_;
+	TBranch *lep1_type_branch;
+	bool lep1_type_isLoaded;
+	int	lep1_production_type_;
+	TBranch *lep1_production_type_branch;
+	bool lep1_production_type_isLoaded;
+	float	lep1_d0_;
+	TBranch *lep1_d0_branch;
+	bool lep1_d0_isLoaded;
+	float	lep1_d0err_;
+	TBranch *lep1_d0err_branch;
+	bool lep1_d0err_isLoaded;
+	float	lep1_dz_;
+	TBranch *lep1_dz_branch;
+	bool lep1_dz_isLoaded;
+	float	lep1_dzerr_;
+	TBranch *lep1_dzerr_branch;
+	bool lep1_dzerr_isLoaded;
+	float	lep1_sigmaIEtaEta_fill5x5_;
+	TBranch *lep1_sigmaIEtaEta_fill5x5_branch;
+	bool lep1_sigmaIEtaEta_fill5x5_isLoaded;
+	float	lep1_dEtaIn_;
+	TBranch *lep1_dEtaIn_branch;
+	bool lep1_dEtaIn_isLoaded;
+	float	lep1_dPhiIn_;
+	TBranch *lep1_dPhiIn_branch;
+	bool lep1_dPhiIn_isLoaded;
+	float	lep1_hOverE_;
+	TBranch *lep1_hOverE_branch;
+	bool lep1_hOverE_isLoaded;
+	float	lep1_ooEmooP_;
+	TBranch *lep1_ooEmooP_branch;
+	bool lep1_ooEmooP_isLoaded;
+	int	lep1_expectedMissingInnerHits_;
+	TBranch *lep1_expectedMissingInnerHits_branch;
+	bool lep1_expectedMissingInnerHits_isLoaded;
+	bool	lep1_conversionVeto_;
+	TBranch *lep1_conversionVeto_branch;
+	bool lep1_conversionVeto_isLoaded;
+	float	lep1_etaSC_;
+	TBranch *lep1_etaSC_branch;
+	bool lep1_etaSC_isLoaded;
+	float	lep1_ChiSqr_;
+	TBranch *lep1_ChiSqr_branch;
+	bool lep1_ChiSqr_isLoaded;
+	float	lep1_chiso_;
+	TBranch *lep1_chiso_branch;
+	bool lep1_chiso_isLoaded;
+	float	lep1_nhiso_;
+	TBranch *lep1_nhiso_branch;
+	bool lep1_nhiso_isLoaded;
+	float	lep1_emiso_;
+	TBranch *lep1_emiso_branch;
+	bool lep1_emiso_isLoaded;
+	float	lep1_deltaBeta_;
+	TBranch *lep1_deltaBeta_branch;
+	bool lep1_deltaBeta_isLoaded;
+	float	lep1_relIso03DB_;
+	TBranch *lep1_relIso03DB_branch;
+	bool lep1_relIso03DB_isLoaded;
+	float	lep1_relIso03EA_;
+	TBranch *lep1_relIso03EA_branch;
+	bool lep1_relIso03EA_isLoaded;
+	float	lep1_relIso04DB_;
+	TBranch *lep1_relIso04DB_branch;
+	bool lep1_relIso04DB_isLoaded;
+	float	lep1_miniRelIsoDB_;
+	TBranch *lep1_miniRelIsoDB_branch;
+	bool lep1_miniRelIsoDB_isLoaded;
+	float	lep1_miniRelIsoEA_;
+	TBranch *lep1_miniRelIsoEA_branch;
+	bool lep1_miniRelIsoEA_isLoaded;
+	float	lep1_MiniIso_;
+	TBranch *lep1_MiniIso_branch;
+	bool lep1_MiniIso_isLoaded;
+	int	lep1_mcid_;
+	TBranch *lep1_mcid_branch;
+	bool lep1_mcid_isLoaded;
+	int	lep1_mcstatus_;
+	TBranch *lep1_mcstatus_branch;
+	bool lep1_mcstatus_isLoaded;
+	int	lep1_mc3dr_;
+	TBranch *lep1_mc3dr_branch;
+	bool lep1_mc3dr_isLoaded;
+	int	lep1_mc3id_;
+	TBranch *lep1_mc3id_branch;
+	bool lep1_mc3id_isLoaded;
+	int	lep1_mc3idx_;
+	TBranch *lep1_mc3idx_branch;
+	bool lep1_mc3idx_isLoaded;
+	int	lep1_mc3motherid_;
+	TBranch *lep1_mc3motherid_branch;
+	bool lep1_mc3motherid_isLoaded;
+	int	lep1_mc3motheridx_;
+	TBranch *lep1_mc3motheridx_branch;
+	bool lep1_mc3motheridx_isLoaded;
+	bool	lep1_is_eleid_loose_;
+	TBranch *lep1_is_eleid_loose_branch;
+	bool lep1_is_eleid_loose_isLoaded;
+	bool	lep1_is_eleid_medium_;
+	TBranch *lep1_is_eleid_medium_branch;
+	bool lep1_is_eleid_medium_isLoaded;
+	bool	lep1_is_eleid_tight_;
+	TBranch *lep1_is_eleid_tight_branch;
+	bool lep1_is_eleid_tight_isLoaded;
+	bool	lep1_is_phys14_loose_noIso_;
+	TBranch *lep1_is_phys14_loose_noIso_branch;
+	bool lep1_is_phys14_loose_noIso_isLoaded;
+	bool	lep1_is_phys14_medium_noIso_;
+	TBranch *lep1_is_phys14_medium_noIso_branch;
+	bool lep1_is_phys14_medium_noIso_isLoaded;
+	bool	lep1_is_phys14_tight_noIso_;
+	TBranch *lep1_is_phys14_tight_noIso_branch;
+	bool lep1_is_phys14_tight_noIso_isLoaded;
+	float	lep1_eoverpin_;
+	TBranch *lep1_eoverpin_branch;
+	bool lep1_eoverpin_isLoaded;
+	bool	lep1_is_muoid_loose_;
+	TBranch *lep1_is_muoid_loose_branch;
+	bool lep1_is_muoid_loose_isLoaded;
+	bool	lep1_is_muoid_medium_;
+	TBranch *lep1_is_muoid_medium_branch;
+	bool lep1_is_muoid_medium_isLoaded;
+	bool	lep1_is_muoid_tight_;
+	TBranch *lep1_is_muoid_tight_branch;
+	bool lep1_is_muoid_tight_isLoaded;
+	float	lep1_ip3d_;
+	TBranch *lep1_ip3d_branch;
+	bool lep1_ip3d_isLoaded;
+	float	lep1_ip3derr_;
+	TBranch *lep1_ip3derr_branch;
+	bool lep1_ip3derr_isLoaded;
+	bool	lep1_is_pfmu_;
+	TBranch *lep1_is_pfmu_branch;
+	bool lep1_is_pfmu_isLoaded;
+	bool	lep1_passMediumID_;
+	TBranch *lep1_passMediumID_branch;
+	bool lep1_passMediumID_isLoaded;
+	bool	lep1_passVeto_;
+	TBranch *lep1_passVeto_branch;
+	bool lep1_passVeto_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *lep1_p4_;
+	TBranch *lep1_p4_branch;
+	bool lep1_p4_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *lep1_mcp4_;
+	TBranch *lep1_mcp4_branch;
+	bool lep1_mcp4_isLoaded;
+	float	lep1_pt_;
+	TBranch *lep1_pt_branch;
+	bool lep1_pt_isLoaded;
+	float	lep1_eta_;
+	TBranch *lep1_eta_branch;
+	bool lep1_eta_isLoaded;
+	float	lep1_phi_;
+	TBranch *lep1_phi_branch;
+	bool lep1_phi_isLoaded;
+	float	lep1_mass_;
+	TBranch *lep1_mass_branch;
+	bool lep1_mass_isLoaded;
+	bool	lep2_is_mu_;
+	TBranch *lep2_is_mu_branch;
+	bool lep2_is_mu_isLoaded;
+	bool	lep2_is_el_;
+	TBranch *lep2_is_el_branch;
+	bool lep2_is_el_isLoaded;
+	int	lep2_charge_;
+	TBranch *lep2_charge_branch;
+	bool lep2_charge_isLoaded;
+	int	lep2_pdgid_;
+	TBranch *lep2_pdgid_branch;
+	bool lep2_pdgid_isLoaded;
+	int	lep2_type_;
+	TBranch *lep2_type_branch;
+	bool lep2_type_isLoaded;
+	int	lep2_production_type_;
+	TBranch *lep2_production_type_branch;
+	bool lep2_production_type_isLoaded;
+	float	lep2_d0_;
+	TBranch *lep2_d0_branch;
+	bool lep2_d0_isLoaded;
+	float	lep2_d0err_;
+	TBranch *lep2_d0err_branch;
+	bool lep2_d0err_isLoaded;
+	float	lep2_dz_;
+	TBranch *lep2_dz_branch;
+	bool lep2_dz_isLoaded;
+	float	lep2_dzerr_;
+	TBranch *lep2_dzerr_branch;
+	bool lep2_dzerr_isLoaded;
+	float	lep2_sigmaIEtaEta_fill5x5_;
+	TBranch *lep2_sigmaIEtaEta_fill5x5_branch;
+	bool lep2_sigmaIEtaEta_fill5x5_isLoaded;
+	float	lep2_dEtaIn_;
+	TBranch *lep2_dEtaIn_branch;
+	bool lep2_dEtaIn_isLoaded;
+	float	lep2_dPhiIn_;
+	TBranch *lep2_dPhiIn_branch;
+	bool lep2_dPhiIn_isLoaded;
+	float	lep2_hOverE_;
+	TBranch *lep2_hOverE_branch;
+	bool lep2_hOverE_isLoaded;
+	float	lep2_ooEmooP_;
+	TBranch *lep2_ooEmooP_branch;
+	bool lep2_ooEmooP_isLoaded;
+	int	lep2_expectedMissingInnerHits_;
+	TBranch *lep2_expectedMissingInnerHits_branch;
+	bool lep2_expectedMissingInnerHits_isLoaded;
+	bool	lep2_conversionVeto_;
+	TBranch *lep2_conversionVeto_branch;
+	bool lep2_conversionVeto_isLoaded;
+	float	lep2_etaSC_;
+	TBranch *lep2_etaSC_branch;
+	bool lep2_etaSC_isLoaded;
+	float	lep2_ChiSqr_;
+	TBranch *lep2_ChiSqr_branch;
+	bool lep2_ChiSqr_isLoaded;
+	float	lep2_chiso_;
+	TBranch *lep2_chiso_branch;
+	bool lep2_chiso_isLoaded;
+	float	lep2_nhiso_;
+	TBranch *lep2_nhiso_branch;
+	bool lep2_nhiso_isLoaded;
+	float	lep2_emiso_;
+	TBranch *lep2_emiso_branch;
+	bool lep2_emiso_isLoaded;
+	float	lep2_deltaBeta_;
+	TBranch *lep2_deltaBeta_branch;
+	bool lep2_deltaBeta_isLoaded;
+	float	lep2_relIso03DB_;
+	TBranch *lep2_relIso03DB_branch;
+	bool lep2_relIso03DB_isLoaded;
+	float	lep2_relIso03EA_;
+	TBranch *lep2_relIso03EA_branch;
+	bool lep2_relIso03EA_isLoaded;
+	float	lep2_relIso04DB_;
+	TBranch *lep2_relIso04DB_branch;
+	bool lep2_relIso04DB_isLoaded;
+	float	lep2_miniRelIsoDB_;
+	TBranch *lep2_miniRelIsoDB_branch;
+	bool lep2_miniRelIsoDB_isLoaded;
+	float	lep2_miniRelIsoEA_;
+	TBranch *lep2_miniRelIsoEA_branch;
+	bool lep2_miniRelIsoEA_isLoaded;
+	float	lep2_MiniIso_;
+	TBranch *lep2_MiniIso_branch;
+	bool lep2_MiniIso_isLoaded;
+	int	lep2_mcid_;
+	TBranch *lep2_mcid_branch;
+	bool lep2_mcid_isLoaded;
+	int	lep2_mcstatus_;
+	TBranch *lep2_mcstatus_branch;
+	bool lep2_mcstatus_isLoaded;
+	int	lep2_mc3dr_;
+	TBranch *lep2_mc3dr_branch;
+	bool lep2_mc3dr_isLoaded;
+	int	lep2_mc3id_;
+	TBranch *lep2_mc3id_branch;
+	bool lep2_mc3id_isLoaded;
+	int	lep2_mc3idx_;
+	TBranch *lep2_mc3idx_branch;
+	bool lep2_mc3idx_isLoaded;
+	int	lep2_mc3motherid_;
+	TBranch *lep2_mc3motherid_branch;
+	bool lep2_mc3motherid_isLoaded;
+	int	lep2_mc3motheridx_;
+	TBranch *lep2_mc3motheridx_branch;
+	bool lep2_mc3motheridx_isLoaded;
+	bool	lep2_is_eleid_loose_;
+	TBranch *lep2_is_eleid_loose_branch;
+	bool lep2_is_eleid_loose_isLoaded;
+	bool	lep2_is_eleid_medium_;
+	TBranch *lep2_is_eleid_medium_branch;
+	bool lep2_is_eleid_medium_isLoaded;
+	bool	lep2_is_eleid_tight_;
+	TBranch *lep2_is_eleid_tight_branch;
+	bool lep2_is_eleid_tight_isLoaded;
+	bool	lep2_is_phys14_loose_noIso_;
+	TBranch *lep2_is_phys14_loose_noIso_branch;
+	bool lep2_is_phys14_loose_noIso_isLoaded;
+	bool	lep2_is_phys14_medium_noIso_;
+	TBranch *lep2_is_phys14_medium_noIso_branch;
+	bool lep2_is_phys14_medium_noIso_isLoaded;
+	bool	lep2_is_phys14_tight_noIso_;
+	TBranch *lep2_is_phys14_tight_noIso_branch;
+	bool lep2_is_phys14_tight_noIso_isLoaded;
+	float	lep2_eoverpin_;
+	TBranch *lep2_eoverpin_branch;
+	bool lep2_eoverpin_isLoaded;
+	bool	lep2_is_muoid_loose_;
+	TBranch *lep2_is_muoid_loose_branch;
+	bool lep2_is_muoid_loose_isLoaded;
+	bool	lep2_is_muoid_medium_;
+	TBranch *lep2_is_muoid_medium_branch;
+	bool lep2_is_muoid_medium_isLoaded;
+	bool	lep2_is_muoid_tight_;
+	TBranch *lep2_is_muoid_tight_branch;
+	bool lep2_is_muoid_tight_isLoaded;
+	float	lep2_ip3d_;
+	TBranch *lep2_ip3d_branch;
+	bool lep2_ip3d_isLoaded;
+	float	lep2_ip3derr_;
+	TBranch *lep2_ip3derr_branch;
+	bool lep2_ip3derr_isLoaded;
+	bool	lep2_is_pfmu_;
+	TBranch *lep2_is_pfmu_branch;
+	bool lep2_is_pfmu_isLoaded;
+	bool	lep2_passMediumID_;
+	TBranch *lep2_passMediumID_branch;
+	bool lep2_passMediumID_isLoaded;
+	bool	lep2_passVeto_;
+	TBranch *lep2_passVeto_branch;
+	bool lep2_passVeto_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *lep2_p4_;
+	TBranch *lep2_p4_branch;
+	bool lep2_p4_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *lep2_mcp4_;
+	TBranch *lep2_mcp4_branch;
+	bool lep2_mcp4_isLoaded;
+	float	lep2_pt_;
+	TBranch *lep2_pt_branch;
+	bool lep2_pt_isLoaded;
+	float	lep2_eta_;
+	TBranch *lep2_eta_branch;
+	bool lep2_eta_isLoaded;
+	float	lep2_phi_;
+	TBranch *lep2_phi_branch;
+	bool lep2_phi_isLoaded;
+	float	lep2_mass_;
+	TBranch *lep2_mass_branch;
+	bool lep2_mass_isLoaded;
+	vector<float> *ph_sigmaIEtaEta_fill5x5_;
+	TBranch *ph_sigmaIEtaEta_fill5x5_branch;
+	bool ph_sigmaIEtaEta_fill5x5_isLoaded;
+	vector<float> *ph_hOverE_;
+	TBranch *ph_hOverE_branch;
+	bool ph_hOverE_isLoaded;
+	vector<float> *ph_r9_;
+	TBranch *ph_r9_branch;
+	bool ph_r9_isLoaded;
+	vector<float> *ph_chiso_;
+	TBranch *ph_chiso_branch;
+	bool ph_chiso_isLoaded;
+	vector<float> *ph_nhiso_;
+	TBranch *ph_nhiso_branch;
+	bool ph_nhiso_isLoaded;
+	vector<float> *ph_phiso_;
+	TBranch *ph_phiso_branch;
+	bool ph_phiso_isLoaded;
+	vector<bool> *ph_idCutBased_;
+	TBranch *ph_idCutBased_branch;
+	bool ph_idCutBased_isLoaded;
+	vector<int> *ph_overlapJetId_;
+	TBranch *ph_overlapJetId_branch;
+	bool ph_overlapJetId_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *ph_p4_;
+	TBranch *ph_p4_branch;
+	bool ph_p4_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *ph_mcp4_;
+	TBranch *ph_mcp4_branch;
+	bool ph_mcp4_isLoaded;
+	vector<float> *ph_pt_;
+	TBranch *ph_pt_branch;
+	bool ph_pt_isLoaded;
+	vector<float> *ph_eta_;
+	TBranch *ph_eta_branch;
+	bool ph_eta_isLoaded;
+	vector<float> *ph_phi_;
+	TBranch *ph_phi_branch;
+	bool ph_phi_isLoaded;
+	vector<float> *ph_mass_;
+	TBranch *ph_mass_branch;
+	bool ph_mass_isLoaded;
+	vector<int> *ph_mcMatchId_;
+	TBranch *ph_mcMatchId_branch;
+	bool ph_mcMatchId_isLoaded;
+	vector<float> *ph_genIso04_;
+	TBranch *ph_genIso04_branch;
+	bool ph_genIso04_isLoaded;
+	vector<float> *ph_drMinParton_;
+	TBranch *ph_drMinParton_branch;
+	bool ph_drMinParton_isLoaded;
+	int	nGoodGenJets_;
+	TBranch *nGoodGenJets_branch;
+	bool nGoodGenJets_isLoaded;
+	int	ngoodjets_;
+	TBranch *ngoodjets_branch;
+	bool ngoodjets_isLoaded;
+	int	nfailjets_;
+	TBranch *nfailjets_branch;
+	bool nfailjets_isLoaded;
+	int	ak8GoodPFJets_;
+	TBranch *ak8GoodPFJets_branch;
+	bool ak8GoodPFJets_isLoaded;
+	int	ngoodbtags_;
+	TBranch *ngoodbtags_branch;
+	bool ngoodbtags_isLoaded;
+	float	ak4_HT_;
+	TBranch *ak4_HT_branch;
+	bool ak4_HT_isLoaded;
+	float	ak4_htssm_;
+	TBranch *ak4_htssm_branch;
+	bool ak4_htssm_isLoaded;
+	float	ak4_htosm_;
+	TBranch *ak4_htosm_branch;
+	bool ak4_htosm_isLoaded;
+	float	ak4_htratiom_;
+	TBranch *ak4_htratiom_branch;
+	bool ak4_htratiom_isLoaded;
+	vector<float> *dphi_ak4pfjet_met_;
+	TBranch *dphi_ak4pfjet_met_branch;
+	bool dphi_ak4pfjet_met_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *ak4pfjets_p4_;
+	TBranch *ak4pfjets_p4_branch;
+	bool ak4pfjets_p4_isLoaded;
+	vector<float> *ak4pfjets_pt_;
+	TBranch *ak4pfjets_pt_branch;
+	bool ak4pfjets_pt_isLoaded;
+	vector<float> *ak4pfjets_eta_;
+	TBranch *ak4pfjets_eta_branch;
+	bool ak4pfjets_eta_isLoaded;
+	vector<float> *ak4pfjets_phi_;
+	TBranch *ak4pfjets_phi_branch;
+	bool ak4pfjets_phi_isLoaded;
+	vector<float> *ak4pfjets_mass_;
+	TBranch *ak4pfjets_mass_branch;
+	bool ak4pfjets_mass_isLoaded;
+	vector<bool> *ak4pfjets_passMEDbtag_;
+	TBranch *ak4pfjets_passMEDbtag_branch;
+	bool ak4pfjets_passMEDbtag_isLoaded;
+	vector<float> *ak4pfjets_qg_disc_;
+	TBranch *ak4pfjets_qg_disc_branch;
+	bool ak4pfjets_qg_disc_isLoaded;
+	vector<float> *ak4pfjets_CSV_;
+	TBranch *ak4pfjets_CSV_branch;
+	bool ak4pfjets_CSV_isLoaded;
+	vector<float> *ak4pfjets_puid_;
+	TBranch *ak4pfjets_puid_branch;
+	bool ak4pfjets_puid_isLoaded;
+	vector<int> *ak4pfjets_parton_flavor_;
+	TBranch *ak4pfjets_parton_flavor_branch;
+	bool ak4pfjets_parton_flavor_isLoaded;
+	vector<bool> *ak4pfjets_loose_puid_;
+	TBranch *ak4pfjets_loose_puid_branch;
+	bool ak4pfjets_loose_puid_isLoaded;
+	vector<bool> *ak4pfjets_loose_pfid_;
+	TBranch *ak4pfjets_loose_pfid_branch;
+	bool ak4pfjets_loose_pfid_isLoaded;
+	vector<bool> *ak4pfjets_medium_pfid_;
+	TBranch *ak4pfjets_medium_pfid_branch;
+	bool ak4pfjets_medium_pfid_isLoaded;
+	vector<bool> *ak4pfjets_tight_pfid_;
+	TBranch *ak4pfjets_tight_pfid_branch;
+	bool ak4pfjets_tight_pfid_isLoaded;
+	vector<float> *ak4pfjets_MEDbjet_pt_;
+	TBranch *ak4pfjets_MEDbjet_pt_branch;
+	bool ak4pfjets_MEDbjet_pt_isLoaded;
+	float	ak4pfjets_leadMEDbjet_pt_;
+	TBranch *ak4pfjets_leadMEDbjet_pt_branch;
+	bool ak4pfjets_leadMEDbjet_pt_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *ak4pfjets_leadMEDbjet_p4_;
+	TBranch *ak4pfjets_leadMEDbjet_p4_branch;
+	bool ak4pfjets_leadMEDbjet_p4_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *ak4pfjets_leadbtag_p4_;
+	TBranch *ak4pfjets_leadbtag_p4_branch;
+	bool ak4pfjets_leadbtag_p4_isLoaded;
+	vector<float> *ak4pfjets_chf_;
+	TBranch *ak4pfjets_chf_branch;
+	bool ak4pfjets_chf_isLoaded;
+	vector<float> *ak4pfjets_nhf_;
+	TBranch *ak4pfjets_nhf_branch;
+	bool ak4pfjets_nhf_isLoaded;
+	vector<float> *ak4pfjets_cef_;
+	TBranch *ak4pfjets_cef_branch;
+	bool ak4pfjets_cef_isLoaded;
+	vector<float> *ak4pfjets_nef_;
+	TBranch *ak4pfjets_nef_branch;
+	bool ak4pfjets_nef_isLoaded;
+	vector<float> *ak4pfjets_muf_;
+	TBranch *ak4pfjets_muf_branch;
+	bool ak4pfjets_muf_isLoaded;
+	vector<int> *ak4pfjets_cm_;
+	TBranch *ak4pfjets_cm_branch;
+	bool ak4pfjets_cm_isLoaded;
+	vector<int> *ak4pfjets_nm_;
+	TBranch *ak4pfjets_nm_branch;
+	bool ak4pfjets_nm_isLoaded;
+	vector<int> *ak4pfjets_mc3dr_;
+	TBranch *ak4pfjets_mc3dr_branch;
+	bool ak4pfjets_mc3dr_isLoaded;
+	vector<int> *ak4pfjets_mc3id_;
+	TBranch *ak4pfjets_mc3id_branch;
+	bool ak4pfjets_mc3id_isLoaded;
+	vector<int> *ak4pfjets_mc3idx_;
+	TBranch *ak4pfjets_mc3idx_branch;
+	bool ak4pfjets_mc3idx_isLoaded;
+	vector<int> *ak4pfjets_mcmotherid_;
+	TBranch *ak4pfjets_mcmotherid_branch;
+	bool ak4pfjets_mcmotherid_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *ak4pfjet_overlep1_p4_;
+	TBranch *ak4pfjet_overlep1_p4_branch;
+	bool ak4pfjet_overlep1_p4_isLoaded;
+	float	ak4pfjet_overlep1_CSV_;
+	TBranch *ak4pfjet_overlep1_CSV_branch;
+	bool ak4pfjet_overlep1_CSV_isLoaded;
+	float	ak4pfjet_overlep1_pu_id_;
+	TBranch *ak4pfjet_overlep1_pu_id_branch;
+	bool ak4pfjet_overlep1_pu_id_isLoaded;
+	float	ak4pfjet_overlep1_chf_;
+	TBranch *ak4pfjet_overlep1_chf_branch;
+	bool ak4pfjet_overlep1_chf_isLoaded;
+	float	ak4pfjet_overlep1_nhf_;
+	TBranch *ak4pfjet_overlep1_nhf_branch;
+	bool ak4pfjet_overlep1_nhf_isLoaded;
+	float	ak4pfjet_overlep1_cef_;
+	TBranch *ak4pfjet_overlep1_cef_branch;
+	bool ak4pfjet_overlep1_cef_isLoaded;
+	float	ak4pfjet_overlep1_nef_;
+	TBranch *ak4pfjet_overlep1_nef_branch;
+	bool ak4pfjet_overlep1_nef_isLoaded;
+	float	ak4pfjet_overlep1_muf_;
+	TBranch *ak4pfjet_overlep1_muf_branch;
+	bool ak4pfjet_overlep1_muf_isLoaded;
+	int	ak4pfjet_overlep1_cm_;
+	TBranch *ak4pfjet_overlep1_cm_branch;
+	bool ak4pfjet_overlep1_cm_isLoaded;
+	int	ak4pfjet_overlep1_nm_;
+	TBranch *ak4pfjet_overlep1_nm_branch;
+	bool ak4pfjet_overlep1_nm_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *ak4pfjet_overlep2_p4_;
+	TBranch *ak4pfjet_overlep2_p4_branch;
+	bool ak4pfjet_overlep2_p4_isLoaded;
+	float	ak4pfjet_overlep2_CSV_;
+	TBranch *ak4pfjet_overlep2_CSV_branch;
+	bool ak4pfjet_overlep2_CSV_isLoaded;
+	float	ak4pfjet_overlep2_pu_id_;
+	TBranch *ak4pfjet_overlep2_pu_id_branch;
+	bool ak4pfjet_overlep2_pu_id_isLoaded;
+	float	ak4pfjet_overlep2_chf_;
+	TBranch *ak4pfjet_overlep2_chf_branch;
+	bool ak4pfjet_overlep2_chf_isLoaded;
+	float	ak4pfjet_overlep2_nhf_;
+	TBranch *ak4pfjet_overlep2_nhf_branch;
+	bool ak4pfjet_overlep2_nhf_isLoaded;
+	float	ak4pfjet_overlep2_cef_;
+	TBranch *ak4pfjet_overlep2_cef_branch;
+	bool ak4pfjet_overlep2_cef_isLoaded;
+	float	ak4pfjet_overlep2_nef_;
+	TBranch *ak4pfjet_overlep2_nef_branch;
+	bool ak4pfjet_overlep2_nef_isLoaded;
+	float	ak4pfjet_overlep2_muf_;
+	TBranch *ak4pfjet_overlep2_muf_branch;
+	bool ak4pfjet_overlep2_muf_isLoaded;
+	int	ak4pfjet_overlep2_cm_;
+	TBranch *ak4pfjet_overlep2_cm_branch;
+	bool ak4pfjet_overlep2_cm_isLoaded;
+	int	ak4pfjet_overlep2_nm_;
+	TBranch *ak4pfjet_overlep2_nm_branch;
+	bool ak4pfjet_overlep2_nm_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *ak8pfjets_p4_;
+	TBranch *ak8pfjets_p4_branch;
+	bool ak8pfjets_p4_isLoaded;
+	vector<float> *ak8pfjets_tau1_;
+	TBranch *ak8pfjets_tau1_branch;
+	bool ak8pfjets_tau1_isLoaded;
+	vector<float> *ak8pfjets_tau2_;
+	TBranch *ak8pfjets_tau2_branch;
+	bool ak8pfjets_tau2_isLoaded;
+	vector<float> *ak8pfjets_tau3_;
+	TBranch *ak8pfjets_tau3_branch;
+	bool ak8pfjets_tau3_isLoaded;
+	vector<float> *ak8pfjets_top_mass_;
+	TBranch *ak8pfjets_top_mass_branch;
+	bool ak8pfjets_top_mass_isLoaded;
+	vector<float> *ak8pfjets_pruned_mass_;
+	TBranch *ak8pfjets_pruned_mass_branch;
+	bool ak8pfjets_pruned_mass_isLoaded;
+	vector<float> *ak8pfjets_trimmed_mass_;
+	TBranch *ak8pfjets_trimmed_mass_branch;
+	bool ak8pfjets_trimmed_mass_isLoaded;
+	vector<float> *ak8pfjets_filtered_mass_;
+	TBranch *ak8pfjets_filtered_mass_branch;
+	bool ak8pfjets_filtered_mass_isLoaded;
+	vector<float> *ak8pfjets_pu_id_;
+	TBranch *ak8pfjets_pu_id_branch;
+	bool ak8pfjets_pu_id_isLoaded;
+	vector<int> *ak8pfjets_parton_flavor_;
+	TBranch *ak8pfjets_parton_flavor_branch;
+	bool ak8pfjets_parton_flavor_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *ak4genjets_p4_;
+	TBranch *ak4genjets_p4_branch;
+	bool ak4genjets_p4_isLoaded;
+	vector<TString> *tau_IDnames_;
+	TBranch *tau_IDnames_branch;
+	bool tau_IDnames_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *tau_leadtrack_p4_;
+	TBranch *tau_leadtrack_p4_branch;
+	bool tau_leadtrack_p4_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *tau_leadneutral_p4_;
+	TBranch *tau_leadneutral_p4_branch;
+	bool tau_leadneutral_p4_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *tau_p4_;
+	TBranch *tau_p4_branch;
+	bool tau_p4_isLoaded;
+	vector<vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > > *tau_isocand_p4_;
+	TBranch *tau_isocand_p4_branch;
+	bool tau_isocand_p4_isLoaded;
+	vector<vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > > *tau_sigcand_p4_;
+	TBranch *tau_sigcand_p4_branch;
+	bool tau_sigcand_p4_isLoaded;
 	vector<float> *tau_mass_;
 	TBranch *tau_mass_branch;
 	bool tau_mass_isLoaded;
-	vector<int> *tau_charge_;
+	vector<vector<float> > *tau_ID_;
+	TBranch *tau_ID_branch;
+	bool tau_ID_isLoaded;
+	vector<float> *tau_passID_;
+	TBranch *tau_passID_branch;
+	bool tau_passID_isLoaded;
+	vector<float> *tau_charge_;
 	TBranch *tau_charge_branch;
 	bool tau_charge_isLoaded;
-	vector<float> *tau_dxy_;
-	TBranch *tau_dxy_branch;
-	bool tau_dxy_isLoaded;
-	vector<float> *tau_dz_;
-	TBranch *tau_dz_branch;
-	bool tau_dz_isLoaded;
-	vector<int> *tau_idCI3hit_;
-	TBranch *tau_idCI3hit_branch;
-	bool tau_idCI3hit_isLoaded;
-	vector<float> *tau_isoCI3hit_;
-	TBranch *tau_isoCI3hit_branch;
-	bool tau_isoCI3hit_isLoaded;
-	int	ngamma_;
-	TBranch *ngamma_branch;
-	bool ngamma_isLoaded;
-	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gamma_p4_;
-	TBranch *gamma_p4_branch;
-	bool gamma_p4_isLoaded;
-	vector<float> *gamma_pt_;
-	TBranch *gamma_pt_branch;
-	bool gamma_pt_isLoaded;
-	vector<float> *gamma_eta_;
-	TBranch *gamma_eta_branch;
-	bool gamma_eta_isLoaded;
-	vector<float> *gamma_phi_;
-	TBranch *gamma_phi_branch;
-	bool gamma_phi_isLoaded;
-	vector<float> *gamma_mass_;
-	TBranch *gamma_mass_branch;
-	bool gamma_mass_isLoaded;
-	vector<int> *gamma_mcMatchId_;
-	TBranch *gamma_mcMatchId_branch;
-	bool gamma_mcMatchId_isLoaded;
-	vector<float> *gamma_genIso_;
-	TBranch *gamma_genIso_branch;
-	bool gamma_genIso_isLoaded;
-	vector<float> *gamma_chHadIso_;
-	TBranch *gamma_chHadIso_branch;
-	bool gamma_chHadIso_isLoaded;
-	vector<float> *gamma_neuHadIso_;
-	TBranch *gamma_neuHadIso_branch;
-	bool gamma_neuHadIso_isLoaded;
-	vector<float> *gamma_phIso_;
-	TBranch *gamma_phIso_branch;
-	bool gamma_phIso_isLoaded;
-	vector<float> *gamma_sigmaIetaIeta_;
-	TBranch *gamma_sigmaIetaIeta_branch;
-	bool gamma_sigmaIetaIeta_isLoaded;
-	vector<float> *gamma_r9_;
-	TBranch *gamma_r9_branch;
-	bool gamma_r9_isLoaded;
-	vector<float> *gamma_hOverE_;
-	TBranch *gamma_hOverE_branch;
-	bool gamma_hOverE_isLoaded;
-	vector<int> *gamma_idCutBased_;
-	TBranch *gamma_idCutBased_branch;
-	bool gamma_idCutBased_isLoaded;
-	int	ngenPart_;
-	TBranch *ngenPart_branch;
-	bool ngenPart_isLoaded;
-	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genPart_p4_;
-	TBranch *genPart_p4_branch;
-	bool genPart_p4_isLoaded;
-	vector<float> *genPart_pt_;
-	TBranch *genPart_pt_branch;
-	bool genPart_pt_isLoaded;
-	vector<float> *genPart_eta_;
-	TBranch *genPart_eta_branch;
-	bool genPart_eta_isLoaded;
-	vector<float> *genPart_phi_;
-	TBranch *genPart_phi_branch;
-	bool genPart_phi_isLoaded;
-	vector<float> *genPart_mass_;
-	TBranch *genPart_mass_branch;
-	bool genPart_mass_isLoaded;
-	vector<int> *genPart_pdgId_;
-	TBranch *genPart_pdgId_branch;
-	bool genPart_pdgId_isLoaded;
-	vector<int> *genPart_status_;
-	TBranch *genPart_status_branch;
-	bool genPart_status_isLoaded;
-	vector<float> *genPart_charge_;
-	TBranch *genPart_charge_branch;
-	bool genPart_charge_isLoaded;
-	vector<int> *genPart_motherId_;
-	TBranch *genPart_motherId_branch;
-	bool genPart_motherId_isLoaded;
-	vector<int> *genPart_grandmaId_;
-	TBranch *genPart_grandmaId_branch;
-	bool genPart_grandmaId_isLoaded;
-	vector<bool> *genPart_isp6status3_;
-	TBranch *genPart_isp6status3_branch;
-	bool genPart_isp6status3_isLoaded;
-	int	gamma_nJet40_;
-	TBranch *gamma_nJet40_branch;
-	bool gamma_nJet40_isLoaded;
-	int	gamma_nBJet40_;
-	TBranch *gamma_nBJet40_branch;
-	bool gamma_nBJet40_isLoaded;
-	int	ngenLep_;
-	TBranch *ngenLep_branch;
-	bool ngenLep_isLoaded;
-	vector<float> *genLep_pt_;
-	TBranch *genLep_pt_branch;
-	bool genLep_pt_isLoaded;
-	vector<float> *genLep_eta_;
-	TBranch *genLep_eta_branch;
-	bool genLep_eta_isLoaded;
-	vector<float> *genLep_phi_;
-	TBranch *genLep_phi_branch;
-	bool genLep_phi_isLoaded;
-	vector<float> *genLep_mass_;
-	TBranch *genLep_mass_branch;
-	bool genLep_mass_isLoaded;
-	vector<int> *genLep_pdgId_;
-	TBranch *genLep_pdgId_branch;
-	bool genLep_pdgId_isLoaded;
-	vector<int> *genLep_status_;
-	TBranch *genLep_status_branch;
-	bool genLep_status_isLoaded;
-	vector<float> *genLep_charge_;
-	TBranch *genLep_charge_branch;
-	bool genLep_charge_isLoaded;
-	vector<int> *genLep_sourceId_;
-	TBranch *genLep_sourceId_branch;
-	bool genLep_sourceId_isLoaded;
-	vector<bool> *genLep_isp6status3_;
-	TBranch *genLep_isp6status3_branch;
-	bool genLep_isp6status3_isLoaded;
-	int	ngenTau_;
-	TBranch *ngenTau_branch;
-	bool ngenTau_isLoaded;
-	vector<float> *genTau_pt_;
-	TBranch *genTau_pt_branch;
-	bool genTau_pt_isLoaded;
-	vector<float> *genTau_eta_;
-	TBranch *genTau_eta_branch;
-	bool genTau_eta_isLoaded;
-	vector<float> *genTau_phi_;
-	TBranch *genTau_phi_branch;
-	bool genTau_phi_isLoaded;
-	vector<float> *genTau_mass_;
-	TBranch *genTau_mass_branch;
-	bool genTau_mass_isLoaded;
-	vector<int> *genTau_pdgId_;
-	TBranch *genTau_pdgId_branch;
-	bool genTau_pdgId_isLoaded;
-	vector<int> *genTau_status_;
-	TBranch *genTau_status_branch;
-	bool genTau_status_isLoaded;
-	vector<float> *genTau_charge_;
-	TBranch *genTau_charge_branch;
-	bool genTau_charge_isLoaded;
-	vector<int> *genTau_sourceId_;
-	TBranch *genTau_sourceId_branch;
-	bool genTau_sourceId_isLoaded;
-	int	ngenLepFromTau_;
-	TBranch *ngenLepFromTau_branch;
-	bool ngenLepFromTau_isLoaded;
-	vector<float> *genLepFromTau_pt_;
-	TBranch *genLepFromTau_pt_branch;
-	bool genLepFromTau_pt_isLoaded;
-	vector<float> *genLepFromTau_eta_;
-	TBranch *genLepFromTau_eta_branch;
-	bool genLepFromTau_eta_isLoaded;
-	vector<float> *genLepFromTau_phi_;
-	TBranch *genLepFromTau_phi_branch;
-	bool genLepFromTau_phi_isLoaded;
-	vector<float> *genLepFromTau_mass_;
-	TBranch *genLepFromTau_mass_branch;
-	bool genLepFromTau_mass_isLoaded;
-	vector<int> *genLepFromTau_pdgId_;
-	TBranch *genLepFromTau_pdgId_branch;
-	bool genLepFromTau_pdgId_isLoaded;
-	vector<int> *genLepFromTau_status_;
-	TBranch *genLepFromTau_status_branch;
-	bool genLepFromTau_status_isLoaded;
-	vector<float> *genLepFromTau_charge_;
-	TBranch *genLepFromTau_charge_branch;
-	bool genLepFromTau_charge_isLoaded;
-	vector<int> *genLepFromTau_sourceId_;
-	TBranch *genLepFromTau_sourceId_branch;
-	bool genLepFromTau_sourceId_isLoaded;
-	int	njet_;
-	TBranch *njet_branch;
-	bool njet_isLoaded;
-	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *jet_p4_;
-	TBranch *jet_p4_branch;
-	bool jet_p4_isLoaded;
-	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *jets_p4_;
-	TBranch *jets_p4_branch;
-	bool jets_p4_isLoaded;
-	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *jets_eta30_p4_;
-	TBranch *jets_eta30_p4_branch;
-	bool jets_eta30_p4_isLoaded;
-	vector<float> *jet_pt_;
-	TBranch *jet_pt_branch;
-	bool jet_pt_isLoaded;
-	vector<float> *jet_eta_;
-	TBranch *jet_eta_branch;
-	bool jet_eta_isLoaded;
-	vector<float> *jet_phi_;
-	TBranch *jet_phi_branch;
-	bool jet_phi_isLoaded;
-	vector<float> *jet_mass_;
-	TBranch *jet_mass_branch;
-	bool jet_mass_isLoaded;
-	vector<float> *jet_btagCSV_;
-	TBranch *jet_btagCSV_branch;
-	bool jet_btagCSV_isLoaded;
-	vector<float> *jet_rawPt_;
-	TBranch *jet_rawPt_branch;
-	bool jet_rawPt_isLoaded;
-	vector<float> *jet_mcPt_;
-	TBranch *jet_mcPt_branch;
-	bool jet_mcPt_isLoaded;
-	vector<int> *jet_mcFlavour_;
-	TBranch *jet_mcFlavour_branch;
-	bool jet_mcFlavour_isLoaded;
-	vector<float> *jet_quarkGluonID_;
-	TBranch *jet_quarkGluonID_branch;
-	bool jet_quarkGluonID_isLoaded;
-	vector<float> *jet_area_;
-	TBranch *jet_area_branch;
-	bool jet_area_isLoaded;
-	vector<int> *jet_id_;
-	TBranch *jet_id_branch;
-	bool jet_id_isLoaded;
-	vector<int> *jet_puId_;
-	TBranch *jet_puId_branch;
-	bool jet_puId_isLoaded;
-	float	met_T1CHS_pt_;
-	TBranch *met_T1CHS_pt_branch;
-	bool met_T1CHS_pt_isLoaded;
-	float	met_T1CHS_phi_;
-	TBranch *met_T1CHS_phi_branch;
-	bool met_T1CHS_phi_isLoaded;
-	int	hyp_type_;
-	TBranch *hyp_type_branch;
-	bool hyp_type_isLoaded;
-	int	evt_type_;
-	TBranch *evt_type_branch;
-	bool evt_type_isLoaded;
+	int	ngoodtaus_;
+	TBranch *ngoodtaus_branch;
+	bool ngoodtaus_isLoaded;
+	vector<float> *tau_againstMuonTight_;
+	TBranch *tau_againstMuonTight_branch;
+	bool tau_againstMuonTight_isLoaded;
+	vector<float> *tau_againstElectronLoose_;
+	TBranch *tau_againstElectronLoose_branch;
+	bool tau_againstElectronLoose_isLoaded;
+	vector<bool> *tau_isVetoTau_;
+	TBranch *tau_isVetoTau_branch;
+	bool tau_isVetoTau_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *isoTracks_p4_;
+	TBranch *isoTracks_p4_branch;
+	bool isoTracks_p4_isLoaded;
+	vector<int> *isoTracks_charge_;
+	TBranch *isoTracks_charge_branch;
+	bool isoTracks_charge_isLoaded;
+	vector<float> *isoTracks_absIso_;
+	TBranch *isoTracks_absIso_branch;
+	bool isoTracks_absIso_isLoaded;
+	vector<float> *isoTracks_dz_;
+	TBranch *isoTracks_dz_branch;
+	bool isoTracks_dz_isLoaded;
+	vector<int> *isoTracks_pdgId_;
+	TBranch *isoTracks_pdgId_branch;
+	bool isoTracks_pdgId_isLoaded;
+	vector<int> *isoTracks_selectedidx_;
+	TBranch *isoTracks_selectedidx_branch;
+	bool isoTracks_selectedidx_isLoaded;
+	int	isoTracks_nselected_;
+	TBranch *isoTracks_nselected_branch;
+	bool isoTracks_nselected_isLoaded;
+	vector<bool> *isoTracks_isVetoTrack_;
+	TBranch *isoTracks_isVetoTrack_branch;
+	bool isoTracks_isVetoTrack_isLoaded;
+	vector<bool> *isoTracks_isVetoTrack_v2_;
+	TBranch *isoTracks_isVetoTrack_v2_branch;
+	bool isoTracks_isVetoTrack_v2_isLoaded;
+	vector<bool> *isoTracks_isVetoTrack_v3_;
+	TBranch *isoTracks_isVetoTrack_v3_branch;
+	bool isoTracks_isVetoTrack_v3_isLoaded;
+	vector<bool> *genels_isfromt_;
+	TBranch *genels_isfromt_branch;
+	bool genels_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genels_p4_;
+	TBranch *genels_p4_branch;
+	bool genels_p4_isLoaded;
+	vector<float> *genels_charge_;
+	TBranch *genels_charge_branch;
+	bool genels_charge_isLoaded;
+	vector<float> *genels_iso_;
+	TBranch *genels_iso_branch;
+	bool genels_iso_isLoaded;
+	vector<float> *genels_mass_;
+	TBranch *genels_mass_branch;
+	bool genels_mass_isLoaded;
+	vector<int> *genels_id_;
+	TBranch *genels_id_branch;
+	bool genels_id_isLoaded;
+	vector<int> *genels__genpsidx_;
+	TBranch *genels__genpsidx_branch;
+	bool genels__genpsidx_isLoaded;
+	vector<int> *genels_status_;
+	TBranch *genels_status_branch;
+	bool genels_status_isLoaded;
+	vector<bool> *genels_fromHardProcessBeforeFSR_;
+	TBranch *genels_fromHardProcessBeforeFSR_branch;
+	bool genels_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genels_fromHardProcessDecayed_;
+	TBranch *genels_fromHardProcessDecayed_branch;
+	bool genels_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genels_fromHardProcessFinalState_;
+	TBranch *genels_fromHardProcessFinalState_branch;
+	bool genels_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genels_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genels_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genels_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genels_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genels_isDirectPromptTauDecayProductFinalState_branch;
+	bool genels_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genels_isHardProcess_;
+	TBranch *genels_isHardProcess_branch;
+	bool genels_isHardProcess_isLoaded;
+	vector<bool> *genels_isLastCopy_;
+	TBranch *genels_isLastCopy_branch;
+	bool genels_isLastCopy_isLoaded;
+	vector<bool> *genels_isLastCopyBeforeFSR_;
+	TBranch *genels_isLastCopyBeforeFSR_branch;
+	bool genels_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genels_isMostlyLikePythia6Status3_;
+	TBranch *genels_isMostlyLikePythia6Status3_branch;
+	bool genels_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genels_isPromptDecayed_;
+	TBranch *genels_isPromptDecayed_branch;
+	bool genels_isPromptDecayed_isLoaded;
+	vector<bool> *genels_isPromptFinalState_;
+	TBranch *genels_isPromptFinalState_branch;
+	bool genels_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genels_lepdaughter_id_;
+	TBranch *genels_lepdaughter_id_branch;
+	bool genels_lepdaughter_id_isLoaded;
+	vector<int> *genels_gentaudecay_;
+	TBranch *genels_gentaudecay_branch;
+	bool genels_gentaudecay_isLoaded;
+	int	gen_nfromtels__;
+	TBranch *gen_nfromtels__branch;
+	bool gen_nfromtels__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genels_motherp4_;
+	TBranch *genels_motherp4_branch;
+	bool genels_motherp4_isLoaded;
+	vector<float> *genels_mothercharge_;
+	TBranch *genels_mothercharge_branch;
+	bool genels_mothercharge_isLoaded;
+	vector<int> *genels_motherid_;
+	TBranch *genels_motherid_branch;
+	bool genels_motherid_isLoaded;
+	vector<int> *genels_motheridx_;
+	TBranch *genels_motheridx_branch;
+	bool genels_motheridx_isLoaded;
+	vector<int> *genels_motherstatus_;
+	TBranch *genels_motherstatus_branch;
+	bool genels_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genels_gmotherp4_;
+	TBranch *genels_gmotherp4_branch;
+	bool genels_gmotherp4_isLoaded;
+	vector<int> *genels_gmothercharge_;
+	TBranch *genels_gmothercharge_branch;
+	bool genels_gmothercharge_isLoaded;
+	vector<int> *genels_gmotherid_;
+	TBranch *genels_gmotherid_branch;
+	bool genels_gmotherid_isLoaded;
+	vector<int> *genels_gmotheridx_;
+	TBranch *genels_gmotheridx_branch;
+	bool genels_gmotheridx_isLoaded;
+	vector<int> *genels_gmotherstatus_;
+	TBranch *genels_gmotherstatus_branch;
+	bool genels_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genels_simplemotherp4_;
+	TBranch *genels_simplemotherp4_branch;
+	bool genels_simplemotherp4_isLoaded;
+	vector<int> *genels_simplemothercharge_;
+	TBranch *genels_simplemothercharge_branch;
+	bool genels_simplemothercharge_isLoaded;
+	vector<int> *genels_simplemotherid_;
+	TBranch *genels_simplemotherid_branch;
+	bool genels_simplemotherid_isLoaded;
+	vector<int> *genels_simplemotheridx_;
+	TBranch *genels_simplemotheridx_branch;
+	bool genels_simplemotheridx_isLoaded;
+	vector<int> *genels_simplemotherstatus_;
+	TBranch *genels_simplemotherstatus_branch;
+	bool genels_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genels_simplegmotherp4_;
+	TBranch *genels_simplegmotherp4_branch;
+	bool genels_simplegmotherp4_isLoaded;
+	vector<int> *genels_simplegmothercharge_;
+	TBranch *genels_simplegmothercharge_branch;
+	bool genels_simplegmothercharge_isLoaded;
+	vector<int> *genels_simplegmotherid_;
+	TBranch *genels_simplegmotherid_branch;
+	bool genels_simplegmotherid_isLoaded;
+	vector<int> *genels_simplegmotheridx_;
+	TBranch *genels_simplegmotheridx_branch;
+	bool genels_simplegmotheridx_isLoaded;
+	vector<int> *genels_simplegmotherstatus_;
+	TBranch *genels_simplegmotherstatus_branch;
+	bool genels_simplegmotherstatus_isLoaded;
+	vector<bool> *genmus_isfromt_;
+	TBranch *genmus_isfromt_branch;
+	bool genmus_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genmus_p4_;
+	TBranch *genmus_p4_branch;
+	bool genmus_p4_isLoaded;
+	vector<float> *genmus_charge_;
+	TBranch *genmus_charge_branch;
+	bool genmus_charge_isLoaded;
+	vector<float> *genmus_iso_;
+	TBranch *genmus_iso_branch;
+	bool genmus_iso_isLoaded;
+	vector<float> *genmus_mass_;
+	TBranch *genmus_mass_branch;
+	bool genmus_mass_isLoaded;
+	vector<int> *genmus_id_;
+	TBranch *genmus_id_branch;
+	bool genmus_id_isLoaded;
+	vector<int> *genmus__genpsidx_;
+	TBranch *genmus__genpsidx_branch;
+	bool genmus__genpsidx_isLoaded;
+	vector<int> *genmus_status_;
+	TBranch *genmus_status_branch;
+	bool genmus_status_isLoaded;
+	vector<bool> *genmus_fromHardProcessBeforeFSR_;
+	TBranch *genmus_fromHardProcessBeforeFSR_branch;
+	bool genmus_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genmus_fromHardProcessDecayed_;
+	TBranch *genmus_fromHardProcessDecayed_branch;
+	bool genmus_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genmus_fromHardProcessFinalState_;
+	TBranch *genmus_fromHardProcessFinalState_branch;
+	bool genmus_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genmus_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genmus_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genmus_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genmus_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genmus_isDirectPromptTauDecayProductFinalState_branch;
+	bool genmus_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genmus_isHardProcess_;
+	TBranch *genmus_isHardProcess_branch;
+	bool genmus_isHardProcess_isLoaded;
+	vector<bool> *genmus_isLastCopy_;
+	TBranch *genmus_isLastCopy_branch;
+	bool genmus_isLastCopy_isLoaded;
+	vector<bool> *genmus_isLastCopyBeforeFSR_;
+	TBranch *genmus_isLastCopyBeforeFSR_branch;
+	bool genmus_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genmus_isMostlyLikePythia6Status3_;
+	TBranch *genmus_isMostlyLikePythia6Status3_branch;
+	bool genmus_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genmus_isPromptDecayed_;
+	TBranch *genmus_isPromptDecayed_branch;
+	bool genmus_isPromptDecayed_isLoaded;
+	vector<bool> *genmus_isPromptFinalState_;
+	TBranch *genmus_isPromptFinalState_branch;
+	bool genmus_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genmus_lepdaughter_id_;
+	TBranch *genmus_lepdaughter_id_branch;
+	bool genmus_lepdaughter_id_isLoaded;
+	vector<int> *genmus_gentaudecay_;
+	TBranch *genmus_gentaudecay_branch;
+	bool genmus_gentaudecay_isLoaded;
+	int	gen_nfromtmus__;
+	TBranch *gen_nfromtmus__branch;
+	bool gen_nfromtmus__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genmus_motherp4_;
+	TBranch *genmus_motherp4_branch;
+	bool genmus_motherp4_isLoaded;
+	vector<float> *genmus_mothercharge_;
+	TBranch *genmus_mothercharge_branch;
+	bool genmus_mothercharge_isLoaded;
+	vector<int> *genmus_motherid_;
+	TBranch *genmus_motherid_branch;
+	bool genmus_motherid_isLoaded;
+	vector<int> *genmus_motheridx_;
+	TBranch *genmus_motheridx_branch;
+	bool genmus_motheridx_isLoaded;
+	vector<int> *genmus_motherstatus_;
+	TBranch *genmus_motherstatus_branch;
+	bool genmus_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genmus_gmotherp4_;
+	TBranch *genmus_gmotherp4_branch;
+	bool genmus_gmotherp4_isLoaded;
+	vector<int> *genmus_gmothercharge_;
+	TBranch *genmus_gmothercharge_branch;
+	bool genmus_gmothercharge_isLoaded;
+	vector<int> *genmus_gmotherid_;
+	TBranch *genmus_gmotherid_branch;
+	bool genmus_gmotherid_isLoaded;
+	vector<int> *genmus_gmotheridx_;
+	TBranch *genmus_gmotheridx_branch;
+	bool genmus_gmotheridx_isLoaded;
+	vector<int> *genmus_gmotherstatus_;
+	TBranch *genmus_gmotherstatus_branch;
+	bool genmus_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genmus_simplemotherp4_;
+	TBranch *genmus_simplemotherp4_branch;
+	bool genmus_simplemotherp4_isLoaded;
+	vector<int> *genmus_simplemothercharge_;
+	TBranch *genmus_simplemothercharge_branch;
+	bool genmus_simplemothercharge_isLoaded;
+	vector<int> *genmus_simplemotherid_;
+	TBranch *genmus_simplemotherid_branch;
+	bool genmus_simplemotherid_isLoaded;
+	vector<int> *genmus_simplemotheridx_;
+	TBranch *genmus_simplemotheridx_branch;
+	bool genmus_simplemotheridx_isLoaded;
+	vector<int> *genmus_simplemotherstatus_;
+	TBranch *genmus_simplemotherstatus_branch;
+	bool genmus_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genmus_simplegmotherp4_;
+	TBranch *genmus_simplegmotherp4_branch;
+	bool genmus_simplegmotherp4_isLoaded;
+	vector<int> *genmus_simplegmothercharge_;
+	TBranch *genmus_simplegmothercharge_branch;
+	bool genmus_simplegmothercharge_isLoaded;
+	vector<int> *genmus_simplegmotherid_;
+	TBranch *genmus_simplegmotherid_branch;
+	bool genmus_simplegmotherid_isLoaded;
+	vector<int> *genmus_simplegmotheridx_;
+	TBranch *genmus_simplegmotheridx_branch;
+	bool genmus_simplegmotheridx_isLoaded;
+	vector<int> *genmus_simplegmotherstatus_;
+	TBranch *genmus_simplegmotherstatus_branch;
+	bool genmus_simplegmotherstatus_isLoaded;
+	vector<bool> *gentaus_isfromt_;
+	TBranch *gentaus_isfromt_branch;
+	bool gentaus_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gentaus_p4_;
+	TBranch *gentaus_p4_branch;
+	bool gentaus_p4_isLoaded;
+	vector<float> *gentaus_charge_;
+	TBranch *gentaus_charge_branch;
+	bool gentaus_charge_isLoaded;
+	vector<float> *gentaus_iso_;
+	TBranch *gentaus_iso_branch;
+	bool gentaus_iso_isLoaded;
+	vector<float> *gentaus_mass_;
+	TBranch *gentaus_mass_branch;
+	bool gentaus_mass_isLoaded;
+	vector<int> *gentaus_id_;
+	TBranch *gentaus_id_branch;
+	bool gentaus_id_isLoaded;
+	vector<int> *gentaus__genpsidx_;
+	TBranch *gentaus__genpsidx_branch;
+	bool gentaus__genpsidx_isLoaded;
+	vector<int> *gentaus_status_;
+	TBranch *gentaus_status_branch;
+	bool gentaus_status_isLoaded;
+	vector<bool> *gentaus_fromHardProcessBeforeFSR_;
+	TBranch *gentaus_fromHardProcessBeforeFSR_branch;
+	bool gentaus_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *gentaus_fromHardProcessDecayed_;
+	TBranch *gentaus_fromHardProcessDecayed_branch;
+	bool gentaus_fromHardProcessDecayed_isLoaded;
+	vector<bool> *gentaus_fromHardProcessFinalState_;
+	TBranch *gentaus_fromHardProcessFinalState_branch;
+	bool gentaus_fromHardProcessFinalState_isLoaded;
+	vector<bool> *gentaus_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *gentaus_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool gentaus_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *gentaus_isDirectPromptTauDecayProductFinalState_;
+	TBranch *gentaus_isDirectPromptTauDecayProductFinalState_branch;
+	bool gentaus_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *gentaus_isHardProcess_;
+	TBranch *gentaus_isHardProcess_branch;
+	bool gentaus_isHardProcess_isLoaded;
+	vector<bool> *gentaus_isLastCopy_;
+	TBranch *gentaus_isLastCopy_branch;
+	bool gentaus_isLastCopy_isLoaded;
+	vector<bool> *gentaus_isLastCopyBeforeFSR_;
+	TBranch *gentaus_isLastCopyBeforeFSR_branch;
+	bool gentaus_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *gentaus_isMostlyLikePythia6Status3_;
+	TBranch *gentaus_isMostlyLikePythia6Status3_branch;
+	bool gentaus_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *gentaus_isPromptDecayed_;
+	TBranch *gentaus_isPromptDecayed_branch;
+	bool gentaus_isPromptDecayed_isLoaded;
+	vector<bool> *gentaus_isPromptFinalState_;
+	TBranch *gentaus_isPromptFinalState_branch;
+	bool gentaus_isPromptFinalState_isLoaded;
+	vector<vector<int> > *gentaus_lepdaughter_id_;
+	TBranch *gentaus_lepdaughter_id_branch;
+	bool gentaus_lepdaughter_id_isLoaded;
+	vector<int> *gentaus_gentaudecay_;
+	TBranch *gentaus_gentaudecay_branch;
+	bool gentaus_gentaudecay_isLoaded;
+	int	gen_nfromttaus__;
+	TBranch *gen_nfromttaus__branch;
+	bool gen_nfromttaus__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gentaus_motherp4_;
+	TBranch *gentaus_motherp4_branch;
+	bool gentaus_motherp4_isLoaded;
+	vector<float> *gentaus_mothercharge_;
+	TBranch *gentaus_mothercharge_branch;
+	bool gentaus_mothercharge_isLoaded;
+	vector<int> *gentaus_motherid_;
+	TBranch *gentaus_motherid_branch;
+	bool gentaus_motherid_isLoaded;
+	vector<int> *gentaus_motheridx_;
+	TBranch *gentaus_motheridx_branch;
+	bool gentaus_motheridx_isLoaded;
+	vector<int> *gentaus_motherstatus_;
+	TBranch *gentaus_motherstatus_branch;
+	bool gentaus_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gentaus_gmotherp4_;
+	TBranch *gentaus_gmotherp4_branch;
+	bool gentaus_gmotherp4_isLoaded;
+	vector<int> *gentaus_gmothercharge_;
+	TBranch *gentaus_gmothercharge_branch;
+	bool gentaus_gmothercharge_isLoaded;
+	vector<int> *gentaus_gmotherid_;
+	TBranch *gentaus_gmotherid_branch;
+	bool gentaus_gmotherid_isLoaded;
+	vector<int> *gentaus_gmotheridx_;
+	TBranch *gentaus_gmotheridx_branch;
+	bool gentaus_gmotheridx_isLoaded;
+	vector<int> *gentaus_gmotherstatus_;
+	TBranch *gentaus_gmotherstatus_branch;
+	bool gentaus_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gentaus_simplemotherp4_;
+	TBranch *gentaus_simplemotherp4_branch;
+	bool gentaus_simplemotherp4_isLoaded;
+	vector<int> *gentaus_simplemothercharge_;
+	TBranch *gentaus_simplemothercharge_branch;
+	bool gentaus_simplemothercharge_isLoaded;
+	vector<int> *gentaus_simplemotherid_;
+	TBranch *gentaus_simplemotherid_branch;
+	bool gentaus_simplemotherid_isLoaded;
+	vector<int> *gentaus_simplemotheridx_;
+	TBranch *gentaus_simplemotheridx_branch;
+	bool gentaus_simplemotheridx_isLoaded;
+	vector<int> *gentaus_simplemotherstatus_;
+	TBranch *gentaus_simplemotherstatus_branch;
+	bool gentaus_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gentaus_simplegmotherp4_;
+	TBranch *gentaus_simplegmotherp4_branch;
+	bool gentaus_simplegmotherp4_isLoaded;
+	vector<int> *gentaus_simplegmothercharge_;
+	TBranch *gentaus_simplegmothercharge_branch;
+	bool gentaus_simplegmothercharge_isLoaded;
+	vector<int> *gentaus_simplegmotherid_;
+	TBranch *gentaus_simplegmotherid_branch;
+	bool gentaus_simplegmotherid_isLoaded;
+	vector<int> *gentaus_simplegmotheridx_;
+	TBranch *gentaus_simplegmotheridx_branch;
+	bool gentaus_simplegmotheridx_isLoaded;
+	vector<int> *gentaus_simplegmotherstatus_;
+	TBranch *gentaus_simplegmotherstatus_branch;
+	bool gentaus_simplegmotherstatus_isLoaded;
+	vector<bool> *gennuels_isfromt_;
+	TBranch *gennuels_isfromt_branch;
+	bool gennuels_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennuels_p4_;
+	TBranch *gennuels_p4_branch;
+	bool gennuels_p4_isLoaded;
+	vector<float> *gennuels_charge_;
+	TBranch *gennuels_charge_branch;
+	bool gennuels_charge_isLoaded;
+	vector<float> *gennuels_iso_;
+	TBranch *gennuels_iso_branch;
+	bool gennuels_iso_isLoaded;
+	vector<float> *gennuels_mass_;
+	TBranch *gennuels_mass_branch;
+	bool gennuels_mass_isLoaded;
+	vector<int> *gennuels_id_;
+	TBranch *gennuels_id_branch;
+	bool gennuels_id_isLoaded;
+	vector<int> *gennuels__genpsidx_;
+	TBranch *gennuels__genpsidx_branch;
+	bool gennuels__genpsidx_isLoaded;
+	vector<int> *gennuels_status_;
+	TBranch *gennuels_status_branch;
+	bool gennuels_status_isLoaded;
+	vector<bool> *gennuels_fromHardProcessBeforeFSR_;
+	TBranch *gennuels_fromHardProcessBeforeFSR_branch;
+	bool gennuels_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *gennuels_fromHardProcessDecayed_;
+	TBranch *gennuels_fromHardProcessDecayed_branch;
+	bool gennuels_fromHardProcessDecayed_isLoaded;
+	vector<bool> *gennuels_fromHardProcessFinalState_;
+	TBranch *gennuels_fromHardProcessFinalState_branch;
+	bool gennuels_fromHardProcessFinalState_isLoaded;
+	vector<bool> *gennuels_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *gennuels_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool gennuels_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *gennuels_isDirectPromptTauDecayProductFinalState_;
+	TBranch *gennuels_isDirectPromptTauDecayProductFinalState_branch;
+	bool gennuels_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *gennuels_isHardProcess_;
+	TBranch *gennuels_isHardProcess_branch;
+	bool gennuels_isHardProcess_isLoaded;
+	vector<bool> *gennuels_isLastCopy_;
+	TBranch *gennuels_isLastCopy_branch;
+	bool gennuels_isLastCopy_isLoaded;
+	vector<bool> *gennuels_isLastCopyBeforeFSR_;
+	TBranch *gennuels_isLastCopyBeforeFSR_branch;
+	bool gennuels_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *gennuels_isMostlyLikePythia6Status3_;
+	TBranch *gennuels_isMostlyLikePythia6Status3_branch;
+	bool gennuels_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *gennuels_isPromptDecayed_;
+	TBranch *gennuels_isPromptDecayed_branch;
+	bool gennuels_isPromptDecayed_isLoaded;
+	vector<bool> *gennuels_isPromptFinalState_;
+	TBranch *gennuels_isPromptFinalState_branch;
+	bool gennuels_isPromptFinalState_isLoaded;
+	vector<vector<int> > *gennuels_lepdaughter_id_;
+	TBranch *gennuels_lepdaughter_id_branch;
+	bool gennuels_lepdaughter_id_isLoaded;
+	vector<int> *gennuels_gentaudecay_;
+	TBranch *gennuels_gentaudecay_branch;
+	bool gennuels_gentaudecay_isLoaded;
+	int	gen_nfromtnuels__;
+	TBranch *gen_nfromtnuels__branch;
+	bool gen_nfromtnuels__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennuels_motherp4_;
+	TBranch *gennuels_motherp4_branch;
+	bool gennuels_motherp4_isLoaded;
+	vector<float> *gennuels_mothercharge_;
+	TBranch *gennuels_mothercharge_branch;
+	bool gennuels_mothercharge_isLoaded;
+	vector<int> *gennuels_motherid_;
+	TBranch *gennuels_motherid_branch;
+	bool gennuels_motherid_isLoaded;
+	vector<int> *gennuels_motheridx_;
+	TBranch *gennuels_motheridx_branch;
+	bool gennuels_motheridx_isLoaded;
+	vector<int> *gennuels_motherstatus_;
+	TBranch *gennuels_motherstatus_branch;
+	bool gennuels_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennuels_gmotherp4_;
+	TBranch *gennuels_gmotherp4_branch;
+	bool gennuels_gmotherp4_isLoaded;
+	vector<int> *gennuels_gmothercharge_;
+	TBranch *gennuels_gmothercharge_branch;
+	bool gennuels_gmothercharge_isLoaded;
+	vector<int> *gennuels_gmotherid_;
+	TBranch *gennuels_gmotherid_branch;
+	bool gennuels_gmotherid_isLoaded;
+	vector<int> *gennuels_gmotheridx_;
+	TBranch *gennuels_gmotheridx_branch;
+	bool gennuels_gmotheridx_isLoaded;
+	vector<int> *gennuels_gmotherstatus_;
+	TBranch *gennuels_gmotherstatus_branch;
+	bool gennuels_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennuels_simplemotherp4_;
+	TBranch *gennuels_simplemotherp4_branch;
+	bool gennuels_simplemotherp4_isLoaded;
+	vector<int> *gennuels_simplemothercharge_;
+	TBranch *gennuels_simplemothercharge_branch;
+	bool gennuels_simplemothercharge_isLoaded;
+	vector<int> *gennuels_simplemotherid_;
+	TBranch *gennuels_simplemotherid_branch;
+	bool gennuels_simplemotherid_isLoaded;
+	vector<int> *gennuels_simplemotheridx_;
+	TBranch *gennuels_simplemotheridx_branch;
+	bool gennuels_simplemotheridx_isLoaded;
+	vector<int> *gennuels_simplemotherstatus_;
+	TBranch *gennuels_simplemotherstatus_branch;
+	bool gennuels_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennuels_simplegmotherp4_;
+	TBranch *gennuels_simplegmotherp4_branch;
+	bool gennuels_simplegmotherp4_isLoaded;
+	vector<int> *gennuels_simplegmothercharge_;
+	TBranch *gennuels_simplegmothercharge_branch;
+	bool gennuels_simplegmothercharge_isLoaded;
+	vector<int> *gennuels_simplegmotherid_;
+	TBranch *gennuels_simplegmotherid_branch;
+	bool gennuels_simplegmotherid_isLoaded;
+	vector<int> *gennuels_simplegmotheridx_;
+	TBranch *gennuels_simplegmotheridx_branch;
+	bool gennuels_simplegmotheridx_isLoaded;
+	vector<int> *gennuels_simplegmotherstatus_;
+	TBranch *gennuels_simplegmotherstatus_branch;
+	bool gennuels_simplegmotherstatus_isLoaded;
+	vector<bool> *gennumus_isfromt_;
+	TBranch *gennumus_isfromt_branch;
+	bool gennumus_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennumus_p4_;
+	TBranch *gennumus_p4_branch;
+	bool gennumus_p4_isLoaded;
+	vector<float> *gennumus_charge_;
+	TBranch *gennumus_charge_branch;
+	bool gennumus_charge_isLoaded;
+	vector<float> *gennumus_iso_;
+	TBranch *gennumus_iso_branch;
+	bool gennumus_iso_isLoaded;
+	vector<float> *gennumus_mass_;
+	TBranch *gennumus_mass_branch;
+	bool gennumus_mass_isLoaded;
+	vector<int> *gennumus_id_;
+	TBranch *gennumus_id_branch;
+	bool gennumus_id_isLoaded;
+	vector<int> *gennumus__genpsidx_;
+	TBranch *gennumus__genpsidx_branch;
+	bool gennumus__genpsidx_isLoaded;
+	vector<int> *gennumus_status_;
+	TBranch *gennumus_status_branch;
+	bool gennumus_status_isLoaded;
+	vector<bool> *gennumus_fromHardProcessBeforeFSR_;
+	TBranch *gennumus_fromHardProcessBeforeFSR_branch;
+	bool gennumus_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *gennumus_fromHardProcessDecayed_;
+	TBranch *gennumus_fromHardProcessDecayed_branch;
+	bool gennumus_fromHardProcessDecayed_isLoaded;
+	vector<bool> *gennumus_fromHardProcessFinalState_;
+	TBranch *gennumus_fromHardProcessFinalState_branch;
+	bool gennumus_fromHardProcessFinalState_isLoaded;
+	vector<bool> *gennumus_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *gennumus_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool gennumus_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *gennumus_isDirectPromptTauDecayProductFinalState_;
+	TBranch *gennumus_isDirectPromptTauDecayProductFinalState_branch;
+	bool gennumus_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *gennumus_isHardProcess_;
+	TBranch *gennumus_isHardProcess_branch;
+	bool gennumus_isHardProcess_isLoaded;
+	vector<bool> *gennumus_isLastCopy_;
+	TBranch *gennumus_isLastCopy_branch;
+	bool gennumus_isLastCopy_isLoaded;
+	vector<bool> *gennumus_isLastCopyBeforeFSR_;
+	TBranch *gennumus_isLastCopyBeforeFSR_branch;
+	bool gennumus_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *gennumus_isMostlyLikePythia6Status3_;
+	TBranch *gennumus_isMostlyLikePythia6Status3_branch;
+	bool gennumus_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *gennumus_isPromptDecayed_;
+	TBranch *gennumus_isPromptDecayed_branch;
+	bool gennumus_isPromptDecayed_isLoaded;
+	vector<bool> *gennumus_isPromptFinalState_;
+	TBranch *gennumus_isPromptFinalState_branch;
+	bool gennumus_isPromptFinalState_isLoaded;
+	vector<vector<int> > *gennumus_lepdaughter_id_;
+	TBranch *gennumus_lepdaughter_id_branch;
+	bool gennumus_lepdaughter_id_isLoaded;
+	vector<int> *gennumus_gentaudecay_;
+	TBranch *gennumus_gentaudecay_branch;
+	bool gennumus_gentaudecay_isLoaded;
+	int	gen_nfromtnumus__;
+	TBranch *gen_nfromtnumus__branch;
+	bool gen_nfromtnumus__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennumus_motherp4_;
+	TBranch *gennumus_motherp4_branch;
+	bool gennumus_motherp4_isLoaded;
+	vector<float> *gennumus_mothercharge_;
+	TBranch *gennumus_mothercharge_branch;
+	bool gennumus_mothercharge_isLoaded;
+	vector<int> *gennumus_motherid_;
+	TBranch *gennumus_motherid_branch;
+	bool gennumus_motherid_isLoaded;
+	vector<int> *gennumus_motheridx_;
+	TBranch *gennumus_motheridx_branch;
+	bool gennumus_motheridx_isLoaded;
+	vector<int> *gennumus_motherstatus_;
+	TBranch *gennumus_motherstatus_branch;
+	bool gennumus_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennumus_gmotherp4_;
+	TBranch *gennumus_gmotherp4_branch;
+	bool gennumus_gmotherp4_isLoaded;
+	vector<int> *gennumus_gmothercharge_;
+	TBranch *gennumus_gmothercharge_branch;
+	bool gennumus_gmothercharge_isLoaded;
+	vector<int> *gennumus_gmotherid_;
+	TBranch *gennumus_gmotherid_branch;
+	bool gennumus_gmotherid_isLoaded;
+	vector<int> *gennumus_gmotheridx_;
+	TBranch *gennumus_gmotheridx_branch;
+	bool gennumus_gmotheridx_isLoaded;
+	vector<int> *gennumus_gmotherstatus_;
+	TBranch *gennumus_gmotherstatus_branch;
+	bool gennumus_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennumus_simplemotherp4_;
+	TBranch *gennumus_simplemotherp4_branch;
+	bool gennumus_simplemotherp4_isLoaded;
+	vector<int> *gennumus_simplemothercharge_;
+	TBranch *gennumus_simplemothercharge_branch;
+	bool gennumus_simplemothercharge_isLoaded;
+	vector<int> *gennumus_simplemotherid_;
+	TBranch *gennumus_simplemotherid_branch;
+	bool gennumus_simplemotherid_isLoaded;
+	vector<int> *gennumus_simplemotheridx_;
+	TBranch *gennumus_simplemotheridx_branch;
+	bool gennumus_simplemotheridx_isLoaded;
+	vector<int> *gennumus_simplemotherstatus_;
+	TBranch *gennumus_simplemotherstatus_branch;
+	bool gennumus_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennumus_simplegmotherp4_;
+	TBranch *gennumus_simplegmotherp4_branch;
+	bool gennumus_simplegmotherp4_isLoaded;
+	vector<int> *gennumus_simplegmothercharge_;
+	TBranch *gennumus_simplegmothercharge_branch;
+	bool gennumus_simplegmothercharge_isLoaded;
+	vector<int> *gennumus_simplegmotherid_;
+	TBranch *gennumus_simplegmotherid_branch;
+	bool gennumus_simplegmotherid_isLoaded;
+	vector<int> *gennumus_simplegmotheridx_;
+	TBranch *gennumus_simplegmotheridx_branch;
+	bool gennumus_simplegmotheridx_isLoaded;
+	vector<int> *gennumus_simplegmotherstatus_;
+	TBranch *gennumus_simplegmotherstatus_branch;
+	bool gennumus_simplegmotherstatus_isLoaded;
+	vector<bool> *gennutaus_isfromt_;
+	TBranch *gennutaus_isfromt_branch;
+	bool gennutaus_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennutaus_p4_;
+	TBranch *gennutaus_p4_branch;
+	bool gennutaus_p4_isLoaded;
+	vector<float> *gennutaus_charge_;
+	TBranch *gennutaus_charge_branch;
+	bool gennutaus_charge_isLoaded;
+	vector<float> *gennutaus_iso_;
+	TBranch *gennutaus_iso_branch;
+	bool gennutaus_iso_isLoaded;
+	vector<float> *gennutaus_mass_;
+	TBranch *gennutaus_mass_branch;
+	bool gennutaus_mass_isLoaded;
+	vector<int> *gennutaus_id_;
+	TBranch *gennutaus_id_branch;
+	bool gennutaus_id_isLoaded;
+	vector<int> *gennutaus__genpsidx_;
+	TBranch *gennutaus__genpsidx_branch;
+	bool gennutaus__genpsidx_isLoaded;
+	vector<int> *gennutaus_status_;
+	TBranch *gennutaus_status_branch;
+	bool gennutaus_status_isLoaded;
+	vector<bool> *gennutaus_fromHardProcessBeforeFSR_;
+	TBranch *gennutaus_fromHardProcessBeforeFSR_branch;
+	bool gennutaus_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *gennutaus_fromHardProcessDecayed_;
+	TBranch *gennutaus_fromHardProcessDecayed_branch;
+	bool gennutaus_fromHardProcessDecayed_isLoaded;
+	vector<bool> *gennutaus_fromHardProcessFinalState_;
+	TBranch *gennutaus_fromHardProcessFinalState_branch;
+	bool gennutaus_fromHardProcessFinalState_isLoaded;
+	vector<bool> *gennutaus_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *gennutaus_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool gennutaus_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *gennutaus_isDirectPromptTauDecayProductFinalState_;
+	TBranch *gennutaus_isDirectPromptTauDecayProductFinalState_branch;
+	bool gennutaus_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *gennutaus_isHardProcess_;
+	TBranch *gennutaus_isHardProcess_branch;
+	bool gennutaus_isHardProcess_isLoaded;
+	vector<bool> *gennutaus_isLastCopy_;
+	TBranch *gennutaus_isLastCopy_branch;
+	bool gennutaus_isLastCopy_isLoaded;
+	vector<bool> *gennutaus_isLastCopyBeforeFSR_;
+	TBranch *gennutaus_isLastCopyBeforeFSR_branch;
+	bool gennutaus_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *gennutaus_isMostlyLikePythia6Status3_;
+	TBranch *gennutaus_isMostlyLikePythia6Status3_branch;
+	bool gennutaus_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *gennutaus_isPromptDecayed_;
+	TBranch *gennutaus_isPromptDecayed_branch;
+	bool gennutaus_isPromptDecayed_isLoaded;
+	vector<bool> *gennutaus_isPromptFinalState_;
+	TBranch *gennutaus_isPromptFinalState_branch;
+	bool gennutaus_isPromptFinalState_isLoaded;
+	vector<vector<int> > *gennutaus_lepdaughter_id_;
+	TBranch *gennutaus_lepdaughter_id_branch;
+	bool gennutaus_lepdaughter_id_isLoaded;
+	vector<int> *gennutaus_gentaudecay_;
+	TBranch *gennutaus_gentaudecay_branch;
+	bool gennutaus_gentaudecay_isLoaded;
+	int	gen_nfromtnutaus__;
+	TBranch *gen_nfromtnutaus__branch;
+	bool gen_nfromtnutaus__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennutaus_motherp4_;
+	TBranch *gennutaus_motherp4_branch;
+	bool gennutaus_motherp4_isLoaded;
+	vector<float> *gennutaus_mothercharge_;
+	TBranch *gennutaus_mothercharge_branch;
+	bool gennutaus_mothercharge_isLoaded;
+	vector<int> *gennutaus_motherid_;
+	TBranch *gennutaus_motherid_branch;
+	bool gennutaus_motherid_isLoaded;
+	vector<int> *gennutaus_motheridx_;
+	TBranch *gennutaus_motheridx_branch;
+	bool gennutaus_motheridx_isLoaded;
+	vector<int> *gennutaus_motherstatus_;
+	TBranch *gennutaus_motherstatus_branch;
+	bool gennutaus_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennutaus_gmotherp4_;
+	TBranch *gennutaus_gmotherp4_branch;
+	bool gennutaus_gmotherp4_isLoaded;
+	vector<int> *gennutaus_gmothercharge_;
+	TBranch *gennutaus_gmothercharge_branch;
+	bool gennutaus_gmothercharge_isLoaded;
+	vector<int> *gennutaus_gmotherid_;
+	TBranch *gennutaus_gmotherid_branch;
+	bool gennutaus_gmotherid_isLoaded;
+	vector<int> *gennutaus_gmotheridx_;
+	TBranch *gennutaus_gmotheridx_branch;
+	bool gennutaus_gmotheridx_isLoaded;
+	vector<int> *gennutaus_gmotherstatus_;
+	TBranch *gennutaus_gmotherstatus_branch;
+	bool gennutaus_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennutaus_simplemotherp4_;
+	TBranch *gennutaus_simplemotherp4_branch;
+	bool gennutaus_simplemotherp4_isLoaded;
+	vector<int> *gennutaus_simplemothercharge_;
+	TBranch *gennutaus_simplemothercharge_branch;
+	bool gennutaus_simplemothercharge_isLoaded;
+	vector<int> *gennutaus_simplemotherid_;
+	TBranch *gennutaus_simplemotherid_branch;
+	bool gennutaus_simplemotherid_isLoaded;
+	vector<int> *gennutaus_simplemotheridx_;
+	TBranch *gennutaus_simplemotheridx_branch;
+	bool gennutaus_simplemotheridx_isLoaded;
+	vector<int> *gennutaus_simplemotherstatus_;
+	TBranch *gennutaus_simplemotherstatus_branch;
+	bool gennutaus_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gennutaus_simplegmotherp4_;
+	TBranch *gennutaus_simplegmotherp4_branch;
+	bool gennutaus_simplegmotherp4_isLoaded;
+	vector<int> *gennutaus_simplegmothercharge_;
+	TBranch *gennutaus_simplegmothercharge_branch;
+	bool gennutaus_simplegmothercharge_isLoaded;
+	vector<int> *gennutaus_simplegmotherid_;
+	TBranch *gennutaus_simplegmotherid_branch;
+	bool gennutaus_simplegmotherid_isLoaded;
+	vector<int> *gennutaus_simplegmotheridx_;
+	TBranch *gennutaus_simplegmotheridx_branch;
+	bool gennutaus_simplegmotheridx_isLoaded;
+	vector<int> *gennutaus_simplegmotherstatus_;
+	TBranch *gennutaus_simplegmotherstatus_branch;
+	bool gennutaus_simplegmotherstatus_isLoaded;
+	vector<bool> *gents_isfromt_;
+	TBranch *gents_isfromt_branch;
+	bool gents_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gents_p4_;
+	TBranch *gents_p4_branch;
+	bool gents_p4_isLoaded;
+	vector<float> *gents_charge_;
+	TBranch *gents_charge_branch;
+	bool gents_charge_isLoaded;
+	vector<float> *gents_iso_;
+	TBranch *gents_iso_branch;
+	bool gents_iso_isLoaded;
+	vector<float> *gents_mass_;
+	TBranch *gents_mass_branch;
+	bool gents_mass_isLoaded;
+	vector<int> *gents_id_;
+	TBranch *gents_id_branch;
+	bool gents_id_isLoaded;
+	vector<int> *gents__genpsidx_;
+	TBranch *gents__genpsidx_branch;
+	bool gents__genpsidx_isLoaded;
+	vector<int> *gents_status_;
+	TBranch *gents_status_branch;
+	bool gents_status_isLoaded;
+	vector<bool> *gents_fromHardProcessBeforeFSR_;
+	TBranch *gents_fromHardProcessBeforeFSR_branch;
+	bool gents_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *gents_fromHardProcessDecayed_;
+	TBranch *gents_fromHardProcessDecayed_branch;
+	bool gents_fromHardProcessDecayed_isLoaded;
+	vector<bool> *gents_fromHardProcessFinalState_;
+	TBranch *gents_fromHardProcessFinalState_branch;
+	bool gents_fromHardProcessFinalState_isLoaded;
+	vector<bool> *gents_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *gents_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool gents_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *gents_isDirectPromptTauDecayProductFinalState_;
+	TBranch *gents_isDirectPromptTauDecayProductFinalState_branch;
+	bool gents_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *gents_isHardProcess_;
+	TBranch *gents_isHardProcess_branch;
+	bool gents_isHardProcess_isLoaded;
+	vector<bool> *gents_isLastCopy_;
+	TBranch *gents_isLastCopy_branch;
+	bool gents_isLastCopy_isLoaded;
+	vector<bool> *gents_isLastCopyBeforeFSR_;
+	TBranch *gents_isLastCopyBeforeFSR_branch;
+	bool gents_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *gents_isMostlyLikePythia6Status3_;
+	TBranch *gents_isMostlyLikePythia6Status3_branch;
+	bool gents_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *gents_isPromptDecayed_;
+	TBranch *gents_isPromptDecayed_branch;
+	bool gents_isPromptDecayed_isLoaded;
+	vector<bool> *gents_isPromptFinalState_;
+	TBranch *gents_isPromptFinalState_branch;
+	bool gents_isPromptFinalState_isLoaded;
+	vector<vector<int> > *gents_lepdaughter_id_;
+	TBranch *gents_lepdaughter_id_branch;
+	bool gents_lepdaughter_id_isLoaded;
+	vector<int> *gents_gentaudecay_;
+	TBranch *gents_gentaudecay_branch;
+	bool gents_gentaudecay_isLoaded;
+	int	gen_nfromtts__;
+	TBranch *gen_nfromtts__branch;
+	bool gen_nfromtts__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gents_motherp4_;
+	TBranch *gents_motherp4_branch;
+	bool gents_motherp4_isLoaded;
+	vector<float> *gents_mothercharge_;
+	TBranch *gents_mothercharge_branch;
+	bool gents_mothercharge_isLoaded;
+	vector<int> *gents_motherid_;
+	TBranch *gents_motherid_branch;
+	bool gents_motherid_isLoaded;
+	vector<int> *gents_motheridx_;
+	TBranch *gents_motheridx_branch;
+	bool gents_motheridx_isLoaded;
+	vector<int> *gents_motherstatus_;
+	TBranch *gents_motherstatus_branch;
+	bool gents_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gents_gmotherp4_;
+	TBranch *gents_gmotherp4_branch;
+	bool gents_gmotherp4_isLoaded;
+	vector<int> *gents_gmothercharge_;
+	TBranch *gents_gmothercharge_branch;
+	bool gents_gmothercharge_isLoaded;
+	vector<int> *gents_gmotherid_;
+	TBranch *gents_gmotherid_branch;
+	bool gents_gmotherid_isLoaded;
+	vector<int> *gents_gmotheridx_;
+	TBranch *gents_gmotheridx_branch;
+	bool gents_gmotheridx_isLoaded;
+	vector<int> *gents_gmotherstatus_;
+	TBranch *gents_gmotherstatus_branch;
+	bool gents_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gents_simplemotherp4_;
+	TBranch *gents_simplemotherp4_branch;
+	bool gents_simplemotherp4_isLoaded;
+	vector<int> *gents_simplemothercharge_;
+	TBranch *gents_simplemothercharge_branch;
+	bool gents_simplemothercharge_isLoaded;
+	vector<int> *gents_simplemotherid_;
+	TBranch *gents_simplemotherid_branch;
+	bool gents_simplemotherid_isLoaded;
+	vector<int> *gents_simplemotheridx_;
+	TBranch *gents_simplemotheridx_branch;
+	bool gents_simplemotheridx_isLoaded;
+	vector<int> *gents_simplemotherstatus_;
+	TBranch *gents_simplemotherstatus_branch;
+	bool gents_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gents_simplegmotherp4_;
+	TBranch *gents_simplegmotherp4_branch;
+	bool gents_simplegmotherp4_isLoaded;
+	vector<int> *gents_simplegmothercharge_;
+	TBranch *gents_simplegmothercharge_branch;
+	bool gents_simplegmothercharge_isLoaded;
+	vector<int> *gents_simplegmotherid_;
+	TBranch *gents_simplegmotherid_branch;
+	bool gents_simplegmotherid_isLoaded;
+	vector<int> *gents_simplegmotheridx_;
+	TBranch *gents_simplegmotheridx_branch;
+	bool gents_simplegmotheridx_isLoaded;
+	vector<int> *gents_simplegmotherstatus_;
+	TBranch *gents_simplegmotherstatus_branch;
+	bool gents_simplegmotherstatus_isLoaded;
+	vector<bool> *genbs_isfromt_;
+	TBranch *genbs_isfromt_branch;
+	bool genbs_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genbs_p4_;
+	TBranch *genbs_p4_branch;
+	bool genbs_p4_isLoaded;
+	vector<float> *genbs_charge_;
+	TBranch *genbs_charge_branch;
+	bool genbs_charge_isLoaded;
+	vector<float> *genbs_iso_;
+	TBranch *genbs_iso_branch;
+	bool genbs_iso_isLoaded;
+	vector<float> *genbs_mass_;
+	TBranch *genbs_mass_branch;
+	bool genbs_mass_isLoaded;
+	vector<int> *genbs_id_;
+	TBranch *genbs_id_branch;
+	bool genbs_id_isLoaded;
+	vector<int> *genbs__genpsidx_;
+	TBranch *genbs__genpsidx_branch;
+	bool genbs__genpsidx_isLoaded;
+	vector<int> *genbs_status_;
+	TBranch *genbs_status_branch;
+	bool genbs_status_isLoaded;
+	vector<bool> *genbs_fromHardProcessBeforeFSR_;
+	TBranch *genbs_fromHardProcessBeforeFSR_branch;
+	bool genbs_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genbs_fromHardProcessDecayed_;
+	TBranch *genbs_fromHardProcessDecayed_branch;
+	bool genbs_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genbs_fromHardProcessFinalState_;
+	TBranch *genbs_fromHardProcessFinalState_branch;
+	bool genbs_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genbs_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genbs_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genbs_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genbs_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genbs_isDirectPromptTauDecayProductFinalState_branch;
+	bool genbs_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genbs_isHardProcess_;
+	TBranch *genbs_isHardProcess_branch;
+	bool genbs_isHardProcess_isLoaded;
+	vector<bool> *genbs_isLastCopy_;
+	TBranch *genbs_isLastCopy_branch;
+	bool genbs_isLastCopy_isLoaded;
+	vector<bool> *genbs_isLastCopyBeforeFSR_;
+	TBranch *genbs_isLastCopyBeforeFSR_branch;
+	bool genbs_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genbs_isMostlyLikePythia6Status3_;
+	TBranch *genbs_isMostlyLikePythia6Status3_branch;
+	bool genbs_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genbs_isPromptDecayed_;
+	TBranch *genbs_isPromptDecayed_branch;
+	bool genbs_isPromptDecayed_isLoaded;
+	vector<bool> *genbs_isPromptFinalState_;
+	TBranch *genbs_isPromptFinalState_branch;
+	bool genbs_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genbs_lepdaughter_id_;
+	TBranch *genbs_lepdaughter_id_branch;
+	bool genbs_lepdaughter_id_isLoaded;
+	vector<int> *genbs_gentaudecay_;
+	TBranch *genbs_gentaudecay_branch;
+	bool genbs_gentaudecay_isLoaded;
+	int	gen_nfromtbs__;
+	TBranch *gen_nfromtbs__branch;
+	bool gen_nfromtbs__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genbs_motherp4_;
+	TBranch *genbs_motherp4_branch;
+	bool genbs_motherp4_isLoaded;
+	vector<float> *genbs_mothercharge_;
+	TBranch *genbs_mothercharge_branch;
+	bool genbs_mothercharge_isLoaded;
+	vector<int> *genbs_motherid_;
+	TBranch *genbs_motherid_branch;
+	bool genbs_motherid_isLoaded;
+	vector<int> *genbs_motheridx_;
+	TBranch *genbs_motheridx_branch;
+	bool genbs_motheridx_isLoaded;
+	vector<int> *genbs_motherstatus_;
+	TBranch *genbs_motherstatus_branch;
+	bool genbs_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genbs_gmotherp4_;
+	TBranch *genbs_gmotherp4_branch;
+	bool genbs_gmotherp4_isLoaded;
+	vector<int> *genbs_gmothercharge_;
+	TBranch *genbs_gmothercharge_branch;
+	bool genbs_gmothercharge_isLoaded;
+	vector<int> *genbs_gmotherid_;
+	TBranch *genbs_gmotherid_branch;
+	bool genbs_gmotherid_isLoaded;
+	vector<int> *genbs_gmotheridx_;
+	TBranch *genbs_gmotheridx_branch;
+	bool genbs_gmotheridx_isLoaded;
+	vector<int> *genbs_gmotherstatus_;
+	TBranch *genbs_gmotherstatus_branch;
+	bool genbs_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genbs_simplemotherp4_;
+	TBranch *genbs_simplemotherp4_branch;
+	bool genbs_simplemotherp4_isLoaded;
+	vector<int> *genbs_simplemothercharge_;
+	TBranch *genbs_simplemothercharge_branch;
+	bool genbs_simplemothercharge_isLoaded;
+	vector<int> *genbs_simplemotherid_;
+	TBranch *genbs_simplemotherid_branch;
+	bool genbs_simplemotherid_isLoaded;
+	vector<int> *genbs_simplemotheridx_;
+	TBranch *genbs_simplemotheridx_branch;
+	bool genbs_simplemotheridx_isLoaded;
+	vector<int> *genbs_simplemotherstatus_;
+	TBranch *genbs_simplemotherstatus_branch;
+	bool genbs_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genbs_simplegmotherp4_;
+	TBranch *genbs_simplegmotherp4_branch;
+	bool genbs_simplegmotherp4_isLoaded;
+	vector<int> *genbs_simplegmothercharge_;
+	TBranch *genbs_simplegmothercharge_branch;
+	bool genbs_simplegmothercharge_isLoaded;
+	vector<int> *genbs_simplegmotherid_;
+	TBranch *genbs_simplegmotherid_branch;
+	bool genbs_simplegmotherid_isLoaded;
+	vector<int> *genbs_simplegmotheridx_;
+	TBranch *genbs_simplegmotheridx_branch;
+	bool genbs_simplegmotheridx_isLoaded;
+	vector<int> *genbs_simplegmotherstatus_;
+	TBranch *genbs_simplegmotherstatus_branch;
+	bool genbs_simplegmotherstatus_isLoaded;
+	vector<bool> *gencs_isfromt_;
+	TBranch *gencs_isfromt_branch;
+	bool gencs_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gencs_p4_;
+	TBranch *gencs_p4_branch;
+	bool gencs_p4_isLoaded;
+	vector<float> *gencs_charge_;
+	TBranch *gencs_charge_branch;
+	bool gencs_charge_isLoaded;
+	vector<float> *gencs_iso_;
+	TBranch *gencs_iso_branch;
+	bool gencs_iso_isLoaded;
+	vector<float> *gencs_mass_;
+	TBranch *gencs_mass_branch;
+	bool gencs_mass_isLoaded;
+	vector<int> *gencs_id_;
+	TBranch *gencs_id_branch;
+	bool gencs_id_isLoaded;
+	vector<int> *gencs__genpsidx_;
+	TBranch *gencs__genpsidx_branch;
+	bool gencs__genpsidx_isLoaded;
+	vector<int> *gencs_status_;
+	TBranch *gencs_status_branch;
+	bool gencs_status_isLoaded;
+	vector<bool> *gencs_fromHardProcessBeforeFSR_;
+	TBranch *gencs_fromHardProcessBeforeFSR_branch;
+	bool gencs_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *gencs_fromHardProcessDecayed_;
+	TBranch *gencs_fromHardProcessDecayed_branch;
+	bool gencs_fromHardProcessDecayed_isLoaded;
+	vector<bool> *gencs_fromHardProcessFinalState_;
+	TBranch *gencs_fromHardProcessFinalState_branch;
+	bool gencs_fromHardProcessFinalState_isLoaded;
+	vector<bool> *gencs_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *gencs_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool gencs_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *gencs_isDirectPromptTauDecayProductFinalState_;
+	TBranch *gencs_isDirectPromptTauDecayProductFinalState_branch;
+	bool gencs_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *gencs_isHardProcess_;
+	TBranch *gencs_isHardProcess_branch;
+	bool gencs_isHardProcess_isLoaded;
+	vector<bool> *gencs_isLastCopy_;
+	TBranch *gencs_isLastCopy_branch;
+	bool gencs_isLastCopy_isLoaded;
+	vector<bool> *gencs_isLastCopyBeforeFSR_;
+	TBranch *gencs_isLastCopyBeforeFSR_branch;
+	bool gencs_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *gencs_isMostlyLikePythia6Status3_;
+	TBranch *gencs_isMostlyLikePythia6Status3_branch;
+	bool gencs_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *gencs_isPromptDecayed_;
+	TBranch *gencs_isPromptDecayed_branch;
+	bool gencs_isPromptDecayed_isLoaded;
+	vector<bool> *gencs_isPromptFinalState_;
+	TBranch *gencs_isPromptFinalState_branch;
+	bool gencs_isPromptFinalState_isLoaded;
+	vector<vector<int> > *gencs_lepdaughter_id_;
+	TBranch *gencs_lepdaughter_id_branch;
+	bool gencs_lepdaughter_id_isLoaded;
+	vector<int> *gencs_gentaudecay_;
+	TBranch *gencs_gentaudecay_branch;
+	bool gencs_gentaudecay_isLoaded;
+	int	gen_nfromtcs__;
+	TBranch *gen_nfromtcs__branch;
+	bool gen_nfromtcs__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gencs_motherp4_;
+	TBranch *gencs_motherp4_branch;
+	bool gencs_motherp4_isLoaded;
+	vector<float> *gencs_mothercharge_;
+	TBranch *gencs_mothercharge_branch;
+	bool gencs_mothercharge_isLoaded;
+	vector<int> *gencs_motherid_;
+	TBranch *gencs_motherid_branch;
+	bool gencs_motherid_isLoaded;
+	vector<int> *gencs_motheridx_;
+	TBranch *gencs_motheridx_branch;
+	bool gencs_motheridx_isLoaded;
+	vector<int> *gencs_motherstatus_;
+	TBranch *gencs_motherstatus_branch;
+	bool gencs_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gencs_gmotherp4_;
+	TBranch *gencs_gmotherp4_branch;
+	bool gencs_gmotherp4_isLoaded;
+	vector<int> *gencs_gmothercharge_;
+	TBranch *gencs_gmothercharge_branch;
+	bool gencs_gmothercharge_isLoaded;
+	vector<int> *gencs_gmotherid_;
+	TBranch *gencs_gmotherid_branch;
+	bool gencs_gmotherid_isLoaded;
+	vector<int> *gencs_gmotheridx_;
+	TBranch *gencs_gmotheridx_branch;
+	bool gencs_gmotheridx_isLoaded;
+	vector<int> *gencs_gmotherstatus_;
+	TBranch *gencs_gmotherstatus_branch;
+	bool gencs_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gencs_simplemotherp4_;
+	TBranch *gencs_simplemotherp4_branch;
+	bool gencs_simplemotherp4_isLoaded;
+	vector<int> *gencs_simplemothercharge_;
+	TBranch *gencs_simplemothercharge_branch;
+	bool gencs_simplemothercharge_isLoaded;
+	vector<int> *gencs_simplemotherid_;
+	TBranch *gencs_simplemotherid_branch;
+	bool gencs_simplemotherid_isLoaded;
+	vector<int> *gencs_simplemotheridx_;
+	TBranch *gencs_simplemotheridx_branch;
+	bool gencs_simplemotheridx_isLoaded;
+	vector<int> *gencs_simplemotherstatus_;
+	TBranch *gencs_simplemotherstatus_branch;
+	bool gencs_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *gencs_simplegmotherp4_;
+	TBranch *gencs_simplegmotherp4_branch;
+	bool gencs_simplegmotherp4_isLoaded;
+	vector<int> *gencs_simplegmothercharge_;
+	TBranch *gencs_simplegmothercharge_branch;
+	bool gencs_simplegmothercharge_isLoaded;
+	vector<int> *gencs_simplegmotherid_;
+	TBranch *gencs_simplegmotherid_branch;
+	bool gencs_simplegmotherid_isLoaded;
+	vector<int> *gencs_simplegmotheridx_;
+	TBranch *gencs_simplegmotheridx_branch;
+	bool gencs_simplegmotheridx_isLoaded;
+	vector<int> *gencs_simplegmotherstatus_;
+	TBranch *gencs_simplegmotherstatus_branch;
+	bool gencs_simplegmotherstatus_isLoaded;
+	vector<bool> *genqs_isfromt_;
+	TBranch *genqs_isfromt_branch;
+	bool genqs_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genqs_p4_;
+	TBranch *genqs_p4_branch;
+	bool genqs_p4_isLoaded;
+	vector<float> *genqs_charge_;
+	TBranch *genqs_charge_branch;
+	bool genqs_charge_isLoaded;
+	vector<float> *genqs_iso_;
+	TBranch *genqs_iso_branch;
+	bool genqs_iso_isLoaded;
+	vector<float> *genqs_mass_;
+	TBranch *genqs_mass_branch;
+	bool genqs_mass_isLoaded;
+	vector<int> *genqs_id_;
+	TBranch *genqs_id_branch;
+	bool genqs_id_isLoaded;
+	vector<int> *genqs__genpsidx_;
+	TBranch *genqs__genpsidx_branch;
+	bool genqs__genpsidx_isLoaded;
+	vector<int> *genqs_status_;
+	TBranch *genqs_status_branch;
+	bool genqs_status_isLoaded;
+	vector<bool> *genqs_fromHardProcessBeforeFSR_;
+	TBranch *genqs_fromHardProcessBeforeFSR_branch;
+	bool genqs_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genqs_fromHardProcessDecayed_;
+	TBranch *genqs_fromHardProcessDecayed_branch;
+	bool genqs_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genqs_fromHardProcessFinalState_;
+	TBranch *genqs_fromHardProcessFinalState_branch;
+	bool genqs_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genqs_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genqs_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genqs_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genqs_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genqs_isDirectPromptTauDecayProductFinalState_branch;
+	bool genqs_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genqs_isHardProcess_;
+	TBranch *genqs_isHardProcess_branch;
+	bool genqs_isHardProcess_isLoaded;
+	vector<bool> *genqs_isLastCopy_;
+	TBranch *genqs_isLastCopy_branch;
+	bool genqs_isLastCopy_isLoaded;
+	vector<bool> *genqs_isLastCopyBeforeFSR_;
+	TBranch *genqs_isLastCopyBeforeFSR_branch;
+	bool genqs_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genqs_isMostlyLikePythia6Status3_;
+	TBranch *genqs_isMostlyLikePythia6Status3_branch;
+	bool genqs_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genqs_isPromptDecayed_;
+	TBranch *genqs_isPromptDecayed_branch;
+	bool genqs_isPromptDecayed_isLoaded;
+	vector<bool> *genqs_isPromptFinalState_;
+	TBranch *genqs_isPromptFinalState_branch;
+	bool genqs_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genqs_lepdaughter_id_;
+	TBranch *genqs_lepdaughter_id_branch;
+	bool genqs_lepdaughter_id_isLoaded;
+	vector<int> *genqs_gentaudecay_;
+	TBranch *genqs_gentaudecay_branch;
+	bool genqs_gentaudecay_isLoaded;
+	int	gen_nfromtqs__;
+	TBranch *gen_nfromtqs__branch;
+	bool gen_nfromtqs__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genqs_motherp4_;
+	TBranch *genqs_motherp4_branch;
+	bool genqs_motherp4_isLoaded;
+	vector<float> *genqs_mothercharge_;
+	TBranch *genqs_mothercharge_branch;
+	bool genqs_mothercharge_isLoaded;
+	vector<int> *genqs_motherid_;
+	TBranch *genqs_motherid_branch;
+	bool genqs_motherid_isLoaded;
+	vector<int> *genqs_motheridx_;
+	TBranch *genqs_motheridx_branch;
+	bool genqs_motheridx_isLoaded;
+	vector<int> *genqs_motherstatus_;
+	TBranch *genqs_motherstatus_branch;
+	bool genqs_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genqs_gmotherp4_;
+	TBranch *genqs_gmotherp4_branch;
+	bool genqs_gmotherp4_isLoaded;
+	vector<int> *genqs_gmothercharge_;
+	TBranch *genqs_gmothercharge_branch;
+	bool genqs_gmothercharge_isLoaded;
+	vector<int> *genqs_gmotherid_;
+	TBranch *genqs_gmotherid_branch;
+	bool genqs_gmotherid_isLoaded;
+	vector<int> *genqs_gmotheridx_;
+	TBranch *genqs_gmotheridx_branch;
+	bool genqs_gmotheridx_isLoaded;
+	vector<int> *genqs_gmotherstatus_;
+	TBranch *genqs_gmotherstatus_branch;
+	bool genqs_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genqs_simplemotherp4_;
+	TBranch *genqs_simplemotherp4_branch;
+	bool genqs_simplemotherp4_isLoaded;
+	vector<int> *genqs_simplemothercharge_;
+	TBranch *genqs_simplemothercharge_branch;
+	bool genqs_simplemothercharge_isLoaded;
+	vector<int> *genqs_simplemotherid_;
+	TBranch *genqs_simplemotherid_branch;
+	bool genqs_simplemotherid_isLoaded;
+	vector<int> *genqs_simplemotheridx_;
+	TBranch *genqs_simplemotheridx_branch;
+	bool genqs_simplemotheridx_isLoaded;
+	vector<int> *genqs_simplemotherstatus_;
+	TBranch *genqs_simplemotherstatus_branch;
+	bool genqs_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genqs_simplegmotherp4_;
+	TBranch *genqs_simplegmotherp4_branch;
+	bool genqs_simplegmotherp4_isLoaded;
+	vector<int> *genqs_simplegmothercharge_;
+	TBranch *genqs_simplegmothercharge_branch;
+	bool genqs_simplegmothercharge_isLoaded;
+	vector<int> *genqs_simplegmotherid_;
+	TBranch *genqs_simplegmotherid_branch;
+	bool genqs_simplegmotherid_isLoaded;
+	vector<int> *genqs_simplegmotheridx_;
+	TBranch *genqs_simplegmotheridx_branch;
+	bool genqs_simplegmotheridx_isLoaded;
+	vector<int> *genqs_simplegmotherstatus_;
+	TBranch *genqs_simplegmotherstatus_branch;
+	bool genqs_simplegmotherstatus_isLoaded;
+	vector<bool> *genglus_isfromt_;
+	TBranch *genglus_isfromt_branch;
+	bool genglus_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genglus_p4_;
+	TBranch *genglus_p4_branch;
+	bool genglus_p4_isLoaded;
+	vector<float> *genglus_charge_;
+	TBranch *genglus_charge_branch;
+	bool genglus_charge_isLoaded;
+	vector<float> *genglus_iso_;
+	TBranch *genglus_iso_branch;
+	bool genglus_iso_isLoaded;
+	vector<float> *genglus_mass_;
+	TBranch *genglus_mass_branch;
+	bool genglus_mass_isLoaded;
+	vector<int> *genglus_id_;
+	TBranch *genglus_id_branch;
+	bool genglus_id_isLoaded;
+	vector<int> *genglus__genpsidx_;
+	TBranch *genglus__genpsidx_branch;
+	bool genglus__genpsidx_isLoaded;
+	vector<int> *genglus_status_;
+	TBranch *genglus_status_branch;
+	bool genglus_status_isLoaded;
+	vector<bool> *genglus_fromHardProcessBeforeFSR_;
+	TBranch *genglus_fromHardProcessBeforeFSR_branch;
+	bool genglus_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genglus_fromHardProcessDecayed_;
+	TBranch *genglus_fromHardProcessDecayed_branch;
+	bool genglus_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genglus_fromHardProcessFinalState_;
+	TBranch *genglus_fromHardProcessFinalState_branch;
+	bool genglus_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genglus_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genglus_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genglus_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genglus_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genglus_isDirectPromptTauDecayProductFinalState_branch;
+	bool genglus_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genglus_isHardProcess_;
+	TBranch *genglus_isHardProcess_branch;
+	bool genglus_isHardProcess_isLoaded;
+	vector<bool> *genglus_isLastCopy_;
+	TBranch *genglus_isLastCopy_branch;
+	bool genglus_isLastCopy_isLoaded;
+	vector<bool> *genglus_isLastCopyBeforeFSR_;
+	TBranch *genglus_isLastCopyBeforeFSR_branch;
+	bool genglus_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genglus_isMostlyLikePythia6Status3_;
+	TBranch *genglus_isMostlyLikePythia6Status3_branch;
+	bool genglus_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genglus_isPromptDecayed_;
+	TBranch *genglus_isPromptDecayed_branch;
+	bool genglus_isPromptDecayed_isLoaded;
+	vector<bool> *genglus_isPromptFinalState_;
+	TBranch *genglus_isPromptFinalState_branch;
+	bool genglus_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genglus_lepdaughter_id_;
+	TBranch *genglus_lepdaughter_id_branch;
+	bool genglus_lepdaughter_id_isLoaded;
+	vector<int> *genglus_gentaudecay_;
+	TBranch *genglus_gentaudecay_branch;
+	bool genglus_gentaudecay_isLoaded;
+	int	gen_nfromtglus__;
+	TBranch *gen_nfromtglus__branch;
+	bool gen_nfromtglus__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genglus_motherp4_;
+	TBranch *genglus_motherp4_branch;
+	bool genglus_motherp4_isLoaded;
+	vector<float> *genglus_mothercharge_;
+	TBranch *genglus_mothercharge_branch;
+	bool genglus_mothercharge_isLoaded;
+	vector<int> *genglus_motherid_;
+	TBranch *genglus_motherid_branch;
+	bool genglus_motherid_isLoaded;
+	vector<int> *genglus_motheridx_;
+	TBranch *genglus_motheridx_branch;
+	bool genglus_motheridx_isLoaded;
+	vector<int> *genglus_motherstatus_;
+	TBranch *genglus_motherstatus_branch;
+	bool genglus_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genglus_gmotherp4_;
+	TBranch *genglus_gmotherp4_branch;
+	bool genglus_gmotherp4_isLoaded;
+	vector<int> *genglus_gmothercharge_;
+	TBranch *genglus_gmothercharge_branch;
+	bool genglus_gmothercharge_isLoaded;
+	vector<int> *genglus_gmotherid_;
+	TBranch *genglus_gmotherid_branch;
+	bool genglus_gmotherid_isLoaded;
+	vector<int> *genglus_gmotheridx_;
+	TBranch *genglus_gmotheridx_branch;
+	bool genglus_gmotheridx_isLoaded;
+	vector<int> *genglus_gmotherstatus_;
+	TBranch *genglus_gmotherstatus_branch;
+	bool genglus_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genglus_simplemotherp4_;
+	TBranch *genglus_simplemotherp4_branch;
+	bool genglus_simplemotherp4_isLoaded;
+	vector<int> *genglus_simplemothercharge_;
+	TBranch *genglus_simplemothercharge_branch;
+	bool genglus_simplemothercharge_isLoaded;
+	vector<int> *genglus_simplemotherid_;
+	TBranch *genglus_simplemotherid_branch;
+	bool genglus_simplemotherid_isLoaded;
+	vector<int> *genglus_simplemotheridx_;
+	TBranch *genglus_simplemotheridx_branch;
+	bool genglus_simplemotheridx_isLoaded;
+	vector<int> *genglus_simplemotherstatus_;
+	TBranch *genglus_simplemotherstatus_branch;
+	bool genglus_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genglus_simplegmotherp4_;
+	TBranch *genglus_simplegmotherp4_branch;
+	bool genglus_simplegmotherp4_isLoaded;
+	vector<int> *genglus_simplegmothercharge_;
+	TBranch *genglus_simplegmothercharge_branch;
+	bool genglus_simplegmothercharge_isLoaded;
+	vector<int> *genglus_simplegmotherid_;
+	TBranch *genglus_simplegmotherid_branch;
+	bool genglus_simplegmotherid_isLoaded;
+	vector<int> *genglus_simplegmotheridx_;
+	TBranch *genglus_simplegmotheridx_branch;
+	bool genglus_simplegmotheridx_isLoaded;
+	vector<int> *genglus_simplegmotherstatus_;
+	TBranch *genglus_simplegmotherstatus_branch;
+	bool genglus_simplegmotherstatus_isLoaded;
+	vector<bool> *genws_isfromt_;
+	TBranch *genws_isfromt_branch;
+	bool genws_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genws_p4_;
+	TBranch *genws_p4_branch;
+	bool genws_p4_isLoaded;
+	vector<float> *genws_charge_;
+	TBranch *genws_charge_branch;
+	bool genws_charge_isLoaded;
+	vector<float> *genws_iso_;
+	TBranch *genws_iso_branch;
+	bool genws_iso_isLoaded;
+	vector<float> *genws_mass_;
+	TBranch *genws_mass_branch;
+	bool genws_mass_isLoaded;
+	vector<int> *genws_id_;
+	TBranch *genws_id_branch;
+	bool genws_id_isLoaded;
+	vector<int> *genws__genpsidx_;
+	TBranch *genws__genpsidx_branch;
+	bool genws__genpsidx_isLoaded;
+	vector<int> *genws_status_;
+	TBranch *genws_status_branch;
+	bool genws_status_isLoaded;
+	vector<bool> *genws_fromHardProcessBeforeFSR_;
+	TBranch *genws_fromHardProcessBeforeFSR_branch;
+	bool genws_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genws_fromHardProcessDecayed_;
+	TBranch *genws_fromHardProcessDecayed_branch;
+	bool genws_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genws_fromHardProcessFinalState_;
+	TBranch *genws_fromHardProcessFinalState_branch;
+	bool genws_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genws_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genws_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genws_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genws_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genws_isDirectPromptTauDecayProductFinalState_branch;
+	bool genws_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genws_isHardProcess_;
+	TBranch *genws_isHardProcess_branch;
+	bool genws_isHardProcess_isLoaded;
+	vector<bool> *genws_isLastCopy_;
+	TBranch *genws_isLastCopy_branch;
+	bool genws_isLastCopy_isLoaded;
+	vector<bool> *genws_isLastCopyBeforeFSR_;
+	TBranch *genws_isLastCopyBeforeFSR_branch;
+	bool genws_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genws_isMostlyLikePythia6Status3_;
+	TBranch *genws_isMostlyLikePythia6Status3_branch;
+	bool genws_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genws_isPromptDecayed_;
+	TBranch *genws_isPromptDecayed_branch;
+	bool genws_isPromptDecayed_isLoaded;
+	vector<bool> *genws_isPromptFinalState_;
+	TBranch *genws_isPromptFinalState_branch;
+	bool genws_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genws_lepdaughter_id_;
+	TBranch *genws_lepdaughter_id_branch;
+	bool genws_lepdaughter_id_isLoaded;
+	vector<int> *genws_gentaudecay_;
+	TBranch *genws_gentaudecay_branch;
+	bool genws_gentaudecay_isLoaded;
+	int	gen_nfromtws__;
+	TBranch *gen_nfromtws__branch;
+	bool gen_nfromtws__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genws_motherp4_;
+	TBranch *genws_motherp4_branch;
+	bool genws_motherp4_isLoaded;
+	vector<float> *genws_mothercharge_;
+	TBranch *genws_mothercharge_branch;
+	bool genws_mothercharge_isLoaded;
+	vector<int> *genws_motherid_;
+	TBranch *genws_motherid_branch;
+	bool genws_motherid_isLoaded;
+	vector<int> *genws_motheridx_;
+	TBranch *genws_motheridx_branch;
+	bool genws_motheridx_isLoaded;
+	vector<int> *genws_motherstatus_;
+	TBranch *genws_motherstatus_branch;
+	bool genws_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genws_gmotherp4_;
+	TBranch *genws_gmotherp4_branch;
+	bool genws_gmotherp4_isLoaded;
+	vector<int> *genws_gmothercharge_;
+	TBranch *genws_gmothercharge_branch;
+	bool genws_gmothercharge_isLoaded;
+	vector<int> *genws_gmotherid_;
+	TBranch *genws_gmotherid_branch;
+	bool genws_gmotherid_isLoaded;
+	vector<int> *genws_gmotheridx_;
+	TBranch *genws_gmotheridx_branch;
+	bool genws_gmotheridx_isLoaded;
+	vector<int> *genws_gmotherstatus_;
+	TBranch *genws_gmotherstatus_branch;
+	bool genws_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genws_simplemotherp4_;
+	TBranch *genws_simplemotherp4_branch;
+	bool genws_simplemotherp4_isLoaded;
+	vector<int> *genws_simplemothercharge_;
+	TBranch *genws_simplemothercharge_branch;
+	bool genws_simplemothercharge_isLoaded;
+	vector<int> *genws_simplemotherid_;
+	TBranch *genws_simplemotherid_branch;
+	bool genws_simplemotherid_isLoaded;
+	vector<int> *genws_simplemotheridx_;
+	TBranch *genws_simplemotheridx_branch;
+	bool genws_simplemotheridx_isLoaded;
+	vector<int> *genws_simplemotherstatus_;
+	TBranch *genws_simplemotherstatus_branch;
+	bool genws_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genws_simplegmotherp4_;
+	TBranch *genws_simplegmotherp4_branch;
+	bool genws_simplegmotherp4_isLoaded;
+	vector<int> *genws_simplegmothercharge_;
+	TBranch *genws_simplegmothercharge_branch;
+	bool genws_simplegmothercharge_isLoaded;
+	vector<int> *genws_simplegmotherid_;
+	TBranch *genws_simplegmotherid_branch;
+	bool genws_simplegmotherid_isLoaded;
+	vector<int> *genws_simplegmotheridx_;
+	TBranch *genws_simplegmotheridx_branch;
+	bool genws_simplegmotheridx_isLoaded;
+	vector<int> *genws_simplegmotherstatus_;
+	TBranch *genws_simplegmotherstatus_branch;
+	bool genws_simplegmotherstatus_isLoaded;
+	vector<bool> *genzs_isfromt_;
+	TBranch *genzs_isfromt_branch;
+	bool genzs_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genzs_p4_;
+	TBranch *genzs_p4_branch;
+	bool genzs_p4_isLoaded;
+	vector<float> *genzs_charge_;
+	TBranch *genzs_charge_branch;
+	bool genzs_charge_isLoaded;
+	vector<float> *genzs_iso_;
+	TBranch *genzs_iso_branch;
+	bool genzs_iso_isLoaded;
+	vector<float> *genzs_mass_;
+	TBranch *genzs_mass_branch;
+	bool genzs_mass_isLoaded;
+	vector<int> *genzs_id_;
+	TBranch *genzs_id_branch;
+	bool genzs_id_isLoaded;
+	vector<int> *genzs__genpsidx_;
+	TBranch *genzs__genpsidx_branch;
+	bool genzs__genpsidx_isLoaded;
+	vector<int> *genzs_status_;
+	TBranch *genzs_status_branch;
+	bool genzs_status_isLoaded;
+	vector<bool> *genzs_fromHardProcessBeforeFSR_;
+	TBranch *genzs_fromHardProcessBeforeFSR_branch;
+	bool genzs_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genzs_fromHardProcessDecayed_;
+	TBranch *genzs_fromHardProcessDecayed_branch;
+	bool genzs_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genzs_fromHardProcessFinalState_;
+	TBranch *genzs_fromHardProcessFinalState_branch;
+	bool genzs_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genzs_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genzs_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genzs_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genzs_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genzs_isDirectPromptTauDecayProductFinalState_branch;
+	bool genzs_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genzs_isHardProcess_;
+	TBranch *genzs_isHardProcess_branch;
+	bool genzs_isHardProcess_isLoaded;
+	vector<bool> *genzs_isLastCopy_;
+	TBranch *genzs_isLastCopy_branch;
+	bool genzs_isLastCopy_isLoaded;
+	vector<bool> *genzs_isLastCopyBeforeFSR_;
+	TBranch *genzs_isLastCopyBeforeFSR_branch;
+	bool genzs_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genzs_isMostlyLikePythia6Status3_;
+	TBranch *genzs_isMostlyLikePythia6Status3_branch;
+	bool genzs_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genzs_isPromptDecayed_;
+	TBranch *genzs_isPromptDecayed_branch;
+	bool genzs_isPromptDecayed_isLoaded;
+	vector<bool> *genzs_isPromptFinalState_;
+	TBranch *genzs_isPromptFinalState_branch;
+	bool genzs_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genzs_lepdaughter_id_;
+	TBranch *genzs_lepdaughter_id_branch;
+	bool genzs_lepdaughter_id_isLoaded;
+	vector<int> *genzs_gentaudecay_;
+	TBranch *genzs_gentaudecay_branch;
+	bool genzs_gentaudecay_isLoaded;
+	int	gen_nfromtzs__;
+	TBranch *gen_nfromtzs__branch;
+	bool gen_nfromtzs__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genzs_motherp4_;
+	TBranch *genzs_motherp4_branch;
+	bool genzs_motherp4_isLoaded;
+	vector<float> *genzs_mothercharge_;
+	TBranch *genzs_mothercharge_branch;
+	bool genzs_mothercharge_isLoaded;
+	vector<int> *genzs_motherid_;
+	TBranch *genzs_motherid_branch;
+	bool genzs_motherid_isLoaded;
+	vector<int> *genzs_motheridx_;
+	TBranch *genzs_motheridx_branch;
+	bool genzs_motheridx_isLoaded;
+	vector<int> *genzs_motherstatus_;
+	TBranch *genzs_motherstatus_branch;
+	bool genzs_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genzs_gmotherp4_;
+	TBranch *genzs_gmotherp4_branch;
+	bool genzs_gmotherp4_isLoaded;
+	vector<int> *genzs_gmothercharge_;
+	TBranch *genzs_gmothercharge_branch;
+	bool genzs_gmothercharge_isLoaded;
+	vector<int> *genzs_gmotherid_;
+	TBranch *genzs_gmotherid_branch;
+	bool genzs_gmotherid_isLoaded;
+	vector<int> *genzs_gmotheridx_;
+	TBranch *genzs_gmotheridx_branch;
+	bool genzs_gmotheridx_isLoaded;
+	vector<int> *genzs_gmotherstatus_;
+	TBranch *genzs_gmotherstatus_branch;
+	bool genzs_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genzs_simplemotherp4_;
+	TBranch *genzs_simplemotherp4_branch;
+	bool genzs_simplemotherp4_isLoaded;
+	vector<int> *genzs_simplemothercharge_;
+	TBranch *genzs_simplemothercharge_branch;
+	bool genzs_simplemothercharge_isLoaded;
+	vector<int> *genzs_simplemotherid_;
+	TBranch *genzs_simplemotherid_branch;
+	bool genzs_simplemotherid_isLoaded;
+	vector<int> *genzs_simplemotheridx_;
+	TBranch *genzs_simplemotheridx_branch;
+	bool genzs_simplemotheridx_isLoaded;
+	vector<int> *genzs_simplemotherstatus_;
+	TBranch *genzs_simplemotherstatus_branch;
+	bool genzs_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genzs_simplegmotherp4_;
+	TBranch *genzs_simplegmotherp4_branch;
+	bool genzs_simplegmotherp4_isLoaded;
+	vector<int> *genzs_simplegmothercharge_;
+	TBranch *genzs_simplegmothercharge_branch;
+	bool genzs_simplegmothercharge_isLoaded;
+	vector<int> *genzs_simplegmotherid_;
+	TBranch *genzs_simplegmotherid_branch;
+	bool genzs_simplegmotherid_isLoaded;
+	vector<int> *genzs_simplegmotheridx_;
+	TBranch *genzs_simplegmotheridx_branch;
+	bool genzs_simplegmotheridx_isLoaded;
+	vector<int> *genzs_simplegmotherstatus_;
+	TBranch *genzs_simplegmotherstatus_branch;
+	bool genzs_simplegmotherstatus_isLoaded;
+	vector<bool> *genphs_isfromt_;
+	TBranch *genphs_isfromt_branch;
+	bool genphs_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genphs_p4_;
+	TBranch *genphs_p4_branch;
+	bool genphs_p4_isLoaded;
+	vector<float> *genphs_charge_;
+	TBranch *genphs_charge_branch;
+	bool genphs_charge_isLoaded;
+	vector<float> *genphs_iso_;
+	TBranch *genphs_iso_branch;
+	bool genphs_iso_isLoaded;
+	vector<float> *genphs_mass_;
+	TBranch *genphs_mass_branch;
+	bool genphs_mass_isLoaded;
+	vector<int> *genphs_id_;
+	TBranch *genphs_id_branch;
+	bool genphs_id_isLoaded;
+	vector<int> *genphs__genpsidx_;
+	TBranch *genphs__genpsidx_branch;
+	bool genphs__genpsidx_isLoaded;
+	vector<int> *genphs_status_;
+	TBranch *genphs_status_branch;
+	bool genphs_status_isLoaded;
+	vector<bool> *genphs_fromHardProcessBeforeFSR_;
+	TBranch *genphs_fromHardProcessBeforeFSR_branch;
+	bool genphs_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genphs_fromHardProcessDecayed_;
+	TBranch *genphs_fromHardProcessDecayed_branch;
+	bool genphs_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genphs_fromHardProcessFinalState_;
+	TBranch *genphs_fromHardProcessFinalState_branch;
+	bool genphs_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genphs_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genphs_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genphs_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genphs_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genphs_isDirectPromptTauDecayProductFinalState_branch;
+	bool genphs_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genphs_isHardProcess_;
+	TBranch *genphs_isHardProcess_branch;
+	bool genphs_isHardProcess_isLoaded;
+	vector<bool> *genphs_isLastCopy_;
+	TBranch *genphs_isLastCopy_branch;
+	bool genphs_isLastCopy_isLoaded;
+	vector<bool> *genphs_isLastCopyBeforeFSR_;
+	TBranch *genphs_isLastCopyBeforeFSR_branch;
+	bool genphs_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genphs_isMostlyLikePythia6Status3_;
+	TBranch *genphs_isMostlyLikePythia6Status3_branch;
+	bool genphs_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genphs_isPromptDecayed_;
+	TBranch *genphs_isPromptDecayed_branch;
+	bool genphs_isPromptDecayed_isLoaded;
+	vector<bool> *genphs_isPromptFinalState_;
+	TBranch *genphs_isPromptFinalState_branch;
+	bool genphs_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genphs_lepdaughter_id_;
+	TBranch *genphs_lepdaughter_id_branch;
+	bool genphs_lepdaughter_id_isLoaded;
+	vector<int> *genphs_gentaudecay_;
+	TBranch *genphs_gentaudecay_branch;
+	bool genphs_gentaudecay_isLoaded;
+	int	gen_nfromtphs__;
+	TBranch *gen_nfromtphs__branch;
+	bool gen_nfromtphs__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genphs_motherp4_;
+	TBranch *genphs_motherp4_branch;
+	bool genphs_motherp4_isLoaded;
+	vector<float> *genphs_mothercharge_;
+	TBranch *genphs_mothercharge_branch;
+	bool genphs_mothercharge_isLoaded;
+	vector<int> *genphs_motherid_;
+	TBranch *genphs_motherid_branch;
+	bool genphs_motherid_isLoaded;
+	vector<int> *genphs_motheridx_;
+	TBranch *genphs_motheridx_branch;
+	bool genphs_motheridx_isLoaded;
+	vector<int> *genphs_motherstatus_;
+	TBranch *genphs_motherstatus_branch;
+	bool genphs_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genphs_gmotherp4_;
+	TBranch *genphs_gmotherp4_branch;
+	bool genphs_gmotherp4_isLoaded;
+	vector<int> *genphs_gmothercharge_;
+	TBranch *genphs_gmothercharge_branch;
+	bool genphs_gmothercharge_isLoaded;
+	vector<int> *genphs_gmotherid_;
+	TBranch *genphs_gmotherid_branch;
+	bool genphs_gmotherid_isLoaded;
+	vector<int> *genphs_gmotheridx_;
+	TBranch *genphs_gmotheridx_branch;
+	bool genphs_gmotheridx_isLoaded;
+	vector<int> *genphs_gmotherstatus_;
+	TBranch *genphs_gmotherstatus_branch;
+	bool genphs_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genphs_simplemotherp4_;
+	TBranch *genphs_simplemotherp4_branch;
+	bool genphs_simplemotherp4_isLoaded;
+	vector<int> *genphs_simplemothercharge_;
+	TBranch *genphs_simplemothercharge_branch;
+	bool genphs_simplemothercharge_isLoaded;
+	vector<int> *genphs_simplemotherid_;
+	TBranch *genphs_simplemotherid_branch;
+	bool genphs_simplemotherid_isLoaded;
+	vector<int> *genphs_simplemotheridx_;
+	TBranch *genphs_simplemotheridx_branch;
+	bool genphs_simplemotheridx_isLoaded;
+	vector<int> *genphs_simplemotherstatus_;
+	TBranch *genphs_simplemotherstatus_branch;
+	bool genphs_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genphs_simplegmotherp4_;
+	TBranch *genphs_simplegmotherp4_branch;
+	bool genphs_simplegmotherp4_isLoaded;
+	vector<int> *genphs_simplegmothercharge_;
+	TBranch *genphs_simplegmothercharge_branch;
+	bool genphs_simplegmothercharge_isLoaded;
+	vector<int> *genphs_simplegmotherid_;
+	TBranch *genphs_simplegmotherid_branch;
+	bool genphs_simplegmotherid_isLoaded;
+	vector<int> *genphs_simplegmotheridx_;
+	TBranch *genphs_simplegmotheridx_branch;
+	bool genphs_simplegmotheridx_isLoaded;
+	vector<int> *genphs_simplegmotherstatus_;
+	TBranch *genphs_simplegmotherstatus_branch;
+	bool genphs_simplegmotherstatus_isLoaded;
+	vector<bool> *genhs_isfromt_;
+	TBranch *genhs_isfromt_branch;
+	bool genhs_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genhs_p4_;
+	TBranch *genhs_p4_branch;
+	bool genhs_p4_isLoaded;
+	vector<float> *genhs_charge_;
+	TBranch *genhs_charge_branch;
+	bool genhs_charge_isLoaded;
+	vector<float> *genhs_iso_;
+	TBranch *genhs_iso_branch;
+	bool genhs_iso_isLoaded;
+	vector<float> *genhs_mass_;
+	TBranch *genhs_mass_branch;
+	bool genhs_mass_isLoaded;
+	vector<int> *genhs_id_;
+	TBranch *genhs_id_branch;
+	bool genhs_id_isLoaded;
+	vector<int> *genhs__genpsidx_;
+	TBranch *genhs__genpsidx_branch;
+	bool genhs__genpsidx_isLoaded;
+	vector<int> *genhs_status_;
+	TBranch *genhs_status_branch;
+	bool genhs_status_isLoaded;
+	vector<bool> *genhs_fromHardProcessBeforeFSR_;
+	TBranch *genhs_fromHardProcessBeforeFSR_branch;
+	bool genhs_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genhs_fromHardProcessDecayed_;
+	TBranch *genhs_fromHardProcessDecayed_branch;
+	bool genhs_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genhs_fromHardProcessFinalState_;
+	TBranch *genhs_fromHardProcessFinalState_branch;
+	bool genhs_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genhs_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genhs_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genhs_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genhs_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genhs_isDirectPromptTauDecayProductFinalState_branch;
+	bool genhs_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genhs_isHardProcess_;
+	TBranch *genhs_isHardProcess_branch;
+	bool genhs_isHardProcess_isLoaded;
+	vector<bool> *genhs_isLastCopy_;
+	TBranch *genhs_isLastCopy_branch;
+	bool genhs_isLastCopy_isLoaded;
+	vector<bool> *genhs_isLastCopyBeforeFSR_;
+	TBranch *genhs_isLastCopyBeforeFSR_branch;
+	bool genhs_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genhs_isMostlyLikePythia6Status3_;
+	TBranch *genhs_isMostlyLikePythia6Status3_branch;
+	bool genhs_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genhs_isPromptDecayed_;
+	TBranch *genhs_isPromptDecayed_branch;
+	bool genhs_isPromptDecayed_isLoaded;
+	vector<bool> *genhs_isPromptFinalState_;
+	TBranch *genhs_isPromptFinalState_branch;
+	bool genhs_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genhs_lepdaughter_id_;
+	TBranch *genhs_lepdaughter_id_branch;
+	bool genhs_lepdaughter_id_isLoaded;
+	vector<int> *genhs_gentaudecay_;
+	TBranch *genhs_gentaudecay_branch;
+	bool genhs_gentaudecay_isLoaded;
+	int	gen_nfromths__;
+	TBranch *gen_nfromths__branch;
+	bool gen_nfromths__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genhs_motherp4_;
+	TBranch *genhs_motherp4_branch;
+	bool genhs_motherp4_isLoaded;
+	vector<float> *genhs_mothercharge_;
+	TBranch *genhs_mothercharge_branch;
+	bool genhs_mothercharge_isLoaded;
+	vector<int> *genhs_motherid_;
+	TBranch *genhs_motherid_branch;
+	bool genhs_motherid_isLoaded;
+	vector<int> *genhs_motheridx_;
+	TBranch *genhs_motheridx_branch;
+	bool genhs_motheridx_isLoaded;
+	vector<int> *genhs_motherstatus_;
+	TBranch *genhs_motherstatus_branch;
+	bool genhs_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genhs_gmotherp4_;
+	TBranch *genhs_gmotherp4_branch;
+	bool genhs_gmotherp4_isLoaded;
+	vector<int> *genhs_gmothercharge_;
+	TBranch *genhs_gmothercharge_branch;
+	bool genhs_gmothercharge_isLoaded;
+	vector<int> *genhs_gmotherid_;
+	TBranch *genhs_gmotherid_branch;
+	bool genhs_gmotherid_isLoaded;
+	vector<int> *genhs_gmotheridx_;
+	TBranch *genhs_gmotheridx_branch;
+	bool genhs_gmotheridx_isLoaded;
+	vector<int> *genhs_gmotherstatus_;
+	TBranch *genhs_gmotherstatus_branch;
+	bool genhs_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genhs_simplemotherp4_;
+	TBranch *genhs_simplemotherp4_branch;
+	bool genhs_simplemotherp4_isLoaded;
+	vector<int> *genhs_simplemothercharge_;
+	TBranch *genhs_simplemothercharge_branch;
+	bool genhs_simplemothercharge_isLoaded;
+	vector<int> *genhs_simplemotherid_;
+	TBranch *genhs_simplemotherid_branch;
+	bool genhs_simplemotherid_isLoaded;
+	vector<int> *genhs_simplemotheridx_;
+	TBranch *genhs_simplemotheridx_branch;
+	bool genhs_simplemotheridx_isLoaded;
+	vector<int> *genhs_simplemotherstatus_;
+	TBranch *genhs_simplemotherstatus_branch;
+	bool genhs_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genhs_simplegmotherp4_;
+	TBranch *genhs_simplegmotherp4_branch;
+	bool genhs_simplegmotherp4_isLoaded;
+	vector<int> *genhs_simplegmothercharge_;
+	TBranch *genhs_simplegmothercharge_branch;
+	bool genhs_simplegmothercharge_isLoaded;
+	vector<int> *genhs_simplegmotherid_;
+	TBranch *genhs_simplegmotherid_branch;
+	bool genhs_simplegmotherid_isLoaded;
+	vector<int> *genhs_simplegmotheridx_;
+	TBranch *genhs_simplegmotheridx_branch;
+	bool genhs_simplegmotheridx_isLoaded;
+	vector<int> *genhs_simplegmotherstatus_;
+	TBranch *genhs_simplegmotherstatus_branch;
+	bool genhs_simplegmotherstatus_isLoaded;
+	vector<bool> *genlsp_isfromt_;
+	TBranch *genlsp_isfromt_branch;
+	bool genlsp_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genlsp_p4_;
+	TBranch *genlsp_p4_branch;
+	bool genlsp_p4_isLoaded;
+	vector<float> *genlsp_charge_;
+	TBranch *genlsp_charge_branch;
+	bool genlsp_charge_isLoaded;
+	vector<float> *genlsp_iso_;
+	TBranch *genlsp_iso_branch;
+	bool genlsp_iso_isLoaded;
+	vector<float> *genlsp_mass_;
+	TBranch *genlsp_mass_branch;
+	bool genlsp_mass_isLoaded;
+	vector<int> *genlsp_id_;
+	TBranch *genlsp_id_branch;
+	bool genlsp_id_isLoaded;
+	vector<int> *genlsp__genpsidx_;
+	TBranch *genlsp__genpsidx_branch;
+	bool genlsp__genpsidx_isLoaded;
+	vector<int> *genlsp_status_;
+	TBranch *genlsp_status_branch;
+	bool genlsp_status_isLoaded;
+	vector<bool> *genlsp_fromHardProcessBeforeFSR_;
+	TBranch *genlsp_fromHardProcessBeforeFSR_branch;
+	bool genlsp_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genlsp_fromHardProcessDecayed_;
+	TBranch *genlsp_fromHardProcessDecayed_branch;
+	bool genlsp_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genlsp_fromHardProcessFinalState_;
+	TBranch *genlsp_fromHardProcessFinalState_branch;
+	bool genlsp_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genlsp_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genlsp_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genlsp_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genlsp_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genlsp_isDirectPromptTauDecayProductFinalState_branch;
+	bool genlsp_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genlsp_isHardProcess_;
+	TBranch *genlsp_isHardProcess_branch;
+	bool genlsp_isHardProcess_isLoaded;
+	vector<bool> *genlsp_isLastCopy_;
+	TBranch *genlsp_isLastCopy_branch;
+	bool genlsp_isLastCopy_isLoaded;
+	vector<bool> *genlsp_isLastCopyBeforeFSR_;
+	TBranch *genlsp_isLastCopyBeforeFSR_branch;
+	bool genlsp_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genlsp_isMostlyLikePythia6Status3_;
+	TBranch *genlsp_isMostlyLikePythia6Status3_branch;
+	bool genlsp_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genlsp_isPromptDecayed_;
+	TBranch *genlsp_isPromptDecayed_branch;
+	bool genlsp_isPromptDecayed_isLoaded;
+	vector<bool> *genlsp_isPromptFinalState_;
+	TBranch *genlsp_isPromptFinalState_branch;
+	bool genlsp_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genlsp_lepdaughter_id_;
+	TBranch *genlsp_lepdaughter_id_branch;
+	bool genlsp_lepdaughter_id_isLoaded;
+	vector<int> *genlsp_gentaudecay_;
+	TBranch *genlsp_gentaudecay_branch;
+	bool genlsp_gentaudecay_isLoaded;
+	int	gen_nfromtlsp__;
+	TBranch *gen_nfromtlsp__branch;
+	bool gen_nfromtlsp__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genlsp_motherp4_;
+	TBranch *genlsp_motherp4_branch;
+	bool genlsp_motherp4_isLoaded;
+	vector<float> *genlsp_mothercharge_;
+	TBranch *genlsp_mothercharge_branch;
+	bool genlsp_mothercharge_isLoaded;
+	vector<int> *genlsp_motherid_;
+	TBranch *genlsp_motherid_branch;
+	bool genlsp_motherid_isLoaded;
+	vector<int> *genlsp_motheridx_;
+	TBranch *genlsp_motheridx_branch;
+	bool genlsp_motheridx_isLoaded;
+	vector<int> *genlsp_motherstatus_;
+	TBranch *genlsp_motherstatus_branch;
+	bool genlsp_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genlsp_gmotherp4_;
+	TBranch *genlsp_gmotherp4_branch;
+	bool genlsp_gmotherp4_isLoaded;
+	vector<int> *genlsp_gmothercharge_;
+	TBranch *genlsp_gmothercharge_branch;
+	bool genlsp_gmothercharge_isLoaded;
+	vector<int> *genlsp_gmotherid_;
+	TBranch *genlsp_gmotherid_branch;
+	bool genlsp_gmotherid_isLoaded;
+	vector<int> *genlsp_gmotheridx_;
+	TBranch *genlsp_gmotheridx_branch;
+	bool genlsp_gmotheridx_isLoaded;
+	vector<int> *genlsp_gmotherstatus_;
+	TBranch *genlsp_gmotherstatus_branch;
+	bool genlsp_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genlsp_simplemotherp4_;
+	TBranch *genlsp_simplemotherp4_branch;
+	bool genlsp_simplemotherp4_isLoaded;
+	vector<int> *genlsp_simplemothercharge_;
+	TBranch *genlsp_simplemothercharge_branch;
+	bool genlsp_simplemothercharge_isLoaded;
+	vector<int> *genlsp_simplemotherid_;
+	TBranch *genlsp_simplemotherid_branch;
+	bool genlsp_simplemotherid_isLoaded;
+	vector<int> *genlsp_simplemotheridx_;
+	TBranch *genlsp_simplemotheridx_branch;
+	bool genlsp_simplemotheridx_isLoaded;
+	vector<int> *genlsp_simplemotherstatus_;
+	TBranch *genlsp_simplemotherstatus_branch;
+	bool genlsp_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genlsp_simplegmotherp4_;
+	TBranch *genlsp_simplegmotherp4_branch;
+	bool genlsp_simplegmotherp4_isLoaded;
+	vector<int> *genlsp_simplegmothercharge_;
+	TBranch *genlsp_simplegmothercharge_branch;
+	bool genlsp_simplegmothercharge_isLoaded;
+	vector<int> *genlsp_simplegmotherid_;
+	TBranch *genlsp_simplegmotherid_branch;
+	bool genlsp_simplegmotherid_isLoaded;
+	vector<int> *genlsp_simplegmotheridx_;
+	TBranch *genlsp_simplegmotheridx_branch;
+	bool genlsp_simplegmotheridx_isLoaded;
+	vector<int> *genlsp_simplegmotherstatus_;
+	TBranch *genlsp_simplegmotherstatus_branch;
+	bool genlsp_simplegmotherstatus_isLoaded;
+	vector<bool> *genstop_isfromt_;
+	TBranch *genstop_isfromt_branch;
+	bool genstop_isfromt_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genstop_p4_;
+	TBranch *genstop_p4_branch;
+	bool genstop_p4_isLoaded;
+	vector<float> *genstop_charge_;
+	TBranch *genstop_charge_branch;
+	bool genstop_charge_isLoaded;
+	vector<float> *genstop_iso_;
+	TBranch *genstop_iso_branch;
+	bool genstop_iso_isLoaded;
+	vector<float> *genstop_mass_;
+	TBranch *genstop_mass_branch;
+	bool genstop_mass_isLoaded;
+	vector<int> *genstop_id_;
+	TBranch *genstop_id_branch;
+	bool genstop_id_isLoaded;
+	vector<int> *genstop__genpsidx_;
+	TBranch *genstop__genpsidx_branch;
+	bool genstop__genpsidx_isLoaded;
+	vector<int> *genstop_status_;
+	TBranch *genstop_status_branch;
+	bool genstop_status_isLoaded;
+	vector<bool> *genstop_fromHardProcessBeforeFSR_;
+	TBranch *genstop_fromHardProcessBeforeFSR_branch;
+	bool genstop_fromHardProcessBeforeFSR_isLoaded;
+	vector<bool> *genstop_fromHardProcessDecayed_;
+	TBranch *genstop_fromHardProcessDecayed_branch;
+	bool genstop_fromHardProcessDecayed_isLoaded;
+	vector<bool> *genstop_fromHardProcessFinalState_;
+	TBranch *genstop_fromHardProcessFinalState_branch;
+	bool genstop_fromHardProcessFinalState_isLoaded;
+	vector<bool> *genstop_isDirectHardProcessTauDecayProductFinalState_;
+	TBranch *genstop_isDirectHardProcessTauDecayProductFinalState_branch;
+	bool genstop_isDirectHardProcessTauDecayProductFinalState_isLoaded;
+	vector<bool> *genstop_isDirectPromptTauDecayProductFinalState_;
+	TBranch *genstop_isDirectPromptTauDecayProductFinalState_branch;
+	bool genstop_isDirectPromptTauDecayProductFinalState_isLoaded;
+	vector<bool> *genstop_isHardProcess_;
+	TBranch *genstop_isHardProcess_branch;
+	bool genstop_isHardProcess_isLoaded;
+	vector<bool> *genstop_isLastCopy_;
+	TBranch *genstop_isLastCopy_branch;
+	bool genstop_isLastCopy_isLoaded;
+	vector<bool> *genstop_isLastCopyBeforeFSR_;
+	TBranch *genstop_isLastCopyBeforeFSR_branch;
+	bool genstop_isLastCopyBeforeFSR_isLoaded;
+	vector<bool> *genstop_isMostlyLikePythia6Status3_;
+	TBranch *genstop_isMostlyLikePythia6Status3_branch;
+	bool genstop_isMostlyLikePythia6Status3_isLoaded;
+	vector<bool> *genstop_isPromptDecayed_;
+	TBranch *genstop_isPromptDecayed_branch;
+	bool genstop_isPromptDecayed_isLoaded;
+	vector<bool> *genstop_isPromptFinalState_;
+	TBranch *genstop_isPromptFinalState_branch;
+	bool genstop_isPromptFinalState_isLoaded;
+	vector<vector<int> > *genstop_lepdaughter_id_;
+	TBranch *genstop_lepdaughter_id_branch;
+	bool genstop_lepdaughter_id_isLoaded;
+	vector<int> *genstop_gentaudecay_;
+	TBranch *genstop_gentaudecay_branch;
+	bool genstop_gentaudecay_isLoaded;
+	int	gen_nfromtstop__;
+	TBranch *gen_nfromtstop__branch;
+	bool gen_nfromtstop__isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genstop_motherp4_;
+	TBranch *genstop_motherp4_branch;
+	bool genstop_motherp4_isLoaded;
+	vector<float> *genstop_mothercharge_;
+	TBranch *genstop_mothercharge_branch;
+	bool genstop_mothercharge_isLoaded;
+	vector<int> *genstop_motherid_;
+	TBranch *genstop_motherid_branch;
+	bool genstop_motherid_isLoaded;
+	vector<int> *genstop_motheridx_;
+	TBranch *genstop_motheridx_branch;
+	bool genstop_motheridx_isLoaded;
+	vector<int> *genstop_motherstatus_;
+	TBranch *genstop_motherstatus_branch;
+	bool genstop_motherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genstop_gmotherp4_;
+	TBranch *genstop_gmotherp4_branch;
+	bool genstop_gmotherp4_isLoaded;
+	vector<int> *genstop_gmothercharge_;
+	TBranch *genstop_gmothercharge_branch;
+	bool genstop_gmothercharge_isLoaded;
+	vector<int> *genstop_gmotherid_;
+	TBranch *genstop_gmotherid_branch;
+	bool genstop_gmotherid_isLoaded;
+	vector<int> *genstop_gmotheridx_;
+	TBranch *genstop_gmotheridx_branch;
+	bool genstop_gmotheridx_isLoaded;
+	vector<int> *genstop_gmotherstatus_;
+	TBranch *genstop_gmotherstatus_branch;
+	bool genstop_gmotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genstop_simplemotherp4_;
+	TBranch *genstop_simplemotherp4_branch;
+	bool genstop_simplemotherp4_isLoaded;
+	vector<int> *genstop_simplemothercharge_;
+	TBranch *genstop_simplemothercharge_branch;
+	bool genstop_simplemothercharge_isLoaded;
+	vector<int> *genstop_simplemotherid_;
+	TBranch *genstop_simplemotherid_branch;
+	bool genstop_simplemotherid_isLoaded;
+	vector<int> *genstop_simplemotheridx_;
+	TBranch *genstop_simplemotheridx_branch;
+	bool genstop_simplemotheridx_isLoaded;
+	vector<int> *genstop_simplemotherstatus_;
+	TBranch *genstop_simplemotherstatus_branch;
+	bool genstop_simplemotherstatus_isLoaded;
+	vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > *genstop_simplegmotherp4_;
+	TBranch *genstop_simplegmotherp4_branch;
+	bool genstop_simplegmotherp4_isLoaded;
+	vector<int> *genstop_simplegmothercharge_;
+	TBranch *genstop_simplegmothercharge_branch;
+	bool genstop_simplegmothercharge_isLoaded;
+	vector<int> *genstop_simplegmotherid_;
+	TBranch *genstop_simplegmotherid_branch;
+	bool genstop_simplegmotherid_isLoaded;
+	vector<int> *genstop_simplegmotheridx_;
+	TBranch *genstop_simplegmotheridx_branch;
+	bool genstop_simplegmotheridx_isLoaded;
+	vector<int> *genstop_simplegmotherstatus_;
+	TBranch *genstop_simplegmotherstatus_branch;
+	bool genstop_simplegmotherstatus_isLoaded;
 public: 
-void Init(TTree *tree) {
-	lep_p4_branch = 0;
-	if (tree->GetBranch("lep_p4") != 0) {
-		lep_p4_branch = tree->GetBranch("lep_p4");
-		if (lep_p4_branch) {lep_p4_branch->SetAddress(&lep_p4_);}
-	}
-	gamma_p4_branch = 0;
-	if (tree->GetBranch("gamma_p4") != 0) {
-		gamma_p4_branch = tree->GetBranch("gamma_p4");
-		if (gamma_p4_branch) {gamma_p4_branch->SetAddress(&gamma_p4_);}
-	}
-	genPart_p4_branch = 0;
-	if (tree->GetBranch("genPart_p4") != 0) {
-		genPart_p4_branch = tree->GetBranch("genPart_p4");
-		if (genPart_p4_branch) {genPart_p4_branch->SetAddress(&genPart_p4_);}
-	}
-	jet_p4_branch = 0;
-	if (tree->GetBranch("jet_p4") != 0) {
-		jet_p4_branch = tree->GetBranch("jet_p4");
-		if (jet_p4_branch) {jet_p4_branch->SetAddress(&jet_p4_);}
-	}
-	jets_p4_branch = 0;
-	if (tree->GetBranch("jets_p4") != 0) {
-		jets_p4_branch = tree->GetBranch("jets_p4");
-		if (jets_p4_branch) {jets_p4_branch->SetAddress(&jets_p4_);}
-	}
-	jets_eta30_p4_branch = 0;
-	if (tree->GetBranch("jets_eta30_p4") != 0) {
-		jets_eta30_p4_branch = tree->GetBranch("jets_eta30_p4");
-		if (jets_eta30_p4_branch) {jets_eta30_p4_branch->SetAddress(&jets_eta30_p4_);}
-	}
-  tree->SetMakeClass(1);
-	run_branch = 0;
-	if (tree->GetBranch("run") != 0) {
-		run_branch = tree->GetBranch("run");
-		if (run_branch) {run_branch->SetAddress(&run_);}
-	}
-	lumi_branch = 0;
-	if (tree->GetBranch("lumi") != 0) {
-		lumi_branch = tree->GetBranch("lumi");
-		if (lumi_branch) {lumi_branch->SetAddress(&lumi_);}
-	}
-	evt_branch = 0;
-	if (tree->GetBranch("evt") != 0) {
-		evt_branch = tree->GetBranch("evt");
-		if (evt_branch) {evt_branch->SetAddress(&evt_);}
-	}
-	isData_branch = 0;
-	if (tree->GetBranch("isData") != 0) {
-		isData_branch = tree->GetBranch("isData");
-		if (isData_branch) {isData_branch->SetAddress(&isData_);}
-	}
-	evt_passgoodrunlist_branch = 0;
-	if (tree->GetBranch("evt_passgoodrunlist") != 0) {
-		evt_passgoodrunlist_branch = tree->GetBranch("evt_passgoodrunlist");
-		if (evt_passgoodrunlist_branch) {evt_passgoodrunlist_branch->SetAddress(&evt_passgoodrunlist_);}
-	}
-	evt_scale1fb_branch = 0;
-	if (tree->GetBranch("evt_scale1fb") != 0) {
-		evt_scale1fb_branch = tree->GetBranch("evt_scale1fb");
-		if (evt_scale1fb_branch) {evt_scale1fb_branch->SetAddress(&evt_scale1fb_);}
-	}
-	evt_xsec_branch = 0;
-	if (tree->GetBranch("evt_xsec") != 0) {
-		evt_xsec_branch = tree->GetBranch("evt_xsec");
-		if (evt_xsec_branch) {evt_xsec_branch->SetAddress(&evt_xsec_);}
-	}
-	evt_kfactor_branch = 0;
-	if (tree->GetBranch("evt_kfactor") != 0) {
-		evt_kfactor_branch = tree->GetBranch("evt_kfactor");
-		if (evt_kfactor_branch) {evt_kfactor_branch->SetAddress(&evt_kfactor_);}
-	}
-	evt_filter_branch = 0;
-	if (tree->GetBranch("evt_filter") != 0) {
-		evt_filter_branch = tree->GetBranch("evt_filter");
-		if (evt_filter_branch) {evt_filter_branch->SetAddress(&evt_filter_);}
-	}
-	evt_nEvts_branch = 0;
-	if (tree->GetBranch("evt_nEvts") != 0) {
-		evt_nEvts_branch = tree->GetBranch("evt_nEvts");
-		if (evt_nEvts_branch) {evt_nEvts_branch->SetAddress(&evt_nEvts_);}
-	}
-	puWeight_branch = 0;
-	if (tree->GetBranch("puWeight") != 0) {
-		puWeight_branch = tree->GetBranch("puWeight");
-		if (puWeight_branch) {puWeight_branch->SetAddress(&puWeight_);}
-	}
-	nVert_branch = 0;
-	if (tree->GetBranch("nVert") != 0) {
-		nVert_branch = tree->GetBranch("nVert");
-		if (nVert_branch) {nVert_branch->SetAddress(&nVert_);}
-	}
-	nTrueInt_branch = 0;
-	if (tree->GetBranch("nTrueInt") != 0) {
-		nTrueInt_branch = tree->GetBranch("nTrueInt");
-		if (nTrueInt_branch) {nTrueInt_branch->SetAddress(&nTrueInt_);}
-	}
-	rho_branch = 0;
-	if (tree->GetBranch("rho") != 0) {
-		rho_branch = tree->GetBranch("rho");
-		if (rho_branch) {rho_branch->SetAddress(&rho_);}
-	}
-	rho25_branch = 0;
-	if (tree->GetBranch("rho25") != 0) {
-		rho25_branch = tree->GetBranch("rho25");
-		if (rho25_branch) {rho25_branch->SetAddress(&rho25_);}
-	}
-	njets_branch = 0;
-	if (tree->GetBranch("njets") != 0) {
-		njets_branch = tree->GetBranch("njets");
-		if (njets_branch) {njets_branch->SetAddress(&njets_);}
-	}
-	ht_branch = 0;
-	if (tree->GetBranch("ht") != 0) {
-		ht_branch = tree->GetBranch("ht");
-		if (ht_branch) {ht_branch->SetAddress(&ht_);}
-	}
-	gen_ht_branch = 0;
-	if (tree->GetBranch("gen_ht") != 0) {
-		gen_ht_branch = tree->GetBranch("gen_ht");
-		if (gen_ht_branch) {gen_ht_branch->SetAddress(&gen_ht_);}
-	}
-	njets_eta30_branch = 0;
-	if (tree->GetBranch("njets_eta30") != 0) {
-		njets_eta30_branch = tree->GetBranch("njets_eta30");
-		if (njets_eta30_branch) {njets_eta30_branch->SetAddress(&njets_eta30_);}
-	}
-	ht_eta30_branch = 0;
-	if (tree->GetBranch("ht_eta30") != 0) {
-		ht_eta30_branch = tree->GetBranch("ht_eta30");
-		if (ht_eta30_branch) {ht_eta30_branch->SetAddress(&ht_eta30_);}
-	}
-	mt2_branch = 0;
-	if (tree->GetBranch("mt2") != 0) {
-		mt2_branch = tree->GetBranch("mt2");
-		if (mt2_branch) {mt2_branch->SetAddress(&mt2_);}
-	}
-	mt2j_branch = 0;
-	if (tree->GetBranch("mt2j") != 0) {
-		mt2j_branch = tree->GetBranch("mt2j");
-		if (mt2j_branch) {mt2j_branch->SetAddress(&mt2j_);}
-	}
-	mt2j_eta30_branch = 0;
-	if (tree->GetBranch("mt2j_eta30") != 0) {
-		mt2j_eta30_branch = tree->GetBranch("mt2j_eta30");
-		if (mt2j_eta30_branch) {mt2j_eta30_branch->SetAddress(&mt2j_eta30_);}
-	}
-	nJet40_branch = 0;
-	if (tree->GetBranch("nJet40") != 0) {
-		nJet40_branch = tree->GetBranch("nJet40");
-		if (nJet40_branch) {nJet40_branch->SetAddress(&nJet40_);}
-	}
-	nBJet40_branch = 0;
-	if (tree->GetBranch("nBJet40") != 0) {
-		nBJet40_branch = tree->GetBranch("nBJet40");
-		if (nBJet40_branch) {nBJet40_branch->SetAddress(&nBJet40_);}
-	}
-	nBJetTight_branch = 0;
-	if (tree->GetBranch("nBJetTight") != 0) {
-		nBJetTight_branch = tree->GetBranch("nBJetTight");
-		if (nBJetTight_branch) {nBJetTight_branch->SetAddress(&nBJetTight_);}
-	}
-	nBJetMedium_branch = 0;
-	if (tree->GetBranch("nBJetMedium") != 0) {
-		nBJetMedium_branch = tree->GetBranch("nBJetMedium");
-		if (nBJetMedium_branch) {nBJetMedium_branch->SetAddress(&nBJetMedium_);}
-	}
-	nBJetLoose_branch = 0;
-	if (tree->GetBranch("nBJetLoose") != 0) {
-		nBJetLoose_branch = tree->GetBranch("nBJetLoose");
-		if (nBJetLoose_branch) {nBJetLoose_branch->SetAddress(&nBJetLoose_);}
-	}
-	nMuons10_branch = 0;
-	if (tree->GetBranch("nMuons10") != 0) {
-		nMuons10_branch = tree->GetBranch("nMuons10");
-		if (nMuons10_branch) {nMuons10_branch->SetAddress(&nMuons10_);}
-	}
-	nElectrons10_branch = 0;
-	if (tree->GetBranch("nElectrons10") != 0) {
-		nElectrons10_branch = tree->GetBranch("nElectrons10");
-		if (nElectrons10_branch) {nElectrons10_branch->SetAddress(&nElectrons10_);}
-	}
-	nTaus20_branch = 0;
-	if (tree->GetBranch("nTaus20") != 0) {
-		nTaus20_branch = tree->GetBranch("nTaus20");
-		if (nTaus20_branch) {nTaus20_branch->SetAddress(&nTaus20_);}
-	}
-	nGammas20_branch = 0;
-	if (tree->GetBranch("nGammas20") != 0) {
-		nGammas20_branch = tree->GetBranch("nGammas20");
-		if (nGammas20_branch) {nGammas20_branch->SetAddress(&nGammas20_);}
-	}
-	met_pt_branch = 0;
-	if (tree->GetBranch("met_pt") != 0) {
-		met_pt_branch = tree->GetBranch("met_pt");
-		if (met_pt_branch) {met_pt_branch->SetAddress(&met_pt_);}
-	}
-	met_phi_branch = 0;
-	if (tree->GetBranch("met_phi") != 0) {
-		met_phi_branch = tree->GetBranch("met_phi");
-		if (met_phi_branch) {met_phi_branch->SetAddress(&met_phi_);}
-	}
-	met_rawPt_branch = 0;
-	if (tree->GetBranch("met_rawPt") != 0) {
-		met_rawPt_branch = tree->GetBranch("met_rawPt");
-		if (met_rawPt_branch) {met_rawPt_branch->SetAddress(&met_rawPt_);}
-	}
-	met_rawPhi_branch = 0;
-	if (tree->GetBranch("met_rawPhi") != 0) {
-		met_rawPhi_branch = tree->GetBranch("met_rawPhi");
-		if (met_rawPhi_branch) {met_rawPhi_branch->SetAddress(&met_rawPhi_);}
-	}
-	met_caloPt_branch = 0;
-	if (tree->GetBranch("met_caloPt") != 0) {
-		met_caloPt_branch = tree->GetBranch("met_caloPt");
-		if (met_caloPt_branch) {met_caloPt_branch->SetAddress(&met_caloPt_);}
-	}
-	met_caloPhi_branch = 0;
-	if (tree->GetBranch("met_caloPhi") != 0) {
-		met_caloPhi_branch = tree->GetBranch("met_caloPhi");
-		if (met_caloPhi_branch) {met_caloPhi_branch->SetAddress(&met_caloPhi_);}
-	}
-	met_genPt_branch = 0;
-	if (tree->GetBranch("met_genPt") != 0) {
-		met_genPt_branch = tree->GetBranch("met_genPt");
-		if (met_genPt_branch) {met_genPt_branch->SetAddress(&met_genPt_);}
-	}
-	met_genPhi_branch = 0;
-	if (tree->GetBranch("met_genPhi") != 0) {
-		met_genPhi_branch = tree->GetBranch("met_genPhi");
-		if (met_genPhi_branch) {met_genPhi_branch->SetAddress(&met_genPhi_);}
-	}
-	sumet_raw_branch = 0;
-	if (tree->GetBranch("sumet_raw") != 0) {
-		sumet_raw_branch = tree->GetBranch("sumet_raw");
-		if (sumet_raw_branch) {sumet_raw_branch->SetAddress(&sumet_raw_);}
-	}
-	jzb_raw_branch = 0;
-	if (tree->GetBranch("jzb_raw") != 0) {
-		jzb_raw_branch = tree->GetBranch("jzb_raw");
-		if (jzb_raw_branch) {jzb_raw_branch->SetAddress(&jzb_raw_);}
-	}
-	jzb_T1_branch = 0;
-	if (tree->GetBranch("jzb_T1") != 0) {
-		jzb_T1_branch = tree->GetBranch("jzb_T1");
-		if (jzb_T1_branch) {jzb_T1_branch->SetAddress(&jzb_T1_);}
-	}
-	jgb_raw_branch = 0;
-	if (tree->GetBranch("jgb_raw") != 0) {
-		jgb_raw_branch = tree->GetBranch("jgb_raw");
-		if (jgb_raw_branch) {jgb_raw_branch->SetAddress(&jgb_raw_);}
-	}
-	jgb_T1_branch = 0;
-	if (tree->GetBranch("jgb_T1") != 0) {
-		jgb_T1_branch = tree->GetBranch("jgb_T1");
-		if (jgb_T1_branch) {jgb_T1_branch->SetAddress(&jgb_T1_);}
-	}
-	Flag_EcalDeadCellTriggerPrimitiveFilter_branch = 0;
-	if (tree->GetBranch("Flag_EcalDeadCellTriggerPrimitiveFilter") != 0) {
-		Flag_EcalDeadCellTriggerPrimitiveFilter_branch = tree->GetBranch("Flag_EcalDeadCellTriggerPrimitiveFilter");
-		if (Flag_EcalDeadCellTriggerPrimitiveFilter_branch) {Flag_EcalDeadCellTriggerPrimitiveFilter_branch->SetAddress(&Flag_EcalDeadCellTriggerPrimitiveFilter_);}
-	}
-	Flag_trkPOG_manystripclus53X_branch = 0;
-	if (tree->GetBranch("Flag_trkPOG_manystripclus53X") != 0) {
-		Flag_trkPOG_manystripclus53X_branch = tree->GetBranch("Flag_trkPOG_manystripclus53X");
-		if (Flag_trkPOG_manystripclus53X_branch) {Flag_trkPOG_manystripclus53X_branch->SetAddress(&Flag_trkPOG_manystripclus53X_);}
-	}
-	Flag_ecalLaserCorrFilter_branch = 0;
-	if (tree->GetBranch("Flag_ecalLaserCorrFilter") != 0) {
-		Flag_ecalLaserCorrFilter_branch = tree->GetBranch("Flag_ecalLaserCorrFilter");
-		if (Flag_ecalLaserCorrFilter_branch) {Flag_ecalLaserCorrFilter_branch->SetAddress(&Flag_ecalLaserCorrFilter_);}
-	}
-	Flag_trkPOG_toomanystripclus53X_branch = 0;
-	if (tree->GetBranch("Flag_trkPOG_toomanystripclus53X") != 0) {
-		Flag_trkPOG_toomanystripclus53X_branch = tree->GetBranch("Flag_trkPOG_toomanystripclus53X");
-		if (Flag_trkPOG_toomanystripclus53X_branch) {Flag_trkPOG_toomanystripclus53X_branch->SetAddress(&Flag_trkPOG_toomanystripclus53X_);}
-	}
-	Flag_hcalLaserEventFilter_branch = 0;
-	if (tree->GetBranch("Flag_hcalLaserEventFilter") != 0) {
-		Flag_hcalLaserEventFilter_branch = tree->GetBranch("Flag_hcalLaserEventFilter");
-		if (Flag_hcalLaserEventFilter_branch) {Flag_hcalLaserEventFilter_branch->SetAddress(&Flag_hcalLaserEventFilter_);}
-	}
-	Flag_trkPOG_logErrorTooManyClusters_branch = 0;
-	if (tree->GetBranch("Flag_trkPOG_logErrorTooManyClusters") != 0) {
-		Flag_trkPOG_logErrorTooManyClusters_branch = tree->GetBranch("Flag_trkPOG_logErrorTooManyClusters");
-		if (Flag_trkPOG_logErrorTooManyClusters_branch) {Flag_trkPOG_logErrorTooManyClusters_branch->SetAddress(&Flag_trkPOG_logErrorTooManyClusters_);}
-	}
-	Flag_trkPOGFilters_branch = 0;
-	if (tree->GetBranch("Flag_trkPOGFilters") != 0) {
-		Flag_trkPOGFilters_branch = tree->GetBranch("Flag_trkPOGFilters");
-		if (Flag_trkPOGFilters_branch) {Flag_trkPOGFilters_branch->SetAddress(&Flag_trkPOGFilters_);}
-	}
-	Flag_trackingFailureFilter_branch = 0;
-	if (tree->GetBranch("Flag_trackingFailureFilter") != 0) {
-		Flag_trackingFailureFilter_branch = tree->GetBranch("Flag_trackingFailureFilter");
-		if (Flag_trackingFailureFilter_branch) {Flag_trackingFailureFilter_branch->SetAddress(&Flag_trackingFailureFilter_);}
-	}
-	Flag_CSCTightHaloFilter_branch = 0;
-	if (tree->GetBranch("Flag_CSCTightHaloFilter") != 0) {
-		Flag_CSCTightHaloFilter_branch = tree->GetBranch("Flag_CSCTightHaloFilter");
-		if (Flag_CSCTightHaloFilter_branch) {Flag_CSCTightHaloFilter_branch->SetAddress(&Flag_CSCTightHaloFilter_);}
-	}
-	Flag_HBHENoiseFilter_branch = 0;
-	if (tree->GetBranch("Flag_HBHENoiseFilter") != 0) {
-		Flag_HBHENoiseFilter_branch = tree->GetBranch("Flag_HBHENoiseFilter");
-		if (Flag_HBHENoiseFilter_branch) {Flag_HBHENoiseFilter_branch->SetAddress(&Flag_HBHENoiseFilter_);}
-	}
-	Flag_goodVertices_branch = 0;
-	if (tree->GetBranch("Flag_goodVertices") != 0) {
-		Flag_goodVertices_branch = tree->GetBranch("Flag_goodVertices");
-		if (Flag_goodVertices_branch) {Flag_goodVertices_branch->SetAddress(&Flag_goodVertices_);}
-	}
-	Flag_eeBadScFilter_branch = 0;
-	if (tree->GetBranch("Flag_eeBadScFilter") != 0) {
-		Flag_eeBadScFilter_branch = tree->GetBranch("Flag_eeBadScFilter");
-		if (Flag_eeBadScFilter_branch) {Flag_eeBadScFilter_branch->SetAddress(&Flag_eeBadScFilter_);}
-	}
-	Flag_METFilters_branch = 0;
-	if (tree->GetBranch("Flag_METFilters") != 0) {
-		Flag_METFilters_branch = tree->GetBranch("Flag_METFilters");
-		if (Flag_METFilters_branch) {Flag_METFilters_branch->SetAddress(&Flag_METFilters_);}
-	}
-	HLT_HT900_branch = 0;
-	if (tree->GetBranch("HLT_HT900") != 0) {
-		HLT_HT900_branch = tree->GetBranch("HLT_HT900");
-		if (HLT_HT900_branch) {HLT_HT900_branch->SetAddress(&HLT_HT900_);}
-	}
-	HLT_MET170_branch = 0;
-	if (tree->GetBranch("HLT_MET170") != 0) {
-		HLT_MET170_branch = tree->GetBranch("HLT_MET170");
-		if (HLT_MET170_branch) {HLT_MET170_branch->SetAddress(&HLT_MET170_);}
-	}
-	HLT_ht350met120_branch = 0;
-	if (tree->GetBranch("HLT_ht350met120") != 0) {
-		HLT_ht350met120_branch = tree->GetBranch("HLT_ht350met120");
-		if (HLT_ht350met120_branch) {HLT_ht350met120_branch->SetAddress(&HLT_ht350met120_);}
-	}
-	HLT_SingleMu_branch = 0;
-	if (tree->GetBranch("HLT_SingleMu") != 0) {
-		HLT_SingleMu_branch = tree->GetBranch("HLT_SingleMu");
-		if (HLT_SingleMu_branch) {HLT_SingleMu_branch->SetAddress(&HLT_SingleMu_);}
-	}
-	HLT_DoubleEl_branch = 0;
-	if (tree->GetBranch("HLT_DoubleEl") != 0) {
-		HLT_DoubleEl_branch = tree->GetBranch("HLT_DoubleEl");
-		if (HLT_DoubleEl_branch) {HLT_DoubleEl_branch->SetAddress(&HLT_DoubleEl_);}
-	}
-	HLT_DoubleEl_DZ_branch = 0;
-	if (tree->GetBranch("HLT_DoubleEl_DZ") != 0) {
-		HLT_DoubleEl_DZ_branch = tree->GetBranch("HLT_DoubleEl_DZ");
-		if (HLT_DoubleEl_DZ_branch) {HLT_DoubleEl_DZ_branch->SetAddress(&HLT_DoubleEl_DZ_);}
-	}
-	HLT_DoubleEl_noiso_branch = 0;
-	if (tree->GetBranch("HLT_DoubleEl_noiso") != 0) {
-		HLT_DoubleEl_noiso_branch = tree->GetBranch("HLT_DoubleEl_noiso");
-		if (HLT_DoubleEl_noiso_branch) {HLT_DoubleEl_noiso_branch->SetAddress(&HLT_DoubleEl_noiso_);}
-	}
-	HLT_MuEG_branch = 0;
-	if (tree->GetBranch("HLT_MuEG") != 0) {
-		HLT_MuEG_branch = tree->GetBranch("HLT_MuEG");
-		if (HLT_MuEG_branch) {HLT_MuEG_branch->SetAddress(&HLT_MuEG_);}
-	}
-	HLT_MuEG_2_branch = 0;
-	if (tree->GetBranch("HLT_MuEG_2") != 0) {
-		HLT_MuEG_2_branch = tree->GetBranch("HLT_MuEG_2");
-		if (HLT_MuEG_2_branch) {HLT_MuEG_2_branch->SetAddress(&HLT_MuEG_2_);}
-	}
-	HLT_DoubleMu_branch = 0;
-	if (tree->GetBranch("HLT_DoubleMu") != 0) {
-		HLT_DoubleMu_branch = tree->GetBranch("HLT_DoubleMu");
-		if (HLT_DoubleMu_branch) {HLT_DoubleMu_branch->SetAddress(&HLT_DoubleMu_);}
-	}
-	HLT_DoubleMu_tk_branch = 0;
-	if (tree->GetBranch("HLT_DoubleMu_tk") != 0) {
-		HLT_DoubleMu_tk_branch = tree->GetBranch("HLT_DoubleMu_tk");
-		if (HLT_DoubleMu_tk_branch) {HLT_DoubleMu_tk_branch->SetAddress(&HLT_DoubleMu_tk_);}
-	}
-	HLT_l1prescale_branch = 0;
-	if (tree->GetBranch("HLT_l1prescale") != 0) {
-		HLT_l1prescale_branch = tree->GetBranch("HLT_l1prescale");
-		if (HLT_l1prescale_branch) {HLT_l1prescale_branch->SetAddress(&HLT_l1prescale_);}
-	}
-	HLT_Photons_branch = 0;
-	if (tree->GetBranch("HLT_Photons") != 0) {
-		HLT_Photons_branch = tree->GetBranch("HLT_Photons");
-		if (HLT_Photons_branch) {HLT_Photons_branch->SetAddress(&HLT_Photons_);}
-	}
-	HLT_Photon22_branch = 0;
-	if (tree->GetBranch("HLT_Photon22") != 0) {
-		HLT_Photon22_branch = tree->GetBranch("HLT_Photon22");
-		if (HLT_Photon22_branch) {HLT_Photon22_branch->SetAddress(&HLT_Photon22_);}
-	}
-	HLT_Photon30_branch = 0;
-	if (tree->GetBranch("HLT_Photon30") != 0) {
-		HLT_Photon30_branch = tree->GetBranch("HLT_Photon30");
-		if (HLT_Photon30_branch) {HLT_Photon30_branch->SetAddress(&HLT_Photon30_);}
-	}
-	HLT_Photon36_branch = 0;
-	if (tree->GetBranch("HLT_Photon36") != 0) {
-		HLT_Photon36_branch = tree->GetBranch("HLT_Photon36");
-		if (HLT_Photon36_branch) {HLT_Photon36_branch->SetAddress(&HLT_Photon36_);}
-	}
-	HLT_Photon50_branch = 0;
-	if (tree->GetBranch("HLT_Photon50") != 0) {
-		HLT_Photon50_branch = tree->GetBranch("HLT_Photon50");
-		if (HLT_Photon50_branch) {HLT_Photon50_branch->SetAddress(&HLT_Photon50_);}
-	}
-	HLT_Photon75_branch = 0;
-	if (tree->GetBranch("HLT_Photon75") != 0) {
-		HLT_Photon75_branch = tree->GetBranch("HLT_Photon75");
-		if (HLT_Photon75_branch) {HLT_Photon75_branch->SetAddress(&HLT_Photon75_);}
-	}
-	HLT_Photon90_branch = 0;
-	if (tree->GetBranch("HLT_Photon90") != 0) {
-		HLT_Photon90_branch = tree->GetBranch("HLT_Photon90");
-		if (HLT_Photon90_branch) {HLT_Photon90_branch->SetAddress(&HLT_Photon90_);}
-	}
-	HLT_Photon120_branch = 0;
-	if (tree->GetBranch("HLT_Photon120") != 0) {
-		HLT_Photon120_branch = tree->GetBranch("HLT_Photon120");
-		if (HLT_Photon120_branch) {HLT_Photon120_branch->SetAddress(&HLT_Photon120_);}
-	}
-	HLT_Photon175_branch = 0;
-	if (tree->GetBranch("HLT_Photon175") != 0) {
-		HLT_Photon175_branch = tree->GetBranch("HLT_Photon175");
-		if (HLT_Photon175_branch) {HLT_Photon175_branch->SetAddress(&HLT_Photon175_);}
-	}
-	HLT_Photon165_HE10_branch = 0;
-	if (tree->GetBranch("HLT_Photon165_HE10") != 0) {
-		HLT_Photon165_HE10_branch = tree->GetBranch("HLT_Photon165_HE10");
-		if (HLT_Photon165_HE10_branch) {HLT_Photon165_HE10_branch->SetAddress(&HLT_Photon165_HE10_);}
-	}
-	HLT_Photon22_R9Id90_HE10_IsoM_branch = 0;
-	if (tree->GetBranch("HLT_Photon22_R9Id90_HE10_IsoM") != 0) {
-		HLT_Photon22_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon22_R9Id90_HE10_IsoM");
-		if (HLT_Photon22_R9Id90_HE10_IsoM_branch) {HLT_Photon22_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon22_R9Id90_HE10_IsoM_);}
-	}
-	HLT_Photon30_R9Id90_HE10_IsoM_branch = 0;
-	if (tree->GetBranch("HLT_Photon30_R9Id90_HE10_IsoM") != 0) {
-		HLT_Photon30_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon30_R9Id90_HE10_IsoM");
-		if (HLT_Photon30_R9Id90_HE10_IsoM_branch) {HLT_Photon30_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon30_R9Id90_HE10_IsoM_);}
-	}
-	HLT_Photon36_R9Id90_HE10_IsoM_branch = 0;
-	if (tree->GetBranch("HLT_Photon36_R9Id90_HE10_IsoM") != 0) {
-		HLT_Photon36_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon36_R9Id90_HE10_IsoM");
-		if (HLT_Photon36_R9Id90_HE10_IsoM_branch) {HLT_Photon36_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon36_R9Id90_HE10_IsoM_);}
-	}
-	HLT_Photon50_R9Id90_HE10_IsoM_branch = 0;
-	if (tree->GetBranch("HLT_Photon50_R9Id90_HE10_IsoM") != 0) {
-		HLT_Photon50_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon50_R9Id90_HE10_IsoM");
-		if (HLT_Photon50_R9Id90_HE10_IsoM_branch) {HLT_Photon50_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon50_R9Id90_HE10_IsoM_);}
-	}
-	HLT_Photon75_R9Id90_HE10_IsoM_branch = 0;
-	if (tree->GetBranch("HLT_Photon75_R9Id90_HE10_IsoM") != 0) {
-		HLT_Photon75_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon75_R9Id90_HE10_IsoM");
-		if (HLT_Photon75_R9Id90_HE10_IsoM_branch) {HLT_Photon75_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon75_R9Id90_HE10_IsoM_);}
-	}
-	HLT_Photon90_R9Id90_HE10_IsoM_branch = 0;
-	if (tree->GetBranch("HLT_Photon90_R9Id90_HE10_IsoM") != 0) {
-		HLT_Photon90_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon90_R9Id90_HE10_IsoM");
-		if (HLT_Photon90_R9Id90_HE10_IsoM_branch) {HLT_Photon90_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon90_R9Id90_HE10_IsoM_);}
-	}
-	HLT_Photon120_R9Id90_HE10_IsoM_branch = 0;
-	if (tree->GetBranch("HLT_Photon120_R9Id90_HE10_IsoM") != 0) {
-		HLT_Photon120_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon120_R9Id90_HE10_IsoM");
-		if (HLT_Photon120_R9Id90_HE10_IsoM_branch) {HLT_Photon120_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon120_R9Id90_HE10_IsoM_);}
-	}
-	HLT_Photon165_R9Id90_HE10_IsoM_branch = 0;
-	if (tree->GetBranch("HLT_Photon165_R9Id90_HE10_IsoM") != 0) {
-		HLT_Photon165_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon165_R9Id90_HE10_IsoM");
-		if (HLT_Photon165_R9Id90_HE10_IsoM_branch) {HLT_Photon165_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon165_R9Id90_HE10_IsoM_);}
-	}
-	dilmass_branch = 0;
-	if (tree->GetBranch("dilmass") != 0) {
-		dilmass_branch = tree->GetBranch("dilmass");
-		if (dilmass_branch) {dilmass_branch->SetAddress(&dilmass_);}
-	}
-	dilpt_branch = 0;
-	if (tree->GetBranch("dilpt") != 0) {
-		dilpt_branch = tree->GetBranch("dilpt");
-		if (dilpt_branch) {dilpt_branch->SetAddress(&dilpt_);}
-	}
-	dRll_branch = 0;
-	if (tree->GetBranch("dRll") != 0) {
-		dRll_branch = tree->GetBranch("dRll");
-		if (dRll_branch) {dRll_branch->SetAddress(&dRll_);}
-	}
-	matched_neutralemf_branch = 0;
-	if (tree->GetBranch("matched_neutralemf") != 0) {
-		matched_neutralemf_branch = tree->GetBranch("matched_neutralemf");
-		if (matched_neutralemf_branch) {matched_neutralemf_branch->SetAddress(&matched_neutralemf_);}
-	}
-	elveto_branch = 0;
-	if (tree->GetBranch("elveto") != 0) {
-		elveto_branch = tree->GetBranch("elveto");
-		if (elveto_branch) {elveto_branch->SetAddress(&elveto_);}
-	}
-	nlep_branch = 0;
-	if (tree->GetBranch("nlep") != 0) {
-		nlep_branch = tree->GetBranch("nlep");
-		if (nlep_branch) {nlep_branch->SetAddress(&nlep_);}
-	}
-	lep_pt_branch = 0;
-	if (tree->GetBranch("lep_pt") != 0) {
-		lep_pt_branch = tree->GetBranch("lep_pt");
-		if (lep_pt_branch) {lep_pt_branch->SetAddress(&lep_pt_);}
-	}
-	lep_eta_branch = 0;
-	if (tree->GetBranch("lep_eta") != 0) {
-		lep_eta_branch = tree->GetBranch("lep_eta");
-		if (lep_eta_branch) {lep_eta_branch->SetAddress(&lep_eta_);}
-	}
-	lep_phi_branch = 0;
-	if (tree->GetBranch("lep_phi") != 0) {
-		lep_phi_branch = tree->GetBranch("lep_phi");
-		if (lep_phi_branch) {lep_phi_branch->SetAddress(&lep_phi_);}
-	}
-	lep_mass_branch = 0;
-	if (tree->GetBranch("lep_mass") != 0) {
-		lep_mass_branch = tree->GetBranch("lep_mass");
-		if (lep_mass_branch) {lep_mass_branch->SetAddress(&lep_mass_);}
-	}
-	lep_charge_branch = 0;
-	if (tree->GetBranch("lep_charge") != 0) {
-		lep_charge_branch = tree->GetBranch("lep_charge");
-		if (lep_charge_branch) {lep_charge_branch->SetAddress(&lep_charge_);}
-	}
-	lep_pdgId_branch = 0;
-	if (tree->GetBranch("lep_pdgId") != 0) {
-		lep_pdgId_branch = tree->GetBranch("lep_pdgId");
-		if (lep_pdgId_branch) {lep_pdgId_branch->SetAddress(&lep_pdgId_);}
-	}
-	lep_dxy_branch = 0;
-	if (tree->GetBranch("lep_dxy") != 0) {
-		lep_dxy_branch = tree->GetBranch("lep_dxy");
-		if (lep_dxy_branch) {lep_dxy_branch->SetAddress(&lep_dxy_);}
-	}
-	lep_etaSC_branch = 0;
-	if (tree->GetBranch("lep_etaSC") != 0) {
-		lep_etaSC_branch = tree->GetBranch("lep_etaSC");
-		if (lep_etaSC_branch) {lep_etaSC_branch->SetAddress(&lep_etaSC_);}
-	}
-	lep_dz_branch = 0;
-	if (tree->GetBranch("lep_dz") != 0) {
-		lep_dz_branch = tree->GetBranch("lep_dz");
-		if (lep_dz_branch) {lep_dz_branch->SetAddress(&lep_dz_);}
-	}
-	lep_tightId_branch = 0;
-	if (tree->GetBranch("lep_tightId") != 0) {
-		lep_tightId_branch = tree->GetBranch("lep_tightId");
-		if (lep_tightId_branch) {lep_tightId_branch->SetAddress(&lep_tightId_);}
-	}
-	lep_relIso03_branch = 0;
-	if (tree->GetBranch("lep_relIso03") != 0) {
-		lep_relIso03_branch = tree->GetBranch("lep_relIso03");
-		if (lep_relIso03_branch) {lep_relIso03_branch->SetAddress(&lep_relIso03_);}
-	}
-	lep_relIso03MREA_branch = 0;
-	if (tree->GetBranch("lep_relIso03MREA") != 0) {
-		lep_relIso03MREA_branch = tree->GetBranch("lep_relIso03MREA");
-		if (lep_relIso03MREA_branch) {lep_relIso03MREA_branch->SetAddress(&lep_relIso03MREA_);}
-	}
-	lep_relIso03MRDB_branch = 0;
-	if (tree->GetBranch("lep_relIso03MRDB") != 0) {
-		lep_relIso03MRDB_branch = tree->GetBranch("lep_relIso03MRDB");
-		if (lep_relIso03MRDB_branch) {lep_relIso03MRDB_branch->SetAddress(&lep_relIso03MRDB_);}
-	}
-	lep_relIso03MRNC_branch = 0;
-	if (tree->GetBranch("lep_relIso03MRNC") != 0) {
-		lep_relIso03MRNC_branch = tree->GetBranch("lep_relIso03MRNC");
-		if (lep_relIso03MRNC_branch) {lep_relIso03MRNC_branch->SetAddress(&lep_relIso03MRNC_);}
-	}
-	lep_relIso04_branch = 0;
-	if (tree->GetBranch("lep_relIso04") != 0) {
-		lep_relIso04_branch = tree->GetBranch("lep_relIso04");
-		if (lep_relIso04_branch) {lep_relIso04_branch->SetAddress(&lep_relIso04_);}
-	}
-	lep_mcMatchId_branch = 0;
-	if (tree->GetBranch("lep_mcMatchId") != 0) {
-		lep_mcMatchId_branch = tree->GetBranch("lep_mcMatchId");
-		if (lep_mcMatchId_branch) {lep_mcMatchId_branch->SetAddress(&lep_mcMatchId_);}
-	}
-	lep_lostHits_branch = 0;
-	if (tree->GetBranch("lep_lostHits") != 0) {
-		lep_lostHits_branch = tree->GetBranch("lep_lostHits");
-		if (lep_lostHits_branch) {lep_lostHits_branch->SetAddress(&lep_lostHits_);}
-	}
-	lep_convVeto_branch = 0;
-	if (tree->GetBranch("lep_convVeto") != 0) {
-		lep_convVeto_branch = tree->GetBranch("lep_convVeto");
-		if (lep_convVeto_branch) {lep_convVeto_branch->SetAddress(&lep_convVeto_);}
-	}
-	lep_tightCharge_branch = 0;
-	if (tree->GetBranch("lep_tightCharge") != 0) {
-		lep_tightCharge_branch = tree->GetBranch("lep_tightCharge");
-		if (lep_tightCharge_branch) {lep_tightCharge_branch->SetAddress(&lep_tightCharge_);}
-	}
-	lep_islead_branch = 0;
-	if (tree->GetBranch("lep_islead") != 0) {
-		lep_islead_branch = tree->GetBranch("lep_islead");
-		if (lep_islead_branch) {lep_islead_branch->SetAddress(&lep_islead_);}
-	}
-	lep_istail_branch = 0;
-	if (tree->GetBranch("lep_istail") != 0) {
-		lep_istail_branch = tree->GetBranch("lep_istail");
-		if (lep_istail_branch) {lep_istail_branch->SetAddress(&lep_istail_);}
-	}
-	ntau_branch = 0;
-	if (tree->GetBranch("ntau") != 0) {
-		ntau_branch = tree->GetBranch("ntau");
-		if (ntau_branch) {ntau_branch->SetAddress(&ntau_);}
-	}
-	tau_pt_branch = 0;
-	if (tree->GetBranch("tau_pt") != 0) {
-		tau_pt_branch = tree->GetBranch("tau_pt");
-		if (tau_pt_branch) {tau_pt_branch->SetAddress(&tau_pt_);}
-	}
-	tau_eta_branch = 0;
-	if (tree->GetBranch("tau_eta") != 0) {
-		tau_eta_branch = tree->GetBranch("tau_eta");
-		if (tau_eta_branch) {tau_eta_branch->SetAddress(&tau_eta_);}
-	}
-	tau_phi_branch = 0;
-	if (tree->GetBranch("tau_phi") != 0) {
-		tau_phi_branch = tree->GetBranch("tau_phi");
-		if (tau_phi_branch) {tau_phi_branch->SetAddress(&tau_phi_);}
-	}
-	tau_mass_branch = 0;
-	if (tree->GetBranch("tau_mass") != 0) {
-		tau_mass_branch = tree->GetBranch("tau_mass");
-		if (tau_mass_branch) {tau_mass_branch->SetAddress(&tau_mass_);}
-	}
-	tau_charge_branch = 0;
-	if (tree->GetBranch("tau_charge") != 0) {
-		tau_charge_branch = tree->GetBranch("tau_charge");
-		if (tau_charge_branch) {tau_charge_branch->SetAddress(&tau_charge_);}
-	}
-	tau_dxy_branch = 0;
-	if (tree->GetBranch("tau_dxy") != 0) {
-		tau_dxy_branch = tree->GetBranch("tau_dxy");
-		if (tau_dxy_branch) {tau_dxy_branch->SetAddress(&tau_dxy_);}
-	}
-	tau_dz_branch = 0;
-	if (tree->GetBranch("tau_dz") != 0) {
-		tau_dz_branch = tree->GetBranch("tau_dz");
-		if (tau_dz_branch) {tau_dz_branch->SetAddress(&tau_dz_);}
-	}
-	tau_idCI3hit_branch = 0;
-	if (tree->GetBranch("tau_idCI3hit") != 0) {
-		tau_idCI3hit_branch = tree->GetBranch("tau_idCI3hit");
-		if (tau_idCI3hit_branch) {tau_idCI3hit_branch->SetAddress(&tau_idCI3hit_);}
-	}
-	tau_isoCI3hit_branch = 0;
-	if (tree->GetBranch("tau_isoCI3hit") != 0) {
-		tau_isoCI3hit_branch = tree->GetBranch("tau_isoCI3hit");
-		if (tau_isoCI3hit_branch) {tau_isoCI3hit_branch->SetAddress(&tau_isoCI3hit_);}
-	}
-	ngamma_branch = 0;
-	if (tree->GetBranch("ngamma") != 0) {
-		ngamma_branch = tree->GetBranch("ngamma");
-		if (ngamma_branch) {ngamma_branch->SetAddress(&ngamma_);}
-	}
-	gamma_pt_branch = 0;
-	if (tree->GetBranch("gamma_pt") != 0) {
-		gamma_pt_branch = tree->GetBranch("gamma_pt");
-		if (gamma_pt_branch) {gamma_pt_branch->SetAddress(&gamma_pt_);}
-	}
-	gamma_eta_branch = 0;
-	if (tree->GetBranch("gamma_eta") != 0) {
-		gamma_eta_branch = tree->GetBranch("gamma_eta");
-		if (gamma_eta_branch) {gamma_eta_branch->SetAddress(&gamma_eta_);}
-	}
-	gamma_phi_branch = 0;
-	if (tree->GetBranch("gamma_phi") != 0) {
-		gamma_phi_branch = tree->GetBranch("gamma_phi");
-		if (gamma_phi_branch) {gamma_phi_branch->SetAddress(&gamma_phi_);}
-	}
-	gamma_mass_branch = 0;
-	if (tree->GetBranch("gamma_mass") != 0) {
-		gamma_mass_branch = tree->GetBranch("gamma_mass");
-		if (gamma_mass_branch) {gamma_mass_branch->SetAddress(&gamma_mass_);}
-	}
-	gamma_mcMatchId_branch = 0;
-	if (tree->GetBranch("gamma_mcMatchId") != 0) {
-		gamma_mcMatchId_branch = tree->GetBranch("gamma_mcMatchId");
-		if (gamma_mcMatchId_branch) {gamma_mcMatchId_branch->SetAddress(&gamma_mcMatchId_);}
-	}
-	gamma_genIso_branch = 0;
-	if (tree->GetBranch("gamma_genIso") != 0) {
-		gamma_genIso_branch = tree->GetBranch("gamma_genIso");
-		if (gamma_genIso_branch) {gamma_genIso_branch->SetAddress(&gamma_genIso_);}
-	}
-	gamma_chHadIso_branch = 0;
-	if (tree->GetBranch("gamma_chHadIso") != 0) {
-		gamma_chHadIso_branch = tree->GetBranch("gamma_chHadIso");
-		if (gamma_chHadIso_branch) {gamma_chHadIso_branch->SetAddress(&gamma_chHadIso_);}
-	}
-	gamma_neuHadIso_branch = 0;
-	if (tree->GetBranch("gamma_neuHadIso") != 0) {
-		gamma_neuHadIso_branch = tree->GetBranch("gamma_neuHadIso");
-		if (gamma_neuHadIso_branch) {gamma_neuHadIso_branch->SetAddress(&gamma_neuHadIso_);}
-	}
-	gamma_phIso_branch = 0;
-	if (tree->GetBranch("gamma_phIso") != 0) {
-		gamma_phIso_branch = tree->GetBranch("gamma_phIso");
-		if (gamma_phIso_branch) {gamma_phIso_branch->SetAddress(&gamma_phIso_);}
-	}
-	gamma_sigmaIetaIeta_branch = 0;
-	if (tree->GetBranch("gamma_sigmaIetaIeta") != 0) {
-		gamma_sigmaIetaIeta_branch = tree->GetBranch("gamma_sigmaIetaIeta");
-		if (gamma_sigmaIetaIeta_branch) {gamma_sigmaIetaIeta_branch->SetAddress(&gamma_sigmaIetaIeta_);}
-	}
-	gamma_r9_branch = 0;
-	if (tree->GetBranch("gamma_r9") != 0) {
-		gamma_r9_branch = tree->GetBranch("gamma_r9");
-		if (gamma_r9_branch) {gamma_r9_branch->SetAddress(&gamma_r9_);}
-	}
-	gamma_hOverE_branch = 0;
-	if (tree->GetBranch("gamma_hOverE") != 0) {
-		gamma_hOverE_branch = tree->GetBranch("gamma_hOverE");
-		if (gamma_hOverE_branch) {gamma_hOverE_branch->SetAddress(&gamma_hOverE_);}
-	}
-	gamma_idCutBased_branch = 0;
-	if (tree->GetBranch("gamma_idCutBased") != 0) {
-		gamma_idCutBased_branch = tree->GetBranch("gamma_idCutBased");
-		if (gamma_idCutBased_branch) {gamma_idCutBased_branch->SetAddress(&gamma_idCutBased_);}
-	}
-	ngenPart_branch = 0;
-	if (tree->GetBranch("ngenPart") != 0) {
-		ngenPart_branch = tree->GetBranch("ngenPart");
-		if (ngenPart_branch) {ngenPart_branch->SetAddress(&ngenPart_);}
-	}
-	genPart_pt_branch = 0;
-	if (tree->GetBranch("genPart_pt") != 0) {
-		genPart_pt_branch = tree->GetBranch("genPart_pt");
-		if (genPart_pt_branch) {genPart_pt_branch->SetAddress(&genPart_pt_);}
-	}
-	genPart_eta_branch = 0;
-	if (tree->GetBranch("genPart_eta") != 0) {
-		genPart_eta_branch = tree->GetBranch("genPart_eta");
-		if (genPart_eta_branch) {genPart_eta_branch->SetAddress(&genPart_eta_);}
-	}
-	genPart_phi_branch = 0;
-	if (tree->GetBranch("genPart_phi") != 0) {
-		genPart_phi_branch = tree->GetBranch("genPart_phi");
-		if (genPart_phi_branch) {genPart_phi_branch->SetAddress(&genPart_phi_);}
-	}
-	genPart_mass_branch = 0;
-	if (tree->GetBranch("genPart_mass") != 0) {
-		genPart_mass_branch = tree->GetBranch("genPart_mass");
-		if (genPart_mass_branch) {genPart_mass_branch->SetAddress(&genPart_mass_);}
-	}
-	genPart_pdgId_branch = 0;
-	if (tree->GetBranch("genPart_pdgId") != 0) {
-		genPart_pdgId_branch = tree->GetBranch("genPart_pdgId");
-		if (genPart_pdgId_branch) {genPart_pdgId_branch->SetAddress(&genPart_pdgId_);}
-	}
-	genPart_status_branch = 0;
-	if (tree->GetBranch("genPart_status") != 0) {
-		genPart_status_branch = tree->GetBranch("genPart_status");
-		if (genPart_status_branch) {genPart_status_branch->SetAddress(&genPart_status_);}
-	}
-	genPart_charge_branch = 0;
-	if (tree->GetBranch("genPart_charge") != 0) {
-		genPart_charge_branch = tree->GetBranch("genPart_charge");
-		if (genPart_charge_branch) {genPart_charge_branch->SetAddress(&genPart_charge_);}
-	}
-	genPart_motherId_branch = 0;
-	if (tree->GetBranch("genPart_motherId") != 0) {
-		genPart_motherId_branch = tree->GetBranch("genPart_motherId");
-		if (genPart_motherId_branch) {genPart_motherId_branch->SetAddress(&genPart_motherId_);}
-	}
-	genPart_grandmaId_branch = 0;
-	if (tree->GetBranch("genPart_grandmaId") != 0) {
-		genPart_grandmaId_branch = tree->GetBranch("genPart_grandmaId");
-		if (genPart_grandmaId_branch) {genPart_grandmaId_branch->SetAddress(&genPart_grandmaId_);}
-	}
-	genPart_isp6status3_branch = 0;
-	if (tree->GetBranch("genPart_isp6status3") != 0) {
-		genPart_isp6status3_branch = tree->GetBranch("genPart_isp6status3");
-		if (genPart_isp6status3_branch) {genPart_isp6status3_branch->SetAddress(&genPart_isp6status3_);}
-	}
-	gamma_nJet40_branch = 0;
-	if (tree->GetBranch("gamma_nJet40") != 0) {
-		gamma_nJet40_branch = tree->GetBranch("gamma_nJet40");
-		if (gamma_nJet40_branch) {gamma_nJet40_branch->SetAddress(&gamma_nJet40_);}
-	}
-	gamma_nBJet40_branch = 0;
-	if (tree->GetBranch("gamma_nBJet40") != 0) {
-		gamma_nBJet40_branch = tree->GetBranch("gamma_nBJet40");
-		if (gamma_nBJet40_branch) {gamma_nBJet40_branch->SetAddress(&gamma_nBJet40_);}
-	}
-	ngenLep_branch = 0;
-	if (tree->GetBranch("ngenLep") != 0) {
-		ngenLep_branch = tree->GetBranch("ngenLep");
-		if (ngenLep_branch) {ngenLep_branch->SetAddress(&ngenLep_);}
-	}
-	genLep_pt_branch = 0;
-	if (tree->GetBranch("genLep_pt") != 0) {
-		genLep_pt_branch = tree->GetBranch("genLep_pt");
-		if (genLep_pt_branch) {genLep_pt_branch->SetAddress(&genLep_pt_);}
-	}
-	genLep_eta_branch = 0;
-	if (tree->GetBranch("genLep_eta") != 0) {
-		genLep_eta_branch = tree->GetBranch("genLep_eta");
-		if (genLep_eta_branch) {genLep_eta_branch->SetAddress(&genLep_eta_);}
-	}
-	genLep_phi_branch = 0;
-	if (tree->GetBranch("genLep_phi") != 0) {
-		genLep_phi_branch = tree->GetBranch("genLep_phi");
-		if (genLep_phi_branch) {genLep_phi_branch->SetAddress(&genLep_phi_);}
-	}
-	genLep_mass_branch = 0;
-	if (tree->GetBranch("genLep_mass") != 0) {
-		genLep_mass_branch = tree->GetBranch("genLep_mass");
-		if (genLep_mass_branch) {genLep_mass_branch->SetAddress(&genLep_mass_);}
-	}
-	genLep_pdgId_branch = 0;
-	if (tree->GetBranch("genLep_pdgId") != 0) {
-		genLep_pdgId_branch = tree->GetBranch("genLep_pdgId");
-		if (genLep_pdgId_branch) {genLep_pdgId_branch->SetAddress(&genLep_pdgId_);}
-	}
-	genLep_status_branch = 0;
-	if (tree->GetBranch("genLep_status") != 0) {
-		genLep_status_branch = tree->GetBranch("genLep_status");
-		if (genLep_status_branch) {genLep_status_branch->SetAddress(&genLep_status_);}
-	}
-	genLep_charge_branch = 0;
-	if (tree->GetBranch("genLep_charge") != 0) {
-		genLep_charge_branch = tree->GetBranch("genLep_charge");
-		if (genLep_charge_branch) {genLep_charge_branch->SetAddress(&genLep_charge_);}
-	}
-	genLep_sourceId_branch = 0;
-	if (tree->GetBranch("genLep_sourceId") != 0) {
-		genLep_sourceId_branch = tree->GetBranch("genLep_sourceId");
-		if (genLep_sourceId_branch) {genLep_sourceId_branch->SetAddress(&genLep_sourceId_);}
-	}
-	genLep_isp6status3_branch = 0;
-	if (tree->GetBranch("genLep_isp6status3") != 0) {
-		genLep_isp6status3_branch = tree->GetBranch("genLep_isp6status3");
-		if (genLep_isp6status3_branch) {genLep_isp6status3_branch->SetAddress(&genLep_isp6status3_);}
-	}
-	ngenTau_branch = 0;
-	if (tree->GetBranch("ngenTau") != 0) {
-		ngenTau_branch = tree->GetBranch("ngenTau");
-		if (ngenTau_branch) {ngenTau_branch->SetAddress(&ngenTau_);}
-	}
-	genTau_pt_branch = 0;
-	if (tree->GetBranch("genTau_pt") != 0) {
-		genTau_pt_branch = tree->GetBranch("genTau_pt");
-		if (genTau_pt_branch) {genTau_pt_branch->SetAddress(&genTau_pt_);}
-	}
-	genTau_eta_branch = 0;
-	if (tree->GetBranch("genTau_eta") != 0) {
-		genTau_eta_branch = tree->GetBranch("genTau_eta");
-		if (genTau_eta_branch) {genTau_eta_branch->SetAddress(&genTau_eta_);}
-	}
-	genTau_phi_branch = 0;
-	if (tree->GetBranch("genTau_phi") != 0) {
-		genTau_phi_branch = tree->GetBranch("genTau_phi");
-		if (genTau_phi_branch) {genTau_phi_branch->SetAddress(&genTau_phi_);}
-	}
-	genTau_mass_branch = 0;
-	if (tree->GetBranch("genTau_mass") != 0) {
-		genTau_mass_branch = tree->GetBranch("genTau_mass");
-		if (genTau_mass_branch) {genTau_mass_branch->SetAddress(&genTau_mass_);}
-	}
-	genTau_pdgId_branch = 0;
-	if (tree->GetBranch("genTau_pdgId") != 0) {
-		genTau_pdgId_branch = tree->GetBranch("genTau_pdgId");
-		if (genTau_pdgId_branch) {genTau_pdgId_branch->SetAddress(&genTau_pdgId_);}
-	}
-	genTau_status_branch = 0;
-	if (tree->GetBranch("genTau_status") != 0) {
-		genTau_status_branch = tree->GetBranch("genTau_status");
-		if (genTau_status_branch) {genTau_status_branch->SetAddress(&genTau_status_);}
-	}
-	genTau_charge_branch = 0;
-	if (tree->GetBranch("genTau_charge") != 0) {
-		genTau_charge_branch = tree->GetBranch("genTau_charge");
-		if (genTau_charge_branch) {genTau_charge_branch->SetAddress(&genTau_charge_);}
-	}
-	genTau_sourceId_branch = 0;
-	if (tree->GetBranch("genTau_sourceId") != 0) {
-		genTau_sourceId_branch = tree->GetBranch("genTau_sourceId");
-		if (genTau_sourceId_branch) {genTau_sourceId_branch->SetAddress(&genTau_sourceId_);}
-	}
-	ngenLepFromTau_branch = 0;
-	if (tree->GetBranch("ngenLepFromTau") != 0) {
-		ngenLepFromTau_branch = tree->GetBranch("ngenLepFromTau");
-		if (ngenLepFromTau_branch) {ngenLepFromTau_branch->SetAddress(&ngenLepFromTau_);}
-	}
-	genLepFromTau_pt_branch = 0;
-	if (tree->GetBranch("genLepFromTau_pt") != 0) {
-		genLepFromTau_pt_branch = tree->GetBranch("genLepFromTau_pt");
-		if (genLepFromTau_pt_branch) {genLepFromTau_pt_branch->SetAddress(&genLepFromTau_pt_);}
-	}
-	genLepFromTau_eta_branch = 0;
-	if (tree->GetBranch("genLepFromTau_eta") != 0) {
-		genLepFromTau_eta_branch = tree->GetBranch("genLepFromTau_eta");
-		if (genLepFromTau_eta_branch) {genLepFromTau_eta_branch->SetAddress(&genLepFromTau_eta_);}
-	}
-	genLepFromTau_phi_branch = 0;
-	if (tree->GetBranch("genLepFromTau_phi") != 0) {
-		genLepFromTau_phi_branch = tree->GetBranch("genLepFromTau_phi");
-		if (genLepFromTau_phi_branch) {genLepFromTau_phi_branch->SetAddress(&genLepFromTau_phi_);}
-	}
-	genLepFromTau_mass_branch = 0;
-	if (tree->GetBranch("genLepFromTau_mass") != 0) {
-		genLepFromTau_mass_branch = tree->GetBranch("genLepFromTau_mass");
-		if (genLepFromTau_mass_branch) {genLepFromTau_mass_branch->SetAddress(&genLepFromTau_mass_);}
-	}
-	genLepFromTau_pdgId_branch = 0;
-	if (tree->GetBranch("genLepFromTau_pdgId") != 0) {
-		genLepFromTau_pdgId_branch = tree->GetBranch("genLepFromTau_pdgId");
-		if (genLepFromTau_pdgId_branch) {genLepFromTau_pdgId_branch->SetAddress(&genLepFromTau_pdgId_);}
-	}
-	genLepFromTau_status_branch = 0;
-	if (tree->GetBranch("genLepFromTau_status") != 0) {
-		genLepFromTau_status_branch = tree->GetBranch("genLepFromTau_status");
-		if (genLepFromTau_status_branch) {genLepFromTau_status_branch->SetAddress(&genLepFromTau_status_);}
-	}
-	genLepFromTau_charge_branch = 0;
-	if (tree->GetBranch("genLepFromTau_charge") != 0) {
-		genLepFromTau_charge_branch = tree->GetBranch("genLepFromTau_charge");
-		if (genLepFromTau_charge_branch) {genLepFromTau_charge_branch->SetAddress(&genLepFromTau_charge_);}
-	}
-	genLepFromTau_sourceId_branch = 0;
-	if (tree->GetBranch("genLepFromTau_sourceId") != 0) {
-		genLepFromTau_sourceId_branch = tree->GetBranch("genLepFromTau_sourceId");
-		if (genLepFromTau_sourceId_branch) {genLepFromTau_sourceId_branch->SetAddress(&genLepFromTau_sourceId_);}
-	}
-	njet_branch = 0;
-	if (tree->GetBranch("njet") != 0) {
-		njet_branch = tree->GetBranch("njet");
-		if (njet_branch) {njet_branch->SetAddress(&njet_);}
-	}
-	jet_pt_branch = 0;
-	if (tree->GetBranch("jet_pt") != 0) {
-		jet_pt_branch = tree->GetBranch("jet_pt");
-		if (jet_pt_branch) {jet_pt_branch->SetAddress(&jet_pt_);}
-	}
-	jet_eta_branch = 0;
-	if (tree->GetBranch("jet_eta") != 0) {
-		jet_eta_branch = tree->GetBranch("jet_eta");
-		if (jet_eta_branch) {jet_eta_branch->SetAddress(&jet_eta_);}
-	}
-	jet_phi_branch = 0;
-	if (tree->GetBranch("jet_phi") != 0) {
-		jet_phi_branch = tree->GetBranch("jet_phi");
-		if (jet_phi_branch) {jet_phi_branch->SetAddress(&jet_phi_);}
-	}
-	jet_mass_branch = 0;
-	if (tree->GetBranch("jet_mass") != 0) {
-		jet_mass_branch = tree->GetBranch("jet_mass");
-		if (jet_mass_branch) {jet_mass_branch->SetAddress(&jet_mass_);}
-	}
-	jet_btagCSV_branch = 0;
-	if (tree->GetBranch("jet_btagCSV") != 0) {
-		jet_btagCSV_branch = tree->GetBranch("jet_btagCSV");
-		if (jet_btagCSV_branch) {jet_btagCSV_branch->SetAddress(&jet_btagCSV_);}
-	}
-	jet_rawPt_branch = 0;
-	if (tree->GetBranch("jet_rawPt") != 0) {
-		jet_rawPt_branch = tree->GetBranch("jet_rawPt");
-		if (jet_rawPt_branch) {jet_rawPt_branch->SetAddress(&jet_rawPt_);}
-	}
-	jet_mcPt_branch = 0;
-	if (tree->GetBranch("jet_mcPt") != 0) {
-		jet_mcPt_branch = tree->GetBranch("jet_mcPt");
-		if (jet_mcPt_branch) {jet_mcPt_branch->SetAddress(&jet_mcPt_);}
-	}
-	jet_mcFlavour_branch = 0;
-	if (tree->GetBranch("jet_mcFlavour") != 0) {
-		jet_mcFlavour_branch = tree->GetBranch("jet_mcFlavour");
-		if (jet_mcFlavour_branch) {jet_mcFlavour_branch->SetAddress(&jet_mcFlavour_);}
-	}
-	jet_quarkGluonID_branch = 0;
-	if (tree->GetBranch("jet_quarkGluonID") != 0) {
-		jet_quarkGluonID_branch = tree->GetBranch("jet_quarkGluonID");
-		if (jet_quarkGluonID_branch) {jet_quarkGluonID_branch->SetAddress(&jet_quarkGluonID_);}
-	}
-	jet_area_branch = 0;
-	if (tree->GetBranch("jet_area") != 0) {
-		jet_area_branch = tree->GetBranch("jet_area");
-		if (jet_area_branch) {jet_area_branch->SetAddress(&jet_area_);}
-	}
-	jet_id_branch = 0;
-	if (tree->GetBranch("jet_id") != 0) {
-		jet_id_branch = tree->GetBranch("jet_id");
-		if (jet_id_branch) {jet_id_branch->SetAddress(&jet_id_);}
-	}
-	jet_puId_branch = 0;
-	if (tree->GetBranch("jet_puId") != 0) {
-		jet_puId_branch = tree->GetBranch("jet_puId");
-		if (jet_puId_branch) {jet_puId_branch->SetAddress(&jet_puId_);}
-	}
-	met_T1CHS_pt_branch = 0;
-	if (tree->GetBranch("met_T1CHS_pt") != 0) {
-		met_T1CHS_pt_branch = tree->GetBranch("met_T1CHS_pt");
-		if (met_T1CHS_pt_branch) {met_T1CHS_pt_branch->SetAddress(&met_T1CHS_pt_);}
-	}
-	met_T1CHS_phi_branch = 0;
-	if (tree->GetBranch("met_T1CHS_phi") != 0) {
-		met_T1CHS_phi_branch = tree->GetBranch("met_T1CHS_phi");
-		if (met_T1CHS_phi_branch) {met_T1CHS_phi_branch->SetAddress(&met_T1CHS_phi_);}
-	}
-	hyp_type_branch = 0;
-	if (tree->GetBranch("hyp_type") != 0) {
-		hyp_type_branch = tree->GetBranch("hyp_type");
-		if (hyp_type_branch) {hyp_type_branch->SetAddress(&hyp_type_);}
-	}
-	evt_type_branch = 0;
-	if (tree->GetBranch("evt_type") != 0) {
-		evt_type_branch = tree->GetBranch("evt_type");
-		if (evt_type_branch) {evt_type_branch->SetAddress(&evt_type_);}
-	}
-  tree->SetMakeClass(0);
-}
-void GetEntry(unsigned int idx) 
-	// this only marks branches as not loaded, saving a lot of time
-	{
-		index = idx;
-		run_isLoaded = false;
-		lumi_isLoaded = false;
-		evt_isLoaded = false;
-		isData_isLoaded = false;
-		evt_passgoodrunlist_isLoaded = false;
-		evt_scale1fb_isLoaded = false;
-		evt_xsec_isLoaded = false;
-		evt_kfactor_isLoaded = false;
-		evt_filter_isLoaded = false;
-		evt_nEvts_isLoaded = false;
-		puWeight_isLoaded = false;
-		nVert_isLoaded = false;
-		nTrueInt_isLoaded = false;
-		rho_isLoaded = false;
-		rho25_isLoaded = false;
-		njets_isLoaded = false;
-		ht_isLoaded = false;
-		gen_ht_isLoaded = false;
-		njets_eta30_isLoaded = false;
-		ht_eta30_isLoaded = false;
-		mt2_isLoaded = false;
-		mt2j_isLoaded = false;
-		mt2j_eta30_isLoaded = false;
-		nJet40_isLoaded = false;
-		nBJet40_isLoaded = false;
-		nBJetTight_isLoaded = false;
-		nBJetMedium_isLoaded = false;
-		nBJetLoose_isLoaded = false;
-		nMuons10_isLoaded = false;
-		nElectrons10_isLoaded = false;
-		nTaus20_isLoaded = false;
-		nGammas20_isLoaded = false;
-		met_pt_isLoaded = false;
-		met_phi_isLoaded = false;
-		met_rawPt_isLoaded = false;
-		met_rawPhi_isLoaded = false;
-		met_caloPt_isLoaded = false;
-		met_caloPhi_isLoaded = false;
-		met_genPt_isLoaded = false;
-		met_genPhi_isLoaded = false;
-		sumet_raw_isLoaded = false;
-		jzb_raw_isLoaded = false;
-		jzb_T1_isLoaded = false;
-		jgb_raw_isLoaded = false;
-		jgb_T1_isLoaded = false;
-		Flag_EcalDeadCellTriggerPrimitiveFilter_isLoaded = false;
-		Flag_trkPOG_manystripclus53X_isLoaded = false;
-		Flag_ecalLaserCorrFilter_isLoaded = false;
-		Flag_trkPOG_toomanystripclus53X_isLoaded = false;
-		Flag_hcalLaserEventFilter_isLoaded = false;
-		Flag_trkPOG_logErrorTooManyClusters_isLoaded = false;
-		Flag_trkPOGFilters_isLoaded = false;
-		Flag_trackingFailureFilter_isLoaded = false;
-		Flag_CSCTightHaloFilter_isLoaded = false;
-		Flag_HBHENoiseFilter_isLoaded = false;
-		Flag_goodVertices_isLoaded = false;
-		Flag_eeBadScFilter_isLoaded = false;
-		Flag_METFilters_isLoaded = false;
-		HLT_HT900_isLoaded = false;
-		HLT_MET170_isLoaded = false;
-		HLT_ht350met120_isLoaded = false;
-		HLT_SingleMu_isLoaded = false;
-		HLT_DoubleEl_isLoaded = false;
-		HLT_DoubleEl_DZ_isLoaded = false;
-		HLT_DoubleEl_noiso_isLoaded = false;
-		HLT_MuEG_isLoaded = false;
-		HLT_MuEG_2_isLoaded = false;
-		HLT_DoubleMu_isLoaded = false;
-		HLT_DoubleMu_tk_isLoaded = false;
-		HLT_l1prescale_isLoaded = false;
-		HLT_Photons_isLoaded = false;
-		HLT_Photon22_isLoaded = false;
-		HLT_Photon30_isLoaded = false;
-		HLT_Photon36_isLoaded = false;
-		HLT_Photon50_isLoaded = false;
-		HLT_Photon75_isLoaded = false;
-		HLT_Photon90_isLoaded = false;
-		HLT_Photon120_isLoaded = false;
-		HLT_Photon175_isLoaded = false;
-		HLT_Photon165_HE10_isLoaded = false;
-		HLT_Photon22_R9Id90_HE10_IsoM_isLoaded = false;
-		HLT_Photon30_R9Id90_HE10_IsoM_isLoaded = false;
-		HLT_Photon36_R9Id90_HE10_IsoM_isLoaded = false;
-		HLT_Photon50_R9Id90_HE10_IsoM_isLoaded = false;
-		HLT_Photon75_R9Id90_HE10_IsoM_isLoaded = false;
-		HLT_Photon90_R9Id90_HE10_IsoM_isLoaded = false;
-		HLT_Photon120_R9Id90_HE10_IsoM_isLoaded = false;
-		HLT_Photon165_R9Id90_HE10_IsoM_isLoaded = false;
-		dilmass_isLoaded = false;
-		dilpt_isLoaded = false;
-		dRll_isLoaded = false;
-		matched_neutralemf_isLoaded = false;
-		elveto_isLoaded = false;
-		nlep_isLoaded = false;
-		lep_p4_isLoaded = false;
-		lep_pt_isLoaded = false;
-		lep_eta_isLoaded = false;
-		lep_phi_isLoaded = false;
-		lep_mass_isLoaded = false;
-		lep_charge_isLoaded = false;
-		lep_pdgId_isLoaded = false;
-		lep_dxy_isLoaded = false;
-		lep_etaSC_isLoaded = false;
-		lep_dz_isLoaded = false;
-		lep_tightId_isLoaded = false;
-		lep_relIso03_isLoaded = false;
-		lep_relIso03MREA_isLoaded = false;
-		lep_relIso03MRDB_isLoaded = false;
-		lep_relIso03MRNC_isLoaded = false;
-		lep_relIso04_isLoaded = false;
-		lep_mcMatchId_isLoaded = false;
-		lep_lostHits_isLoaded = false;
-		lep_convVeto_isLoaded = false;
-		lep_tightCharge_isLoaded = false;
-		lep_islead_isLoaded = false;
-		lep_istail_isLoaded = false;
-		ntau_isLoaded = false;
-		tau_pt_isLoaded = false;
-		tau_eta_isLoaded = false;
-		tau_phi_isLoaded = false;
-		tau_mass_isLoaded = false;
-		tau_charge_isLoaded = false;
-		tau_dxy_isLoaded = false;
-		tau_dz_isLoaded = false;
-		tau_idCI3hit_isLoaded = false;
-		tau_isoCI3hit_isLoaded = false;
-		ngamma_isLoaded = false;
-		gamma_p4_isLoaded = false;
-		gamma_pt_isLoaded = false;
-		gamma_eta_isLoaded = false;
-		gamma_phi_isLoaded = false;
-		gamma_mass_isLoaded = false;
-		gamma_mcMatchId_isLoaded = false;
-		gamma_genIso_isLoaded = false;
-		gamma_chHadIso_isLoaded = false;
-		gamma_neuHadIso_isLoaded = false;
-		gamma_phIso_isLoaded = false;
-		gamma_sigmaIetaIeta_isLoaded = false;
-		gamma_r9_isLoaded = false;
-		gamma_hOverE_isLoaded = false;
-		gamma_idCutBased_isLoaded = false;
-		ngenPart_isLoaded = false;
-		genPart_p4_isLoaded = false;
-		genPart_pt_isLoaded = false;
-		genPart_eta_isLoaded = false;
-		genPart_phi_isLoaded = false;
-		genPart_mass_isLoaded = false;
-		genPart_pdgId_isLoaded = false;
-		genPart_status_isLoaded = false;
-		genPart_charge_isLoaded = false;
-		genPart_motherId_isLoaded = false;
-		genPart_grandmaId_isLoaded = false;
-		genPart_isp6status3_isLoaded = false;
-		gamma_nJet40_isLoaded = false;
-		gamma_nBJet40_isLoaded = false;
-		ngenLep_isLoaded = false;
-		genLep_pt_isLoaded = false;
-		genLep_eta_isLoaded = false;
-		genLep_phi_isLoaded = false;
-		genLep_mass_isLoaded = false;
-		genLep_pdgId_isLoaded = false;
-		genLep_status_isLoaded = false;
-		genLep_charge_isLoaded = false;
-		genLep_sourceId_isLoaded = false;
-		genLep_isp6status3_isLoaded = false;
-		ngenTau_isLoaded = false;
-		genTau_pt_isLoaded = false;
-		genTau_eta_isLoaded = false;
-		genTau_phi_isLoaded = false;
-		genTau_mass_isLoaded = false;
-		genTau_pdgId_isLoaded = false;
-		genTau_status_isLoaded = false;
-		genTau_charge_isLoaded = false;
-		genTau_sourceId_isLoaded = false;
-		ngenLepFromTau_isLoaded = false;
-		genLepFromTau_pt_isLoaded = false;
-		genLepFromTau_eta_isLoaded = false;
-		genLepFromTau_phi_isLoaded = false;
-		genLepFromTau_mass_isLoaded = false;
-		genLepFromTau_pdgId_isLoaded = false;
-		genLepFromTau_status_isLoaded = false;
-		genLepFromTau_charge_isLoaded = false;
-		genLepFromTau_sourceId_isLoaded = false;
-		njet_isLoaded = false;
-		jet_p4_isLoaded = false;
-		jets_p4_isLoaded = false;
-		jets_eta30_p4_isLoaded = false;
-		jet_pt_isLoaded = false;
-		jet_eta_isLoaded = false;
-		jet_phi_isLoaded = false;
-		jet_mass_isLoaded = false;
-		jet_btagCSV_isLoaded = false;
-		jet_rawPt_isLoaded = false;
-		jet_mcPt_isLoaded = false;
-		jet_mcFlavour_isLoaded = false;
-		jet_quarkGluonID_isLoaded = false;
-		jet_area_isLoaded = false;
-		jet_id_isLoaded = false;
-		jet_puId_isLoaded = false;
-		met_T1CHS_pt_isLoaded = false;
-		met_T1CHS_phi_isLoaded = false;
-		hyp_type_isLoaded = false;
-		evt_type_isLoaded = false;
-	}
+void Init(TTree *tree);
+void GetEntry(unsigned int idx); 
+void LoadAllBranches(); 
+	const unsigned int &run();
+	const unsigned int &ls();
+	const unsigned int &evt();
+	const int &nvtxs();
+	const int &firstGoodVtxIdx();
+	const int &firstVtx_isfake();
+	const float &firstVtx_ndof();
+	const float &firstVtx_posRho();
+	const float &firstVtx_posZ();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &firstVtx_posp4();
+	const int &pu_nvtxs();
+	const float &pfmet();
+	const float &pfmet_phi();
+	const float &calomet();
+	const float &calomet_phi();
+	const float &filt_cscbeamhalo();
+	const float &filt_ecallaser();
+	const float &filt_ecaltp();
+	const float &filt_eebadsc();
+	const float &filt_goodvtx();
+	const float &filt_hbhenoise();
+	const float &filt_hbhenoise_25ns();
+	const float &filt_hbhenoise_50ns();
+	const float &filt_hcallaser();
+	const float &filt_met();
+	const float &filt_trkfail();
+	const float &filt_trkPOG();
+	const float &filt_trkPOG_tmc();
+	const float &filt_trkPOG_tms();
+	const float &filt_eff();
+	const float &scale1fb();
+	const float &xsec();
+	const float &kfactor();
+	const float &pu_ntrue();
+	const int &ngoodleps();
+	const int &nlooseleps();
+	const int &nvetoleps();
+	const bool &	is_data();
+	const string &dataset();
+	const string &filename();
+	const string &cms3tag();
+	const unsigned int &nEvents();
+	const unsigned int &nEvents_goodvtx();
+	const unsigned int &nEvents_MET30();
+	const unsigned int &nEvents_1goodlep();
+	const unsigned int &nEvents_2goodjets();
+	const int &genlepsfromtop();
+	const float &MT2W();
+	const float &MT2W_lep2();
+	const float &mindphi_met_j1_j2();
+	const float &mt_met_lep();
+	const float &mt_met_lep2();
+	const float &dR_lep_leadb();
+	const float &dR_lep2_leadb();
+	const float &hadronic_top_chi2();
+	const float &dphi_Wlep();
+	const float &MET_over_sqrtHT();
+	const float &ak4pfjets_rho();
+	const vector<string> &genweightsID();
+	const vector<float> &genweights();
+	const vector<string> &sparms_names();
+	const float &sparms_filterEfficiency();
+	const float &sparms_pdfScale();
+	const float &sparms_pdfWeight1();
+	const float &sparms_pdfWeight2();
+	const float &sparms_weight();
+	const float &sparms_xsec();
+	const vector<float> &sparms_values();
+	const int &sparms_subProcessId();
+	const float &mass_lsp();
+	const float &mass_chargino();
+	const float &mass_stop();
+	const float &genmet();
+	const float &genmet_phi();
+	const bool &	PassTrackVeto();
+	const bool &	PassTrackVeto_v2();
+	const bool &	PassTrackVeto_v3();
+	const bool &	PassTauVeto();
+	const float &EA_all_rho();
+	const float &EA_allcalo_rho();
+	const float &EA_centralcalo_rho();
+	const float &EA_centralchargedpileup_rho();
+	const float &EA_centralneutral_rho();
+	const float &topness();
+	const float &topness_lep2();
+	const float &topnessMod();
+	const float &topnessMod_lep2();
+	const float &MT2_lb_b();
+	const float &MT2_lb_b_lep2();
+	const float &MT2_lb_b_mass();
+	const float &MT2_lb_b_mass_lep2();
+	const float &MT2_lb_bqq();
+	const float &MT2_lb_bqq_lep2();
+	const float &MT2_lb_bqq_mass();
+	const float &MT2_lb_bqq_mass_lep2();
+	const float &Mlb_closestb();
+	const float &Mlb_lead_bdiscr();
+	const float &Mlb_closestb_lep2();
+	const float &Mlb_lead_bdiscr_lep2();
+	const float &Mjjj();
+	const float &Mjjj_lep2();
+	const int &HLT_SingleEl();
+	const int &HLT_SingleMu();
+	const int &HLT_MET170();
+	const int &HLT_MET120Btag();
+	const int &HLT_MET120Mu5();
+	const int &HLT_HT350MET120();
+	const int &HLT_DiEl();
+	const int &HLT_DiMu();
+	const int &HLT_Mu8El17();
+	const int &HLT_Mu8El23();
+	const int &HLT_Mu17El12();
+	const int &HLT_Mu23El12();
+	const int &HLT_SingleEl27();
+	const int &HLT_SingleEl27Tight();
+	const int &HLT_SingleElTight();
+	const int &HLT_SingleElHT200();
+	const int &HLT_SingleMuNoEta();
+	const int &HLT_SingleMuNoIso();
+	const int &HLT_SingleMuNoIsoNoEta();
+	const int &HLT_Mu6HT200MET100();
+	const int &HLT_HT350MET100();
+	const int &HLT_SingleMu17();
+	const int &HLT_SingleMu20();
+	const int &HLT_SingleMu24();
+	const int &HLT_MonoCentPFJet80_METNoMu90_MHTNoMu90_IDTight();
+	const int &HLT_MET90_MHT90_IDTight();
+	const int &HLT_METNoMu90_NoiseCleaned_MHTNoMu90_IDTight();
+	const int &HLT_Photon90_CaloIdL_PFHT500();
+	const int &HLT_Photon165_R9Id90_HE10_IsoM();
+	const int &HLT_Photon175();
+	const int &HLT_Photon165_HE10();
+	const float &pu_weight();
+	const float &lep_sf();
+	const float &btag_sf();
+	const float &HLT_SingleEl_eff();
+	const float &HLT_SingleMu_eff();
+	const int &nPhotons();
+	const int &ph_selectedidx();
+	const int &ph_ngoodjets();
+	const int &ph_ngoodbtags();
+	const float &ph_met();
+	const float &ph_met_phi();
+	const float &ph_HT();
+	const float &ph_htssm();
+	const float &ph_htosm();
+	const float &ph_htratiom();
+	const float &ph_mt_met_lep();
+	const float &ph_dphi_Wlep();
+	const float &ph_MT2W();
+	const float &ph_topness();
+	const float &ph_topnessMod();
+	const float &ph_MT2_lb_b_mass();
+	const float &ph_MT2_lb_b();
+	const float &ph_MT2_lb_bqq_mass();
+	const float &ph_MT2_lb_bqq();
+	const float &ph_hadronic_top_chi2();
+	const float &ph_mindphi_met_j1_j2();
+	const float &ph_Mlb_lead_bdiscr();
+	const float &ph_dR_lep_leadb();
+	const float &ph_Mlb_closestb();
+	const float &ph_Mjjj();
+	const int &Zll_idl1();
+	const int &Zll_idl2();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &Zll_p4l1();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &Zll_p4l2();
+	const bool &	Zll_OS();
+	const bool &	Zll_SF();
+	const bool &	Zll_isZmass();
+	const float &Zll_M();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &Zll_p4();
+	const int &Zll_selLep();
+	const float &Zll_met();
+	const float &Zll_met_phi();
+	const float &Zll_mindphi_met_j1_j2();
+	const float &Zll_mt_met_lep();
+	const float &Zll_dphi_Wlep();
+	const float &Zll_MT2W();
+	const float &Zll_topness();
+	const float &Zll_topnessMod();
+	const float &Zll_MT2_lb_b_mass();
+	const float &Zll_MT2_lb_b();
+	const float &Zll_MT2_lb_bqq_mass();
+	const float &Zll_MT2_lb_bqq();
+	const bool &	lep1_is_mu();
+	const bool &	lep1_is_el();
+	const int &lep1_charge();
+	const int &lep1_pdgid();
+	const int &lep1_type();
+	const int &lep1_production_type();
+	const float &lep1_d0();
+	const float &lep1_d0err();
+	const float &lep1_dz();
+	const float &lep1_dzerr();
+	const float &lep1_sigmaIEtaEta_fill5x5();
+	const float &lep1_dEtaIn();
+	const float &lep1_dPhiIn();
+	const float &lep1_hOverE();
+	const float &lep1_ooEmooP();
+	const int &lep1_expectedMissingInnerHits();
+	const bool &	lep1_conversionVeto();
+	const float &lep1_etaSC();
+	const float &lep1_ChiSqr();
+	const float &lep1_chiso();
+	const float &lep1_nhiso();
+	const float &lep1_emiso();
+	const float &lep1_deltaBeta();
+	const float &lep1_relIso03DB();
+	const float &lep1_relIso03EA();
+	const float &lep1_relIso04DB();
+	const float &lep1_miniRelIsoDB();
+	const float &lep1_miniRelIsoEA();
+	const float &lep1_MiniIso();
+	const int &lep1_mcid();
+	const int &lep1_mcstatus();
+	const int &lep1_mc3dr();
+	const int &lep1_mc3id();
+	const int &lep1_mc3idx();
+	const int &lep1_mc3motherid();
+	const int &lep1_mc3motheridx();
+	const bool &	lep1_is_eleid_loose();
+	const bool &	lep1_is_eleid_medium();
+	const bool &	lep1_is_eleid_tight();
+	const bool &	lep1_is_phys14_loose_noIso();
+	const bool &	lep1_is_phys14_medium_noIso();
+	const bool &	lep1_is_phys14_tight_noIso();
+	const float &lep1_eoverpin();
+	const bool &	lep1_is_muoid_loose();
+	const bool &	lep1_is_muoid_medium();
+	const bool &	lep1_is_muoid_tight();
+	const float &lep1_ip3d();
+	const float &lep1_ip3derr();
+	const bool &	lep1_is_pfmu();
+	const bool &	lep1_passMediumID();
+	const bool &	lep1_passVeto();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &lep1_p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &lep1_mcp4();
+	const float &lep1_pt();
+	const float &lep1_eta();
+	const float &lep1_phi();
+	const float &lep1_mass();
+	const bool &	lep2_is_mu();
+	const bool &	lep2_is_el();
+	const int &lep2_charge();
+	const int &lep2_pdgid();
+	const int &lep2_type();
+	const int &lep2_production_type();
+	const float &lep2_d0();
+	const float &lep2_d0err();
+	const float &lep2_dz();
+	const float &lep2_dzerr();
+	const float &lep2_sigmaIEtaEta_fill5x5();
+	const float &lep2_dEtaIn();
+	const float &lep2_dPhiIn();
+	const float &lep2_hOverE();
+	const float &lep2_ooEmooP();
+	const int &lep2_expectedMissingInnerHits();
+	const bool &	lep2_conversionVeto();
+	const float &lep2_etaSC();
+	const float &lep2_ChiSqr();
+	const float &lep2_chiso();
+	const float &lep2_nhiso();
+	const float &lep2_emiso();
+	const float &lep2_deltaBeta();
+	const float &lep2_relIso03DB();
+	const float &lep2_relIso03EA();
+	const float &lep2_relIso04DB();
+	const float &lep2_miniRelIsoDB();
+	const float &lep2_miniRelIsoEA();
+	const float &lep2_MiniIso();
+	const int &lep2_mcid();
+	const int &lep2_mcstatus();
+	const int &lep2_mc3dr();
+	const int &lep2_mc3id();
+	const int &lep2_mc3idx();
+	const int &lep2_mc3motherid();
+	const int &lep2_mc3motheridx();
+	const bool &	lep2_is_eleid_loose();
+	const bool &	lep2_is_eleid_medium();
+	const bool &	lep2_is_eleid_tight();
+	const bool &	lep2_is_phys14_loose_noIso();
+	const bool &	lep2_is_phys14_medium_noIso();
+	const bool &	lep2_is_phys14_tight_noIso();
+	const float &lep2_eoverpin();
+	const bool &	lep2_is_muoid_loose();
+	const bool &	lep2_is_muoid_medium();
+	const bool &	lep2_is_muoid_tight();
+	const float &lep2_ip3d();
+	const float &lep2_ip3derr();
+	const bool &	lep2_is_pfmu();
+	const bool &	lep2_passMediumID();
+	const bool &	lep2_passVeto();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &lep2_p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &lep2_mcp4();
+	const float &lep2_pt();
+	const float &lep2_eta();
+	const float &lep2_phi();
+	const float &lep2_mass();
+	const vector<float> &ph_sigmaIEtaEta_fill5x5();
+	const vector<float> &ph_hOverE();
+	const vector<float> &ph_r9();
+	const vector<float> &ph_chiso();
+	const vector<float> &ph_nhiso();
+	const vector<float> &ph_phiso();
+	const vector<bool> &ph_idCutBased();
+	const vector<int> &ph_overlapJetId();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ph_p4();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ph_mcp4();
+	const vector<float> &ph_pt();
+	const vector<float> &ph_eta();
+	const vector<float> &ph_phi();
+	const vector<float> &ph_mass();
+	const vector<int> &ph_mcMatchId();
+	const vector<float> &ph_genIso04();
+	const vector<float> &ph_drMinParton();
+	const int &nGoodGenJets();
+	const int &ngoodjets();
+	const int &nfailjets();
+	const int &ak8GoodPFJets();
+	const int &ngoodbtags();
+	const float &ak4_HT();
+	const float &ak4_htssm();
+	const float &ak4_htosm();
+	const float &ak4_htratiom();
+	const vector<float> &dphi_ak4pfjet_met();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak4pfjets_p4();
+	const vector<float> &ak4pfjets_pt();
+	const vector<float> &ak4pfjets_eta();
+	const vector<float> &ak4pfjets_phi();
+	const vector<float> &ak4pfjets_mass();
+	const vector<bool> &ak4pfjets_passMEDbtag();
+	const vector<float> &ak4pfjets_qg_disc();
+	const vector<float> &ak4pfjets_CSV();
+	const vector<float> &ak4pfjets_puid();
+	const vector<int> &ak4pfjets_parton_flavor();
+	const vector<bool> &ak4pfjets_loose_puid();
+	const vector<bool> &ak4pfjets_loose_pfid();
+	const vector<bool> &ak4pfjets_medium_pfid();
+	const vector<bool> &ak4pfjets_tight_pfid();
+	const vector<float> &ak4pfjets_MEDbjet_pt();
+	const float &ak4pfjets_leadMEDbjet_pt();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ak4pfjets_leadMEDbjet_p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ak4pfjets_leadbtag_p4();
+	const vector<float> &ak4pfjets_chf();
+	const vector<float> &ak4pfjets_nhf();
+	const vector<float> &ak4pfjets_cef();
+	const vector<float> &ak4pfjets_nef();
+	const vector<float> &ak4pfjets_muf();
+	const vector<int> &ak4pfjets_cm();
+	const vector<int> &ak4pfjets_nm();
+	const vector<int> &ak4pfjets_mc3dr();
+	const vector<int> &ak4pfjets_mc3id();
+	const vector<int> &ak4pfjets_mc3idx();
+	const vector<int> &ak4pfjets_mcmotherid();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ak4pfjet_overlep1_p4();
+	const float &ak4pfjet_overlep1_CSV();
+	const float &ak4pfjet_overlep1_pu_id();
+	const float &ak4pfjet_overlep1_chf();
+	const float &ak4pfjet_overlep1_nhf();
+	const float &ak4pfjet_overlep1_cef();
+	const float &ak4pfjet_overlep1_nef();
+	const float &ak4pfjet_overlep1_muf();
+	const int &ak4pfjet_overlep1_cm();
+	const int &ak4pfjet_overlep1_nm();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ak4pfjet_overlep2_p4();
+	const float &ak4pfjet_overlep2_CSV();
+	const float &ak4pfjet_overlep2_pu_id();
+	const float &ak4pfjet_overlep2_chf();
+	const float &ak4pfjet_overlep2_nhf();
+	const float &ak4pfjet_overlep2_cef();
+	const float &ak4pfjet_overlep2_nef();
+	const float &ak4pfjet_overlep2_muf();
+	const int &ak4pfjet_overlep2_cm();
+	const int &ak4pfjet_overlep2_nm();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak8pfjets_p4();
+	const vector<float> &ak8pfjets_tau1();
+	const vector<float> &ak8pfjets_tau2();
+	const vector<float> &ak8pfjets_tau3();
+	const vector<float> &ak8pfjets_top_mass();
+	const vector<float> &ak8pfjets_pruned_mass();
+	const vector<float> &ak8pfjets_trimmed_mass();
+	const vector<float> &ak8pfjets_filtered_mass();
+	const vector<float> &ak8pfjets_pu_id();
+	const vector<int> &ak8pfjets_parton_flavor();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak4genjets_p4();
+	const vector<TString> &tau_IDnames();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &tau_leadtrack_p4();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &tau_leadneutral_p4();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &tau_p4();
+	const vector<vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > > &tau_isocand_p4();
+	const vector<vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > > &tau_sigcand_p4();
+	const vector<float> &tau_mass();
+	const vector<vector<float> > &tau_ID();
+	const vector<float> &tau_passID();
+	const vector<float> &tau_charge();
+	const int &ngoodtaus();
+	const vector<float> &tau_againstMuonTight();
+	const vector<float> &tau_againstElectronLoose();
+	const vector<bool> &tau_isVetoTau();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &isoTracks_p4();
+	const vector<int> &isoTracks_charge();
+	const vector<float> &isoTracks_absIso();
+	const vector<float> &isoTracks_dz();
+	const vector<int> &isoTracks_pdgId();
+	const vector<int> &isoTracks_selectedidx();
+	const int &isoTracks_nselected();
+	const vector<bool> &isoTracks_isVetoTrack();
+	const vector<bool> &isoTracks_isVetoTrack_v2();
+	const vector<bool> &isoTracks_isVetoTrack_v3();
+	const vector<bool> &genels_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_p4();
+	const vector<float> &genels_charge();
+	const vector<float> &genels_iso();
+	const vector<float> &genels_mass();
+	const vector<int> &genels_id();
+	const vector<int> &genels__genpsidx();
+	const vector<int> &genels_status();
+	const vector<bool> &genels_fromHardProcessBeforeFSR();
+	const vector<bool> &genels_fromHardProcessDecayed();
+	const vector<bool> &genels_fromHardProcessFinalState();
+	const vector<bool> &genels_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genels_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genels_isHardProcess();
+	const vector<bool> &genels_isLastCopy();
+	const vector<bool> &genels_isLastCopyBeforeFSR();
+	const vector<bool> &genels_isMostlyLikePythia6Status3();
+	const vector<bool> &genels_isPromptDecayed();
+	const vector<bool> &genels_isPromptFinalState();
+	const vector<vector<int> > &genels_lepdaughter_id();
+	const vector<int> &genels_gentaudecay();
+	const int &gen_nfromtels_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_motherp4();
+	const vector<float> &genels_mothercharge();
+	const vector<int> &genels_motherid();
+	const vector<int> &genels_motheridx();
+	const vector<int> &genels_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_gmotherp4();
+	const vector<int> &genels_gmothercharge();
+	const vector<int> &genels_gmotherid();
+	const vector<int> &genels_gmotheridx();
+	const vector<int> &genels_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_simplemotherp4();
+	const vector<int> &genels_simplemothercharge();
+	const vector<int> &genels_simplemotherid();
+	const vector<int> &genels_simplemotheridx();
+	const vector<int> &genels_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_simplegmotherp4();
+	const vector<int> &genels_simplegmothercharge();
+	const vector<int> &genels_simplegmotherid();
+	const vector<int> &genels_simplegmotheridx();
+	const vector<int> &genels_simplegmotherstatus();
+	const vector<bool> &genmus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_p4();
+	const vector<float> &genmus_charge();
+	const vector<float> &genmus_iso();
+	const vector<float> &genmus_mass();
+	const vector<int> &genmus_id();
+	const vector<int> &genmus__genpsidx();
+	const vector<int> &genmus_status();
+	const vector<bool> &genmus_fromHardProcessBeforeFSR();
+	const vector<bool> &genmus_fromHardProcessDecayed();
+	const vector<bool> &genmus_fromHardProcessFinalState();
+	const vector<bool> &genmus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genmus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genmus_isHardProcess();
+	const vector<bool> &genmus_isLastCopy();
+	const vector<bool> &genmus_isLastCopyBeforeFSR();
+	const vector<bool> &genmus_isMostlyLikePythia6Status3();
+	const vector<bool> &genmus_isPromptDecayed();
+	const vector<bool> &genmus_isPromptFinalState();
+	const vector<vector<int> > &genmus_lepdaughter_id();
+	const vector<int> &genmus_gentaudecay();
+	const int &gen_nfromtmus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_motherp4();
+	const vector<float> &genmus_mothercharge();
+	const vector<int> &genmus_motherid();
+	const vector<int> &genmus_motheridx();
+	const vector<int> &genmus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_gmotherp4();
+	const vector<int> &genmus_gmothercharge();
+	const vector<int> &genmus_gmotherid();
+	const vector<int> &genmus_gmotheridx();
+	const vector<int> &genmus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_simplemotherp4();
+	const vector<int> &genmus_simplemothercharge();
+	const vector<int> &genmus_simplemotherid();
+	const vector<int> &genmus_simplemotheridx();
+	const vector<int> &genmus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_simplegmotherp4();
+	const vector<int> &genmus_simplegmothercharge();
+	const vector<int> &genmus_simplegmotherid();
+	const vector<int> &genmus_simplegmotheridx();
+	const vector<int> &genmus_simplegmotherstatus();
+	const vector<bool> &gentaus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_p4();
+	const vector<float> &gentaus_charge();
+	const vector<float> &gentaus_iso();
+	const vector<float> &gentaus_mass();
+	const vector<int> &gentaus_id();
+	const vector<int> &gentaus__genpsidx();
+	const vector<int> &gentaus_status();
+	const vector<bool> &gentaus_fromHardProcessBeforeFSR();
+	const vector<bool> &gentaus_fromHardProcessDecayed();
+	const vector<bool> &gentaus_fromHardProcessFinalState();
+	const vector<bool> &gentaus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gentaus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gentaus_isHardProcess();
+	const vector<bool> &gentaus_isLastCopy();
+	const vector<bool> &gentaus_isLastCopyBeforeFSR();
+	const vector<bool> &gentaus_isMostlyLikePythia6Status3();
+	const vector<bool> &gentaus_isPromptDecayed();
+	const vector<bool> &gentaus_isPromptFinalState();
+	const vector<vector<int> > &gentaus_lepdaughter_id();
+	const vector<int> &gentaus_gentaudecay();
+	const int &gen_nfromttaus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_motherp4();
+	const vector<float> &gentaus_mothercharge();
+	const vector<int> &gentaus_motherid();
+	const vector<int> &gentaus_motheridx();
+	const vector<int> &gentaus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_gmotherp4();
+	const vector<int> &gentaus_gmothercharge();
+	const vector<int> &gentaus_gmotherid();
+	const vector<int> &gentaus_gmotheridx();
+	const vector<int> &gentaus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_simplemotherp4();
+	const vector<int> &gentaus_simplemothercharge();
+	const vector<int> &gentaus_simplemotherid();
+	const vector<int> &gentaus_simplemotheridx();
+	const vector<int> &gentaus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_simplegmotherp4();
+	const vector<int> &gentaus_simplegmothercharge();
+	const vector<int> &gentaus_simplegmotherid();
+	const vector<int> &gentaus_simplegmotheridx();
+	const vector<int> &gentaus_simplegmotherstatus();
+	const vector<bool> &gennuels_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_p4();
+	const vector<float> &gennuels_charge();
+	const vector<float> &gennuels_iso();
+	const vector<float> &gennuels_mass();
+	const vector<int> &gennuels_id();
+	const vector<int> &gennuels__genpsidx();
+	const vector<int> &gennuels_status();
+	const vector<bool> &gennuels_fromHardProcessBeforeFSR();
+	const vector<bool> &gennuels_fromHardProcessDecayed();
+	const vector<bool> &gennuels_fromHardProcessFinalState();
+	const vector<bool> &gennuels_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gennuels_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gennuels_isHardProcess();
+	const vector<bool> &gennuels_isLastCopy();
+	const vector<bool> &gennuels_isLastCopyBeforeFSR();
+	const vector<bool> &gennuels_isMostlyLikePythia6Status3();
+	const vector<bool> &gennuels_isPromptDecayed();
+	const vector<bool> &gennuels_isPromptFinalState();
+	const vector<vector<int> > &gennuels_lepdaughter_id();
+	const vector<int> &gennuels_gentaudecay();
+	const int &gen_nfromtnuels_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_motherp4();
+	const vector<float> &gennuels_mothercharge();
+	const vector<int> &gennuels_motherid();
+	const vector<int> &gennuels_motheridx();
+	const vector<int> &gennuels_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_gmotherp4();
+	const vector<int> &gennuels_gmothercharge();
+	const vector<int> &gennuels_gmotherid();
+	const vector<int> &gennuels_gmotheridx();
+	const vector<int> &gennuels_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_simplemotherp4();
+	const vector<int> &gennuels_simplemothercharge();
+	const vector<int> &gennuels_simplemotherid();
+	const vector<int> &gennuels_simplemotheridx();
+	const vector<int> &gennuels_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_simplegmotherp4();
+	const vector<int> &gennuels_simplegmothercharge();
+	const vector<int> &gennuels_simplegmotherid();
+	const vector<int> &gennuels_simplegmotheridx();
+	const vector<int> &gennuels_simplegmotherstatus();
+	const vector<bool> &gennumus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_p4();
+	const vector<float> &gennumus_charge();
+	const vector<float> &gennumus_iso();
+	const vector<float> &gennumus_mass();
+	const vector<int> &gennumus_id();
+	const vector<int> &gennumus__genpsidx();
+	const vector<int> &gennumus_status();
+	const vector<bool> &gennumus_fromHardProcessBeforeFSR();
+	const vector<bool> &gennumus_fromHardProcessDecayed();
+	const vector<bool> &gennumus_fromHardProcessFinalState();
+	const vector<bool> &gennumus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gennumus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gennumus_isHardProcess();
+	const vector<bool> &gennumus_isLastCopy();
+	const vector<bool> &gennumus_isLastCopyBeforeFSR();
+	const vector<bool> &gennumus_isMostlyLikePythia6Status3();
+	const vector<bool> &gennumus_isPromptDecayed();
+	const vector<bool> &gennumus_isPromptFinalState();
+	const vector<vector<int> > &gennumus_lepdaughter_id();
+	const vector<int> &gennumus_gentaudecay();
+	const int &gen_nfromtnumus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_motherp4();
+	const vector<float> &gennumus_mothercharge();
+	const vector<int> &gennumus_motherid();
+	const vector<int> &gennumus_motheridx();
+	const vector<int> &gennumus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_gmotherp4();
+	const vector<int> &gennumus_gmothercharge();
+	const vector<int> &gennumus_gmotherid();
+	const vector<int> &gennumus_gmotheridx();
+	const vector<int> &gennumus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_simplemotherp4();
+	const vector<int> &gennumus_simplemothercharge();
+	const vector<int> &gennumus_simplemotherid();
+	const vector<int> &gennumus_simplemotheridx();
+	const vector<int> &gennumus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_simplegmotherp4();
+	const vector<int> &gennumus_simplegmothercharge();
+	const vector<int> &gennumus_simplegmotherid();
+	const vector<int> &gennumus_simplegmotheridx();
+	const vector<int> &gennumus_simplegmotherstatus();
+	const vector<bool> &gennutaus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_p4();
+	const vector<float> &gennutaus_charge();
+	const vector<float> &gennutaus_iso();
+	const vector<float> &gennutaus_mass();
+	const vector<int> &gennutaus_id();
+	const vector<int> &gennutaus__genpsidx();
+	const vector<int> &gennutaus_status();
+	const vector<bool> &gennutaus_fromHardProcessBeforeFSR();
+	const vector<bool> &gennutaus_fromHardProcessDecayed();
+	const vector<bool> &gennutaus_fromHardProcessFinalState();
+	const vector<bool> &gennutaus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gennutaus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gennutaus_isHardProcess();
+	const vector<bool> &gennutaus_isLastCopy();
+	const vector<bool> &gennutaus_isLastCopyBeforeFSR();
+	const vector<bool> &gennutaus_isMostlyLikePythia6Status3();
+	const vector<bool> &gennutaus_isPromptDecayed();
+	const vector<bool> &gennutaus_isPromptFinalState();
+	const vector<vector<int> > &gennutaus_lepdaughter_id();
+	const vector<int> &gennutaus_gentaudecay();
+	const int &gen_nfromtnutaus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_motherp4();
+	const vector<float> &gennutaus_mothercharge();
+	const vector<int> &gennutaus_motherid();
+	const vector<int> &gennutaus_motheridx();
+	const vector<int> &gennutaus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_gmotherp4();
+	const vector<int> &gennutaus_gmothercharge();
+	const vector<int> &gennutaus_gmotherid();
+	const vector<int> &gennutaus_gmotheridx();
+	const vector<int> &gennutaus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_simplemotherp4();
+	const vector<int> &gennutaus_simplemothercharge();
+	const vector<int> &gennutaus_simplemotherid();
+	const vector<int> &gennutaus_simplemotheridx();
+	const vector<int> &gennutaus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_simplegmotherp4();
+	const vector<int> &gennutaus_simplegmothercharge();
+	const vector<int> &gennutaus_simplegmotherid();
+	const vector<int> &gennutaus_simplegmotheridx();
+	const vector<int> &gennutaus_simplegmotherstatus();
+	const vector<bool> &gents_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_p4();
+	const vector<float> &gents_charge();
+	const vector<float> &gents_iso();
+	const vector<float> &gents_mass();
+	const vector<int> &gents_id();
+	const vector<int> &gents__genpsidx();
+	const vector<int> &gents_status();
+	const vector<bool> &gents_fromHardProcessBeforeFSR();
+	const vector<bool> &gents_fromHardProcessDecayed();
+	const vector<bool> &gents_fromHardProcessFinalState();
+	const vector<bool> &gents_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gents_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gents_isHardProcess();
+	const vector<bool> &gents_isLastCopy();
+	const vector<bool> &gents_isLastCopyBeforeFSR();
+	const vector<bool> &gents_isMostlyLikePythia6Status3();
+	const vector<bool> &gents_isPromptDecayed();
+	const vector<bool> &gents_isPromptFinalState();
+	const vector<vector<int> > &gents_lepdaughter_id();
+	const vector<int> &gents_gentaudecay();
+	const int &gen_nfromtts_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_motherp4();
+	const vector<float> &gents_mothercharge();
+	const vector<int> &gents_motherid();
+	const vector<int> &gents_motheridx();
+	const vector<int> &gents_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_gmotherp4();
+	const vector<int> &gents_gmothercharge();
+	const vector<int> &gents_gmotherid();
+	const vector<int> &gents_gmotheridx();
+	const vector<int> &gents_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_simplemotherp4();
+	const vector<int> &gents_simplemothercharge();
+	const vector<int> &gents_simplemotherid();
+	const vector<int> &gents_simplemotheridx();
+	const vector<int> &gents_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_simplegmotherp4();
+	const vector<int> &gents_simplegmothercharge();
+	const vector<int> &gents_simplegmotherid();
+	const vector<int> &gents_simplegmotheridx();
+	const vector<int> &gents_simplegmotherstatus();
+	const vector<bool> &genbs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_p4();
+	const vector<float> &genbs_charge();
+	const vector<float> &genbs_iso();
+	const vector<float> &genbs_mass();
+	const vector<int> &genbs_id();
+	const vector<int> &genbs__genpsidx();
+	const vector<int> &genbs_status();
+	const vector<bool> &genbs_fromHardProcessBeforeFSR();
+	const vector<bool> &genbs_fromHardProcessDecayed();
+	const vector<bool> &genbs_fromHardProcessFinalState();
+	const vector<bool> &genbs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genbs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genbs_isHardProcess();
+	const vector<bool> &genbs_isLastCopy();
+	const vector<bool> &genbs_isLastCopyBeforeFSR();
+	const vector<bool> &genbs_isMostlyLikePythia6Status3();
+	const vector<bool> &genbs_isPromptDecayed();
+	const vector<bool> &genbs_isPromptFinalState();
+	const vector<vector<int> > &genbs_lepdaughter_id();
+	const vector<int> &genbs_gentaudecay();
+	const int &gen_nfromtbs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_motherp4();
+	const vector<float> &genbs_mothercharge();
+	const vector<int> &genbs_motherid();
+	const vector<int> &genbs_motheridx();
+	const vector<int> &genbs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_gmotherp4();
+	const vector<int> &genbs_gmothercharge();
+	const vector<int> &genbs_gmotherid();
+	const vector<int> &genbs_gmotheridx();
+	const vector<int> &genbs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_simplemotherp4();
+	const vector<int> &genbs_simplemothercharge();
+	const vector<int> &genbs_simplemotherid();
+	const vector<int> &genbs_simplemotheridx();
+	const vector<int> &genbs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_simplegmotherp4();
+	const vector<int> &genbs_simplegmothercharge();
+	const vector<int> &genbs_simplegmotherid();
+	const vector<int> &genbs_simplegmotheridx();
+	const vector<int> &genbs_simplegmotherstatus();
+	const vector<bool> &gencs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_p4();
+	const vector<float> &gencs_charge();
+	const vector<float> &gencs_iso();
+	const vector<float> &gencs_mass();
+	const vector<int> &gencs_id();
+	const vector<int> &gencs__genpsidx();
+	const vector<int> &gencs_status();
+	const vector<bool> &gencs_fromHardProcessBeforeFSR();
+	const vector<bool> &gencs_fromHardProcessDecayed();
+	const vector<bool> &gencs_fromHardProcessFinalState();
+	const vector<bool> &gencs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gencs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gencs_isHardProcess();
+	const vector<bool> &gencs_isLastCopy();
+	const vector<bool> &gencs_isLastCopyBeforeFSR();
+	const vector<bool> &gencs_isMostlyLikePythia6Status3();
+	const vector<bool> &gencs_isPromptDecayed();
+	const vector<bool> &gencs_isPromptFinalState();
+	const vector<vector<int> > &gencs_lepdaughter_id();
+	const vector<int> &gencs_gentaudecay();
+	const int &gen_nfromtcs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_motherp4();
+	const vector<float> &gencs_mothercharge();
+	const vector<int> &gencs_motherid();
+	const vector<int> &gencs_motheridx();
+	const vector<int> &gencs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_gmotherp4();
+	const vector<int> &gencs_gmothercharge();
+	const vector<int> &gencs_gmotherid();
+	const vector<int> &gencs_gmotheridx();
+	const vector<int> &gencs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_simplemotherp4();
+	const vector<int> &gencs_simplemothercharge();
+	const vector<int> &gencs_simplemotherid();
+	const vector<int> &gencs_simplemotheridx();
+	const vector<int> &gencs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_simplegmotherp4();
+	const vector<int> &gencs_simplegmothercharge();
+	const vector<int> &gencs_simplegmotherid();
+	const vector<int> &gencs_simplegmotheridx();
+	const vector<int> &gencs_simplegmotherstatus();
+	const vector<bool> &genqs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_p4();
+	const vector<float> &genqs_charge();
+	const vector<float> &genqs_iso();
+	const vector<float> &genqs_mass();
+	const vector<int> &genqs_id();
+	const vector<int> &genqs__genpsidx();
+	const vector<int> &genqs_status();
+	const vector<bool> &genqs_fromHardProcessBeforeFSR();
+	const vector<bool> &genqs_fromHardProcessDecayed();
+	const vector<bool> &genqs_fromHardProcessFinalState();
+	const vector<bool> &genqs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genqs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genqs_isHardProcess();
+	const vector<bool> &genqs_isLastCopy();
+	const vector<bool> &genqs_isLastCopyBeforeFSR();
+	const vector<bool> &genqs_isMostlyLikePythia6Status3();
+	const vector<bool> &genqs_isPromptDecayed();
+	const vector<bool> &genqs_isPromptFinalState();
+	const vector<vector<int> > &genqs_lepdaughter_id();
+	const vector<int> &genqs_gentaudecay();
+	const int &gen_nfromtqs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_motherp4();
+	const vector<float> &genqs_mothercharge();
+	const vector<int> &genqs_motherid();
+	const vector<int> &genqs_motheridx();
+	const vector<int> &genqs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_gmotherp4();
+	const vector<int> &genqs_gmothercharge();
+	const vector<int> &genqs_gmotherid();
+	const vector<int> &genqs_gmotheridx();
+	const vector<int> &genqs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_simplemotherp4();
+	const vector<int> &genqs_simplemothercharge();
+	const vector<int> &genqs_simplemotherid();
+	const vector<int> &genqs_simplemotheridx();
+	const vector<int> &genqs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_simplegmotherp4();
+	const vector<int> &genqs_simplegmothercharge();
+	const vector<int> &genqs_simplegmotherid();
+	const vector<int> &genqs_simplegmotheridx();
+	const vector<int> &genqs_simplegmotherstatus();
+	const vector<bool> &genglus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_p4();
+	const vector<float> &genglus_charge();
+	const vector<float> &genglus_iso();
+	const vector<float> &genglus_mass();
+	const vector<int> &genglus_id();
+	const vector<int> &genglus__genpsidx();
+	const vector<int> &genglus_status();
+	const vector<bool> &genglus_fromHardProcessBeforeFSR();
+	const vector<bool> &genglus_fromHardProcessDecayed();
+	const vector<bool> &genglus_fromHardProcessFinalState();
+	const vector<bool> &genglus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genglus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genglus_isHardProcess();
+	const vector<bool> &genglus_isLastCopy();
+	const vector<bool> &genglus_isLastCopyBeforeFSR();
+	const vector<bool> &genglus_isMostlyLikePythia6Status3();
+	const vector<bool> &genglus_isPromptDecayed();
+	const vector<bool> &genglus_isPromptFinalState();
+	const vector<vector<int> > &genglus_lepdaughter_id();
+	const vector<int> &genglus_gentaudecay();
+	const int &gen_nfromtglus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_motherp4();
+	const vector<float> &genglus_mothercharge();
+	const vector<int> &genglus_motherid();
+	const vector<int> &genglus_motheridx();
+	const vector<int> &genglus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_gmotherp4();
+	const vector<int> &genglus_gmothercharge();
+	const vector<int> &genglus_gmotherid();
+	const vector<int> &genglus_gmotheridx();
+	const vector<int> &genglus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_simplemotherp4();
+	const vector<int> &genglus_simplemothercharge();
+	const vector<int> &genglus_simplemotherid();
+	const vector<int> &genglus_simplemotheridx();
+	const vector<int> &genglus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_simplegmotherp4();
+	const vector<int> &genglus_simplegmothercharge();
+	const vector<int> &genglus_simplegmotherid();
+	const vector<int> &genglus_simplegmotheridx();
+	const vector<int> &genglus_simplegmotherstatus();
+	const vector<bool> &genws_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_p4();
+	const vector<float> &genws_charge();
+	const vector<float> &genws_iso();
+	const vector<float> &genws_mass();
+	const vector<int> &genws_id();
+	const vector<int> &genws__genpsidx();
+	const vector<int> &genws_status();
+	const vector<bool> &genws_fromHardProcessBeforeFSR();
+	const vector<bool> &genws_fromHardProcessDecayed();
+	const vector<bool> &genws_fromHardProcessFinalState();
+	const vector<bool> &genws_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genws_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genws_isHardProcess();
+	const vector<bool> &genws_isLastCopy();
+	const vector<bool> &genws_isLastCopyBeforeFSR();
+	const vector<bool> &genws_isMostlyLikePythia6Status3();
+	const vector<bool> &genws_isPromptDecayed();
+	const vector<bool> &genws_isPromptFinalState();
+	const vector<vector<int> > &genws_lepdaughter_id();
+	const vector<int> &genws_gentaudecay();
+	const int &gen_nfromtws_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_motherp4();
+	const vector<float> &genws_mothercharge();
+	const vector<int> &genws_motherid();
+	const vector<int> &genws_motheridx();
+	const vector<int> &genws_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_gmotherp4();
+	const vector<int> &genws_gmothercharge();
+	const vector<int> &genws_gmotherid();
+	const vector<int> &genws_gmotheridx();
+	const vector<int> &genws_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_simplemotherp4();
+	const vector<int> &genws_simplemothercharge();
+	const vector<int> &genws_simplemotherid();
+	const vector<int> &genws_simplemotheridx();
+	const vector<int> &genws_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_simplegmotherp4();
+	const vector<int> &genws_simplegmothercharge();
+	const vector<int> &genws_simplegmotherid();
+	const vector<int> &genws_simplegmotheridx();
+	const vector<int> &genws_simplegmotherstatus();
+	const vector<bool> &genzs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_p4();
+	const vector<float> &genzs_charge();
+	const vector<float> &genzs_iso();
+	const vector<float> &genzs_mass();
+	const vector<int> &genzs_id();
+	const vector<int> &genzs__genpsidx();
+	const vector<int> &genzs_status();
+	const vector<bool> &genzs_fromHardProcessBeforeFSR();
+	const vector<bool> &genzs_fromHardProcessDecayed();
+	const vector<bool> &genzs_fromHardProcessFinalState();
+	const vector<bool> &genzs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genzs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genzs_isHardProcess();
+	const vector<bool> &genzs_isLastCopy();
+	const vector<bool> &genzs_isLastCopyBeforeFSR();
+	const vector<bool> &genzs_isMostlyLikePythia6Status3();
+	const vector<bool> &genzs_isPromptDecayed();
+	const vector<bool> &genzs_isPromptFinalState();
+	const vector<vector<int> > &genzs_lepdaughter_id();
+	const vector<int> &genzs_gentaudecay();
+	const int &gen_nfromtzs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_motherp4();
+	const vector<float> &genzs_mothercharge();
+	const vector<int> &genzs_motherid();
+	const vector<int> &genzs_motheridx();
+	const vector<int> &genzs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_gmotherp4();
+	const vector<int> &genzs_gmothercharge();
+	const vector<int> &genzs_gmotherid();
+	const vector<int> &genzs_gmotheridx();
+	const vector<int> &genzs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_simplemotherp4();
+	const vector<int> &genzs_simplemothercharge();
+	const vector<int> &genzs_simplemotherid();
+	const vector<int> &genzs_simplemotheridx();
+	const vector<int> &genzs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_simplegmotherp4();
+	const vector<int> &genzs_simplegmothercharge();
+	const vector<int> &genzs_simplegmotherid();
+	const vector<int> &genzs_simplegmotheridx();
+	const vector<int> &genzs_simplegmotherstatus();
+	const vector<bool> &genphs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_p4();
+	const vector<float> &genphs_charge();
+	const vector<float> &genphs_iso();
+	const vector<float> &genphs_mass();
+	const vector<int> &genphs_id();
+	const vector<int> &genphs__genpsidx();
+	const vector<int> &genphs_status();
+	const vector<bool> &genphs_fromHardProcessBeforeFSR();
+	const vector<bool> &genphs_fromHardProcessDecayed();
+	const vector<bool> &genphs_fromHardProcessFinalState();
+	const vector<bool> &genphs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genphs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genphs_isHardProcess();
+	const vector<bool> &genphs_isLastCopy();
+	const vector<bool> &genphs_isLastCopyBeforeFSR();
+	const vector<bool> &genphs_isMostlyLikePythia6Status3();
+	const vector<bool> &genphs_isPromptDecayed();
+	const vector<bool> &genphs_isPromptFinalState();
+	const vector<vector<int> > &genphs_lepdaughter_id();
+	const vector<int> &genphs_gentaudecay();
+	const int &gen_nfromtphs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_motherp4();
+	const vector<float> &genphs_mothercharge();
+	const vector<int> &genphs_motherid();
+	const vector<int> &genphs_motheridx();
+	const vector<int> &genphs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_gmotherp4();
+	const vector<int> &genphs_gmothercharge();
+	const vector<int> &genphs_gmotherid();
+	const vector<int> &genphs_gmotheridx();
+	const vector<int> &genphs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_simplemotherp4();
+	const vector<int> &genphs_simplemothercharge();
+	const vector<int> &genphs_simplemotherid();
+	const vector<int> &genphs_simplemotheridx();
+	const vector<int> &genphs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_simplegmotherp4();
+	const vector<int> &genphs_simplegmothercharge();
+	const vector<int> &genphs_simplegmotherid();
+	const vector<int> &genphs_simplegmotheridx();
+	const vector<int> &genphs_simplegmotherstatus();
+	const vector<bool> &genhs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_p4();
+	const vector<float> &genhs_charge();
+	const vector<float> &genhs_iso();
+	const vector<float> &genhs_mass();
+	const vector<int> &genhs_id();
+	const vector<int> &genhs__genpsidx();
+	const vector<int> &genhs_status();
+	const vector<bool> &genhs_fromHardProcessBeforeFSR();
+	const vector<bool> &genhs_fromHardProcessDecayed();
+	const vector<bool> &genhs_fromHardProcessFinalState();
+	const vector<bool> &genhs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genhs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genhs_isHardProcess();
+	const vector<bool> &genhs_isLastCopy();
+	const vector<bool> &genhs_isLastCopyBeforeFSR();
+	const vector<bool> &genhs_isMostlyLikePythia6Status3();
+	const vector<bool> &genhs_isPromptDecayed();
+	const vector<bool> &genhs_isPromptFinalState();
+	const vector<vector<int> > &genhs_lepdaughter_id();
+	const vector<int> &genhs_gentaudecay();
+	const int &gen_nfromths_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_motherp4();
+	const vector<float> &genhs_mothercharge();
+	const vector<int> &genhs_motherid();
+	const vector<int> &genhs_motheridx();
+	const vector<int> &genhs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_gmotherp4();
+	const vector<int> &genhs_gmothercharge();
+	const vector<int> &genhs_gmotherid();
+	const vector<int> &genhs_gmotheridx();
+	const vector<int> &genhs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_simplemotherp4();
+	const vector<int> &genhs_simplemothercharge();
+	const vector<int> &genhs_simplemotherid();
+	const vector<int> &genhs_simplemotheridx();
+	const vector<int> &genhs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_simplegmotherp4();
+	const vector<int> &genhs_simplegmothercharge();
+	const vector<int> &genhs_simplegmotherid();
+	const vector<int> &genhs_simplegmotheridx();
+	const vector<int> &genhs_simplegmotherstatus();
+	const vector<bool> &genlsp_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_p4();
+	const vector<float> &genlsp_charge();
+	const vector<float> &genlsp_iso();
+	const vector<float> &genlsp_mass();
+	const vector<int> &genlsp_id();
+	const vector<int> &genlsp__genpsidx();
+	const vector<int> &genlsp_status();
+	const vector<bool> &genlsp_fromHardProcessBeforeFSR();
+	const vector<bool> &genlsp_fromHardProcessDecayed();
+	const vector<bool> &genlsp_fromHardProcessFinalState();
+	const vector<bool> &genlsp_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genlsp_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genlsp_isHardProcess();
+	const vector<bool> &genlsp_isLastCopy();
+	const vector<bool> &genlsp_isLastCopyBeforeFSR();
+	const vector<bool> &genlsp_isMostlyLikePythia6Status3();
+	const vector<bool> &genlsp_isPromptDecayed();
+	const vector<bool> &genlsp_isPromptFinalState();
+	const vector<vector<int> > &genlsp_lepdaughter_id();
+	const vector<int> &genlsp_gentaudecay();
+	const int &gen_nfromtlsp_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_motherp4();
+	const vector<float> &genlsp_mothercharge();
+	const vector<int> &genlsp_motherid();
+	const vector<int> &genlsp_motheridx();
+	const vector<int> &genlsp_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_gmotherp4();
+	const vector<int> &genlsp_gmothercharge();
+	const vector<int> &genlsp_gmotherid();
+	const vector<int> &genlsp_gmotheridx();
+	const vector<int> &genlsp_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_simplemotherp4();
+	const vector<int> &genlsp_simplemothercharge();
+	const vector<int> &genlsp_simplemotherid();
+	const vector<int> &genlsp_simplemotheridx();
+	const vector<int> &genlsp_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_simplegmotherp4();
+	const vector<int> &genlsp_simplegmothercharge();
+	const vector<int> &genlsp_simplegmotherid();
+	const vector<int> &genlsp_simplegmotheridx();
+	const vector<int> &genlsp_simplegmotherstatus();
+	const vector<bool> &genstop_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_p4();
+	const vector<float> &genstop_charge();
+	const vector<float> &genstop_iso();
+	const vector<float> &genstop_mass();
+	const vector<int> &genstop_id();
+	const vector<int> &genstop__genpsidx();
+	const vector<int> &genstop_status();
+	const vector<bool> &genstop_fromHardProcessBeforeFSR();
+	const vector<bool> &genstop_fromHardProcessDecayed();
+	const vector<bool> &genstop_fromHardProcessFinalState();
+	const vector<bool> &genstop_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genstop_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genstop_isHardProcess();
+	const vector<bool> &genstop_isLastCopy();
+	const vector<bool> &genstop_isLastCopyBeforeFSR();
+	const vector<bool> &genstop_isMostlyLikePythia6Status3();
+	const vector<bool> &genstop_isPromptDecayed();
+	const vector<bool> &genstop_isPromptFinalState();
+	const vector<vector<int> > &genstop_lepdaughter_id();
+	const vector<int> &genstop_gentaudecay();
+	const int &gen_nfromtstop_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_motherp4();
+	const vector<float> &genstop_mothercharge();
+	const vector<int> &genstop_motherid();
+	const vector<int> &genstop_motheridx();
+	const vector<int> &genstop_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_gmotherp4();
+	const vector<int> &genstop_gmothercharge();
+	const vector<int> &genstop_gmotherid();
+	const vector<int> &genstop_gmotheridx();
+	const vector<int> &genstop_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_simplemotherp4();
+	const vector<int> &genstop_simplemothercharge();
+	const vector<int> &genstop_simplemotherid();
+	const vector<int> &genstop_simplemotheridx();
+	const vector<int> &genstop_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_simplegmotherp4();
+	const vector<int> &genstop_simplegmothercharge();
+	const vector<int> &genstop_simplegmotherid();
+	const vector<int> &genstop_simplegmotheridx();
+	const vector<int> &genstop_simplegmotherstatus();
 
-void LoadAllBranches() 
-	// load all branches
-{
-	if (run_branch != 0) run();
-	if (lumi_branch != 0) lumi();
-	if (evt_branch != 0) evt();
-	if (isData_branch != 0) isData();
-	if (evt_passgoodrunlist_branch != 0) evt_passgoodrunlist();
-	if (evt_scale1fb_branch != 0) evt_scale1fb();
-	if (evt_xsec_branch != 0) evt_xsec();
-	if (evt_kfactor_branch != 0) evt_kfactor();
-	if (evt_filter_branch != 0) evt_filter();
-	if (evt_nEvts_branch != 0) evt_nEvts();
-	if (puWeight_branch != 0) puWeight();
-	if (nVert_branch != 0) nVert();
-	if (nTrueInt_branch != 0) nTrueInt();
-	if (rho_branch != 0) rho();
-	if (rho25_branch != 0) rho25();
-	if (njets_branch != 0) njets();
-	if (ht_branch != 0) ht();
-	if (gen_ht_branch != 0) gen_ht();
-	if (njets_eta30_branch != 0) njets_eta30();
-	if (ht_eta30_branch != 0) ht_eta30();
-	if (mt2_branch != 0) mt2();
-	if (mt2j_branch != 0) mt2j();
-	if (mt2j_eta30_branch != 0) mt2j_eta30();
-	if (nJet40_branch != 0) nJet40();
-	if (nBJet40_branch != 0) nBJet40();
-	if (nBJetTight_branch != 0) nBJetTight();
-	if (nBJetMedium_branch != 0) nBJetMedium();
-	if (nBJetLoose_branch != 0) nBJetLoose();
-	if (nMuons10_branch != 0) nMuons10();
-	if (nElectrons10_branch != 0) nElectrons10();
-	if (nTaus20_branch != 0) nTaus20();
-	if (nGammas20_branch != 0) nGammas20();
-	if (met_pt_branch != 0) met_pt();
-	if (met_phi_branch != 0) met_phi();
-	if (met_rawPt_branch != 0) met_rawPt();
-	if (met_rawPhi_branch != 0) met_rawPhi();
-	if (met_caloPt_branch != 0) met_caloPt();
-	if (met_caloPhi_branch != 0) met_caloPhi();
-	if (met_genPt_branch != 0) met_genPt();
-	if (met_genPhi_branch != 0) met_genPhi();
-	if (sumet_raw_branch != 0) sumet_raw();
-	if (jzb_raw_branch != 0) jzb_raw();
-	if (jzb_T1_branch != 0) jzb_T1();
-	if (jgb_raw_branch != 0) jgb_raw();
-	if (jgb_T1_branch != 0) jgb_T1();
-	if (Flag_EcalDeadCellTriggerPrimitiveFilter_branch != 0) Flag_EcalDeadCellTriggerPrimitiveFilter();
-	if (Flag_trkPOG_manystripclus53X_branch != 0) Flag_trkPOG_manystripclus53X();
-	if (Flag_ecalLaserCorrFilter_branch != 0) Flag_ecalLaserCorrFilter();
-	if (Flag_trkPOG_toomanystripclus53X_branch != 0) Flag_trkPOG_toomanystripclus53X();
-	if (Flag_hcalLaserEventFilter_branch != 0) Flag_hcalLaserEventFilter();
-	if (Flag_trkPOG_logErrorTooManyClusters_branch != 0) Flag_trkPOG_logErrorTooManyClusters();
-	if (Flag_trkPOGFilters_branch != 0) Flag_trkPOGFilters();
-	if (Flag_trackingFailureFilter_branch != 0) Flag_trackingFailureFilter();
-	if (Flag_CSCTightHaloFilter_branch != 0) Flag_CSCTightHaloFilter();
-	if (Flag_HBHENoiseFilter_branch != 0) Flag_HBHENoiseFilter();
-	if (Flag_goodVertices_branch != 0) Flag_goodVertices();
-	if (Flag_eeBadScFilter_branch != 0) Flag_eeBadScFilter();
-	if (Flag_METFilters_branch != 0) Flag_METFilters();
-	if (HLT_HT900_branch != 0) HLT_HT900();
-	if (HLT_MET170_branch != 0) HLT_MET170();
-	if (HLT_ht350met120_branch != 0) HLT_ht350met120();
-	if (HLT_SingleMu_branch != 0) HLT_SingleMu();
-	if (HLT_DoubleEl_branch != 0) HLT_DoubleEl();
-	if (HLT_DoubleEl_DZ_branch != 0) HLT_DoubleEl_DZ();
-	if (HLT_DoubleEl_noiso_branch != 0) HLT_DoubleEl_noiso();
-	if (HLT_MuEG_branch != 0) HLT_MuEG();
-	if (HLT_MuEG_2_branch != 0) HLT_MuEG_2();
-	if (HLT_DoubleMu_branch != 0) HLT_DoubleMu();
-	if (HLT_DoubleMu_tk_branch != 0) HLT_DoubleMu_tk();
-	if (HLT_l1prescale_branch != 0) HLT_l1prescale();
-	if (HLT_Photons_branch != 0) HLT_Photons();
-	if (HLT_Photon22_branch != 0) HLT_Photon22();
-	if (HLT_Photon30_branch != 0) HLT_Photon30();
-	if (HLT_Photon36_branch != 0) HLT_Photon36();
-	if (HLT_Photon50_branch != 0) HLT_Photon50();
-	if (HLT_Photon75_branch != 0) HLT_Photon75();
-	if (HLT_Photon90_branch != 0) HLT_Photon90();
-	if (HLT_Photon120_branch != 0) HLT_Photon120();
-	if (HLT_Photon175_branch != 0) HLT_Photon175();
-	if (HLT_Photon165_HE10_branch != 0) HLT_Photon165_HE10();
-	if (HLT_Photon22_R9Id90_HE10_IsoM_branch != 0) HLT_Photon22_R9Id90_HE10_IsoM();
-	if (HLT_Photon30_R9Id90_HE10_IsoM_branch != 0) HLT_Photon30_R9Id90_HE10_IsoM();
-	if (HLT_Photon36_R9Id90_HE10_IsoM_branch != 0) HLT_Photon36_R9Id90_HE10_IsoM();
-	if (HLT_Photon50_R9Id90_HE10_IsoM_branch != 0) HLT_Photon50_R9Id90_HE10_IsoM();
-	if (HLT_Photon75_R9Id90_HE10_IsoM_branch != 0) HLT_Photon75_R9Id90_HE10_IsoM();
-	if (HLT_Photon90_R9Id90_HE10_IsoM_branch != 0) HLT_Photon90_R9Id90_HE10_IsoM();
-	if (HLT_Photon120_R9Id90_HE10_IsoM_branch != 0) HLT_Photon120_R9Id90_HE10_IsoM();
-	if (HLT_Photon165_R9Id90_HE10_IsoM_branch != 0) HLT_Photon165_R9Id90_HE10_IsoM();
-	if (dilmass_branch != 0) dilmass();
-	if (dilpt_branch != 0) dilpt();
-	if (dRll_branch != 0) dRll();
-	if (matched_neutralemf_branch != 0) matched_neutralemf();
-	if (elveto_branch != 0) elveto();
-	if (nlep_branch != 0) nlep();
-	if (lep_p4_branch != 0) lep_p4();
-	if (lep_pt_branch != 0) lep_pt();
-	if (lep_eta_branch != 0) lep_eta();
-	if (lep_phi_branch != 0) lep_phi();
-	if (lep_mass_branch != 0) lep_mass();
-	if (lep_charge_branch != 0) lep_charge();
-	if (lep_pdgId_branch != 0) lep_pdgId();
-	if (lep_dxy_branch != 0) lep_dxy();
-	if (lep_etaSC_branch != 0) lep_etaSC();
-	if (lep_dz_branch != 0) lep_dz();
-	if (lep_tightId_branch != 0) lep_tightId();
-	if (lep_relIso03_branch != 0) lep_relIso03();
-	if (lep_relIso03MREA_branch != 0) lep_relIso03MREA();
-	if (lep_relIso03MRDB_branch != 0) lep_relIso03MRDB();
-	if (lep_relIso03MRNC_branch != 0) lep_relIso03MRNC();
-	if (lep_relIso04_branch != 0) lep_relIso04();
-	if (lep_mcMatchId_branch != 0) lep_mcMatchId();
-	if (lep_lostHits_branch != 0) lep_lostHits();
-	if (lep_convVeto_branch != 0) lep_convVeto();
-	if (lep_tightCharge_branch != 0) lep_tightCharge();
-	if (lep_islead_branch != 0) lep_islead();
-	if (lep_istail_branch != 0) lep_istail();
-	if (ntau_branch != 0) ntau();
-	if (tau_pt_branch != 0) tau_pt();
-	if (tau_eta_branch != 0) tau_eta();
-	if (tau_phi_branch != 0) tau_phi();
-	if (tau_mass_branch != 0) tau_mass();
-	if (tau_charge_branch != 0) tau_charge();
-	if (tau_dxy_branch != 0) tau_dxy();
-	if (tau_dz_branch != 0) tau_dz();
-	if (tau_idCI3hit_branch != 0) tau_idCI3hit();
-	if (tau_isoCI3hit_branch != 0) tau_isoCI3hit();
-	if (ngamma_branch != 0) ngamma();
-	if (gamma_p4_branch != 0) gamma_p4();
-	if (gamma_pt_branch != 0) gamma_pt();
-	if (gamma_eta_branch != 0) gamma_eta();
-	if (gamma_phi_branch != 0) gamma_phi();
-	if (gamma_mass_branch != 0) gamma_mass();
-	if (gamma_mcMatchId_branch != 0) gamma_mcMatchId();
-	if (gamma_genIso_branch != 0) gamma_genIso();
-	if (gamma_chHadIso_branch != 0) gamma_chHadIso();
-	if (gamma_neuHadIso_branch != 0) gamma_neuHadIso();
-	if (gamma_phIso_branch != 0) gamma_phIso();
-	if (gamma_sigmaIetaIeta_branch != 0) gamma_sigmaIetaIeta();
-	if (gamma_r9_branch != 0) gamma_r9();
-	if (gamma_hOverE_branch != 0) gamma_hOverE();
-	if (gamma_idCutBased_branch != 0) gamma_idCutBased();
-	if (ngenPart_branch != 0) ngenPart();
-	if (genPart_p4_branch != 0) genPart_p4();
-	if (genPart_pt_branch != 0) genPart_pt();
-	if (genPart_eta_branch != 0) genPart_eta();
-	if (genPart_phi_branch != 0) genPart_phi();
-	if (genPart_mass_branch != 0) genPart_mass();
-	if (genPart_pdgId_branch != 0) genPart_pdgId();
-	if (genPart_status_branch != 0) genPart_status();
-	if (genPart_charge_branch != 0) genPart_charge();
-	if (genPart_motherId_branch != 0) genPart_motherId();
-	if (genPart_grandmaId_branch != 0) genPart_grandmaId();
-	if (genPart_isp6status3_branch != 0) genPart_isp6status3();
-	if (gamma_nJet40_branch != 0) gamma_nJet40();
-	if (gamma_nBJet40_branch != 0) gamma_nBJet40();
-	if (ngenLep_branch != 0) ngenLep();
-	if (genLep_pt_branch != 0) genLep_pt();
-	if (genLep_eta_branch != 0) genLep_eta();
-	if (genLep_phi_branch != 0) genLep_phi();
-	if (genLep_mass_branch != 0) genLep_mass();
-	if (genLep_pdgId_branch != 0) genLep_pdgId();
-	if (genLep_status_branch != 0) genLep_status();
-	if (genLep_charge_branch != 0) genLep_charge();
-	if (genLep_sourceId_branch != 0) genLep_sourceId();
-	if (genLep_isp6status3_branch != 0) genLep_isp6status3();
-	if (ngenTau_branch != 0) ngenTau();
-	if (genTau_pt_branch != 0) genTau_pt();
-	if (genTau_eta_branch != 0) genTau_eta();
-	if (genTau_phi_branch != 0) genTau_phi();
-	if (genTau_mass_branch != 0) genTau_mass();
-	if (genTau_pdgId_branch != 0) genTau_pdgId();
-	if (genTau_status_branch != 0) genTau_status();
-	if (genTau_charge_branch != 0) genTau_charge();
-	if (genTau_sourceId_branch != 0) genTau_sourceId();
-	if (ngenLepFromTau_branch != 0) ngenLepFromTau();
-	if (genLepFromTau_pt_branch != 0) genLepFromTau_pt();
-	if (genLepFromTau_eta_branch != 0) genLepFromTau_eta();
-	if (genLepFromTau_phi_branch != 0) genLepFromTau_phi();
-	if (genLepFromTau_mass_branch != 0) genLepFromTau_mass();
-	if (genLepFromTau_pdgId_branch != 0) genLepFromTau_pdgId();
-	if (genLepFromTau_status_branch != 0) genLepFromTau_status();
-	if (genLepFromTau_charge_branch != 0) genLepFromTau_charge();
-	if (genLepFromTau_sourceId_branch != 0) genLepFromTau_sourceId();
-	if (njet_branch != 0) njet();
-	if (jet_p4_branch != 0) jet_p4();
-	if (jets_p4_branch != 0) jets_p4();
-	if (jets_eta30_p4_branch != 0) jets_eta30_p4();
-	if (jet_pt_branch != 0) jet_pt();
-	if (jet_eta_branch != 0) jet_eta();
-	if (jet_phi_branch != 0) jet_phi();
-	if (jet_mass_branch != 0) jet_mass();
-	if (jet_btagCSV_branch != 0) jet_btagCSV();
-	if (jet_rawPt_branch != 0) jet_rawPt();
-	if (jet_mcPt_branch != 0) jet_mcPt();
-	if (jet_mcFlavour_branch != 0) jet_mcFlavour();
-	if (jet_quarkGluonID_branch != 0) jet_quarkGluonID();
-	if (jet_area_branch != 0) jet_area();
-	if (jet_id_branch != 0) jet_id();
-	if (jet_puId_branch != 0) jet_puId();
-	if (met_T1CHS_pt_branch != 0) met_T1CHS_pt();
-	if (met_T1CHS_phi_branch != 0) met_T1CHS_phi();
-	if (hyp_type_branch != 0) hyp_type();
-	if (evt_type_branch != 0) evt_type();
-}
-
-	int &run()
-	{
-		if (not run_isLoaded) {
-			if (run_branch != 0) {
-				run_branch->GetEntry(index);
-			} else { 
-				printf("branch run_branch does not exist!\n");
-				exit(1);
-			}
-			run_isLoaded = true;
-		}
-		return run_;
-	}
-	int &lumi()
-	{
-		if (not lumi_isLoaded) {
-			if (lumi_branch != 0) {
-				lumi_branch->GetEntry(index);
-			} else { 
-				printf("branch lumi_branch does not exist!\n");
-				exit(1);
-			}
-			lumi_isLoaded = true;
-		}
-		return lumi_;
-	}
-	unsigned long long &evt()
-	{
-		if (not evt_isLoaded) {
-			if (evt_branch != 0) {
-				evt_branch->GetEntry(index);
-			} else { 
-				printf("branch evt_branch does not exist!\n");
-				exit(1);
-			}
-			evt_isLoaded = true;
-		}
-		return evt_;
-	}
-	int &isData()
-	{
-		if (not isData_isLoaded) {
-			if (isData_branch != 0) {
-				isData_branch->GetEntry(index);
-			} else { 
-				printf("branch isData_branch does not exist!\n");
-				exit(1);
-			}
-			isData_isLoaded = true;
-		}
-		return isData_;
-	}
-	bool &	evt_passgoodrunlist()
-	{
-		if (not evt_passgoodrunlist_isLoaded) {
-			if (evt_passgoodrunlist_branch != 0) {
-				evt_passgoodrunlist_branch->GetEntry(index);
-			} else { 
-				printf("branch evt_passgoodrunlist_branch does not exist!\n");
-				exit(1);
-			}
-			evt_passgoodrunlist_isLoaded = true;
-		}
-		return evt_passgoodrunlist_;
-	}
-	float &evt_scale1fb()
-	{
-		if (not evt_scale1fb_isLoaded) {
-			if (evt_scale1fb_branch != 0) {
-				evt_scale1fb_branch->GetEntry(index);
-			} else { 
-				printf("branch evt_scale1fb_branch does not exist!\n");
-				exit(1);
-			}
-			evt_scale1fb_isLoaded = true;
-		}
-		return evt_scale1fb_;
-	}
-	float &evt_xsec()
-	{
-		if (not evt_xsec_isLoaded) {
-			if (evt_xsec_branch != 0) {
-				evt_xsec_branch->GetEntry(index);
-			} else { 
-				printf("branch evt_xsec_branch does not exist!\n");
-				exit(1);
-			}
-			evt_xsec_isLoaded = true;
-		}
-		return evt_xsec_;
-	}
-	float &evt_kfactor()
-	{
-		if (not evt_kfactor_isLoaded) {
-			if (evt_kfactor_branch != 0) {
-				evt_kfactor_branch->GetEntry(index);
-			} else { 
-				printf("branch evt_kfactor_branch does not exist!\n");
-				exit(1);
-			}
-			evt_kfactor_isLoaded = true;
-		}
-		return evt_kfactor_;
-	}
-	float &evt_filter()
-	{
-		if (not evt_filter_isLoaded) {
-			if (evt_filter_branch != 0) {
-				evt_filter_branch->GetEntry(index);
-			} else { 
-				printf("branch evt_filter_branch does not exist!\n");
-				exit(1);
-			}
-			evt_filter_isLoaded = true;
-		}
-		return evt_filter_;
-	}
-	int &evt_nEvts()
-	{
-		if (not evt_nEvts_isLoaded) {
-			if (evt_nEvts_branch != 0) {
-				evt_nEvts_branch->GetEntry(index);
-			} else { 
-				printf("branch evt_nEvts_branch does not exist!\n");
-				exit(1);
-			}
-			evt_nEvts_isLoaded = true;
-		}
-		return evt_nEvts_;
-	}
-	float &puWeight()
-	{
-		if (not puWeight_isLoaded) {
-			if (puWeight_branch != 0) {
-				puWeight_branch->GetEntry(index);
-			} else { 
-				printf("branch puWeight_branch does not exist!\n");
-				exit(1);
-			}
-			puWeight_isLoaded = true;
-		}
-		return puWeight_;
-	}
-	int &nVert()
-	{
-		if (not nVert_isLoaded) {
-			if (nVert_branch != 0) {
-				nVert_branch->GetEntry(index);
-			} else { 
-				printf("branch nVert_branch does not exist!\n");
-				exit(1);
-			}
-			nVert_isLoaded = true;
-		}
-		return nVert_;
-	}
-	int &nTrueInt()
-	{
-		if (not nTrueInt_isLoaded) {
-			if (nTrueInt_branch != 0) {
-				nTrueInt_branch->GetEntry(index);
-			} else { 
-				printf("branch nTrueInt_branch does not exist!\n");
-				exit(1);
-			}
-			nTrueInt_isLoaded = true;
-		}
-		return nTrueInt_;
-	}
-	float &rho()
-	{
-		if (not rho_isLoaded) {
-			if (rho_branch != 0) {
-				rho_branch->GetEntry(index);
-			} else { 
-				printf("branch rho_branch does not exist!\n");
-				exit(1);
-			}
-			rho_isLoaded = true;
-		}
-		return rho_;
-	}
-	float &rho25()
-	{
-		if (not rho25_isLoaded) {
-			if (rho25_branch != 0) {
-				rho25_branch->GetEntry(index);
-			} else { 
-				printf("branch rho25_branch does not exist!\n");
-				exit(1);
-			}
-			rho25_isLoaded = true;
-		}
-		return rho25_;
-	}
-	int &njets()
-	{
-		if (not njets_isLoaded) {
-			if (njets_branch != 0) {
-				njets_branch->GetEntry(index);
-			} else { 
-				printf("branch njets_branch does not exist!\n");
-				exit(1);
-			}
-			njets_isLoaded = true;
-		}
-		return njets_;
-	}
-	float &ht()
-	{
-		if (not ht_isLoaded) {
-			if (ht_branch != 0) {
-				ht_branch->GetEntry(index);
-			} else { 
-				printf("branch ht_branch does not exist!\n");
-				exit(1);
-			}
-			ht_isLoaded = true;
-		}
-		return ht_;
-	}
-	float &gen_ht()
-	{
-		if (not gen_ht_isLoaded) {
-			if (gen_ht_branch != 0) {
-				gen_ht_branch->GetEntry(index);
-			} else { 
-				printf("branch gen_ht_branch does not exist!\n");
-				exit(1);
-			}
-			gen_ht_isLoaded = true;
-		}
-		return gen_ht_;
-	}
-	int &njets_eta30()
-	{
-		if (not njets_eta30_isLoaded) {
-			if (njets_eta30_branch != 0) {
-				njets_eta30_branch->GetEntry(index);
-			} else { 
-				printf("branch njets_eta30_branch does not exist!\n");
-				exit(1);
-			}
-			njets_eta30_isLoaded = true;
-		}
-		return njets_eta30_;
-	}
-	float &ht_eta30()
-	{
-		if (not ht_eta30_isLoaded) {
-			if (ht_eta30_branch != 0) {
-				ht_eta30_branch->GetEntry(index);
-			} else { 
-				printf("branch ht_eta30_branch does not exist!\n");
-				exit(1);
-			}
-			ht_eta30_isLoaded = true;
-		}
-		return ht_eta30_;
-	}
-	float &mt2()
-	{
-		if (not mt2_isLoaded) {
-			if (mt2_branch != 0) {
-				mt2_branch->GetEntry(index);
-			} else { 
-				printf("branch mt2_branch does not exist!\n");
-				exit(1);
-			}
-			mt2_isLoaded = true;
-		}
-		return mt2_;
-	}
-	float &mt2j()
-	{
-		if (not mt2j_isLoaded) {
-			if (mt2j_branch != 0) {
-				mt2j_branch->GetEntry(index);
-			} else { 
-				printf("branch mt2j_branch does not exist!\n");
-				exit(1);
-			}
-			mt2j_isLoaded = true;
-		}
-		return mt2j_;
-	}
-	float &mt2j_eta30()
-	{
-		if (not mt2j_eta30_isLoaded) {
-			if (mt2j_eta30_branch != 0) {
-				mt2j_eta30_branch->GetEntry(index);
-			} else { 
-				printf("branch mt2j_eta30_branch does not exist!\n");
-				exit(1);
-			}
-			mt2j_eta30_isLoaded = true;
-		}
-		return mt2j_eta30_;
-	}
-	int &nJet40()
-	{
-		if (not nJet40_isLoaded) {
-			if (nJet40_branch != 0) {
-				nJet40_branch->GetEntry(index);
-			} else { 
-				printf("branch nJet40_branch does not exist!\n");
-				exit(1);
-			}
-			nJet40_isLoaded = true;
-		}
-		return nJet40_;
-	}
-	int &nBJet40()
-	{
-		if (not nBJet40_isLoaded) {
-			if (nBJet40_branch != 0) {
-				nBJet40_branch->GetEntry(index);
-			} else { 
-				printf("branch nBJet40_branch does not exist!\n");
-				exit(1);
-			}
-			nBJet40_isLoaded = true;
-		}
-		return nBJet40_;
-	}
-	int &nBJetTight()
-	{
-		if (not nBJetTight_isLoaded) {
-			if (nBJetTight_branch != 0) {
-				nBJetTight_branch->GetEntry(index);
-			} else { 
-				printf("branch nBJetTight_branch does not exist!\n");
-				exit(1);
-			}
-			nBJetTight_isLoaded = true;
-		}
-		return nBJetTight_;
-	}
-	int &nBJetMedium()
-	{
-		if (not nBJetMedium_isLoaded) {
-			if (nBJetMedium_branch != 0) {
-				nBJetMedium_branch->GetEntry(index);
-			} else { 
-				printf("branch nBJetMedium_branch does not exist!\n");
-				exit(1);
-			}
-			nBJetMedium_isLoaded = true;
-		}
-		return nBJetMedium_;
-	}
-	int &nBJetLoose()
-	{
-		if (not nBJetLoose_isLoaded) {
-			if (nBJetLoose_branch != 0) {
-				nBJetLoose_branch->GetEntry(index);
-			} else { 
-				printf("branch nBJetLoose_branch does not exist!\n");
-				exit(1);
-			}
-			nBJetLoose_isLoaded = true;
-		}
-		return nBJetLoose_;
-	}
-	int &nMuons10()
-	{
-		if (not nMuons10_isLoaded) {
-			if (nMuons10_branch != 0) {
-				nMuons10_branch->GetEntry(index);
-			} else { 
-				printf("branch nMuons10_branch does not exist!\n");
-				exit(1);
-			}
-			nMuons10_isLoaded = true;
-		}
-		return nMuons10_;
-	}
-	int &nElectrons10()
-	{
-		if (not nElectrons10_isLoaded) {
-			if (nElectrons10_branch != 0) {
-				nElectrons10_branch->GetEntry(index);
-			} else { 
-				printf("branch nElectrons10_branch does not exist!\n");
-				exit(1);
-			}
-			nElectrons10_isLoaded = true;
-		}
-		return nElectrons10_;
-	}
-	int &nTaus20()
-	{
-		if (not nTaus20_isLoaded) {
-			if (nTaus20_branch != 0) {
-				nTaus20_branch->GetEntry(index);
-			} else { 
-				printf("branch nTaus20_branch does not exist!\n");
-				exit(1);
-			}
-			nTaus20_isLoaded = true;
-		}
-		return nTaus20_;
-	}
-	int &nGammas20()
-	{
-		if (not nGammas20_isLoaded) {
-			if (nGammas20_branch != 0) {
-				nGammas20_branch->GetEntry(index);
-			} else { 
-				printf("branch nGammas20_branch does not exist!\n");
-				exit(1);
-			}
-			nGammas20_isLoaded = true;
-		}
-		return nGammas20_;
-	}
-	float &met_pt()
-	{
-		if (not met_pt_isLoaded) {
-			if (met_pt_branch != 0) {
-				met_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch met_pt_branch does not exist!\n");
-				exit(1);
-			}
-			met_pt_isLoaded = true;
-		}
-		return met_pt_;
-	}
-	float &met_phi()
-	{
-		if (not met_phi_isLoaded) {
-			if (met_phi_branch != 0) {
-				met_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch met_phi_branch does not exist!\n");
-				exit(1);
-			}
-			met_phi_isLoaded = true;
-		}
-		return met_phi_;
-	}
-	float &met_rawPt()
-	{
-		if (not met_rawPt_isLoaded) {
-			if (met_rawPt_branch != 0) {
-				met_rawPt_branch->GetEntry(index);
-			} else { 
-				printf("branch met_rawPt_branch does not exist!\n");
-				exit(1);
-			}
-			met_rawPt_isLoaded = true;
-		}
-		return met_rawPt_;
-	}
-	float &met_rawPhi()
-	{
-		if (not met_rawPhi_isLoaded) {
-			if (met_rawPhi_branch != 0) {
-				met_rawPhi_branch->GetEntry(index);
-			} else { 
-				printf("branch met_rawPhi_branch does not exist!\n");
-				exit(1);
-			}
-			met_rawPhi_isLoaded = true;
-		}
-		return met_rawPhi_;
-	}
-	float &met_caloPt()
-	{
-		if (not met_caloPt_isLoaded) {
-			if (met_caloPt_branch != 0) {
-				met_caloPt_branch->GetEntry(index);
-			} else { 
-				printf("branch met_caloPt_branch does not exist!\n");
-				exit(1);
-			}
-			met_caloPt_isLoaded = true;
-		}
-		return met_caloPt_;
-	}
-	float &met_caloPhi()
-	{
-		if (not met_caloPhi_isLoaded) {
-			if (met_caloPhi_branch != 0) {
-				met_caloPhi_branch->GetEntry(index);
-			} else { 
-				printf("branch met_caloPhi_branch does not exist!\n");
-				exit(1);
-			}
-			met_caloPhi_isLoaded = true;
-		}
-		return met_caloPhi_;
-	}
-	float &met_genPt()
-	{
-		if (not met_genPt_isLoaded) {
-			if (met_genPt_branch != 0) {
-				met_genPt_branch->GetEntry(index);
-			} else { 
-				printf("branch met_genPt_branch does not exist!\n");
-				exit(1);
-			}
-			met_genPt_isLoaded = true;
-		}
-		return met_genPt_;
-	}
-	float &met_genPhi()
-	{
-		if (not met_genPhi_isLoaded) {
-			if (met_genPhi_branch != 0) {
-				met_genPhi_branch->GetEntry(index);
-			} else { 
-				printf("branch met_genPhi_branch does not exist!\n");
-				exit(1);
-			}
-			met_genPhi_isLoaded = true;
-		}
-		return met_genPhi_;
-	}
-	float &sumet_raw()
-	{
-		if (not sumet_raw_isLoaded) {
-			if (sumet_raw_branch != 0) {
-				sumet_raw_branch->GetEntry(index);
-			} else { 
-				printf("branch sumet_raw_branch does not exist!\n");
-				exit(1);
-			}
-			sumet_raw_isLoaded = true;
-		}
-		return sumet_raw_;
-	}
-	float &jzb_raw()
-	{
-		if (not jzb_raw_isLoaded) {
-			if (jzb_raw_branch != 0) {
-				jzb_raw_branch->GetEntry(index);
-			} else { 
-				printf("branch jzb_raw_branch does not exist!\n");
-				exit(1);
-			}
-			jzb_raw_isLoaded = true;
-		}
-		return jzb_raw_;
-	}
-	float &jzb_T1()
-	{
-		if (not jzb_T1_isLoaded) {
-			if (jzb_T1_branch != 0) {
-				jzb_T1_branch->GetEntry(index);
-			} else { 
-				printf("branch jzb_T1_branch does not exist!\n");
-				exit(1);
-			}
-			jzb_T1_isLoaded = true;
-		}
-		return jzb_T1_;
-	}
-	float &jgb_raw()
-	{
-		if (not jgb_raw_isLoaded) {
-			if (jgb_raw_branch != 0) {
-				jgb_raw_branch->GetEntry(index);
-			} else { 
-				printf("branch jgb_raw_branch does not exist!\n");
-				exit(1);
-			}
-			jgb_raw_isLoaded = true;
-		}
-		return jgb_raw_;
-	}
-	float &jgb_T1()
-	{
-		if (not jgb_T1_isLoaded) {
-			if (jgb_T1_branch != 0) {
-				jgb_T1_branch->GetEntry(index);
-			} else { 
-				printf("branch jgb_T1_branch does not exist!\n");
-				exit(1);
-			}
-			jgb_T1_isLoaded = true;
-		}
-		return jgb_T1_;
-	}
-	int &Flag_EcalDeadCellTriggerPrimitiveFilter()
-	{
-		if (not Flag_EcalDeadCellTriggerPrimitiveFilter_isLoaded) {
-			if (Flag_EcalDeadCellTriggerPrimitiveFilter_branch != 0) {
-				Flag_EcalDeadCellTriggerPrimitiveFilter_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_EcalDeadCellTriggerPrimitiveFilter_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_EcalDeadCellTriggerPrimitiveFilter_isLoaded = true;
-		}
-		return Flag_EcalDeadCellTriggerPrimitiveFilter_;
-	}
-	int &Flag_trkPOG_manystripclus53X()
-	{
-		if (not Flag_trkPOG_manystripclus53X_isLoaded) {
-			if (Flag_trkPOG_manystripclus53X_branch != 0) {
-				Flag_trkPOG_manystripclus53X_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_trkPOG_manystripclus53X_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_trkPOG_manystripclus53X_isLoaded = true;
-		}
-		return Flag_trkPOG_manystripclus53X_;
-	}
-	int &Flag_ecalLaserCorrFilter()
-	{
-		if (not Flag_ecalLaserCorrFilter_isLoaded) {
-			if (Flag_ecalLaserCorrFilter_branch != 0) {
-				Flag_ecalLaserCorrFilter_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_ecalLaserCorrFilter_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_ecalLaserCorrFilter_isLoaded = true;
-		}
-		return Flag_ecalLaserCorrFilter_;
-	}
-	int &Flag_trkPOG_toomanystripclus53X()
-	{
-		if (not Flag_trkPOG_toomanystripclus53X_isLoaded) {
-			if (Flag_trkPOG_toomanystripclus53X_branch != 0) {
-				Flag_trkPOG_toomanystripclus53X_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_trkPOG_toomanystripclus53X_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_trkPOG_toomanystripclus53X_isLoaded = true;
-		}
-		return Flag_trkPOG_toomanystripclus53X_;
-	}
-	int &Flag_hcalLaserEventFilter()
-	{
-		if (not Flag_hcalLaserEventFilter_isLoaded) {
-			if (Flag_hcalLaserEventFilter_branch != 0) {
-				Flag_hcalLaserEventFilter_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_hcalLaserEventFilter_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_hcalLaserEventFilter_isLoaded = true;
-		}
-		return Flag_hcalLaserEventFilter_;
-	}
-	int &Flag_trkPOG_logErrorTooManyClusters()
-	{
-		if (not Flag_trkPOG_logErrorTooManyClusters_isLoaded) {
-			if (Flag_trkPOG_logErrorTooManyClusters_branch != 0) {
-				Flag_trkPOG_logErrorTooManyClusters_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_trkPOG_logErrorTooManyClusters_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_trkPOG_logErrorTooManyClusters_isLoaded = true;
-		}
-		return Flag_trkPOG_logErrorTooManyClusters_;
-	}
-	int &Flag_trkPOGFilters()
-	{
-		if (not Flag_trkPOGFilters_isLoaded) {
-			if (Flag_trkPOGFilters_branch != 0) {
-				Flag_trkPOGFilters_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_trkPOGFilters_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_trkPOGFilters_isLoaded = true;
-		}
-		return Flag_trkPOGFilters_;
-	}
-	int &Flag_trackingFailureFilter()
-	{
-		if (not Flag_trackingFailureFilter_isLoaded) {
-			if (Flag_trackingFailureFilter_branch != 0) {
-				Flag_trackingFailureFilter_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_trackingFailureFilter_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_trackingFailureFilter_isLoaded = true;
-		}
-		return Flag_trackingFailureFilter_;
-	}
-	int &Flag_CSCTightHaloFilter()
-	{
-		if (not Flag_CSCTightHaloFilter_isLoaded) {
-			if (Flag_CSCTightHaloFilter_branch != 0) {
-				Flag_CSCTightHaloFilter_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_CSCTightHaloFilter_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_CSCTightHaloFilter_isLoaded = true;
-		}
-		return Flag_CSCTightHaloFilter_;
-	}
-	int &Flag_HBHENoiseFilter()
-	{
-		if (not Flag_HBHENoiseFilter_isLoaded) {
-			if (Flag_HBHENoiseFilter_branch != 0) {
-				Flag_HBHENoiseFilter_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_HBHENoiseFilter_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_HBHENoiseFilter_isLoaded = true;
-		}
-		return Flag_HBHENoiseFilter_;
-	}
-	int &Flag_goodVertices()
-	{
-		if (not Flag_goodVertices_isLoaded) {
-			if (Flag_goodVertices_branch != 0) {
-				Flag_goodVertices_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_goodVertices_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_goodVertices_isLoaded = true;
-		}
-		return Flag_goodVertices_;
-	}
-	int &Flag_eeBadScFilter()
-	{
-		if (not Flag_eeBadScFilter_isLoaded) {
-			if (Flag_eeBadScFilter_branch != 0) {
-				Flag_eeBadScFilter_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_eeBadScFilter_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_eeBadScFilter_isLoaded = true;
-		}
-		return Flag_eeBadScFilter_;
-	}
-	int &Flag_METFilters()
-	{
-		if (not Flag_METFilters_isLoaded) {
-			if (Flag_METFilters_branch != 0) {
-				Flag_METFilters_branch->GetEntry(index);
-			} else { 
-				printf("branch Flag_METFilters_branch does not exist!\n");
-				exit(1);
-			}
-			Flag_METFilters_isLoaded = true;
-		}
-		return Flag_METFilters_;
-	}
-	int &HLT_HT900()
-	{
-		if (not HLT_HT900_isLoaded) {
-			if (HLT_HT900_branch != 0) {
-				HLT_HT900_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_HT900_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_HT900_isLoaded = true;
-		}
-		return HLT_HT900_;
-	}
-	int &HLT_MET170()
-	{
-		if (not HLT_MET170_isLoaded) {
-			if (HLT_MET170_branch != 0) {
-				HLT_MET170_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_MET170_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_MET170_isLoaded = true;
-		}
-		return HLT_MET170_;
-	}
-	int &HLT_ht350met120()
-	{
-		if (not HLT_ht350met120_isLoaded) {
-			if (HLT_ht350met120_branch != 0) {
-				HLT_ht350met120_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_ht350met120_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_ht350met120_isLoaded = true;
-		}
-		return HLT_ht350met120_;
-	}
-	int &HLT_SingleMu()
-	{
-		if (not HLT_SingleMu_isLoaded) {
-			if (HLT_SingleMu_branch != 0) {
-				HLT_SingleMu_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_SingleMu_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_SingleMu_isLoaded = true;
-		}
-		return HLT_SingleMu_;
-	}
-	int &HLT_DoubleEl()
-	{
-		if (not HLT_DoubleEl_isLoaded) {
-			if (HLT_DoubleEl_branch != 0) {
-				HLT_DoubleEl_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_DoubleEl_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_DoubleEl_isLoaded = true;
-		}
-		return HLT_DoubleEl_;
-	}
-	int &HLT_DoubleEl_DZ()
-	{
-		if (not HLT_DoubleEl_DZ_isLoaded) {
-			if (HLT_DoubleEl_DZ_branch != 0) {
-				HLT_DoubleEl_DZ_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_DoubleEl_DZ_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_DoubleEl_DZ_isLoaded = true;
-		}
-		return HLT_DoubleEl_DZ_;
-	}
-	int &HLT_DoubleEl_noiso()
-	{
-		if (not HLT_DoubleEl_noiso_isLoaded) {
-			if (HLT_DoubleEl_noiso_branch != 0) {
-				HLT_DoubleEl_noiso_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_DoubleEl_noiso_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_DoubleEl_noiso_isLoaded = true;
-		}
-		return HLT_DoubleEl_noiso_;
-	}
-	int &HLT_MuEG()
-	{
-		if (not HLT_MuEG_isLoaded) {
-			if (HLT_MuEG_branch != 0) {
-				HLT_MuEG_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_MuEG_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_MuEG_isLoaded = true;
-		}
-		return HLT_MuEG_;
-	}
-	int &HLT_MuEG_2()
-	{
-		if (not HLT_MuEG_2_isLoaded) {
-			if (HLT_MuEG_2_branch != 0) {
-				HLT_MuEG_2_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_MuEG_2_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_MuEG_2_isLoaded = true;
-		}
-		return HLT_MuEG_2_;
-	}
-	int &HLT_DoubleMu()
-	{
-		if (not HLT_DoubleMu_isLoaded) {
-			if (HLT_DoubleMu_branch != 0) {
-				HLT_DoubleMu_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_DoubleMu_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_DoubleMu_isLoaded = true;
-		}
-		return HLT_DoubleMu_;
-	}
-	int &HLT_DoubleMu_tk()
-	{
-		if (not HLT_DoubleMu_tk_isLoaded) {
-			if (HLT_DoubleMu_tk_branch != 0) {
-				HLT_DoubleMu_tk_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_DoubleMu_tk_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_DoubleMu_tk_isLoaded = true;
-		}
-		return HLT_DoubleMu_tk_;
-	}
-	int &HLT_l1prescale()
-	{
-		if (not HLT_l1prescale_isLoaded) {
-			if (HLT_l1prescale_branch != 0) {
-				HLT_l1prescale_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_l1prescale_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_l1prescale_isLoaded = true;
-		}
-		return HLT_l1prescale_;
-	}
-	int &HLT_Photons()
-	{
-		if (not HLT_Photons_isLoaded) {
-			if (HLT_Photons_branch != 0) {
-				HLT_Photons_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photons_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photons_isLoaded = true;
-		}
-		return HLT_Photons_;
-	}
-	int &HLT_Photon22()
-	{
-		if (not HLT_Photon22_isLoaded) {
-			if (HLT_Photon22_branch != 0) {
-				HLT_Photon22_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon22_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon22_isLoaded = true;
-		}
-		return HLT_Photon22_;
-	}
-	int &HLT_Photon30()
-	{
-		if (not HLT_Photon30_isLoaded) {
-			if (HLT_Photon30_branch != 0) {
-				HLT_Photon30_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon30_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon30_isLoaded = true;
-		}
-		return HLT_Photon30_;
-	}
-	int &HLT_Photon36()
-	{
-		if (not HLT_Photon36_isLoaded) {
-			if (HLT_Photon36_branch != 0) {
-				HLT_Photon36_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon36_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon36_isLoaded = true;
-		}
-		return HLT_Photon36_;
-	}
-	int &HLT_Photon50()
-	{
-		if (not HLT_Photon50_isLoaded) {
-			if (HLT_Photon50_branch != 0) {
-				HLT_Photon50_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon50_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon50_isLoaded = true;
-		}
-		return HLT_Photon50_;
-	}
-	int &HLT_Photon75()
-	{
-		if (not HLT_Photon75_isLoaded) {
-			if (HLT_Photon75_branch != 0) {
-				HLT_Photon75_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon75_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon75_isLoaded = true;
-		}
-		return HLT_Photon75_;
-	}
-	int &HLT_Photon90()
-	{
-		if (not HLT_Photon90_isLoaded) {
-			if (HLT_Photon90_branch != 0) {
-				HLT_Photon90_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon90_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon90_isLoaded = true;
-		}
-		return HLT_Photon90_;
-	}
-	int &HLT_Photon120()
-	{
-		if (not HLT_Photon120_isLoaded) {
-			if (HLT_Photon120_branch != 0) {
-				HLT_Photon120_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon120_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon120_isLoaded = true;
-		}
-		return HLT_Photon120_;
-	}
-	int &HLT_Photon175()
-	{
-		if (not HLT_Photon175_isLoaded) {
-			if (HLT_Photon175_branch != 0) {
-				HLT_Photon175_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon175_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon175_isLoaded = true;
-		}
-		return HLT_Photon175_;
-	}
-	int &HLT_Photon165_HE10()
-	{
-		if (not HLT_Photon165_HE10_isLoaded) {
-			if (HLT_Photon165_HE10_branch != 0) {
-				HLT_Photon165_HE10_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon165_HE10_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon165_HE10_isLoaded = true;
-		}
-		return HLT_Photon165_HE10_;
-	}
-	int &HLT_Photon22_R9Id90_HE10_IsoM()
-	{
-		if (not HLT_Photon22_R9Id90_HE10_IsoM_isLoaded) {
-			if (HLT_Photon22_R9Id90_HE10_IsoM_branch != 0) {
-				HLT_Photon22_R9Id90_HE10_IsoM_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon22_R9Id90_HE10_IsoM_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon22_R9Id90_HE10_IsoM_isLoaded = true;
-		}
-		return HLT_Photon22_R9Id90_HE10_IsoM_;
-	}
-	int &HLT_Photon30_R9Id90_HE10_IsoM()
-	{
-		if (not HLT_Photon30_R9Id90_HE10_IsoM_isLoaded) {
-			if (HLT_Photon30_R9Id90_HE10_IsoM_branch != 0) {
-				HLT_Photon30_R9Id90_HE10_IsoM_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon30_R9Id90_HE10_IsoM_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon30_R9Id90_HE10_IsoM_isLoaded = true;
-		}
-		return HLT_Photon30_R9Id90_HE10_IsoM_;
-	}
-	int &HLT_Photon36_R9Id90_HE10_IsoM()
-	{
-		if (not HLT_Photon36_R9Id90_HE10_IsoM_isLoaded) {
-			if (HLT_Photon36_R9Id90_HE10_IsoM_branch != 0) {
-				HLT_Photon36_R9Id90_HE10_IsoM_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon36_R9Id90_HE10_IsoM_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon36_R9Id90_HE10_IsoM_isLoaded = true;
-		}
-		return HLT_Photon36_R9Id90_HE10_IsoM_;
-	}
-	int &HLT_Photon50_R9Id90_HE10_IsoM()
-	{
-		if (not HLT_Photon50_R9Id90_HE10_IsoM_isLoaded) {
-			if (HLT_Photon50_R9Id90_HE10_IsoM_branch != 0) {
-				HLT_Photon50_R9Id90_HE10_IsoM_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon50_R9Id90_HE10_IsoM_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon50_R9Id90_HE10_IsoM_isLoaded = true;
-		}
-		return HLT_Photon50_R9Id90_HE10_IsoM_;
-	}
-	int &HLT_Photon75_R9Id90_HE10_IsoM()
-	{
-		if (not HLT_Photon75_R9Id90_HE10_IsoM_isLoaded) {
-			if (HLT_Photon75_R9Id90_HE10_IsoM_branch != 0) {
-				HLT_Photon75_R9Id90_HE10_IsoM_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon75_R9Id90_HE10_IsoM_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon75_R9Id90_HE10_IsoM_isLoaded = true;
-		}
-		return HLT_Photon75_R9Id90_HE10_IsoM_;
-	}
-	int &HLT_Photon90_R9Id90_HE10_IsoM()
-	{
-		if (not HLT_Photon90_R9Id90_HE10_IsoM_isLoaded) {
-			if (HLT_Photon90_R9Id90_HE10_IsoM_branch != 0) {
-				HLT_Photon90_R9Id90_HE10_IsoM_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon90_R9Id90_HE10_IsoM_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon90_R9Id90_HE10_IsoM_isLoaded = true;
-		}
-		return HLT_Photon90_R9Id90_HE10_IsoM_;
-	}
-	int &HLT_Photon120_R9Id90_HE10_IsoM()
-	{
-		if (not HLT_Photon120_R9Id90_HE10_IsoM_isLoaded) {
-			if (HLT_Photon120_R9Id90_HE10_IsoM_branch != 0) {
-				HLT_Photon120_R9Id90_HE10_IsoM_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon120_R9Id90_HE10_IsoM_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon120_R9Id90_HE10_IsoM_isLoaded = true;
-		}
-		return HLT_Photon120_R9Id90_HE10_IsoM_;
-	}
-	int &HLT_Photon165_R9Id90_HE10_IsoM()
-	{
-		if (not HLT_Photon165_R9Id90_HE10_IsoM_isLoaded) {
-			if (HLT_Photon165_R9Id90_HE10_IsoM_branch != 0) {
-				HLT_Photon165_R9Id90_HE10_IsoM_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Photon165_R9Id90_HE10_IsoM_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Photon165_R9Id90_HE10_IsoM_isLoaded = true;
-		}
-		return HLT_Photon165_R9Id90_HE10_IsoM_;
-	}
-	float &dilmass()
-	{
-		if (not dilmass_isLoaded) {
-			if (dilmass_branch != 0) {
-				dilmass_branch->GetEntry(index);
-			} else { 
-				printf("branch dilmass_branch does not exist!\n");
-				exit(1);
-			}
-			dilmass_isLoaded = true;
-		}
-		return dilmass_;
-	}
-	float &dilpt()
-	{
-		if (not dilpt_isLoaded) {
-			if (dilpt_branch != 0) {
-				dilpt_branch->GetEntry(index);
-			} else { 
-				printf("branch dilpt_branch does not exist!\n");
-				exit(1);
-			}
-			dilpt_isLoaded = true;
-		}
-		return dilpt_;
-	}
-	float &dRll()
-	{
-		if (not dRll_isLoaded) {
-			if (dRll_branch != 0) {
-				dRll_branch->GetEntry(index);
-			} else { 
-				printf("branch dRll_branch does not exist!\n");
-				exit(1);
-			}
-			dRll_isLoaded = true;
-		}
-		return dRll_;
-	}
-	float &matched_neutralemf()
-	{
-		if (not matched_neutralemf_isLoaded) {
-			if (matched_neutralemf_branch != 0) {
-				matched_neutralemf_branch->GetEntry(index);
-			} else { 
-				printf("branch matched_neutralemf_branch does not exist!\n");
-				exit(1);
-			}
-			matched_neutralemf_isLoaded = true;
-		}
-		return matched_neutralemf_;
-	}
-	bool &	elveto()
-	{
-		if (not elveto_isLoaded) {
-			if (elveto_branch != 0) {
-				elveto_branch->GetEntry(index);
-			} else { 
-				printf("branch elveto_branch does not exist!\n");
-				exit(1);
-			}
-			elveto_isLoaded = true;
-		}
-		return elveto_;
-	}
-	int &nlep()
-	{
-		if (not nlep_isLoaded) {
-			if (nlep_branch != 0) {
-				nlep_branch->GetEntry(index);
-			} else { 
-				printf("branch nlep_branch does not exist!\n");
-				exit(1);
-			}
-			nlep_isLoaded = true;
-		}
-		return nlep_;
-	}
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &lep_p4()
-	{
-		if (not lep_p4_isLoaded) {
-			if (lep_p4_branch != 0) {
-				lep_p4_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_p4_branch does not exist!\n");
-				exit(1);
-			}
-			lep_p4_isLoaded = true;
-		}
-		return *lep_p4_;
-	}
-	const vector<float> &lep_pt()
-	{
-		if (not lep_pt_isLoaded) {
-			if (lep_pt_branch != 0) {
-				lep_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_pt_branch does not exist!\n");
-				exit(1);
-			}
-			lep_pt_isLoaded = true;
-		}
-		return *lep_pt_;
-	}
-	const vector<float> &lep_eta()
-	{
-		if (not lep_eta_isLoaded) {
-			if (lep_eta_branch != 0) {
-				lep_eta_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_eta_branch does not exist!\n");
-				exit(1);
-			}
-			lep_eta_isLoaded = true;
-		}
-		return *lep_eta_;
-	}
-	const vector<float> &lep_phi()
-	{
-		if (not lep_phi_isLoaded) {
-			if (lep_phi_branch != 0) {
-				lep_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_phi_branch does not exist!\n");
-				exit(1);
-			}
-			lep_phi_isLoaded = true;
-		}
-		return *lep_phi_;
-	}
-	const vector<float> &lep_mass()
-	{
-		if (not lep_mass_isLoaded) {
-			if (lep_mass_branch != 0) {
-				lep_mass_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_mass_branch does not exist!\n");
-				exit(1);
-			}
-			lep_mass_isLoaded = true;
-		}
-		return *lep_mass_;
-	}
-	const vector<int> &lep_charge()
-	{
-		if (not lep_charge_isLoaded) {
-			if (lep_charge_branch != 0) {
-				lep_charge_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_charge_branch does not exist!\n");
-				exit(1);
-			}
-			lep_charge_isLoaded = true;
-		}
-		return *lep_charge_;
-	}
-	const vector<int> &lep_pdgId()
-	{
-		if (not lep_pdgId_isLoaded) {
-			if (lep_pdgId_branch != 0) {
-				lep_pdgId_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_pdgId_branch does not exist!\n");
-				exit(1);
-			}
-			lep_pdgId_isLoaded = true;
-		}
-		return *lep_pdgId_;
-	}
-	const vector<float> &lep_dxy()
-	{
-		if (not lep_dxy_isLoaded) {
-			if (lep_dxy_branch != 0) {
-				lep_dxy_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_dxy_branch does not exist!\n");
-				exit(1);
-			}
-			lep_dxy_isLoaded = true;
-		}
-		return *lep_dxy_;
-	}
-	const vector<float> &lep_etaSC()
-	{
-		if (not lep_etaSC_isLoaded) {
-			if (lep_etaSC_branch != 0) {
-				lep_etaSC_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_etaSC_branch does not exist!\n");
-				exit(1);
-			}
-			lep_etaSC_isLoaded = true;
-		}
-		return *lep_etaSC_;
-	}
-	const vector<float> &lep_dz()
-	{
-		if (not lep_dz_isLoaded) {
-			if (lep_dz_branch != 0) {
-				lep_dz_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_dz_branch does not exist!\n");
-				exit(1);
-			}
-			lep_dz_isLoaded = true;
-		}
-		return *lep_dz_;
-	}
-	const vector<int> &lep_tightId()
-	{
-		if (not lep_tightId_isLoaded) {
-			if (lep_tightId_branch != 0) {
-				lep_tightId_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_tightId_branch does not exist!\n");
-				exit(1);
-			}
-			lep_tightId_isLoaded = true;
-		}
-		return *lep_tightId_;
-	}
-	const vector<float> &lep_relIso03()
-	{
-		if (not lep_relIso03_isLoaded) {
-			if (lep_relIso03_branch != 0) {
-				lep_relIso03_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_relIso03_branch does not exist!\n");
-				exit(1);
-			}
-			lep_relIso03_isLoaded = true;
-		}
-		return *lep_relIso03_;
-	}
-	const vector<float> &lep_relIso03MREA()
-	{
-		if (not lep_relIso03MREA_isLoaded) {
-			if (lep_relIso03MREA_branch != 0) {
-				lep_relIso03MREA_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_relIso03MREA_branch does not exist!\n");
-				exit(1);
-			}
-			lep_relIso03MREA_isLoaded = true;
-		}
-		return *lep_relIso03MREA_;
-	}
-	const vector<float> &lep_relIso03MRDB()
-	{
-		if (not lep_relIso03MRDB_isLoaded) {
-			if (lep_relIso03MRDB_branch != 0) {
-				lep_relIso03MRDB_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_relIso03MRDB_branch does not exist!\n");
-				exit(1);
-			}
-			lep_relIso03MRDB_isLoaded = true;
-		}
-		return *lep_relIso03MRDB_;
-	}
-	const vector<float> &lep_relIso03MRNC()
-	{
-		if (not lep_relIso03MRNC_isLoaded) {
-			if (lep_relIso03MRNC_branch != 0) {
-				lep_relIso03MRNC_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_relIso03MRNC_branch does not exist!\n");
-				exit(1);
-			}
-			lep_relIso03MRNC_isLoaded = true;
-		}
-		return *lep_relIso03MRNC_;
-	}
-	const vector<float> &lep_relIso04()
-	{
-		if (not lep_relIso04_isLoaded) {
-			if (lep_relIso04_branch != 0) {
-				lep_relIso04_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_relIso04_branch does not exist!\n");
-				exit(1);
-			}
-			lep_relIso04_isLoaded = true;
-		}
-		return *lep_relIso04_;
-	}
-	const vector<int> &lep_mcMatchId()
-	{
-		if (not lep_mcMatchId_isLoaded) {
-			if (lep_mcMatchId_branch != 0) {
-				lep_mcMatchId_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_mcMatchId_branch does not exist!\n");
-				exit(1);
-			}
-			lep_mcMatchId_isLoaded = true;
-		}
-		return *lep_mcMatchId_;
-	}
-	const vector<int> &lep_lostHits()
-	{
-		if (not lep_lostHits_isLoaded) {
-			if (lep_lostHits_branch != 0) {
-				lep_lostHits_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_lostHits_branch does not exist!\n");
-				exit(1);
-			}
-			lep_lostHits_isLoaded = true;
-		}
-		return *lep_lostHits_;
-	}
-	const vector<int> &lep_convVeto()
-	{
-		if (not lep_convVeto_isLoaded) {
-			if (lep_convVeto_branch != 0) {
-				lep_convVeto_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_convVeto_branch does not exist!\n");
-				exit(1);
-			}
-			lep_convVeto_isLoaded = true;
-		}
-		return *lep_convVeto_;
-	}
-	const vector<int> &lep_tightCharge()
-	{
-		if (not lep_tightCharge_isLoaded) {
-			if (lep_tightCharge_branch != 0) {
-				lep_tightCharge_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_tightCharge_branch does not exist!\n");
-				exit(1);
-			}
-			lep_tightCharge_isLoaded = true;
-		}
-		return *lep_tightCharge_;
-	}
-	const vector<int> &lep_islead()
-	{
-		if (not lep_islead_isLoaded) {
-			if (lep_islead_branch != 0) {
-				lep_islead_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_islead_branch does not exist!\n");
-				exit(1);
-			}
-			lep_islead_isLoaded = true;
-		}
-		return *lep_islead_;
-	}
-	const vector<int> &lep_istail()
-	{
-		if (not lep_istail_isLoaded) {
-			if (lep_istail_branch != 0) {
-				lep_istail_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_istail_branch does not exist!\n");
-				exit(1);
-			}
-			lep_istail_isLoaded = true;
-		}
-		return *lep_istail_;
-	}
-	int &ntau()
-	{
-		if (not ntau_isLoaded) {
-			if (ntau_branch != 0) {
-				ntau_branch->GetEntry(index);
-			} else { 
-				printf("branch ntau_branch does not exist!\n");
-				exit(1);
-			}
-			ntau_isLoaded = true;
-		}
-		return ntau_;
-	}
-	const vector<float> &tau_pt()
-	{
-		if (not tau_pt_isLoaded) {
-			if (tau_pt_branch != 0) {
-				tau_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch tau_pt_branch does not exist!\n");
-				exit(1);
-			}
-			tau_pt_isLoaded = true;
-		}
-		return *tau_pt_;
-	}
-	const vector<float> &tau_eta()
-	{
-		if (not tau_eta_isLoaded) {
-			if (tau_eta_branch != 0) {
-				tau_eta_branch->GetEntry(index);
-			} else { 
-				printf("branch tau_eta_branch does not exist!\n");
-				exit(1);
-			}
-			tau_eta_isLoaded = true;
-		}
-		return *tau_eta_;
-	}
-	const vector<float> &tau_phi()
-	{
-		if (not tau_phi_isLoaded) {
-			if (tau_phi_branch != 0) {
-				tau_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch tau_phi_branch does not exist!\n");
-				exit(1);
-			}
-			tau_phi_isLoaded = true;
-		}
-		return *tau_phi_;
-	}
-	const vector<float> &tau_mass()
-	{
-		if (not tau_mass_isLoaded) {
-			if (tau_mass_branch != 0) {
-				tau_mass_branch->GetEntry(index);
-			} else { 
-				printf("branch tau_mass_branch does not exist!\n");
-				exit(1);
-			}
-			tau_mass_isLoaded = true;
-		}
-		return *tau_mass_;
-	}
-	const vector<int> &tau_charge()
-	{
-		if (not tau_charge_isLoaded) {
-			if (tau_charge_branch != 0) {
-				tau_charge_branch->GetEntry(index);
-			} else { 
-				printf("branch tau_charge_branch does not exist!\n");
-				exit(1);
-			}
-			tau_charge_isLoaded = true;
-		}
-		return *tau_charge_;
-	}
-	const vector<float> &tau_dxy()
-	{
-		if (not tau_dxy_isLoaded) {
-			if (tau_dxy_branch != 0) {
-				tau_dxy_branch->GetEntry(index);
-			} else { 
-				printf("branch tau_dxy_branch does not exist!\n");
-				exit(1);
-			}
-			tau_dxy_isLoaded = true;
-		}
-		return *tau_dxy_;
-	}
-	const vector<float> &tau_dz()
-	{
-		if (not tau_dz_isLoaded) {
-			if (tau_dz_branch != 0) {
-				tau_dz_branch->GetEntry(index);
-			} else { 
-				printf("branch tau_dz_branch does not exist!\n");
-				exit(1);
-			}
-			tau_dz_isLoaded = true;
-		}
-		return *tau_dz_;
-	}
-	const vector<int> &tau_idCI3hit()
-	{
-		if (not tau_idCI3hit_isLoaded) {
-			if (tau_idCI3hit_branch != 0) {
-				tau_idCI3hit_branch->GetEntry(index);
-			} else { 
-				printf("branch tau_idCI3hit_branch does not exist!\n");
-				exit(1);
-			}
-			tau_idCI3hit_isLoaded = true;
-		}
-		return *tau_idCI3hit_;
-	}
-	const vector<float> &tau_isoCI3hit()
-	{
-		if (not tau_isoCI3hit_isLoaded) {
-			if (tau_isoCI3hit_branch != 0) {
-				tau_isoCI3hit_branch->GetEntry(index);
-			} else { 
-				printf("branch tau_isoCI3hit_branch does not exist!\n");
-				exit(1);
-			}
-			tau_isoCI3hit_isLoaded = true;
-		}
-		return *tau_isoCI3hit_;
-	}
-	int &ngamma()
-	{
-		if (not ngamma_isLoaded) {
-			if (ngamma_branch != 0) {
-				ngamma_branch->GetEntry(index);
-			} else { 
-				printf("branch ngamma_branch does not exist!\n");
-				exit(1);
-			}
-			ngamma_isLoaded = true;
-		}
-		return ngamma_;
-	}
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4()
-	{
-		if (not gamma_p4_isLoaded) {
-			if (gamma_p4_branch != 0) {
-				gamma_p4_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_p4_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_p4_isLoaded = true;
-		}
-		return *gamma_p4_;
-	}
-	const vector<float> &gamma_pt()
-	{
-		if (not gamma_pt_isLoaded) {
-			if (gamma_pt_branch != 0) {
-				gamma_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_pt_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_pt_isLoaded = true;
-		}
-		return *gamma_pt_;
-	}
-	const vector<float> &gamma_eta()
-	{
-		if (not gamma_eta_isLoaded) {
-			if (gamma_eta_branch != 0) {
-				gamma_eta_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_eta_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_eta_isLoaded = true;
-		}
-		return *gamma_eta_;
-	}
-	const vector<float> &gamma_phi()
-	{
-		if (not gamma_phi_isLoaded) {
-			if (gamma_phi_branch != 0) {
-				gamma_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_phi_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_phi_isLoaded = true;
-		}
-		return *gamma_phi_;
-	}
-	const vector<float> &gamma_mass()
-	{
-		if (not gamma_mass_isLoaded) {
-			if (gamma_mass_branch != 0) {
-				gamma_mass_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_mass_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_mass_isLoaded = true;
-		}
-		return *gamma_mass_;
-	}
-	const vector<int> &gamma_mcMatchId()
-	{
-		if (not gamma_mcMatchId_isLoaded) {
-			if (gamma_mcMatchId_branch != 0) {
-				gamma_mcMatchId_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_mcMatchId_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_mcMatchId_isLoaded = true;
-		}
-		return *gamma_mcMatchId_;
-	}
-	const vector<float> &gamma_genIso()
-	{
-		if (not gamma_genIso_isLoaded) {
-			if (gamma_genIso_branch != 0) {
-				gamma_genIso_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_genIso_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_genIso_isLoaded = true;
-		}
-		return *gamma_genIso_;
-	}
-	const vector<float> &gamma_chHadIso()
-	{
-		if (not gamma_chHadIso_isLoaded) {
-			if (gamma_chHadIso_branch != 0) {
-				gamma_chHadIso_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_chHadIso_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_chHadIso_isLoaded = true;
-		}
-		return *gamma_chHadIso_;
-	}
-	const vector<float> &gamma_neuHadIso()
-	{
-		if (not gamma_neuHadIso_isLoaded) {
-			if (gamma_neuHadIso_branch != 0) {
-				gamma_neuHadIso_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_neuHadIso_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_neuHadIso_isLoaded = true;
-		}
-		return *gamma_neuHadIso_;
-	}
-	const vector<float> &gamma_phIso()
-	{
-		if (not gamma_phIso_isLoaded) {
-			if (gamma_phIso_branch != 0) {
-				gamma_phIso_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_phIso_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_phIso_isLoaded = true;
-		}
-		return *gamma_phIso_;
-	}
-	const vector<float> &gamma_sigmaIetaIeta()
-	{
-		if (not gamma_sigmaIetaIeta_isLoaded) {
-			if (gamma_sigmaIetaIeta_branch != 0) {
-				gamma_sigmaIetaIeta_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_sigmaIetaIeta_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_sigmaIetaIeta_isLoaded = true;
-		}
-		return *gamma_sigmaIetaIeta_;
-	}
-	const vector<float> &gamma_r9()
-	{
-		if (not gamma_r9_isLoaded) {
-			if (gamma_r9_branch != 0) {
-				gamma_r9_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_r9_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_r9_isLoaded = true;
-		}
-		return *gamma_r9_;
-	}
-	const vector<float> &gamma_hOverE()
-	{
-		if (not gamma_hOverE_isLoaded) {
-			if (gamma_hOverE_branch != 0) {
-				gamma_hOverE_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_hOverE_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_hOverE_isLoaded = true;
-		}
-		return *gamma_hOverE_;
-	}
-	const vector<int> &gamma_idCutBased()
-	{
-		if (not gamma_idCutBased_isLoaded) {
-			if (gamma_idCutBased_branch != 0) {
-				gamma_idCutBased_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_idCutBased_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_idCutBased_isLoaded = true;
-		}
-		return *gamma_idCutBased_;
-	}
-	int &ngenPart()
-	{
-		if (not ngenPart_isLoaded) {
-			if (ngenPart_branch != 0) {
-				ngenPart_branch->GetEntry(index);
-			} else { 
-				printf("branch ngenPart_branch does not exist!\n");
-				exit(1);
-			}
-			ngenPart_isLoaded = true;
-		}
-		return ngenPart_;
-	}
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4()
-	{
-		if (not genPart_p4_isLoaded) {
-			if (genPart_p4_branch != 0) {
-				genPart_p4_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_p4_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_p4_isLoaded = true;
-		}
-		return *genPart_p4_;
-	}
-	const vector<float> &genPart_pt()
-	{
-		if (not genPart_pt_isLoaded) {
-			if (genPart_pt_branch != 0) {
-				genPart_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_pt_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_pt_isLoaded = true;
-		}
-		return *genPart_pt_;
-	}
-	const vector<float> &genPart_eta()
-	{
-		if (not genPart_eta_isLoaded) {
-			if (genPart_eta_branch != 0) {
-				genPart_eta_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_eta_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_eta_isLoaded = true;
-		}
-		return *genPart_eta_;
-	}
-	const vector<float> &genPart_phi()
-	{
-		if (not genPart_phi_isLoaded) {
-			if (genPart_phi_branch != 0) {
-				genPart_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_phi_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_phi_isLoaded = true;
-		}
-		return *genPart_phi_;
-	}
-	const vector<float> &genPart_mass()
-	{
-		if (not genPart_mass_isLoaded) {
-			if (genPart_mass_branch != 0) {
-				genPart_mass_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_mass_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_mass_isLoaded = true;
-		}
-		return *genPart_mass_;
-	}
-	const vector<int> &genPart_pdgId()
-	{
-		if (not genPart_pdgId_isLoaded) {
-			if (genPart_pdgId_branch != 0) {
-				genPart_pdgId_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_pdgId_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_pdgId_isLoaded = true;
-		}
-		return *genPart_pdgId_;
-	}
-	const vector<int> &genPart_status()
-	{
-		if (not genPart_status_isLoaded) {
-			if (genPart_status_branch != 0) {
-				genPart_status_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_status_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_status_isLoaded = true;
-		}
-		return *genPart_status_;
-	}
-	const vector<float> &genPart_charge()
-	{
-		if (not genPart_charge_isLoaded) {
-			if (genPart_charge_branch != 0) {
-				genPart_charge_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_charge_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_charge_isLoaded = true;
-		}
-		return *genPart_charge_;
-	}
-	const vector<int> &genPart_motherId()
-	{
-		if (not genPart_motherId_isLoaded) {
-			if (genPart_motherId_branch != 0) {
-				genPart_motherId_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_motherId_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_motherId_isLoaded = true;
-		}
-		return *genPart_motherId_;
-	}
-	const vector<int> &genPart_grandmaId()
-	{
-		if (not genPart_grandmaId_isLoaded) {
-			if (genPart_grandmaId_branch != 0) {
-				genPart_grandmaId_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_grandmaId_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_grandmaId_isLoaded = true;
-		}
-		return *genPart_grandmaId_;
-	}
-	const vector<bool> &genPart_isp6status3()
-	{
-		if (not genPart_isp6status3_isLoaded) {
-			if (genPart_isp6status3_branch != 0) {
-				genPart_isp6status3_branch->GetEntry(index);
-			} else { 
-				printf("branch genPart_isp6status3_branch does not exist!\n");
-				exit(1);
-			}
-			genPart_isp6status3_isLoaded = true;
-		}
-		return *genPart_isp6status3_;
-	}
-	int &gamma_nJet40()
-	{
-		if (not gamma_nJet40_isLoaded) {
-			if (gamma_nJet40_branch != 0) {
-				gamma_nJet40_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_nJet40_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_nJet40_isLoaded = true;
-		}
-		return gamma_nJet40_;
-	}
-	int &gamma_nBJet40()
-	{
-		if (not gamma_nBJet40_isLoaded) {
-			if (gamma_nBJet40_branch != 0) {
-				gamma_nBJet40_branch->GetEntry(index);
-			} else { 
-				printf("branch gamma_nBJet40_branch does not exist!\n");
-				exit(1);
-			}
-			gamma_nBJet40_isLoaded = true;
-		}
-		return gamma_nBJet40_;
-	}
-	int &ngenLep()
-	{
-		if (not ngenLep_isLoaded) {
-			if (ngenLep_branch != 0) {
-				ngenLep_branch->GetEntry(index);
-			} else { 
-				printf("branch ngenLep_branch does not exist!\n");
-				exit(1);
-			}
-			ngenLep_isLoaded = true;
-		}
-		return ngenLep_;
-	}
-	const vector<float> &genLep_pt()
-	{
-		if (not genLep_pt_isLoaded) {
-			if (genLep_pt_branch != 0) {
-				genLep_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch genLep_pt_branch does not exist!\n");
-				exit(1);
-			}
-			genLep_pt_isLoaded = true;
-		}
-		return *genLep_pt_;
-	}
-	const vector<float> &genLep_eta()
-	{
-		if (not genLep_eta_isLoaded) {
-			if (genLep_eta_branch != 0) {
-				genLep_eta_branch->GetEntry(index);
-			} else { 
-				printf("branch genLep_eta_branch does not exist!\n");
-				exit(1);
-			}
-			genLep_eta_isLoaded = true;
-		}
-		return *genLep_eta_;
-	}
-	const vector<float> &genLep_phi()
-	{
-		if (not genLep_phi_isLoaded) {
-			if (genLep_phi_branch != 0) {
-				genLep_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch genLep_phi_branch does not exist!\n");
-				exit(1);
-			}
-			genLep_phi_isLoaded = true;
-		}
-		return *genLep_phi_;
-	}
-	const vector<float> &genLep_mass()
-	{
-		if (not genLep_mass_isLoaded) {
-			if (genLep_mass_branch != 0) {
-				genLep_mass_branch->GetEntry(index);
-			} else { 
-				printf("branch genLep_mass_branch does not exist!\n");
-				exit(1);
-			}
-			genLep_mass_isLoaded = true;
-		}
-		return *genLep_mass_;
-	}
-	const vector<int> &genLep_pdgId()
-	{
-		if (not genLep_pdgId_isLoaded) {
-			if (genLep_pdgId_branch != 0) {
-				genLep_pdgId_branch->GetEntry(index);
-			} else { 
-				printf("branch genLep_pdgId_branch does not exist!\n");
-				exit(1);
-			}
-			genLep_pdgId_isLoaded = true;
-		}
-		return *genLep_pdgId_;
-	}
-	const vector<int> &genLep_status()
-	{
-		if (not genLep_status_isLoaded) {
-			if (genLep_status_branch != 0) {
-				genLep_status_branch->GetEntry(index);
-			} else { 
-				printf("branch genLep_status_branch does not exist!\n");
-				exit(1);
-			}
-			genLep_status_isLoaded = true;
-		}
-		return *genLep_status_;
-	}
-	const vector<float> &genLep_charge()
-	{
-		if (not genLep_charge_isLoaded) {
-			if (genLep_charge_branch != 0) {
-				genLep_charge_branch->GetEntry(index);
-			} else { 
-				printf("branch genLep_charge_branch does not exist!\n");
-				exit(1);
-			}
-			genLep_charge_isLoaded = true;
-		}
-		return *genLep_charge_;
-	}
-	const vector<int> &genLep_sourceId()
-	{
-		if (not genLep_sourceId_isLoaded) {
-			if (genLep_sourceId_branch != 0) {
-				genLep_sourceId_branch->GetEntry(index);
-			} else { 
-				printf("branch genLep_sourceId_branch does not exist!\n");
-				exit(1);
-			}
-			genLep_sourceId_isLoaded = true;
-		}
-		return *genLep_sourceId_;
-	}
-	const vector<bool> &genLep_isp6status3()
-	{
-		if (not genLep_isp6status3_isLoaded) {
-			if (genLep_isp6status3_branch != 0) {
-				genLep_isp6status3_branch->GetEntry(index);
-			} else { 
-				printf("branch genLep_isp6status3_branch does not exist!\n");
-				exit(1);
-			}
-			genLep_isp6status3_isLoaded = true;
-		}
-		return *genLep_isp6status3_;
-	}
-	int &ngenTau()
-	{
-		if (not ngenTau_isLoaded) {
-			if (ngenTau_branch != 0) {
-				ngenTau_branch->GetEntry(index);
-			} else { 
-				printf("branch ngenTau_branch does not exist!\n");
-				exit(1);
-			}
-			ngenTau_isLoaded = true;
-		}
-		return ngenTau_;
-	}
-	const vector<float> &genTau_pt()
-	{
-		if (not genTau_pt_isLoaded) {
-			if (genTau_pt_branch != 0) {
-				genTau_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch genTau_pt_branch does not exist!\n");
-				exit(1);
-			}
-			genTau_pt_isLoaded = true;
-		}
-		return *genTau_pt_;
-	}
-	const vector<float> &genTau_eta()
-	{
-		if (not genTau_eta_isLoaded) {
-			if (genTau_eta_branch != 0) {
-				genTau_eta_branch->GetEntry(index);
-			} else { 
-				printf("branch genTau_eta_branch does not exist!\n");
-				exit(1);
-			}
-			genTau_eta_isLoaded = true;
-		}
-		return *genTau_eta_;
-	}
-	const vector<float> &genTau_phi()
-	{
-		if (not genTau_phi_isLoaded) {
-			if (genTau_phi_branch != 0) {
-				genTau_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch genTau_phi_branch does not exist!\n");
-				exit(1);
-			}
-			genTau_phi_isLoaded = true;
-		}
-		return *genTau_phi_;
-	}
-	const vector<float> &genTau_mass()
-	{
-		if (not genTau_mass_isLoaded) {
-			if (genTau_mass_branch != 0) {
-				genTau_mass_branch->GetEntry(index);
-			} else { 
-				printf("branch genTau_mass_branch does not exist!\n");
-				exit(1);
-			}
-			genTau_mass_isLoaded = true;
-		}
-		return *genTau_mass_;
-	}
-	const vector<int> &genTau_pdgId()
-	{
-		if (not genTau_pdgId_isLoaded) {
-			if (genTau_pdgId_branch != 0) {
-				genTau_pdgId_branch->GetEntry(index);
-			} else { 
-				printf("branch genTau_pdgId_branch does not exist!\n");
-				exit(1);
-			}
-			genTau_pdgId_isLoaded = true;
-		}
-		return *genTau_pdgId_;
-	}
-	const vector<int> &genTau_status()
-	{
-		if (not genTau_status_isLoaded) {
-			if (genTau_status_branch != 0) {
-				genTau_status_branch->GetEntry(index);
-			} else { 
-				printf("branch genTau_status_branch does not exist!\n");
-				exit(1);
-			}
-			genTau_status_isLoaded = true;
-		}
-		return *genTau_status_;
-	}
-	const vector<float> &genTau_charge()
-	{
-		if (not genTau_charge_isLoaded) {
-			if (genTau_charge_branch != 0) {
-				genTau_charge_branch->GetEntry(index);
-			} else { 
-				printf("branch genTau_charge_branch does not exist!\n");
-				exit(1);
-			}
-			genTau_charge_isLoaded = true;
-		}
-		return *genTau_charge_;
-	}
-	const vector<int> &genTau_sourceId()
-	{
-		if (not genTau_sourceId_isLoaded) {
-			if (genTau_sourceId_branch != 0) {
-				genTau_sourceId_branch->GetEntry(index);
-			} else { 
-				printf("branch genTau_sourceId_branch does not exist!\n");
-				exit(1);
-			}
-			genTau_sourceId_isLoaded = true;
-		}
-		return *genTau_sourceId_;
-	}
-	int &ngenLepFromTau()
-	{
-		if (not ngenLepFromTau_isLoaded) {
-			if (ngenLepFromTau_branch != 0) {
-				ngenLepFromTau_branch->GetEntry(index);
-			} else { 
-				printf("branch ngenLepFromTau_branch does not exist!\n");
-				exit(1);
-			}
-			ngenLepFromTau_isLoaded = true;
-		}
-		return ngenLepFromTau_;
-	}
-	const vector<float> &genLepFromTau_pt()
-	{
-		if (not genLepFromTau_pt_isLoaded) {
-			if (genLepFromTau_pt_branch != 0) {
-				genLepFromTau_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch genLepFromTau_pt_branch does not exist!\n");
-				exit(1);
-			}
-			genLepFromTau_pt_isLoaded = true;
-		}
-		return *genLepFromTau_pt_;
-	}
-	const vector<float> &genLepFromTau_eta()
-	{
-		if (not genLepFromTau_eta_isLoaded) {
-			if (genLepFromTau_eta_branch != 0) {
-				genLepFromTau_eta_branch->GetEntry(index);
-			} else { 
-				printf("branch genLepFromTau_eta_branch does not exist!\n");
-				exit(1);
-			}
-			genLepFromTau_eta_isLoaded = true;
-		}
-		return *genLepFromTau_eta_;
-	}
-	const vector<float> &genLepFromTau_phi()
-	{
-		if (not genLepFromTau_phi_isLoaded) {
-			if (genLepFromTau_phi_branch != 0) {
-				genLepFromTau_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch genLepFromTau_phi_branch does not exist!\n");
-				exit(1);
-			}
-			genLepFromTau_phi_isLoaded = true;
-		}
-		return *genLepFromTau_phi_;
-	}
-	const vector<float> &genLepFromTau_mass()
-	{
-		if (not genLepFromTau_mass_isLoaded) {
-			if (genLepFromTau_mass_branch != 0) {
-				genLepFromTau_mass_branch->GetEntry(index);
-			} else { 
-				printf("branch genLepFromTau_mass_branch does not exist!\n");
-				exit(1);
-			}
-			genLepFromTau_mass_isLoaded = true;
-		}
-		return *genLepFromTau_mass_;
-	}
-	const vector<int> &genLepFromTau_pdgId()
-	{
-		if (not genLepFromTau_pdgId_isLoaded) {
-			if (genLepFromTau_pdgId_branch != 0) {
-				genLepFromTau_pdgId_branch->GetEntry(index);
-			} else { 
-				printf("branch genLepFromTau_pdgId_branch does not exist!\n");
-				exit(1);
-			}
-			genLepFromTau_pdgId_isLoaded = true;
-		}
-		return *genLepFromTau_pdgId_;
-	}
-	const vector<int> &genLepFromTau_status()
-	{
-		if (not genLepFromTau_status_isLoaded) {
-			if (genLepFromTau_status_branch != 0) {
-				genLepFromTau_status_branch->GetEntry(index);
-			} else { 
-				printf("branch genLepFromTau_status_branch does not exist!\n");
-				exit(1);
-			}
-			genLepFromTau_status_isLoaded = true;
-		}
-		return *genLepFromTau_status_;
-	}
-	const vector<float> &genLepFromTau_charge()
-	{
-		if (not genLepFromTau_charge_isLoaded) {
-			if (genLepFromTau_charge_branch != 0) {
-				genLepFromTau_charge_branch->GetEntry(index);
-			} else { 
-				printf("branch genLepFromTau_charge_branch does not exist!\n");
-				exit(1);
-			}
-			genLepFromTau_charge_isLoaded = true;
-		}
-		return *genLepFromTau_charge_;
-	}
-	const vector<int> &genLepFromTau_sourceId()
-	{
-		if (not genLepFromTau_sourceId_isLoaded) {
-			if (genLepFromTau_sourceId_branch != 0) {
-				genLepFromTau_sourceId_branch->GetEntry(index);
-			} else { 
-				printf("branch genLepFromTau_sourceId_branch does not exist!\n");
-				exit(1);
-			}
-			genLepFromTau_sourceId_isLoaded = true;
-		}
-		return *genLepFromTau_sourceId_;
-	}
-	int &njet()
-	{
-		if (not njet_isLoaded) {
-			if (njet_branch != 0) {
-				njet_branch->GetEntry(index);
-			} else { 
-				printf("branch njet_branch does not exist!\n");
-				exit(1);
-			}
-			njet_isLoaded = true;
-		}
-		return njet_;
-	}
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jet_p4()
-	{
-		if (not jet_p4_isLoaded) {
-			if (jet_p4_branch != 0) {
-				jet_p4_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_p4_branch does not exist!\n");
-				exit(1);
-			}
-			jet_p4_isLoaded = true;
-		}
-		return *jet_p4_;
-	}
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_p4()
-	{
-		if (not jets_p4_isLoaded) {
-			if (jets_p4_branch != 0) {
-				jets_p4_branch->GetEntry(index);
-			} else { 
-				printf("branch jets_p4_branch does not exist!\n");
-				exit(1);
-			}
-			jets_p4_isLoaded = true;
-		}
-		return *jets_p4_;
-	}
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_eta30_p4()
-	{
-		if (not jets_eta30_p4_isLoaded) {
-			if (jets_eta30_p4_branch != 0) {
-				jets_eta30_p4_branch->GetEntry(index);
-			} else { 
-				printf("branch jets_eta30_p4_branch does not exist!\n");
-				exit(1);
-			}
-			jets_eta30_p4_isLoaded = true;
-		}
-		return *jets_eta30_p4_;
-	}
-	const vector<float> &jet_pt()
-	{
-		if (not jet_pt_isLoaded) {
-			if (jet_pt_branch != 0) {
-				jet_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_pt_branch does not exist!\n");
-				exit(1);
-			}
-			jet_pt_isLoaded = true;
-		}
-		return *jet_pt_;
-	}
-	const vector<float> &jet_eta()
-	{
-		if (not jet_eta_isLoaded) {
-			if (jet_eta_branch != 0) {
-				jet_eta_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_eta_branch does not exist!\n");
-				exit(1);
-			}
-			jet_eta_isLoaded = true;
-		}
-		return *jet_eta_;
-	}
-	const vector<float> &jet_phi()
-	{
-		if (not jet_phi_isLoaded) {
-			if (jet_phi_branch != 0) {
-				jet_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_phi_branch does not exist!\n");
-				exit(1);
-			}
-			jet_phi_isLoaded = true;
-		}
-		return *jet_phi_;
-	}
-	const vector<float> &jet_mass()
-	{
-		if (not jet_mass_isLoaded) {
-			if (jet_mass_branch != 0) {
-				jet_mass_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_mass_branch does not exist!\n");
-				exit(1);
-			}
-			jet_mass_isLoaded = true;
-		}
-		return *jet_mass_;
-	}
-	const vector<float> &jet_btagCSV()
-	{
-		if (not jet_btagCSV_isLoaded) {
-			if (jet_btagCSV_branch != 0) {
-				jet_btagCSV_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_btagCSV_branch does not exist!\n");
-				exit(1);
-			}
-			jet_btagCSV_isLoaded = true;
-		}
-		return *jet_btagCSV_;
-	}
-	const vector<float> &jet_rawPt()
-	{
-		if (not jet_rawPt_isLoaded) {
-			if (jet_rawPt_branch != 0) {
-				jet_rawPt_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_rawPt_branch does not exist!\n");
-				exit(1);
-			}
-			jet_rawPt_isLoaded = true;
-		}
-		return *jet_rawPt_;
-	}
-	const vector<float> &jet_mcPt()
-	{
-		if (not jet_mcPt_isLoaded) {
-			if (jet_mcPt_branch != 0) {
-				jet_mcPt_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_mcPt_branch does not exist!\n");
-				exit(1);
-			}
-			jet_mcPt_isLoaded = true;
-		}
-		return *jet_mcPt_;
-	}
-	const vector<int> &jet_mcFlavour()
-	{
-		if (not jet_mcFlavour_isLoaded) {
-			if (jet_mcFlavour_branch != 0) {
-				jet_mcFlavour_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_mcFlavour_branch does not exist!\n");
-				exit(1);
-			}
-			jet_mcFlavour_isLoaded = true;
-		}
-		return *jet_mcFlavour_;
-	}
-	const vector<float> &jet_quarkGluonID()
-	{
-		if (not jet_quarkGluonID_isLoaded) {
-			if (jet_quarkGluonID_branch != 0) {
-				jet_quarkGluonID_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_quarkGluonID_branch does not exist!\n");
-				exit(1);
-			}
-			jet_quarkGluonID_isLoaded = true;
-		}
-		return *jet_quarkGluonID_;
-	}
-	const vector<float> &jet_area()
-	{
-		if (not jet_area_isLoaded) {
-			if (jet_area_branch != 0) {
-				jet_area_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_area_branch does not exist!\n");
-				exit(1);
-			}
-			jet_area_isLoaded = true;
-		}
-		return *jet_area_;
-	}
-	const vector<int> &jet_id()
-	{
-		if (not jet_id_isLoaded) {
-			if (jet_id_branch != 0) {
-				jet_id_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_id_branch does not exist!\n");
-				exit(1);
-			}
-			jet_id_isLoaded = true;
-		}
-		return *jet_id_;
-	}
-	const vector<int> &jet_puId()
-	{
-		if (not jet_puId_isLoaded) {
-			if (jet_puId_branch != 0) {
-				jet_puId_branch->GetEntry(index);
-			} else { 
-				printf("branch jet_puId_branch does not exist!\n");
-				exit(1);
-			}
-			jet_puId_isLoaded = true;
-		}
-		return *jet_puId_;
-	}
-	float &met_T1CHS_pt()
-	{
-		if (not met_T1CHS_pt_isLoaded) {
-			if (met_T1CHS_pt_branch != 0) {
-				met_T1CHS_pt_branch->GetEntry(index);
-			} else { 
-				printf("branch met_T1CHS_pt_branch does not exist!\n");
-				exit(1);
-			}
-			met_T1CHS_pt_isLoaded = true;
-		}
-		return met_T1CHS_pt_;
-	}
-	float &met_T1CHS_phi()
-	{
-		if (not met_T1CHS_phi_isLoaded) {
-			if (met_T1CHS_phi_branch != 0) {
-				met_T1CHS_phi_branch->GetEntry(index);
-			} else { 
-				printf("branch met_T1CHS_phi_branch does not exist!\n");
-				exit(1);
-			}
-			met_T1CHS_phi_isLoaded = true;
-		}
-		return met_T1CHS_phi_;
-	}
-	int &hyp_type()
-	{
-		if (not hyp_type_isLoaded) {
-			if (hyp_type_branch != 0) {
-				hyp_type_branch->GetEntry(index);
-			} else { 
-				printf("branch hyp_type_branch does not exist!\n");
-				exit(1);
-			}
-			hyp_type_isLoaded = true;
-		}
-		return hyp_type_;
-	}
-	int &evt_type()
-	{
-		if (not evt_type_isLoaded) {
-			if (evt_type_branch != 0) {
-				evt_type_branch->GetEntry(index);
-			} else { 
-				printf("branch evt_type_branch does not exist!\n");
-				exit(1);
-			}
-			evt_type_isLoaded = true;
-		}
-		return evt_type_;
-	}
-
-  static void progress( int nEventsTotal, int nEventsChain ){
-    int period = 1000;
-    if(nEventsTotal%1000 == 0) {
-      // xterm magic from L. Vacavant and A. Cerri
-      if (isatty(1)) {
-        if( ( nEventsChain - nEventsTotal ) > period ){
-          float frac = (float)nEventsTotal/(nEventsChain*0.01);
-          printf("\015\033[32m ---> \033[1m\033[31m%4.1f%%"
-               "\033[0m\033[32m <---\033[0m\015", frac);
-          fflush(stdout);
-        }
-        else {
-          printf("\015\033[32m ---> \033[1m\033[31m%4.1f%%"
-                 "\033[0m\033[32m <---\033[0m\015", 100.);
-          cout << endl;
-        }
-      }
-    }
-  }
-  
+  static void progress( int nEventsTotal, int nEventsChain );
 };
 
 #ifndef __CINT__
 extern V00_00_01 cms3;
 #endif
 
-namespace tas {
-	const int &run();
-	const int &lumi();
-	const unsigned long long &evt();
-	const int &isData();
-	const bool &evt_passgoodrunlist();
-	const float &evt_scale1fb();
-	const float &evt_xsec();
-	const float &evt_kfactor();
-	const float &evt_filter();
-	const int &evt_nEvts();
-	const float &puWeight();
-	const int &nVert();
-	const int &nTrueInt();
-	const float &rho();
-	const float &rho25();
-	const int &njets();
-	const float &ht();
-	const float &gen_ht();
-	const int &njets_eta30();
-	const float &ht_eta30();
-	const float &mt2();
-	const float &mt2j();
-	const float &mt2j_eta30();
-	const int &nJet40();
-	const int &nBJet40();
-	const int &nBJetTight();
-	const int &nBJetMedium();
-	const int &nBJetLoose();
-	const int &nMuons10();
-	const int &nElectrons10();
-	const int &nTaus20();
-	const int &nGammas20();
-	const float &met_pt();
-	const float &met_phi();
-	const float &met_rawPt();
-	const float &met_rawPhi();
-	const float &met_caloPt();
-	const float &met_caloPhi();
-	const float &met_genPt();
-	const float &met_genPhi();
-	const float &sumet_raw();
-	const float &jzb_raw();
-	const float &jzb_T1();
-	const float &jgb_raw();
-	const float &jgb_T1();
-	const int &Flag_EcalDeadCellTriggerPrimitiveFilter();
-	const int &Flag_trkPOG_manystripclus53X();
-	const int &Flag_ecalLaserCorrFilter();
-	const int &Flag_trkPOG_toomanystripclus53X();
-	const int &Flag_hcalLaserEventFilter();
-	const int &Flag_trkPOG_logErrorTooManyClusters();
-	const int &Flag_trkPOGFilters();
-	const int &Flag_trackingFailureFilter();
-	const int &Flag_CSCTightHaloFilter();
-	const int &Flag_HBHENoiseFilter();
-	const int &Flag_goodVertices();
-	const int &Flag_eeBadScFilter();
-	const int &Flag_METFilters();
-	const int &HLT_HT900();
-	const int &HLT_MET170();
-	const int &HLT_ht350met120();
+namespace V00_00_01_np {
+	const unsigned int &run();
+	const unsigned int &ls();
+	const unsigned int &evt();
+	const int &nvtxs();
+	const int &firstGoodVtxIdx();
+	const int &firstVtx_isfake();
+	const float &firstVtx_ndof();
+	const float &firstVtx_posRho();
+	const float &firstVtx_posZ();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &firstVtx_posp4();
+	const int &pu_nvtxs();
+	const float &pfmet();
+	const float &pfmet_phi();
+	const float &calomet();
+	const float &calomet_phi();
+	const float &filt_cscbeamhalo();
+	const float &filt_ecallaser();
+	const float &filt_ecaltp();
+	const float &filt_eebadsc();
+	const float &filt_goodvtx();
+	const float &filt_hbhenoise();
+	const float &filt_hbhenoise_25ns();
+	const float &filt_hbhenoise_50ns();
+	const float &filt_hcallaser();
+	const float &filt_met();
+	const float &filt_trkfail();
+	const float &filt_trkPOG();
+	const float &filt_trkPOG_tmc();
+	const float &filt_trkPOG_tms();
+	const float &filt_eff();
+	const float &scale1fb();
+	const float &xsec();
+	const float &kfactor();
+	const float &pu_ntrue();
+	const int &ngoodleps();
+	const int &nlooseleps();
+	const int &nvetoleps();
+	const bool &is_data();
+	const string &dataset();
+	const string &filename();
+	const string &cms3tag();
+	const unsigned int &nEvents();
+	const unsigned int &nEvents_goodvtx();
+	const unsigned int &nEvents_MET30();
+	const unsigned int &nEvents_1goodlep();
+	const unsigned int &nEvents_2goodjets();
+	const int &genlepsfromtop();
+	const float &MT2W();
+	const float &MT2W_lep2();
+	const float &mindphi_met_j1_j2();
+	const float &mt_met_lep();
+	const float &mt_met_lep2();
+	const float &dR_lep_leadb();
+	const float &dR_lep2_leadb();
+	const float &hadronic_top_chi2();
+	const float &dphi_Wlep();
+	const float &MET_over_sqrtHT();
+	const float &ak4pfjets_rho();
+	const vector<string> &genweightsID();
+	const vector<float> &genweights();
+	const vector<string> &sparms_names();
+	const float &sparms_filterEfficiency();
+	const float &sparms_pdfScale();
+	const float &sparms_pdfWeight1();
+	const float &sparms_pdfWeight2();
+	const float &sparms_weight();
+	const float &sparms_xsec();
+	const vector<float> &sparms_values();
+	const int &sparms_subProcessId();
+	const float &mass_lsp();
+	const float &mass_chargino();
+	const float &mass_stop();
+	const float &genmet();
+	const float &genmet_phi();
+	const bool &PassTrackVeto();
+	const bool &PassTrackVeto_v2();
+	const bool &PassTrackVeto_v3();
+	const bool &PassTauVeto();
+	const float &EA_all_rho();
+	const float &EA_allcalo_rho();
+	const float &EA_centralcalo_rho();
+	const float &EA_centralchargedpileup_rho();
+	const float &EA_centralneutral_rho();
+	const float &topness();
+	const float &topness_lep2();
+	const float &topnessMod();
+	const float &topnessMod_lep2();
+	const float &MT2_lb_b();
+	const float &MT2_lb_b_lep2();
+	const float &MT2_lb_b_mass();
+	const float &MT2_lb_b_mass_lep2();
+	const float &MT2_lb_bqq();
+	const float &MT2_lb_bqq_lep2();
+	const float &MT2_lb_bqq_mass();
+	const float &MT2_lb_bqq_mass_lep2();
+	const float &Mlb_closestb();
+	const float &Mlb_lead_bdiscr();
+	const float &Mlb_closestb_lep2();
+	const float &Mlb_lead_bdiscr_lep2();
+	const float &Mjjj();
+	const float &Mjjj_lep2();
+	const int &HLT_SingleEl();
 	const int &HLT_SingleMu();
-	const int &HLT_DoubleEl();
-	const int &HLT_DoubleEl_DZ();
-	const int &HLT_DoubleEl_noiso();
-	const int &HLT_MuEG();
-	const int &HLT_MuEG_2();
-	const int &HLT_DoubleMu();
-	const int &HLT_DoubleMu_tk();
-	const int &HLT_l1prescale();
-	const int &HLT_Photons();
-	const int &HLT_Photon22();
-	const int &HLT_Photon30();
-	const int &HLT_Photon36();
-	const int &HLT_Photon50();
-	const int &HLT_Photon75();
-	const int &HLT_Photon90();
-	const int &HLT_Photon120();
+	const int &HLT_MET170();
+	const int &HLT_MET120Btag();
+	const int &HLT_MET120Mu5();
+	const int &HLT_HT350MET120();
+	const int &HLT_DiEl();
+	const int &HLT_DiMu();
+	const int &HLT_Mu8El17();
+	const int &HLT_Mu8El23();
+	const int &HLT_Mu17El12();
+	const int &HLT_Mu23El12();
+	const int &HLT_SingleEl27();
+	const int &HLT_SingleEl27Tight();
+	const int &HLT_SingleElTight();
+	const int &HLT_SingleElHT200();
+	const int &HLT_SingleMuNoEta();
+	const int &HLT_SingleMuNoIso();
+	const int &HLT_SingleMuNoIsoNoEta();
+	const int &HLT_Mu6HT200MET100();
+	const int &HLT_HT350MET100();
+	const int &HLT_SingleMu17();
+	const int &HLT_SingleMu20();
+	const int &HLT_SingleMu24();
+	const int &HLT_MonoCentPFJet80_METNoMu90_MHTNoMu90_IDTight();
+	const int &HLT_MET90_MHT90_IDTight();
+	const int &HLT_METNoMu90_NoiseCleaned_MHTNoMu90_IDTight();
+	const int &HLT_Photon90_CaloIdL_PFHT500();
+	const int &HLT_Photon165_R9Id90_HE10_IsoM();
 	const int &HLT_Photon175();
 	const int &HLT_Photon165_HE10();
-	const int &HLT_Photon22_R9Id90_HE10_IsoM();
-	const int &HLT_Photon30_R9Id90_HE10_IsoM();
-	const int &HLT_Photon36_R9Id90_HE10_IsoM();
-	const int &HLT_Photon50_R9Id90_HE10_IsoM();
-	const int &HLT_Photon75_R9Id90_HE10_IsoM();
-	const int &HLT_Photon90_R9Id90_HE10_IsoM();
-	const int &HLT_Photon120_R9Id90_HE10_IsoM();
-	const int &HLT_Photon165_R9Id90_HE10_IsoM();
-	const float &dilmass();
-	const float &dilpt();
-	const float &dRll();
-	const float &matched_neutralemf();
-	const bool &elveto();
-	const int &nlep();
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &lep_p4();
-	const vector<float> &lep_pt();
-	const vector<float> &lep_eta();
-	const vector<float> &lep_phi();
-	const vector<float> &lep_mass();
-	const vector<int> &lep_charge();
-	const vector<int> &lep_pdgId();
-	const vector<float> &lep_dxy();
-	const vector<float> &lep_etaSC();
-	const vector<float> &lep_dz();
-	const vector<int> &lep_tightId();
-	const vector<float> &lep_relIso03();
-	const vector<float> &lep_relIso03MREA();
-	const vector<float> &lep_relIso03MRDB();
-	const vector<float> &lep_relIso03MRNC();
-	const vector<float> &lep_relIso04();
-	const vector<int> &lep_mcMatchId();
-	const vector<int> &lep_lostHits();
-	const vector<int> &lep_convVeto();
-	const vector<int> &lep_tightCharge();
-	const vector<int> &lep_islead();
-	const vector<int> &lep_istail();
-	const int &ntau();
-	const vector<float> &tau_pt();
-	const vector<float> &tau_eta();
-	const vector<float> &tau_phi();
+	const float &pu_weight();
+	const float &lep_sf();
+	const float &btag_sf();
+	const float &HLT_SingleEl_eff();
+	const float &HLT_SingleMu_eff();
+	const int &nPhotons();
+	const int &ph_selectedidx();
+	const int &ph_ngoodjets();
+	const int &ph_ngoodbtags();
+	const float &ph_met();
+	const float &ph_met_phi();
+	const float &ph_HT();
+	const float &ph_htssm();
+	const float &ph_htosm();
+	const float &ph_htratiom();
+	const float &ph_mt_met_lep();
+	const float &ph_dphi_Wlep();
+	const float &ph_MT2W();
+	const float &ph_topness();
+	const float &ph_topnessMod();
+	const float &ph_MT2_lb_b_mass();
+	const float &ph_MT2_lb_b();
+	const float &ph_MT2_lb_bqq_mass();
+	const float &ph_MT2_lb_bqq();
+	const float &ph_hadronic_top_chi2();
+	const float &ph_mindphi_met_j1_j2();
+	const float &ph_Mlb_lead_bdiscr();
+	const float &ph_dR_lep_leadb();
+	const float &ph_Mlb_closestb();
+	const float &ph_Mjjj();
+	const int &Zll_idl1();
+	const int &Zll_idl2();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &Zll_p4l1();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &Zll_p4l2();
+	const bool &Zll_OS();
+	const bool &Zll_SF();
+	const bool &Zll_isZmass();
+	const float &Zll_M();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &Zll_p4();
+	const int &Zll_selLep();
+	const float &Zll_met();
+	const float &Zll_met_phi();
+	const float &Zll_mindphi_met_j1_j2();
+	const float &Zll_mt_met_lep();
+	const float &Zll_dphi_Wlep();
+	const float &Zll_MT2W();
+	const float &Zll_topness();
+	const float &Zll_topnessMod();
+	const float &Zll_MT2_lb_b_mass();
+	const float &Zll_MT2_lb_b();
+	const float &Zll_MT2_lb_bqq_mass();
+	const float &Zll_MT2_lb_bqq();
+	const bool &lep1_is_mu();
+	const bool &lep1_is_el();
+	const int &lep1_charge();
+	const int &lep1_pdgid();
+	const int &lep1_type();
+	const int &lep1_production_type();
+	const float &lep1_d0();
+	const float &lep1_d0err();
+	const float &lep1_dz();
+	const float &lep1_dzerr();
+	const float &lep1_sigmaIEtaEta_fill5x5();
+	const float &lep1_dEtaIn();
+	const float &lep1_dPhiIn();
+	const float &lep1_hOverE();
+	const float &lep1_ooEmooP();
+	const int &lep1_expectedMissingInnerHits();
+	const bool &lep1_conversionVeto();
+	const float &lep1_etaSC();
+	const float &lep1_ChiSqr();
+	const float &lep1_chiso();
+	const float &lep1_nhiso();
+	const float &lep1_emiso();
+	const float &lep1_deltaBeta();
+	const float &lep1_relIso03DB();
+	const float &lep1_relIso03EA();
+	const float &lep1_relIso04DB();
+	const float &lep1_miniRelIsoDB();
+	const float &lep1_miniRelIsoEA();
+	const float &lep1_MiniIso();
+	const int &lep1_mcid();
+	const int &lep1_mcstatus();
+	const int &lep1_mc3dr();
+	const int &lep1_mc3id();
+	const int &lep1_mc3idx();
+	const int &lep1_mc3motherid();
+	const int &lep1_mc3motheridx();
+	const bool &lep1_is_eleid_loose();
+	const bool &lep1_is_eleid_medium();
+	const bool &lep1_is_eleid_tight();
+	const bool &lep1_is_phys14_loose_noIso();
+	const bool &lep1_is_phys14_medium_noIso();
+	const bool &lep1_is_phys14_tight_noIso();
+	const float &lep1_eoverpin();
+	const bool &lep1_is_muoid_loose();
+	const bool &lep1_is_muoid_medium();
+	const bool &lep1_is_muoid_tight();
+	const float &lep1_ip3d();
+	const float &lep1_ip3derr();
+	const bool &lep1_is_pfmu();
+	const bool &lep1_passMediumID();
+	const bool &lep1_passVeto();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &lep1_p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &lep1_mcp4();
+	const float &lep1_pt();
+	const float &lep1_eta();
+	const float &lep1_phi();
+	const float &lep1_mass();
+	const bool &lep2_is_mu();
+	const bool &lep2_is_el();
+	const int &lep2_charge();
+	const int &lep2_pdgid();
+	const int &lep2_type();
+	const int &lep2_production_type();
+	const float &lep2_d0();
+	const float &lep2_d0err();
+	const float &lep2_dz();
+	const float &lep2_dzerr();
+	const float &lep2_sigmaIEtaEta_fill5x5();
+	const float &lep2_dEtaIn();
+	const float &lep2_dPhiIn();
+	const float &lep2_hOverE();
+	const float &lep2_ooEmooP();
+	const int &lep2_expectedMissingInnerHits();
+	const bool &lep2_conversionVeto();
+	const float &lep2_etaSC();
+	const float &lep2_ChiSqr();
+	const float &lep2_chiso();
+	const float &lep2_nhiso();
+	const float &lep2_emiso();
+	const float &lep2_deltaBeta();
+	const float &lep2_relIso03DB();
+	const float &lep2_relIso03EA();
+	const float &lep2_relIso04DB();
+	const float &lep2_miniRelIsoDB();
+	const float &lep2_miniRelIsoEA();
+	const float &lep2_MiniIso();
+	const int &lep2_mcid();
+	const int &lep2_mcstatus();
+	const int &lep2_mc3dr();
+	const int &lep2_mc3id();
+	const int &lep2_mc3idx();
+	const int &lep2_mc3motherid();
+	const int &lep2_mc3motheridx();
+	const bool &lep2_is_eleid_loose();
+	const bool &lep2_is_eleid_medium();
+	const bool &lep2_is_eleid_tight();
+	const bool &lep2_is_phys14_loose_noIso();
+	const bool &lep2_is_phys14_medium_noIso();
+	const bool &lep2_is_phys14_tight_noIso();
+	const float &lep2_eoverpin();
+	const bool &lep2_is_muoid_loose();
+	const bool &lep2_is_muoid_medium();
+	const bool &lep2_is_muoid_tight();
+	const float &lep2_ip3d();
+	const float &lep2_ip3derr();
+	const bool &lep2_is_pfmu();
+	const bool &lep2_passMediumID();
+	const bool &lep2_passVeto();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &lep2_p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &lep2_mcp4();
+	const float &lep2_pt();
+	const float &lep2_eta();
+	const float &lep2_phi();
+	const float &lep2_mass();
+	const vector<float> &ph_sigmaIEtaEta_fill5x5();
+	const vector<float> &ph_hOverE();
+	const vector<float> &ph_r9();
+	const vector<float> &ph_chiso();
+	const vector<float> &ph_nhiso();
+	const vector<float> &ph_phiso();
+	const vector<bool> &ph_idCutBased();
+	const vector<int> &ph_overlapJetId();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ph_p4();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ph_mcp4();
+	const vector<float> &ph_pt();
+	const vector<float> &ph_eta();
+	const vector<float> &ph_phi();
+	const vector<float> &ph_mass();
+	const vector<int> &ph_mcMatchId();
+	const vector<float> &ph_genIso04();
+	const vector<float> &ph_drMinParton();
+	const int &nGoodGenJets();
+	const int &ngoodjets();
+	const int &nfailjets();
+	const int &ak8GoodPFJets();
+	const int &ngoodbtags();
+	const float &ak4_HT();
+	const float &ak4_htssm();
+	const float &ak4_htosm();
+	const float &ak4_htratiom();
+	const vector<float> &dphi_ak4pfjet_met();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak4pfjets_p4();
+	const vector<float> &ak4pfjets_pt();
+	const vector<float> &ak4pfjets_eta();
+	const vector<float> &ak4pfjets_phi();
+	const vector<float> &ak4pfjets_mass();
+	const vector<bool> &ak4pfjets_passMEDbtag();
+	const vector<float> &ak4pfjets_qg_disc();
+	const vector<float> &ak4pfjets_CSV();
+	const vector<float> &ak4pfjets_puid();
+	const vector<int> &ak4pfjets_parton_flavor();
+	const vector<bool> &ak4pfjets_loose_puid();
+	const vector<bool> &ak4pfjets_loose_pfid();
+	const vector<bool> &ak4pfjets_medium_pfid();
+	const vector<bool> &ak4pfjets_tight_pfid();
+	const vector<float> &ak4pfjets_MEDbjet_pt();
+	const float &ak4pfjets_leadMEDbjet_pt();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ak4pfjets_leadMEDbjet_p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ak4pfjets_leadbtag_p4();
+	const vector<float> &ak4pfjets_chf();
+	const vector<float> &ak4pfjets_nhf();
+	const vector<float> &ak4pfjets_cef();
+	const vector<float> &ak4pfjets_nef();
+	const vector<float> &ak4pfjets_muf();
+	const vector<int> &ak4pfjets_cm();
+	const vector<int> &ak4pfjets_nm();
+	const vector<int> &ak4pfjets_mc3dr();
+	const vector<int> &ak4pfjets_mc3id();
+	const vector<int> &ak4pfjets_mc3idx();
+	const vector<int> &ak4pfjets_mcmotherid();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ak4pfjet_overlep1_p4();
+	const float &ak4pfjet_overlep1_CSV();
+	const float &ak4pfjet_overlep1_pu_id();
+	const float &ak4pfjet_overlep1_chf();
+	const float &ak4pfjet_overlep1_nhf();
+	const float &ak4pfjet_overlep1_cef();
+	const float &ak4pfjet_overlep1_nef();
+	const float &ak4pfjet_overlep1_muf();
+	const int &ak4pfjet_overlep1_cm();
+	const int &ak4pfjet_overlep1_nm();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ak4pfjet_overlep2_p4();
+	const float &ak4pfjet_overlep2_CSV();
+	const float &ak4pfjet_overlep2_pu_id();
+	const float &ak4pfjet_overlep2_chf();
+	const float &ak4pfjet_overlep2_nhf();
+	const float &ak4pfjet_overlep2_cef();
+	const float &ak4pfjet_overlep2_nef();
+	const float &ak4pfjet_overlep2_muf();
+	const int &ak4pfjet_overlep2_cm();
+	const int &ak4pfjet_overlep2_nm();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak8pfjets_p4();
+	const vector<float> &ak8pfjets_tau1();
+	const vector<float> &ak8pfjets_tau2();
+	const vector<float> &ak8pfjets_tau3();
+	const vector<float> &ak8pfjets_top_mass();
+	const vector<float> &ak8pfjets_pruned_mass();
+	const vector<float> &ak8pfjets_trimmed_mass();
+	const vector<float> &ak8pfjets_filtered_mass();
+	const vector<float> &ak8pfjets_pu_id();
+	const vector<int> &ak8pfjets_parton_flavor();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ak4genjets_p4();
+	const vector<TString> &tau_IDnames();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &tau_leadtrack_p4();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &tau_leadneutral_p4();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &tau_p4();
+	const vector<vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > > &tau_isocand_p4();
+	const vector<vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > > &tau_sigcand_p4();
 	const vector<float> &tau_mass();
-	const vector<int> &tau_charge();
-	const vector<float> &tau_dxy();
-	const vector<float> &tau_dz();
-	const vector<int> &tau_idCI3hit();
-	const vector<float> &tau_isoCI3hit();
-	const int &ngamma();
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4();
-	const vector<float> &gamma_pt();
-	const vector<float> &gamma_eta();
-	const vector<float> &gamma_phi();
-	const vector<float> &gamma_mass();
-	const vector<int> &gamma_mcMatchId();
-	const vector<float> &gamma_genIso();
-	const vector<float> &gamma_chHadIso();
-	const vector<float> &gamma_neuHadIso();
-	const vector<float> &gamma_phIso();
-	const vector<float> &gamma_sigmaIetaIeta();
-	const vector<float> &gamma_r9();
-	const vector<float> &gamma_hOverE();
-	const vector<int> &gamma_idCutBased();
-	const int &ngenPart();
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4();
-	const vector<float> &genPart_pt();
-	const vector<float> &genPart_eta();
-	const vector<float> &genPart_phi();
-	const vector<float> &genPart_mass();
-	const vector<int> &genPart_pdgId();
-	const vector<int> &genPart_status();
-	const vector<float> &genPart_charge();
-	const vector<int> &genPart_motherId();
-	const vector<int> &genPart_grandmaId();
-	const vector<bool> &genPart_isp6status3();
-	const int &gamma_nJet40();
-	const int &gamma_nBJet40();
-	const int &ngenLep();
-	const vector<float> &genLep_pt();
-	const vector<float> &genLep_eta();
-	const vector<float> &genLep_phi();
-	const vector<float> &genLep_mass();
-	const vector<int> &genLep_pdgId();
-	const vector<int> &genLep_status();
-	const vector<float> &genLep_charge();
-	const vector<int> &genLep_sourceId();
-	const vector<bool> &genLep_isp6status3();
-	const int &ngenTau();
-	const vector<float> &genTau_pt();
-	const vector<float> &genTau_eta();
-	const vector<float> &genTau_phi();
-	const vector<float> &genTau_mass();
-	const vector<int> &genTau_pdgId();
-	const vector<int> &genTau_status();
-	const vector<float> &genTau_charge();
-	const vector<int> &genTau_sourceId();
-	const int &ngenLepFromTau();
-	const vector<float> &genLepFromTau_pt();
-	const vector<float> &genLepFromTau_eta();
-	const vector<float> &genLepFromTau_phi();
-	const vector<float> &genLepFromTau_mass();
-	const vector<int> &genLepFromTau_pdgId();
-	const vector<int> &genLepFromTau_status();
-	const vector<float> &genLepFromTau_charge();
-	const vector<int> &genLepFromTau_sourceId();
-	const int &njet();
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jet_p4();
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_p4();
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_eta30_p4();
-	const vector<float> &jet_pt();
-	const vector<float> &jet_eta();
-	const vector<float> &jet_phi();
-	const vector<float> &jet_mass();
-	const vector<float> &jet_btagCSV();
-	const vector<float> &jet_rawPt();
-	const vector<float> &jet_mcPt();
-	const vector<int> &jet_mcFlavour();
-	const vector<float> &jet_quarkGluonID();
-	const vector<float> &jet_area();
-	const vector<int> &jet_id();
-	const vector<int> &jet_puId();
-	const float &met_T1CHS_pt();
-	const float &met_T1CHS_phi();
-	const int &hyp_type();
-	const int &evt_type();
+	const vector<vector<float> > &tau_ID();
+	const vector<float> &tau_passID();
+	const vector<float> &tau_charge();
+	const int &ngoodtaus();
+	const vector<float> &tau_againstMuonTight();
+	const vector<float> &tau_againstElectronLoose();
+	const vector<bool> &tau_isVetoTau();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &isoTracks_p4();
+	const vector<int> &isoTracks_charge();
+	const vector<float> &isoTracks_absIso();
+	const vector<float> &isoTracks_dz();
+	const vector<int> &isoTracks_pdgId();
+	const vector<int> &isoTracks_selectedidx();
+	const int &isoTracks_nselected();
+	const vector<bool> &isoTracks_isVetoTrack();
+	const vector<bool> &isoTracks_isVetoTrack_v2();
+	const vector<bool> &isoTracks_isVetoTrack_v3();
+	const vector<bool> &genels_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_p4();
+	const vector<float> &genels_charge();
+	const vector<float> &genels_iso();
+	const vector<float> &genels_mass();
+	const vector<int> &genels_id();
+	const vector<int> &genels__genpsidx();
+	const vector<int> &genels_status();
+	const vector<bool> &genels_fromHardProcessBeforeFSR();
+	const vector<bool> &genels_fromHardProcessDecayed();
+	const vector<bool> &genels_fromHardProcessFinalState();
+	const vector<bool> &genels_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genels_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genels_isHardProcess();
+	const vector<bool> &genels_isLastCopy();
+	const vector<bool> &genels_isLastCopyBeforeFSR();
+	const vector<bool> &genels_isMostlyLikePythia6Status3();
+	const vector<bool> &genels_isPromptDecayed();
+	const vector<bool> &genels_isPromptFinalState();
+	const vector<vector<int> > &genels_lepdaughter_id();
+	const vector<int> &genels_gentaudecay();
+	const int &gen_nfromtels_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_motherp4();
+	const vector<float> &genels_mothercharge();
+	const vector<int> &genels_motherid();
+	const vector<int> &genels_motheridx();
+	const vector<int> &genels_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_gmotherp4();
+	const vector<int> &genels_gmothercharge();
+	const vector<int> &genels_gmotherid();
+	const vector<int> &genels_gmotheridx();
+	const vector<int> &genels_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_simplemotherp4();
+	const vector<int> &genels_simplemothercharge();
+	const vector<int> &genels_simplemotherid();
+	const vector<int> &genels_simplemotheridx();
+	const vector<int> &genels_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genels_simplegmotherp4();
+	const vector<int> &genels_simplegmothercharge();
+	const vector<int> &genels_simplegmotherid();
+	const vector<int> &genels_simplegmotheridx();
+	const vector<int> &genels_simplegmotherstatus();
+	const vector<bool> &genmus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_p4();
+	const vector<float> &genmus_charge();
+	const vector<float> &genmus_iso();
+	const vector<float> &genmus_mass();
+	const vector<int> &genmus_id();
+	const vector<int> &genmus__genpsidx();
+	const vector<int> &genmus_status();
+	const vector<bool> &genmus_fromHardProcessBeforeFSR();
+	const vector<bool> &genmus_fromHardProcessDecayed();
+	const vector<bool> &genmus_fromHardProcessFinalState();
+	const vector<bool> &genmus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genmus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genmus_isHardProcess();
+	const vector<bool> &genmus_isLastCopy();
+	const vector<bool> &genmus_isLastCopyBeforeFSR();
+	const vector<bool> &genmus_isMostlyLikePythia6Status3();
+	const vector<bool> &genmus_isPromptDecayed();
+	const vector<bool> &genmus_isPromptFinalState();
+	const vector<vector<int> > &genmus_lepdaughter_id();
+	const vector<int> &genmus_gentaudecay();
+	const int &gen_nfromtmus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_motherp4();
+	const vector<float> &genmus_mothercharge();
+	const vector<int> &genmus_motherid();
+	const vector<int> &genmus_motheridx();
+	const vector<int> &genmus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_gmotherp4();
+	const vector<int> &genmus_gmothercharge();
+	const vector<int> &genmus_gmotherid();
+	const vector<int> &genmus_gmotheridx();
+	const vector<int> &genmus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_simplemotherp4();
+	const vector<int> &genmus_simplemothercharge();
+	const vector<int> &genmus_simplemotherid();
+	const vector<int> &genmus_simplemotheridx();
+	const vector<int> &genmus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genmus_simplegmotherp4();
+	const vector<int> &genmus_simplegmothercharge();
+	const vector<int> &genmus_simplegmotherid();
+	const vector<int> &genmus_simplegmotheridx();
+	const vector<int> &genmus_simplegmotherstatus();
+	const vector<bool> &gentaus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_p4();
+	const vector<float> &gentaus_charge();
+	const vector<float> &gentaus_iso();
+	const vector<float> &gentaus_mass();
+	const vector<int> &gentaus_id();
+	const vector<int> &gentaus__genpsidx();
+	const vector<int> &gentaus_status();
+	const vector<bool> &gentaus_fromHardProcessBeforeFSR();
+	const vector<bool> &gentaus_fromHardProcessDecayed();
+	const vector<bool> &gentaus_fromHardProcessFinalState();
+	const vector<bool> &gentaus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gentaus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gentaus_isHardProcess();
+	const vector<bool> &gentaus_isLastCopy();
+	const vector<bool> &gentaus_isLastCopyBeforeFSR();
+	const vector<bool> &gentaus_isMostlyLikePythia6Status3();
+	const vector<bool> &gentaus_isPromptDecayed();
+	const vector<bool> &gentaus_isPromptFinalState();
+	const vector<vector<int> > &gentaus_lepdaughter_id();
+	const vector<int> &gentaus_gentaudecay();
+	const int &gen_nfromttaus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_motherp4();
+	const vector<float> &gentaus_mothercharge();
+	const vector<int> &gentaus_motherid();
+	const vector<int> &gentaus_motheridx();
+	const vector<int> &gentaus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_gmotherp4();
+	const vector<int> &gentaus_gmothercharge();
+	const vector<int> &gentaus_gmotherid();
+	const vector<int> &gentaus_gmotheridx();
+	const vector<int> &gentaus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_simplemotherp4();
+	const vector<int> &gentaus_simplemothercharge();
+	const vector<int> &gentaus_simplemotherid();
+	const vector<int> &gentaus_simplemotheridx();
+	const vector<int> &gentaus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gentaus_simplegmotherp4();
+	const vector<int> &gentaus_simplegmothercharge();
+	const vector<int> &gentaus_simplegmotherid();
+	const vector<int> &gentaus_simplegmotheridx();
+	const vector<int> &gentaus_simplegmotherstatus();
+	const vector<bool> &gennuels_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_p4();
+	const vector<float> &gennuels_charge();
+	const vector<float> &gennuels_iso();
+	const vector<float> &gennuels_mass();
+	const vector<int> &gennuels_id();
+	const vector<int> &gennuels__genpsidx();
+	const vector<int> &gennuels_status();
+	const vector<bool> &gennuels_fromHardProcessBeforeFSR();
+	const vector<bool> &gennuels_fromHardProcessDecayed();
+	const vector<bool> &gennuels_fromHardProcessFinalState();
+	const vector<bool> &gennuels_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gennuels_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gennuels_isHardProcess();
+	const vector<bool> &gennuels_isLastCopy();
+	const vector<bool> &gennuels_isLastCopyBeforeFSR();
+	const vector<bool> &gennuels_isMostlyLikePythia6Status3();
+	const vector<bool> &gennuels_isPromptDecayed();
+	const vector<bool> &gennuels_isPromptFinalState();
+	const vector<vector<int> > &gennuels_lepdaughter_id();
+	const vector<int> &gennuels_gentaudecay();
+	const int &gen_nfromtnuels_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_motherp4();
+	const vector<float> &gennuels_mothercharge();
+	const vector<int> &gennuels_motherid();
+	const vector<int> &gennuels_motheridx();
+	const vector<int> &gennuels_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_gmotherp4();
+	const vector<int> &gennuels_gmothercharge();
+	const vector<int> &gennuels_gmotherid();
+	const vector<int> &gennuels_gmotheridx();
+	const vector<int> &gennuels_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_simplemotherp4();
+	const vector<int> &gennuels_simplemothercharge();
+	const vector<int> &gennuels_simplemotherid();
+	const vector<int> &gennuels_simplemotheridx();
+	const vector<int> &gennuels_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennuels_simplegmotherp4();
+	const vector<int> &gennuels_simplegmothercharge();
+	const vector<int> &gennuels_simplegmotherid();
+	const vector<int> &gennuels_simplegmotheridx();
+	const vector<int> &gennuels_simplegmotherstatus();
+	const vector<bool> &gennumus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_p4();
+	const vector<float> &gennumus_charge();
+	const vector<float> &gennumus_iso();
+	const vector<float> &gennumus_mass();
+	const vector<int> &gennumus_id();
+	const vector<int> &gennumus__genpsidx();
+	const vector<int> &gennumus_status();
+	const vector<bool> &gennumus_fromHardProcessBeforeFSR();
+	const vector<bool> &gennumus_fromHardProcessDecayed();
+	const vector<bool> &gennumus_fromHardProcessFinalState();
+	const vector<bool> &gennumus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gennumus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gennumus_isHardProcess();
+	const vector<bool> &gennumus_isLastCopy();
+	const vector<bool> &gennumus_isLastCopyBeforeFSR();
+	const vector<bool> &gennumus_isMostlyLikePythia6Status3();
+	const vector<bool> &gennumus_isPromptDecayed();
+	const vector<bool> &gennumus_isPromptFinalState();
+	const vector<vector<int> > &gennumus_lepdaughter_id();
+	const vector<int> &gennumus_gentaudecay();
+	const int &gen_nfromtnumus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_motherp4();
+	const vector<float> &gennumus_mothercharge();
+	const vector<int> &gennumus_motherid();
+	const vector<int> &gennumus_motheridx();
+	const vector<int> &gennumus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_gmotherp4();
+	const vector<int> &gennumus_gmothercharge();
+	const vector<int> &gennumus_gmotherid();
+	const vector<int> &gennumus_gmotheridx();
+	const vector<int> &gennumus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_simplemotherp4();
+	const vector<int> &gennumus_simplemothercharge();
+	const vector<int> &gennumus_simplemotherid();
+	const vector<int> &gennumus_simplemotheridx();
+	const vector<int> &gennumus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennumus_simplegmotherp4();
+	const vector<int> &gennumus_simplegmothercharge();
+	const vector<int> &gennumus_simplegmotherid();
+	const vector<int> &gennumus_simplegmotheridx();
+	const vector<int> &gennumus_simplegmotherstatus();
+	const vector<bool> &gennutaus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_p4();
+	const vector<float> &gennutaus_charge();
+	const vector<float> &gennutaus_iso();
+	const vector<float> &gennutaus_mass();
+	const vector<int> &gennutaus_id();
+	const vector<int> &gennutaus__genpsidx();
+	const vector<int> &gennutaus_status();
+	const vector<bool> &gennutaus_fromHardProcessBeforeFSR();
+	const vector<bool> &gennutaus_fromHardProcessDecayed();
+	const vector<bool> &gennutaus_fromHardProcessFinalState();
+	const vector<bool> &gennutaus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gennutaus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gennutaus_isHardProcess();
+	const vector<bool> &gennutaus_isLastCopy();
+	const vector<bool> &gennutaus_isLastCopyBeforeFSR();
+	const vector<bool> &gennutaus_isMostlyLikePythia6Status3();
+	const vector<bool> &gennutaus_isPromptDecayed();
+	const vector<bool> &gennutaus_isPromptFinalState();
+	const vector<vector<int> > &gennutaus_lepdaughter_id();
+	const vector<int> &gennutaus_gentaudecay();
+	const int &gen_nfromtnutaus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_motherp4();
+	const vector<float> &gennutaus_mothercharge();
+	const vector<int> &gennutaus_motherid();
+	const vector<int> &gennutaus_motheridx();
+	const vector<int> &gennutaus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_gmotherp4();
+	const vector<int> &gennutaus_gmothercharge();
+	const vector<int> &gennutaus_gmotherid();
+	const vector<int> &gennutaus_gmotheridx();
+	const vector<int> &gennutaus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_simplemotherp4();
+	const vector<int> &gennutaus_simplemothercharge();
+	const vector<int> &gennutaus_simplemotherid();
+	const vector<int> &gennutaus_simplemotheridx();
+	const vector<int> &gennutaus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gennutaus_simplegmotherp4();
+	const vector<int> &gennutaus_simplegmothercharge();
+	const vector<int> &gennutaus_simplegmotherid();
+	const vector<int> &gennutaus_simplegmotheridx();
+	const vector<int> &gennutaus_simplegmotherstatus();
+	const vector<bool> &gents_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_p4();
+	const vector<float> &gents_charge();
+	const vector<float> &gents_iso();
+	const vector<float> &gents_mass();
+	const vector<int> &gents_id();
+	const vector<int> &gents__genpsidx();
+	const vector<int> &gents_status();
+	const vector<bool> &gents_fromHardProcessBeforeFSR();
+	const vector<bool> &gents_fromHardProcessDecayed();
+	const vector<bool> &gents_fromHardProcessFinalState();
+	const vector<bool> &gents_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gents_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gents_isHardProcess();
+	const vector<bool> &gents_isLastCopy();
+	const vector<bool> &gents_isLastCopyBeforeFSR();
+	const vector<bool> &gents_isMostlyLikePythia6Status3();
+	const vector<bool> &gents_isPromptDecayed();
+	const vector<bool> &gents_isPromptFinalState();
+	const vector<vector<int> > &gents_lepdaughter_id();
+	const vector<int> &gents_gentaudecay();
+	const int &gen_nfromtts_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_motherp4();
+	const vector<float> &gents_mothercharge();
+	const vector<int> &gents_motherid();
+	const vector<int> &gents_motheridx();
+	const vector<int> &gents_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_gmotherp4();
+	const vector<int> &gents_gmothercharge();
+	const vector<int> &gents_gmotherid();
+	const vector<int> &gents_gmotheridx();
+	const vector<int> &gents_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_simplemotherp4();
+	const vector<int> &gents_simplemothercharge();
+	const vector<int> &gents_simplemotherid();
+	const vector<int> &gents_simplemotheridx();
+	const vector<int> &gents_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gents_simplegmotherp4();
+	const vector<int> &gents_simplegmothercharge();
+	const vector<int> &gents_simplegmotherid();
+	const vector<int> &gents_simplegmotheridx();
+	const vector<int> &gents_simplegmotherstatus();
+	const vector<bool> &genbs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_p4();
+	const vector<float> &genbs_charge();
+	const vector<float> &genbs_iso();
+	const vector<float> &genbs_mass();
+	const vector<int> &genbs_id();
+	const vector<int> &genbs__genpsidx();
+	const vector<int> &genbs_status();
+	const vector<bool> &genbs_fromHardProcessBeforeFSR();
+	const vector<bool> &genbs_fromHardProcessDecayed();
+	const vector<bool> &genbs_fromHardProcessFinalState();
+	const vector<bool> &genbs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genbs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genbs_isHardProcess();
+	const vector<bool> &genbs_isLastCopy();
+	const vector<bool> &genbs_isLastCopyBeforeFSR();
+	const vector<bool> &genbs_isMostlyLikePythia6Status3();
+	const vector<bool> &genbs_isPromptDecayed();
+	const vector<bool> &genbs_isPromptFinalState();
+	const vector<vector<int> > &genbs_lepdaughter_id();
+	const vector<int> &genbs_gentaudecay();
+	const int &gen_nfromtbs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_motherp4();
+	const vector<float> &genbs_mothercharge();
+	const vector<int> &genbs_motherid();
+	const vector<int> &genbs_motheridx();
+	const vector<int> &genbs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_gmotherp4();
+	const vector<int> &genbs_gmothercharge();
+	const vector<int> &genbs_gmotherid();
+	const vector<int> &genbs_gmotheridx();
+	const vector<int> &genbs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_simplemotherp4();
+	const vector<int> &genbs_simplemothercharge();
+	const vector<int> &genbs_simplemotherid();
+	const vector<int> &genbs_simplemotheridx();
+	const vector<int> &genbs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genbs_simplegmotherp4();
+	const vector<int> &genbs_simplegmothercharge();
+	const vector<int> &genbs_simplegmotherid();
+	const vector<int> &genbs_simplegmotheridx();
+	const vector<int> &genbs_simplegmotherstatus();
+	const vector<bool> &gencs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_p4();
+	const vector<float> &gencs_charge();
+	const vector<float> &gencs_iso();
+	const vector<float> &gencs_mass();
+	const vector<int> &gencs_id();
+	const vector<int> &gencs__genpsidx();
+	const vector<int> &gencs_status();
+	const vector<bool> &gencs_fromHardProcessBeforeFSR();
+	const vector<bool> &gencs_fromHardProcessDecayed();
+	const vector<bool> &gencs_fromHardProcessFinalState();
+	const vector<bool> &gencs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &gencs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &gencs_isHardProcess();
+	const vector<bool> &gencs_isLastCopy();
+	const vector<bool> &gencs_isLastCopyBeforeFSR();
+	const vector<bool> &gencs_isMostlyLikePythia6Status3();
+	const vector<bool> &gencs_isPromptDecayed();
+	const vector<bool> &gencs_isPromptFinalState();
+	const vector<vector<int> > &gencs_lepdaughter_id();
+	const vector<int> &gencs_gentaudecay();
+	const int &gen_nfromtcs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_motherp4();
+	const vector<float> &gencs_mothercharge();
+	const vector<int> &gencs_motherid();
+	const vector<int> &gencs_motheridx();
+	const vector<int> &gencs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_gmotherp4();
+	const vector<int> &gencs_gmothercharge();
+	const vector<int> &gencs_gmotherid();
+	const vector<int> &gencs_gmotheridx();
+	const vector<int> &gencs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_simplemotherp4();
+	const vector<int> &gencs_simplemothercharge();
+	const vector<int> &gencs_simplemotherid();
+	const vector<int> &gencs_simplemotheridx();
+	const vector<int> &gencs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gencs_simplegmotherp4();
+	const vector<int> &gencs_simplegmothercharge();
+	const vector<int> &gencs_simplegmotherid();
+	const vector<int> &gencs_simplegmotheridx();
+	const vector<int> &gencs_simplegmotherstatus();
+	const vector<bool> &genqs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_p4();
+	const vector<float> &genqs_charge();
+	const vector<float> &genqs_iso();
+	const vector<float> &genqs_mass();
+	const vector<int> &genqs_id();
+	const vector<int> &genqs__genpsidx();
+	const vector<int> &genqs_status();
+	const vector<bool> &genqs_fromHardProcessBeforeFSR();
+	const vector<bool> &genqs_fromHardProcessDecayed();
+	const vector<bool> &genqs_fromHardProcessFinalState();
+	const vector<bool> &genqs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genqs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genqs_isHardProcess();
+	const vector<bool> &genqs_isLastCopy();
+	const vector<bool> &genqs_isLastCopyBeforeFSR();
+	const vector<bool> &genqs_isMostlyLikePythia6Status3();
+	const vector<bool> &genqs_isPromptDecayed();
+	const vector<bool> &genqs_isPromptFinalState();
+	const vector<vector<int> > &genqs_lepdaughter_id();
+	const vector<int> &genqs_gentaudecay();
+	const int &gen_nfromtqs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_motherp4();
+	const vector<float> &genqs_mothercharge();
+	const vector<int> &genqs_motherid();
+	const vector<int> &genqs_motheridx();
+	const vector<int> &genqs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_gmotherp4();
+	const vector<int> &genqs_gmothercharge();
+	const vector<int> &genqs_gmotherid();
+	const vector<int> &genqs_gmotheridx();
+	const vector<int> &genqs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_simplemotherp4();
+	const vector<int> &genqs_simplemothercharge();
+	const vector<int> &genqs_simplemotherid();
+	const vector<int> &genqs_simplemotheridx();
+	const vector<int> &genqs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genqs_simplegmotherp4();
+	const vector<int> &genqs_simplegmothercharge();
+	const vector<int> &genqs_simplegmotherid();
+	const vector<int> &genqs_simplegmotheridx();
+	const vector<int> &genqs_simplegmotherstatus();
+	const vector<bool> &genglus_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_p4();
+	const vector<float> &genglus_charge();
+	const vector<float> &genglus_iso();
+	const vector<float> &genglus_mass();
+	const vector<int> &genglus_id();
+	const vector<int> &genglus__genpsidx();
+	const vector<int> &genglus_status();
+	const vector<bool> &genglus_fromHardProcessBeforeFSR();
+	const vector<bool> &genglus_fromHardProcessDecayed();
+	const vector<bool> &genglus_fromHardProcessFinalState();
+	const vector<bool> &genglus_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genglus_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genglus_isHardProcess();
+	const vector<bool> &genglus_isLastCopy();
+	const vector<bool> &genglus_isLastCopyBeforeFSR();
+	const vector<bool> &genglus_isMostlyLikePythia6Status3();
+	const vector<bool> &genglus_isPromptDecayed();
+	const vector<bool> &genglus_isPromptFinalState();
+	const vector<vector<int> > &genglus_lepdaughter_id();
+	const vector<int> &genglus_gentaudecay();
+	const int &gen_nfromtglus_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_motherp4();
+	const vector<float> &genglus_mothercharge();
+	const vector<int> &genglus_motherid();
+	const vector<int> &genglus_motheridx();
+	const vector<int> &genglus_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_gmotherp4();
+	const vector<int> &genglus_gmothercharge();
+	const vector<int> &genglus_gmotherid();
+	const vector<int> &genglus_gmotheridx();
+	const vector<int> &genglus_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_simplemotherp4();
+	const vector<int> &genglus_simplemothercharge();
+	const vector<int> &genglus_simplemotherid();
+	const vector<int> &genglus_simplemotheridx();
+	const vector<int> &genglus_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genglus_simplegmotherp4();
+	const vector<int> &genglus_simplegmothercharge();
+	const vector<int> &genglus_simplegmotherid();
+	const vector<int> &genglus_simplegmotheridx();
+	const vector<int> &genglus_simplegmotherstatus();
+	const vector<bool> &genws_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_p4();
+	const vector<float> &genws_charge();
+	const vector<float> &genws_iso();
+	const vector<float> &genws_mass();
+	const vector<int> &genws_id();
+	const vector<int> &genws__genpsidx();
+	const vector<int> &genws_status();
+	const vector<bool> &genws_fromHardProcessBeforeFSR();
+	const vector<bool> &genws_fromHardProcessDecayed();
+	const vector<bool> &genws_fromHardProcessFinalState();
+	const vector<bool> &genws_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genws_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genws_isHardProcess();
+	const vector<bool> &genws_isLastCopy();
+	const vector<bool> &genws_isLastCopyBeforeFSR();
+	const vector<bool> &genws_isMostlyLikePythia6Status3();
+	const vector<bool> &genws_isPromptDecayed();
+	const vector<bool> &genws_isPromptFinalState();
+	const vector<vector<int> > &genws_lepdaughter_id();
+	const vector<int> &genws_gentaudecay();
+	const int &gen_nfromtws_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_motherp4();
+	const vector<float> &genws_mothercharge();
+	const vector<int> &genws_motherid();
+	const vector<int> &genws_motheridx();
+	const vector<int> &genws_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_gmotherp4();
+	const vector<int> &genws_gmothercharge();
+	const vector<int> &genws_gmotherid();
+	const vector<int> &genws_gmotheridx();
+	const vector<int> &genws_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_simplemotherp4();
+	const vector<int> &genws_simplemothercharge();
+	const vector<int> &genws_simplemotherid();
+	const vector<int> &genws_simplemotheridx();
+	const vector<int> &genws_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genws_simplegmotherp4();
+	const vector<int> &genws_simplegmothercharge();
+	const vector<int> &genws_simplegmotherid();
+	const vector<int> &genws_simplegmotheridx();
+	const vector<int> &genws_simplegmotherstatus();
+	const vector<bool> &genzs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_p4();
+	const vector<float> &genzs_charge();
+	const vector<float> &genzs_iso();
+	const vector<float> &genzs_mass();
+	const vector<int> &genzs_id();
+	const vector<int> &genzs__genpsidx();
+	const vector<int> &genzs_status();
+	const vector<bool> &genzs_fromHardProcessBeforeFSR();
+	const vector<bool> &genzs_fromHardProcessDecayed();
+	const vector<bool> &genzs_fromHardProcessFinalState();
+	const vector<bool> &genzs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genzs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genzs_isHardProcess();
+	const vector<bool> &genzs_isLastCopy();
+	const vector<bool> &genzs_isLastCopyBeforeFSR();
+	const vector<bool> &genzs_isMostlyLikePythia6Status3();
+	const vector<bool> &genzs_isPromptDecayed();
+	const vector<bool> &genzs_isPromptFinalState();
+	const vector<vector<int> > &genzs_lepdaughter_id();
+	const vector<int> &genzs_gentaudecay();
+	const int &gen_nfromtzs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_motherp4();
+	const vector<float> &genzs_mothercharge();
+	const vector<int> &genzs_motherid();
+	const vector<int> &genzs_motheridx();
+	const vector<int> &genzs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_gmotherp4();
+	const vector<int> &genzs_gmothercharge();
+	const vector<int> &genzs_gmotherid();
+	const vector<int> &genzs_gmotheridx();
+	const vector<int> &genzs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_simplemotherp4();
+	const vector<int> &genzs_simplemothercharge();
+	const vector<int> &genzs_simplemotherid();
+	const vector<int> &genzs_simplemotheridx();
+	const vector<int> &genzs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genzs_simplegmotherp4();
+	const vector<int> &genzs_simplegmothercharge();
+	const vector<int> &genzs_simplegmotherid();
+	const vector<int> &genzs_simplegmotheridx();
+	const vector<int> &genzs_simplegmotherstatus();
+	const vector<bool> &genphs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_p4();
+	const vector<float> &genphs_charge();
+	const vector<float> &genphs_iso();
+	const vector<float> &genphs_mass();
+	const vector<int> &genphs_id();
+	const vector<int> &genphs__genpsidx();
+	const vector<int> &genphs_status();
+	const vector<bool> &genphs_fromHardProcessBeforeFSR();
+	const vector<bool> &genphs_fromHardProcessDecayed();
+	const vector<bool> &genphs_fromHardProcessFinalState();
+	const vector<bool> &genphs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genphs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genphs_isHardProcess();
+	const vector<bool> &genphs_isLastCopy();
+	const vector<bool> &genphs_isLastCopyBeforeFSR();
+	const vector<bool> &genphs_isMostlyLikePythia6Status3();
+	const vector<bool> &genphs_isPromptDecayed();
+	const vector<bool> &genphs_isPromptFinalState();
+	const vector<vector<int> > &genphs_lepdaughter_id();
+	const vector<int> &genphs_gentaudecay();
+	const int &gen_nfromtphs_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_motherp4();
+	const vector<float> &genphs_mothercharge();
+	const vector<int> &genphs_motherid();
+	const vector<int> &genphs_motheridx();
+	const vector<int> &genphs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_gmotherp4();
+	const vector<int> &genphs_gmothercharge();
+	const vector<int> &genphs_gmotherid();
+	const vector<int> &genphs_gmotheridx();
+	const vector<int> &genphs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_simplemotherp4();
+	const vector<int> &genphs_simplemothercharge();
+	const vector<int> &genphs_simplemotherid();
+	const vector<int> &genphs_simplemotheridx();
+	const vector<int> &genphs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genphs_simplegmotherp4();
+	const vector<int> &genphs_simplegmothercharge();
+	const vector<int> &genphs_simplegmotherid();
+	const vector<int> &genphs_simplegmotheridx();
+	const vector<int> &genphs_simplegmotherstatus();
+	const vector<bool> &genhs_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_p4();
+	const vector<float> &genhs_charge();
+	const vector<float> &genhs_iso();
+	const vector<float> &genhs_mass();
+	const vector<int> &genhs_id();
+	const vector<int> &genhs__genpsidx();
+	const vector<int> &genhs_status();
+	const vector<bool> &genhs_fromHardProcessBeforeFSR();
+	const vector<bool> &genhs_fromHardProcessDecayed();
+	const vector<bool> &genhs_fromHardProcessFinalState();
+	const vector<bool> &genhs_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genhs_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genhs_isHardProcess();
+	const vector<bool> &genhs_isLastCopy();
+	const vector<bool> &genhs_isLastCopyBeforeFSR();
+	const vector<bool> &genhs_isMostlyLikePythia6Status3();
+	const vector<bool> &genhs_isPromptDecayed();
+	const vector<bool> &genhs_isPromptFinalState();
+	const vector<vector<int> > &genhs_lepdaughter_id();
+	const vector<int> &genhs_gentaudecay();
+	const int &gen_nfromths_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_motherp4();
+	const vector<float> &genhs_mothercharge();
+	const vector<int> &genhs_motherid();
+	const vector<int> &genhs_motheridx();
+	const vector<int> &genhs_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_gmotherp4();
+	const vector<int> &genhs_gmothercharge();
+	const vector<int> &genhs_gmotherid();
+	const vector<int> &genhs_gmotheridx();
+	const vector<int> &genhs_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_simplemotherp4();
+	const vector<int> &genhs_simplemothercharge();
+	const vector<int> &genhs_simplemotherid();
+	const vector<int> &genhs_simplemotheridx();
+	const vector<int> &genhs_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genhs_simplegmotherp4();
+	const vector<int> &genhs_simplegmothercharge();
+	const vector<int> &genhs_simplegmotherid();
+	const vector<int> &genhs_simplegmotheridx();
+	const vector<int> &genhs_simplegmotherstatus();
+	const vector<bool> &genlsp_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_p4();
+	const vector<float> &genlsp_charge();
+	const vector<float> &genlsp_iso();
+	const vector<float> &genlsp_mass();
+	const vector<int> &genlsp_id();
+	const vector<int> &genlsp__genpsidx();
+	const vector<int> &genlsp_status();
+	const vector<bool> &genlsp_fromHardProcessBeforeFSR();
+	const vector<bool> &genlsp_fromHardProcessDecayed();
+	const vector<bool> &genlsp_fromHardProcessFinalState();
+	const vector<bool> &genlsp_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genlsp_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genlsp_isHardProcess();
+	const vector<bool> &genlsp_isLastCopy();
+	const vector<bool> &genlsp_isLastCopyBeforeFSR();
+	const vector<bool> &genlsp_isMostlyLikePythia6Status3();
+	const vector<bool> &genlsp_isPromptDecayed();
+	const vector<bool> &genlsp_isPromptFinalState();
+	const vector<vector<int> > &genlsp_lepdaughter_id();
+	const vector<int> &genlsp_gentaudecay();
+	const int &gen_nfromtlsp_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_motherp4();
+	const vector<float> &genlsp_mothercharge();
+	const vector<int> &genlsp_motherid();
+	const vector<int> &genlsp_motheridx();
+	const vector<int> &genlsp_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_gmotherp4();
+	const vector<int> &genlsp_gmothercharge();
+	const vector<int> &genlsp_gmotherid();
+	const vector<int> &genlsp_gmotheridx();
+	const vector<int> &genlsp_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_simplemotherp4();
+	const vector<int> &genlsp_simplemothercharge();
+	const vector<int> &genlsp_simplemotherid();
+	const vector<int> &genlsp_simplemotheridx();
+	const vector<int> &genlsp_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genlsp_simplegmotherp4();
+	const vector<int> &genlsp_simplegmothercharge();
+	const vector<int> &genlsp_simplegmotherid();
+	const vector<int> &genlsp_simplegmotheridx();
+	const vector<int> &genlsp_simplegmotherstatus();
+	const vector<bool> &genstop_isfromt();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_p4();
+	const vector<float> &genstop_charge();
+	const vector<float> &genstop_iso();
+	const vector<float> &genstop_mass();
+	const vector<int> &genstop_id();
+	const vector<int> &genstop__genpsidx();
+	const vector<int> &genstop_status();
+	const vector<bool> &genstop_fromHardProcessBeforeFSR();
+	const vector<bool> &genstop_fromHardProcessDecayed();
+	const vector<bool> &genstop_fromHardProcessFinalState();
+	const vector<bool> &genstop_isDirectHardProcessTauDecayProductFinalState();
+	const vector<bool> &genstop_isDirectPromptTauDecayProductFinalState();
+	const vector<bool> &genstop_isHardProcess();
+	const vector<bool> &genstop_isLastCopy();
+	const vector<bool> &genstop_isLastCopyBeforeFSR();
+	const vector<bool> &genstop_isMostlyLikePythia6Status3();
+	const vector<bool> &genstop_isPromptDecayed();
+	const vector<bool> &genstop_isPromptFinalState();
+	const vector<vector<int> > &genstop_lepdaughter_id();
+	const vector<int> &genstop_gentaudecay();
+	const int &gen_nfromtstop_();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_motherp4();
+	const vector<float> &genstop_mothercharge();
+	const vector<int> &genstop_motherid();
+	const vector<int> &genstop_motheridx();
+	const vector<int> &genstop_motherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_gmotherp4();
+	const vector<int> &genstop_gmothercharge();
+	const vector<int> &genstop_gmotherid();
+	const vector<int> &genstop_gmotheridx();
+	const vector<int> &genstop_gmotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_simplemotherp4();
+	const vector<int> &genstop_simplemothercharge();
+	const vector<int> &genstop_simplemotherid();
+	const vector<int> &genstop_simplemotheridx();
+	const vector<int> &genstop_simplemotherstatus();
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genstop_simplegmotherp4();
+	const vector<int> &genstop_simplegmothercharge();
+	const vector<int> &genstop_simplegmotherid();
+	const vector<int> &genstop_simplegmotheridx();
+	const vector<int> &genstop_simplegmotherstatus();
 }
 #endif

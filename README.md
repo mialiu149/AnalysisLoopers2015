@@ -11,16 +11,18 @@ When you checkout the repository, you need to make sure the CMS2 header files in
 
 Repo Usage:
 
-git clone git@github.com:cwelke/analysis2015.git
+git clone git@github.com:mialiu149/AnalysisLoopers2015.git
 
-cd analysis2015
+cd AnalysisLoopers2015
 
 git clone git@github.com:cmstas/Software.git
 
-git clone git@github.com:cmstas/Tools.git
-
 git clone git@github.com:cmstas/CORE.git
 
-cd dilepbabymaker
+Edit COREPATH and Software path in setup.sh, edit project name, version in settings.sh
 
+setup CMSSW
+source setup.sh
+
+cd project_dir
 make -j25

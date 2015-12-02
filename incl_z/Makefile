@@ -36,7 +36,7 @@ LINKERFLAGS = $(shell root-config --ldflags --libs) -lEG -lGenVector -lTMVA
 
 DIR = ./
 
-SOURCES = templateLooper.cc runTemplateLooper.cc ../../CORE/Tools/dorky/dorky.cc ../../CORE/Tools/goodrun.cc
+SOURCES = templateLooper.cc runTemplateLooper.cc $(COREPATH)/Tools/dorky/dorky.cc $(COREPATH)/Tools/goodrun.cc
 OBJECTS = $(SOURCES:.cc=.o)
 LIB = libTemplateLooper.so
 

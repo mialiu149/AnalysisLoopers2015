@@ -11,5 +11,6 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity );
 void drawCMSLatex( TCanvas * &canvas, float luminosity, float cmsleftmargin, float lumileftmargin );
 void updateoverflow( TH1F * &hist, float xmax );
 void getBackground( TH1F* &backgroundhist, std::string iter, std::string bgfileprefix, std::string variable, std::string leptype, std::string selection );
+void getYield( TH1D* &backgroundhist, std::string iter, std::string bgfileprefix, std::string variable, std::string leptype, std::string selection );
 
 #endif
