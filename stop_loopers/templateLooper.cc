@@ -10,6 +10,7 @@
 #include "TDirectory.h"
 #include "TFile.h"
 #include "TH1F.h"
+#include "TH1D.h"
 #include "TMath.h"
 
 #include "Math/VectorUtil.h"
@@ -18,9 +19,11 @@
 #include "../sharedCode/V00_00_02.h"
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/METTemplateSelections.h"
+#include "../sharedCode/StopMoriond2016.h"
 
 #include "../../CORE/Tools/dorky/dorky.h"
 #include "../../CORE/Tools/goodrun.h"
+#include "../../CORE/Tools/badEventFilter.h"
 
 using namespace std;
 using namespace duplicate_removal;
@@ -37,56 +40,45 @@ templateLooper::~templateLooper()
 {
 };
 
-void templateLooper::bookHistos(){
+void templateLooper::bookHistos(std::string region){
 
-  // hist naming convention: "h_<leptype>_<gentype>_<object>_<variable>_<selection>"
+  // hist naming convention: "h_<leptype>_<object>_<variable>_<selection>"
   vector <string> leptype;
-  vector <string> gentype;
   leptype.push_back("el");
-  leptype.push_back("lep");
   leptype.push_back("el_br");
   leptype.push_back("el_ec");
   leptype.push_back("mu");
-  gentype.push_back("2l");
+  leptype.push_back("lep");
   vector <string> object;
   object.push_back("event");
-  vector <string> selection;
-  selection.push_back("inclusive");
-  selection.push_back("passtrig");
-  selection.push_back("njet2_incl");
-  selection.push_back("njet2_met50");
-  selection.push_back("njet2_met100");
-  selection.push_back("njet3_incl");
-
+  vector <string> selection; 
+  selection.push_back(region.c_str());
   vector <string> variable;      vector <float> variable_bins;
-
-  variable.push_back("ptl1");    variable_bins.push_back(1000);  
-  variable.push_back("met");     variable_bins.push_back(500 );  
-  variable.push_back("ht");	     variable_bins.push_back(1000);  
-  variable.push_back("mt");	     variable_bins.push_back(1000);  
-  variable.push_back("njets");               variable_bins.push_back(20  );  
-  variable.push_back("nVert");               variable_bins.push_back(50 );  
-  variable.push_back("relIso03EA");	     variable_bins.push_back(1000);  
-  variable.push_back("absIso03EA");	     variable_bins.push_back(1000);  
-  variable.push_back("nhiso");	     variable_bins.push_back(1000);  
-  variable.push_back("emiso");	     variable_bins.push_back(1000);  
-  variable.push_back("chiso");	     variable_bins.push_back(1000);  
+  variable.push_back("ptl1");           variable_bins.push_back(1000);  
+  variable.push_back("met");            variable_bins.push_back(500 );  
+  variable.push_back("ht");	        variable_bins.push_back(1000);  
+  variable.push_back("lep1_ooEmooP");	variable_bins.push_back(1000);  
+  variable.push_back("mt");	        variable_bins.push_back(1000);  
+  variable.push_back("njets");          variable_bins.push_back(20  );  
+  variable.push_back("nVert");          variable_bins.push_back(50 );  
+  variable.push_back("relIso03EA");	variable_bins.push_back(1000);  
+  variable.push_back("absIso03EA");	variable_bins.push_back(1000);  
+  variable.push_back("nhiso");	        variable_bins.push_back(1000);  
+  variable.push_back("emiso");	        variable_bins.push_back(1000);  
+  variable.push_back("chiso");	        variable_bins.push_back(1000);  
 
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
-      for( unsigned int genind = 0; genind < gentype.size(); genind++ ){
 	for( unsigned int objind = 0; objind < object.size(); objind++ ){
 	  for( unsigned int varind = 0; varind < variable.size(); varind++ ){
 		for( unsigned int selind = 0; selind < selection.size(); selind++ ){
-		  bookHist(Form("h_%s_%s_%s_%s_%s",
-						leptype  .at(lepind).c_str(),
-						gentype  .at(genind).c_str(),
-						object   .at(objind).c_str(),
-    					        variable .at(varind).c_str(),
-  					        selection.at(selind).c_str()
+		  bookHist(Form("h_%s_%s_%s_%s",
+						leptype.at(lepind).c_str(),
+						object.at(objind).c_str(),
+					        variable.at(varind).c_str(),
+					        selection.at(selind).c_str()
 						),
-				   Form("h_%s_%s_%s_%s_%s",
+				   Form("h_%s_%s_%s_%s",
 						leptype  .at(lepind).c_str(),
-						gentype  .at(genind).c_str(),
 						object   .at(objind).c_str(),
 					        variable .at(varind).c_str(),
 					        selection.at(selind).c_str()
@@ -98,11 +90,13 @@ void templateLooper::bookHistos(){
 	  }
      }
   }
-}
+
   // random extra hists here
   bookHist("h_templ_met", "h_templ_met", 500,0,500);
+
   vector <string> phivars;
   phivars.push_back("metphi");
+  phivars.push_back("deltaphi_lep_met");
   phivars.push_back("metphir");
   phivars.push_back("metphi20");
   phivars.push_back("metphi40");
@@ -132,55 +126,90 @@ void templateLooper::bookHistos(){
 	  }
 	}
   }
-   //--------------------// 
+
+  //--------------------// 
   // book Cutflow hists //
   //--------------------//
-  map<string, TH1D*> histos_cutflow;
   vector<string> histonames_cutflow; histonames_cutflow.clear();
-  histonames_cutflow.push_back("NEventsPerSignalRegion");
-  
- //--------------------------------------------------------- //
- //   initialize cutflow histograms                          //
- //---------------------------------------------------------//
+  histonames_cutflow.push_back("NEventsSR");
+  histonames_cutflow.push_back("NEvents1lCR");
+  histonames_cutflow.push_back("NEvents2lCR");
+  for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
+		for( unsigned int selind = 0; selind < histonames_cutflow.size(); selind++ ){
+  //bookHistTH1D(Form("h_%s_%s",leptype.at(lepind).c_str(),histonames_cutflow.at(selind).c_str()),
+  //             Form("h_%s_%s",leptype.at(lepind).c_str(),histonames_cutflow.at(selind).c_str()),
+  //             8,0.5,8.5
+  //            );//book histos for all SRs and CRs
+                string histoname = "h_"+leptype.at(lepind)+"_event_"+histonames_cutflow.at(selind)+"_"+region.c_str();
+                histos_cutflow[histoname] = new TH1D(histoname.c_str(),histoname.c_str(),8,0.5,8.5);
+                histos_cutflow[histoname]->Sumw2();
+		}
+  }
 
-    for(unsigned int i = 0;i<histonames_cutflow.size();i++){
-//    string histoname = histonames_cutflow.at(i);
-    bookHist(histonames_cutflow.at(i),histonames_cutflow.at(i),8,0,8);
- //   histos_cutflow[histoname] = new TH1D(histoname.c_str(),"",8,0,8);
-//    histos_cutflow[histoname]->Sumw2(); histos_cutflow[histoname]->SetDirectory(rootdir);
-/*    histos_cutflow[histoname]->GetYaxis()->SetTitle("Events");
-    histos_cutflow[histoname]->GetXaxis()->SetBinLabel(1,"met[250,325],lDM");
-    histos_cutflow[histoname]->GetXaxis()->SetBinLabel(2,"met[325,Inf],lDM");
-    histos_cutflow[histoname]->GetXaxis()->SetBinLabel(3,"met[250,350],hDM");
-    histos_cutflow[histoname]->GetXaxis()->SetBinLabel(4,"met[350,450],hDM");
-    histos_cutflow[histoname]->GetXaxis()->SetBinLabel(5,"met[450,Inf],hDM");
-    histos_cutflow[histoname]->GetXaxis()->SetBinLabel(6,"3jet,hDM");
-    histos_cutflow[histoname]->GetXaxis()->SetBinLabel(7,"compressed1,hDM");
-    histos_cutflow[histoname]->GetXaxis()->SetBinLabel(8,"compressed2,hDM");
-  */  }
+ //---------------------------------------------------------//
+ // initialize histograms here for all regions of interests //
+ //---------------------------------------------------------//
+ 
+  /*
+  bookHist("h_mm_event_drll_2jets", "h_mm_event_drll_2jets", 500,0,5);
+  bookHist("h_em_event_drll_2jets", "h_em_event_drll_2jets", 500,0,5);
+  */
 }
 
 void templateLooper::ScanChain ( TChain * chain , const string iter , const string sample, const string selection ){
+
+ // if( is_data() )             cout << "Running on Data."        << endl;
+ // else                        cout << "Running on MC.  "        << endl;
 
   double nel = 0;
   double nmu = 0;
   double nemu = 0;
 
-  double ne = 0;
 
+  double nem_2jets = 0;
+  double nem_2jets_mll = 0;
 
   cout<<selection<<endl;
   
-  bookHistos();
+  bookHistos(selection.c_str());
 
   double npass = 0;
   
   // do this once per job
   const char* json_file ="../json/json_270715_golden.txt";
   set_goodrun_file(json_file);
-
+   eventFilter metFilterTxt;
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
-
+   if ( TString(sample).Contains("data") ) {
+   cout<<"Loading bad event files ..."<<endl;
+    // old lists for partial dataset
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleEG_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleMuon_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_HTMHT_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_JetHT_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MET_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MuonEG_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleElectron_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleMuon_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SinglePhoton_csc2015.txt");
+    // new lists: supposed to include above but do not always
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_csc2015.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_csc2015.txt");
+    // not all samples have events which failed the ecal SC filter
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_ecalscn1043093.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_ecalscn1043093.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_ecalscn1043093.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_ecalscn1043093.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_ecalscn1043093.txt");
+    cout<<" ... finished!"<<endl;
+  } 
   TH1F * h_vtxweight = NULL;
   TFile * f_vtx = NULL;
   if( dovtxreweighting ){
@@ -215,8 +244,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
     for (unsigned int event = 0 ; event < nEvents; ++event){
 	  v00_00_02.GetEntry(event);
-      ++nEventsTotal;
-
+       ++nEventsTotal;
+      // ~~~~~~~~~~~
+      //   continue;
+      // ~~~~~~~~~~~
 	  if (nEventsTotal % 1000 == 0){ // progress feedback to user
 		if (isatty(1)){ // xterm magic from L. Vacavant and A. Cerri               
           printf("\015\033[32m ---> \033[1m\033[31m%4.1f%%"
@@ -226,14 +257,18 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
       }
 
 	 // if ( is_data() && usejson && !goodrun(run(), ls()) ) continue;
-//         cout<<"passed"<<endl;
-
+           if (!filt_eebadsc()) continue;
+           if (!filt_hbhenoise()) continue;
+           if (is_data() && metFilterTxt.eventFails(run(), ls(), evt())) {
+		//cout<<"Found bad event in data: "<<run()<<", "<<ls()<<", "<<evt()<<endl;
+			continue;
+           }
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
 	  //Deal with duplicates in data//
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
 	  if( is_data() ) {
 		DorkyEventIdentifier id(run(), evt(), ls());
-		if (is_duplicate(id) ){
+	if (is_duplicate(id) ){
 		  ++nDuplicates;
 		  continue;
 		}
@@ -241,13 +276,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //~-~-~-~-~-~-~-~~-//
 	  // primary vertex  //
 	  //~-~-~-~-~-~-~-~-~//
-	   //if(nvtxs()<0)               continue;
 	   if(nvtxs()<0)               continue;
-	  //~-~-~-~-~-~-~-~~-//
-	  //trigger variables//
-	  //~-~-~-~-~-~-~-~-~//
 
-	  if( !(HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27())) continue;//trigger
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 	  //   event weights       //
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
@@ -255,10 +285,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  if( is_data() ){
 		weight = 1.0;
 	  }else if( !is_data() ){
-		//weight *= fabs(scale1fb());
-		weight *= scale1fb();
-//                if() 
-		//weight *= fabs(scale1fb())*genweights().at(0);
+                if( TString(selection).Contains("yield"))  weight *= 2.1*scale1fb();
+		else weight *= scale1fb();
 	  }
 
 	  if( !is_data() && dovtxreweighting ){	
@@ -268,148 +296,118 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  float event_met_pt = pfmet();
 	  float event_met_ph = pfmet_phi();
 
-	  //~-~-~-~-~-~-~-~-~//
-	  // region selection//
-	  //~-~-~-~-~-~-~-~-~//
-          bool passtrig(false); bool njet2_incl(false); bool njet3_incl(false); bool njet2_met50(false); bool njet2_met100(false);
-
-	  //~-~-~-~-~-~-~-~-//
+          //~-~-~-~-~-~-~-~-//
           // event selection// 
 	  //~-~-~-~-~-~-~-~-//
-          //if( !usejson && is_data() && !evt_passgoodrunlist()   ) continue; // good runs lists
-          if( !usejson && is_data() ) continue; // good runs lists
+          if( !passPreselection() )       continue;
+          if( ak4_HT() < 150  )           continue;
 
-	  //~-~-~-~-~-~-~-~-//
-          // lepton selection// 
-	  //~-~-~-~-~-~-~-~-//
+          //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+          //    fill cutflow histograms     // 
+	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
 
-          int NSLeps = 0;          
-          if(lep1_is_mu()){
-              if(lep1_pt()>30&&fabs(lep1_eta())<2.1&&lep1_passMediumID()&&fabs(lep1_d0())<0.02&&fabs(lep1_dz())<0.1&&lep1_MiniIso()<0.1) {
-              ++NSLeps;
-              }
-          } 
-          else if (lep1_is_el()){
-                if(lep1_pt()>35 && (fabs(lep1_eta())<1.4||(fabs(lep1_eta())>1.5 && fabs(lep1_eta())<2.1) ) && lep1_passMediumID()&&lep1_MiniIso()<0.1) {
-                 ++NSLeps; 
-             }
+          if(TString(selection).Contains("yield")){
+           //signal
+           string histname ="h_lep_event_NEventsSR_yield";
+           if(passSR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
+           if(passSR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
+           if(passSR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
+           if(passSR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
+           if(passSR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
+           if(passSR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
+           if(passSR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
+           if(passSR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
+           //CR1l
+           histname = "h_lep_event_NEvents1lCR_yield";
+           if(pass1lCR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
+           if(pass1lCR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
+           if(pass1lCR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
+           if(pass1lCR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
+           if(pass1lCR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
+           if(pass1lCR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
+           if(pass1lCR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
+           if(pass1lCR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
+           //CR2l
+           histname = "h_lep_event_NEvents2lCR_yield";
+           if(pass2lCR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
+           if(pass2lCR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
+           if(pass2lCR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
+           if(pass2lCR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
+           if(pass2lCR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
+           if(pass2lCR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
+           if(pass2lCR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
+           if(pass2lCR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
+           continue;
           }
-          
-	  if( NSLeps                       != 1         )  continue; // require at least 1 good lepton
-	  if( nvetoleps()               > 1         ) continue; // second lepton veto
-          if( ak4_HT() < 150)                         continue;
-          if( event_met_pt < 50)                         continue;
-          //if( lep1_chiso() >10 )  continue;
+
+          if(TString(selection).Contains("1l")) {
+          if( !pass1lCR(selection.c_str())) continue;
+          }
+     
+          if(TString(selection).Contains("2l")) {
+          if( !pass2lCR(selection.c_str())) continue;
+          }
+
+          if(TString(selection).Contains("SR")) {
+          if( !passSR(selection.c_str()))   continue;
+          }
+
+          //if( !passRegion(selection.c_str())) continue; 
  	  if( lep1_is_mu()) nmu++;
 	  if( lep1_is_el()) nel++;
-//          if( lep1_is_el()) weight = weight;
-          if( ngoodjets() >=2) njet2_incl = true; 
-          if( ngoodjets() >=2 && event_met_pt > 50 && ngoodbtags()<1 ) njet2_met50 = true; 
-          if( ngoodjets() >=3 && event_met_pt > 150 && ngoodbtags()<1 ) njet2_met100 = true; 
-          if( ngoodjets() >=3) njet3_incl = true;
-	  passtrig = true;	
+          //regions of interest
+          //if( ngoodjets() >=3 && event_met_pt > 150 && ngoodbtags()<1 &&  mt_met_lep() > 120 && lep1_relIso03EA()*lep1_pt() < 5) njet2_met100 = true; 
+          float MET = pfmet();
+          float METPhi = pfmet_phi();
+          float METx = MET*TMath::Cos(METPhi);
+          float METy = MET*TMath::Sin(METPhi);
+          ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
+          metlv.SetPxPyPzE(METx,METy,0.,MET);
+//          if(mindphi_met_j1_j2() < 0.8) continue;
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//
-	  if(passtrig){
-	  string region = "passtrig"; 
-	  fillHist( "event", "njets"  , region.c_str(), ngoodjets()    , weight );
-	  fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
-	  fillHist( "event", "mt"     , region.c_str(),  mt_met_lep()   , weight );
-	  fillHist( "event", "ht"     , region.c_str(), ak4_HT()       , weight );
-	  fillHist( "event", "ptl1"   , region.c_str(), lep1_pt()      , weight );	  
-	  fillHist( "event", "nVert"  , region.c_str(), nvtxs()        , weight );	  
-//	  fillHist( "event", "metphi" , region.c_str(), event_met_ph        , weight );	 
-	  fillHist( "event", "relIso03EA" , region.c_str(), lep1_relIso03EA()        , weight );	 
-	  fillHist( "event", "absIso03EA" , region.c_str(), lep1_relIso03EA()*lep1_pt()        , weight );	 
-	  fillHist( "event", "nhiso" , region.c_str(), lep1_nhiso()        , weight );	 
-	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
-	  fillHist( "event", "chiso" , region.c_str(), lep1_chiso()       , weight );	 
-         } 
-        
-          if(njet2_incl){
-          string region = "njet2_incl";
+	 
+          string region = selection;
           fillHist( "event", "njets"  , region.c_str(), ngoodjets()    , weight );
           fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
 	  fillHist( "event", "mt"    , region.c_str(),  mt_met_lep()   , weight );
           fillHist( "event", "ht"     , region.c_str(), ak4_HT()       , weight );
+          fillHist( "event", "lep1_ooEmooP"     , region.c_str(), lep1_ooEmooP()       , weight );
           fillHist( "event", "ptl1"   , region.c_str(), lep1_pt()      , weight );
           fillHist( "event", "nVert"  , region.c_str(),nvtxs()        , weight );
-  //        fillHist( "event", "metphi" , region.c_str(),event_met_ph        , weight );
+          fillHist( "event", "metphi" , region.c_str(),event_met_ph        , weight );
 	  fillHist( "event", "relIso03EA" , region.c_str(), lep1_relIso03EA()        , weight );	 
 	  fillHist( "event", "absIso03EA" , region.c_str(), lep1_relIso03EA()*lep1_pt()        , weight );	 
 	  fillHist( "event", "nhiso" , region.c_str(), lep1_nhiso()        , weight );	 
 	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
 	  fillHist( "event", "chiso" , region.c_str(), lep1_chiso()       , weight );	 
-          }
-          if(njet3_incl){
-          string region = "njet3_incl";
-          fillHist( "event", "njets"  , region.c_str(), ngoodjets()    , weight );
-          fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
-	  fillHist( "event", "mt"    , region.c_str(),  mt_met_lep()   , weight );
-          fillHist( "event", "ht"     , region.c_str(), ak4_HT()       , weight );
-          fillHist( "event", "ptl1"   , region.c_str(), lep1_pt()      , weight );
-          fillHist( "event", "nVert"  , region.c_str(),nvtxs()        , weight );
-//          fillHist( "event", "metphi" , region.c_str(),event_met_ph        , weight );
-	  fillHist( "event", "relIso03EA" , region.c_str(), lep1_relIso03EA()        , weight );	 
-	  fillHist( "event", "absIso03EA" , region.c_str(), lep1_relIso03EA()*lep1_pt()        , weight );	 
-	  fillHist( "event", "nhiso" , region.c_str(), lep1_nhiso()        , weight );	 
-	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
-	  fillHist( "event", "chiso" , region.c_str(), lep1_chiso()       , weight );	 
-          }
-
-          if(njet2_met50){
-          string region = "njet2_met50";
-          fillHist( "event", "njets"  , region.c_str(), ngoodjets()    , weight );
-          fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
-	  fillHist( "event", "mt"    , region.c_str(),  mt_met_lep()   , weight );
-          fillHist( "event", "ht"     , region.c_str(), ak4_HT()       , weight );
-          fillHist( "event", "ptl1"   , region.c_str(), lep1_pt()      , weight );
-          fillHist( "event", "nVert"  , region.c_str(),nvtxs()        , weight );
-//          fillHist( "event", "metphi" , region.c_str(),event_met_ph        , weight );
-	  fillHist( "event", "relIso03EA" , region.c_str(), lep1_relIso03EA()        , weight );	 
-	  fillHist( "event", "absIso03EA" , region.c_str(), lep1_relIso03EA()*lep1_pt()        , weight );	 
-	  fillHist( "event", "nhiso" , region.c_str(), lep1_nhiso()        , weight );	 
-	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
-	  fillHist( "event", "chiso" , region.c_str(), lep1_chiso()       , weight );	 
-          }
-
-	  if(njet2_met100){
-          string region = "njet2_met100";
-          fillHist( "event", "njets"  , region.c_str(), ngoodjets()    , weight );
-          fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
-	  fillHist( "event", "mt"    , region.c_str(),  mt_met_lep()   , weight );
-          fillHist( "event", "ht"     , region.c_str(), ak4_HT()       , weight );
-          fillHist( "event", "ptl1"   , region.c_str(), lep1_pt()      , weight );
-          fillHist( "event", "nVert"  , region.c_str(),nvtxs()        , weight );
-//          fillHist( "event", "metphi" , region.c_str(),event_met_ph        , weight );
-	  fillHist( "event", "relIso03EA" , region.c_str(), lep1_relIso03EA()        , weight );	 
-	  fillHist( "event", "absIso03EA" , region.c_str(), lep1_relIso03EA()*lep1_pt()        , weight );	 
-	  fillHist( "event", "nhiso" , region.c_str(), lep1_nhiso()        , weight );	 
-	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
-	  fillHist( "event", "chiso" , region.c_str(), lep1_chiso()       , weight );	 
-          }
+	  fillHist( "event", "deltaphi_lep_met" , region.c_str(), ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv) , weight );	 
+          if(mt_met_lep()>175 && fabs(lep1_eta()) > 1.6 &&lep1_is_el())
+          { 
+           cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() <<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
+           //cout<<run()<<":"<<ls()<<":"<<evt()<<"\n"<<endl; 
+           }
 	  //-~-~-~-~-~-~-~-~-~-//
 	  //Fill Template hists//
 	  //-~-~-~-~-~-~-~-~-~-//	  
-	  if( ngoodjets() < 2 ) continue; // require at least 2 good jets
-          npass += weight;
-
+         npass += weight;
     } // end loop over events
   } // end loop over files
 
-
-//  cout << npass       << " events passing selection" << endl;
-//  cout << nDuplicates << " duplicate events in data" << endl;
   cout << nel         << " el events passing selection" << endl;
   cout << nmu         << " mu events passing selection" << endl;
   cout << nemu         << " el+mu events passing selection" << endl;
+
+  cout<<"nemu 2 jets    : "<<nem_2jets<<endl;
+  cout<<"nemu 2 jets mll: "<<nem_2jets_mll<<endl;
+  cout<<"emu scale factor: "<<nem_2jets_mll/nem_2jets<<endl;
  
   if (nEventsChain != nEventsTotal)
     std::cout << "ERROR: number of events from files is not equal to total number of events" << std::endl;
   
   // make histos rootfile
-  string outputfilename = 	Form("${analysis_output}/%s%s_hists.root",
+  string outputfilename = Form("${analysis_output}/%s_%s_hists.root",
 								 sample.c_str(),
 								 selection.c_str()
 								 );
@@ -424,35 +422,35 @@ void templateLooper::bookHist( string name, string title, int nbins, float xmin,
   event_hists.insert ( pair<std::string,TH1F*>( name, hist ) );		
   return;
 }  
+void templateLooper::bookHistTH1D( string name, string title, int nbins, float xmin, float xmax ){
+  TH1D * hist = new TH1D( name.c_str(), title.c_str(), nbins, xmin, xmax );
+  hist->Sumw2();
+  hist->SetTitle("Events");
+  return;
+}  
 
 
-void templateLooper::fillHist( string obj,string var, string sel, float value, float weight ){
+
+void templateLooper::fillHist( string obj, string var, string sel, float value, float weight ){
   string hist = "h_";
   try
 	{
 	  if( lep1_is_el() ){
-		hist = Form("h_el_2l_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+		hist = Form("h_el_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
 	  }
-          if( lep1_is_el() && fabs(lep1_eta())>1.5&&fabs(lep1_eta())<2.1 ){
-  		hist = Form("h_el_ec_2l_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+          if( lep1_is_el() && fabs(lep1_eta())>1.6&&fabs(lep1_eta())<2.1 ){
+		hist = Form("h_el_ec_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
           }
           if( lep1_is_el() &&fabs(lep1_eta())<1.4 ){
-		hist = Form("h_el_br_2l_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+		hist = Form("h_el_br_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
           }
 	  if( lep1_is_mu() ){
-		hist = Form("h_mu_2l_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+         	hist = Form("h_mu_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
 	  }
-//	  if(gen_nfromtmus_() + gen_nfromtels_() + gen_nfromttaus_() ==2) {
-          if( lep1_is_el() || lep1_is_mu()) {
-		hist = Form("h_lep_2l_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
-		fillUnderOverFlow(event_hists.at( hist ), value, weight);
-	  }
-        
-
 	}
   catch(exception &e)
 	{

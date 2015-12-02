@@ -13,36 +13,26 @@
 #include "../sharedCode/histTools.cc"
 
 using namespace std;
-void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string selection = "_inclusive", string type = "ll", string variable = "mll", string region = "passtrig" )
+void drawYields( std::string iter = "", float luminosity = 1.0, const string selection = "_inclusive", string type = "ll", string variable = "mll", string region = "passtrig" )
 {
   bool useedgebinning = false;
   bool usetemplates   = false;
   bool usefsbkg       = false;
-  TH1F * h_data  = NULL;
-  TH1F * h_wjets = NULL;
-  TH1F * h_ttbar = NULL;
-  TH1F * h_zjets = NULL;
-  TH1F * h_QCD = NULL;
-
-  getBackground(   h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
-  if( usefsbkg ) getBackground(  h_ttbar, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ), "metgt1jet", "em", "inclusive" );
-  else {
-  getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ), variable, type, region );
-  getBackground(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
-  getBackground(  h_QCD, iter, Form("QCD_%s", selection.c_str() ), variable, type, region );
-  }
-  if( usetemplates ) getTemplateMET( h_wjets, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ) );
-  else getBackground(  h_wjets, iter, Form("wjets_htbin_%s", selection.c_str() ), variable, type, region );
-  cout<<"entries"<<h_data->GetEntries()<<endl;
-  // h_wjets->Scale(0.057);
-  // h_ttbar->Scale(0.057);
-  // h_data->Scale(luminosity);
-  // h_other->Scale(luminosity);
-  // h_vvbkg->Scale(luminosity);
-  // h_vvbkg->Scale(0);
-
-  if( usetemplates ){
   
+  TH1D * h_data  = NULL;
+  TH1D * h_wjets = NULL;
+  TH1D * h_ttbar = NULL;
+  TH1D * h_zjets = NULL;
+  TH1D * h_QCD = NULL;
+  getYield(   h_data, iter, Form("data%s" , selection.c_str() ), variable, type, region );
+  if( usefsbkg ) getYield(  h_ttbar, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ), "metgt1jet", "em", "inclusive" );
+  else {
+  getYield(  h_ttbar, iter, Form("ttbar%s", selection.c_str() ), variable, type, region );
+  getYield(  h_zjets, iter, Form("zjets_htbin%s", selection.c_str() ), variable, type, region );
+  getYield(  h_QCD, iter, Form("QCD%s", selection.c_str() ), variable, type, region );
+  }
+  getYield(  h_wjets, iter, Form("wjets_htbin%s", selection.c_str() ), variable, type, region );
+  if( usetemplates ){
 	h_ttbar->Scale(0.15);
 //	h_wjets->Scale(1./h_wjets->GetSumOfWeights());
 	float val_data  = h_data  -> Integral(1,49);
@@ -55,7 +45,6 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   
 	float scaleval = ((val_data-val_ttbar)/(val_wjets));
 //	h_wjets->Scale(scaleval);
-  
 	val_data  = h_data  -> Integral(1,49);
 	val_ttbar = h_ttbar -> Integral(1,49);
 	val_wjets = h_wjets -> Integral(1,49);
@@ -120,30 +109,30 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
     ymax = 5e1;
   }
   if( variable == "ht" ){
-	xmin = 0;
-	xmax = 500;
-     // ymax = 5e1;
-	rebin = 40;
+      xmin = 0; 
+      xmax = 500;
+      rebin = 40;
   }
   if( TString(variable).Contains("iso")){
      xmin = 0;
      xmax = 100;
      rebin = 10;
-  }
+ }
    if( TString(variable).Contains("relIso")){
      xmin = 0;
      xmax = 10;
      rebin = 20;
-  } 
+ } 
    if( TString(variable).Contains("absIso")){
      xmin = 0;
      xmax = 100;
      rebin = 5;
-  }
+ }
+ 
   if( TString(variable).Contains("pt") ){
-	xmin = 0;
-	xmax = 500;
-	rebin = 20;
+     xmin = 0;
+     xmax = 500;
+     rebin = 20;
   }
   if( variable == "njets" ){
 	xmin = 0;
@@ -157,7 +146,6 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	ymax = 1000;
 	rebin = 10;
   }
-
   h_data->Rebin(rebin);
   h_wjets->Rebin(rebin);
   h_ttbar->Rebin(rebin);
@@ -166,16 +154,17 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   float norm_factor = 1;
 
+   cout <<"wtf"<<endl;
   TCanvas * c1 = new TCanvas("c1","");
   c1->cd();
   // c1->SetLogy();
 
-  TPad *pad = new TPad( "p_main", "p_main", 0.0, 0.3, 1.0, 1.0);
-  pad->SetBottomMargin(0.05);
+  TPad *pad = new TPad( "p_main", "p_main", 0.0, 0.35, 1.0, 1.0);
+  pad->SetBottomMargin(0.3);
   pad->SetRightMargin(0.07);
   pad->SetTopMargin(0.08);
   pad->SetLeftMargin(0.18);
-  pad->Draw();
+  pad->Draw("B");
   pad->cd();
   if( !(TString(variable).Contains("phi") || variable == "nVert" || variable == "mhtphi" || type == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir") ){
 	pad->SetLogy();
@@ -193,37 +182,6 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_zjets->SetFillStyle(1001);
   h_QCD->SetFillStyle(1001);
 
-  /*float norm_factor =   h_data->Integral(h_data->FindBin(81),h_data->FindBin(100)-1)/
-	(h_wjets->Integral(h_wjets->FindBin(81),h_wjets->FindBin(101)-1) +
-	 h_ttbar->Integral(h_ttbar->FindBin(81),h_ttbar->FindBin(101)-1));
-  cout<<"Norm factor for Z+jets: "<<norm_factor<<endl;
-
-  if( variable != "mll" ){
-	if( region == "passtrig" ){
-	  if( type == "ll" ) norm_factor = 2.71145;
-	  if( type == "ee" ) norm_factor = 4.19728;
-	  if( type == "mm" ) norm_factor = 1.52758;
-	}
-	if( region == "inclusive" ){
-	  if( type == "ll" ) norm_factor = 6.49903;
-	  if( type == "ee" ) norm_factor = 6.11659;
-	  if( type == "mm" ) norm_factor = 6.81433;
-	}
-  }
-
-  norm_factor = 1;
-  */
-  h_wjets->Scale(norm_factor);
-  h_ttbar->Scale(norm_factor);
-//  h_wjets->Scale(luminosity);
- // h_ttbar->Scale(luminosity);
-  
-  updateoverflow( h_data , xmax );
-  updateoverflow( h_wjets, xmax );
-  updateoverflow( h_ttbar, xmax );
-  updateoverflow( h_zjets, xmax );
-  updateoverflow( h_QCD, xmax );
-
   THStack * stack = new THStack("stack","");
 
   stack->Add(h_wjets);
@@ -235,8 +193,9 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_data->GetYaxis()->SetLabelSize(0.05);
   h_data->GetYaxis()->SetTitleOffset(1.5);
   h_data->GetYaxis()->SetTitleSize(0.05);
-  h_data->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
-  if( TString(variable).Contains("phi") || variable == "mhtphi" || type    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
+  h_data->GetYaxis()->SetTitle("Events");
+  
+ if( TString(variable).Contains("phi") || variable == "mhtphi" || type    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
 	h_data->GetYaxis()->SetRangeUser(0, h_data->GetMaximum()*1.4 );  
   }
   else{
@@ -277,8 +236,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   
   c1->cd();
 	
-  TPad *rat_pad = new TPad( "p_main", "p_main", 0.0, 0.0, 1.0, 0.3);
-  rat_pad->SetBottomMargin(0.36);
+  TPad *rat_pad = new TPad( "p_main", "p_main", 0.0, 0.0, 1.0, 0.52);
+  rat_pad->SetBottomMargin(0.75);
   rat_pad->SetRightMargin(0.07);
   rat_pad->SetTopMargin(0.07);
   rat_pad->SetLeftMargin(0.18);
@@ -293,36 +252,47 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_den->Add(h_QCD);
 
   h_rat->Divide(h_den);
-
   h_rat->GetYaxis()->SetRangeUser(0.,2.0);
   if( TString(variable).Contains("met") ){
   h_rat->GetYaxis()->SetRangeUser(0.0,2.0);
   }
-  h_rat->GetYaxis()->SetLabelSize(0.12);
-  h_rat->GetXaxis()->SetLabelSize(0.12);
+  h_rat->GetYaxis()->SetLabelSize(0.05);
+  h_rat->GetXaxis()->SetLabelSize(0.05);
   h_rat->GetYaxis()->SetNdivisions(5);
   h_rat->GetYaxis()->SetTitle("#frac{Data}{MC}");
-  h_rat->GetYaxis()->SetTitleSize(0.12);
-  h_rat->GetYaxis()->SetTitleOffset(0.5);
+  h_rat->GetYaxis()->SetTitleSize(0.05);
+  h_rat->GetYaxis()->SetTitleOffset(0.8);
   h_rat->GetYaxis()->CenterTitle();
-  if( variable == "nVert"               )    h_rat->GetXaxis()->SetTitle("N_{vtx}");
-  if( TString(variable).Contains("met") )    h_rat->GetXaxis()->SetTitle("E_{T}^{miss} GeV");
-  if( TString(variable).Contains("absIso") )    h_rat->GetXaxis()->SetTitle("absIso03 GeV");
-  if( TString(variable).Contains("mt") )     h_rat->GetXaxis()->SetTitle("m_{T}(l;#nu) GeV");
-  if( TString(variable).Contains("MHT") )    h_rat->GetXaxis()->SetTitle("H_{T}^{miss} GeV");
-  if( TString(variable).Contains("mhtphi") ) h_rat->GetXaxis()->SetTitle("H_{T} Phi");
-  if( variable == "ht"                  ) h_rat->GetXaxis()->SetTitle("H_{T} GeV");
-  if( TString(variable).Contains("pt")  ) h_rat->GetXaxis()->SetTitle("p_{T} GeV");
-  if( variable == "njets"               ) h_rat->GetXaxis()->SetTitle("N_{jets}");  
-  if( variable == "mll"                 ) h_rat->GetXaxis()->SetTitle("M_{\\ell\\ell} GeV");
-  if( TString(variable).Contains("phi") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
-  if( TString(variable).Contains("_pt") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
+  
+  if( variable == "nVert"               )        h_rat->GetXaxis()->SetTitle("N_{vtx}");
+  if( TString(variable).Contains("met") )        h_rat->GetXaxis()->SetTitle("E_{T}^{miss} GeV");
+  if( TString(variable).Contains("NEvents") )    
+  {
+   h_rat->GetXaxis()->SetLabelSize(0.06);
+   h_rat->GetXaxis()->SetBinLabel(1,"njets>=4\n,E_{T}^{miss}[250,325],MT2W<200");
+   h_rat->GetXaxis()->SetBinLabel(2,"njets>=4\n,E_{T}^{miss}>325,MT2W<200");
+   h_rat->GetXaxis()->SetBinLabel(3,"njets>=4\n,E_{T}^{miss}[250,325],MT2W>200");
+   h_rat->GetXaxis()->SetBinLabel(4,"njets>=4\n,E_{T}^{miss}[325,450],MT2W>200");
+   h_rat->GetXaxis()->SetBinLabel(5,"njets>=4\n,E_{T}^{miss}>450,MT2W>200");
+   h_rat->GetXaxis()->SetBinLabel(6,"njets==3\n,E_{T}^{miss}>350,MT2W>200");
+   h_rat->GetXaxis()->SetBinLabel(7,"njets>=5\n,E_{T}^{miss}>250,MT2W<200,compressed");
+   h_rat->GetXaxis()->SetBinLabel(8,"njets>=5\n,E_{T}^{miss}>250,MT2W>200,compressed");
+   h_rat->GetXaxis()->LabelsOption("v");
+  }
+  if( TString(variable).Contains("mt") )         h_rat->GetXaxis()->SetTitle("m_{T}(l;#nu) GeV");
+  if( TString(variable).Contains("MHT") )        h_rat->GetXaxis()->SetTitle("H_{T}^{miss} GeV");
+  if( TString(variable).Contains("mhtphi") )     h_rat->GetXaxis()->SetTitle("H_{T} Phi");
+  if( variable == "ht"                  )        h_rat->GetXaxis()->SetTitle("H_{T} GeV");
+  if( TString(variable).Contains("pt")  )        h_rat->GetXaxis()->SetTitle("p_{T} GeV");
+  if( variable == "njets"               )        h_rat->GetXaxis()->SetTitle("N_{jets}");  
+  if( variable == "mll"                 )        h_rat->GetXaxis()->SetTitle("M_{\\ell\\ell} GeV");
+  if( TString(variable).Contains("phi") )        h_rat->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
+  if( TString(variable).Contains("_pt") )        h_rat->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
+
   h_rat->GetXaxis()->SetTitleOffset(0.9);
   h_rat->GetXaxis()->SetTitleSize(0.15);
-
   h_rat->SetMarkerStyle(8);
   h_rat->SetMarkerSize(0.75);
-
   h_rat->Draw("e0x0");
   h_rat->Draw("e1x0same");
 

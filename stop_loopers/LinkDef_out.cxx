@@ -117,7 +117,7 @@ namespace {
     };
     static const char* includePaths[] = {
 "/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/6.02.00-eccfad2/include",
-"/home/users/mliu/AnalysisLoopers2015/stop_loopers/",
+"/home/users/mliu/AnalysisLoopers2015/incl_w/",
 0
     };
     static const char* fwdDeclCode = 

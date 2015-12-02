@@ -3,136 +3,107 @@
 source settings.sh
 
 compile_looper
-# create_analysis_output
 
-selection="_inclusive"
+#selection="3jets_met150_mt120"
+selection="yield"
+./runTemplateLooper $selection $analysis_version data  &
+./runTemplateLooper $selection $analysis_version ttbar &
+./runTemplateLooper $selection $analysis_version zjets &
+./runTemplateLooper $selection $analysis_version wjets &
+./runTemplateLooper $selection $analysis_version QCD &
+./runTemplateLooper $selection $analysis_version zjets_htbin &
+./runTemplateLooper $selection $analysis_version wjets_htbin &
+
+#selection="1lCRallbin_met150"
 #./runTemplateLooper $selection $analysis_version data  &
 #./runTemplateLooper $selection $analysis_version ttbar &
 #./runTemplateLooper $selection $analysis_version zjets &
-./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version wjets &
 #./runTemplateLooper $selection $analysis_version QCD &
 #./runTemplateLooper $selection $analysis_version zjets_htbin &
 #./runTemplateLooper $selection $analysis_version wjets_htbin &
-# ./runTemplateLooper $selection V07-04-03_goodtrigs All_MC  &
+#
+#selection="1lCRallbin_met150_mt120"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#
+#
+#selection="1lCRallbin"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#
+#
+#selection="1lCRallbin_met150_lep200"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#
+#
+#selection="1lCRallbin_lep200"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#
+#selection="1lCRallbin_absiso"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#
+#selection="1lCRallbin_absiso_dphi"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
 
-# # For Closure tests
-# selection="_2btag_inclusive_medium"
-# make_gtemplates $selection &
-# selection="_bveto_inclusive_medium"
-# make_gtemplates $selection &
+#selection="1lCRallbin_absiso_dphi_mt120_met150"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
 
-# sample="All_MC"
-# run_template_looper $selection $sample &
-
-
-# # # For the edge Z+JETS BG prediction
-# selection="_2jets_inclusive"
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"  &
-# run_template_looper $selection "ttv" &
-
-# selection="_twojets"
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"  &
-# run_template_looper $selection "ttv" &
-
-# selection="_3jets_inclusive"
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"  &
-# run_template_looper $selection "ttv" &
-
-
-# # # For the edge Z+JETS BG prediction
-# selection="_2jets_edgec"
-# run_template_looper $selection "zjets"  &
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"	    &
-# run_template_looper $selection "ttv"    &
-
-# selection="_2jets_edgef"
-# run_template_looper $selection "zjets"  &
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"	    &
-# run_template_looper $selection "ttv"    &
-
-# selection="_3jets_edgef"
-# run_template_looper $selection "zjets"  &
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"	  &
-# run_template_looper $selection "ttv"    &
-
-# # # done
-# selection="_3jets_edgec"
-# run_template_looper $selection "zjets"  &
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"     &
-# run_template_looper $selection "ttv"    &
-
-
-# # # For the edge Z+JETS BG prediction
-# selection="_2jets_edgec"
-# run_template_looper $selection "zjinc" &
-
-# selection="_2jets_edgef"
-# run_template_looper $selection "zjinc" &
-
-# selection="_3jets_edgec"
-# run_template_looper $selection "zjinc" &
-
-# selection="_3jets_edgef"
-# run_template_looper $selection "zjinc" &
-
-# selection="_2jets_inclusive"
-# run_template_looper $selection "data"   
-# # run_template_looper $selection "All_MC" &
-
-# selection="_2jets_inclusive"
-# # run_template_looper $selection "zjets"  &
-# # run_template_looper $selection "All_MC" &
-# # run_template_looper $selection "vv"     &
-# # run_template_looper $selection "ttv"    &
-
-# selection="_twojets"
-# run_template_looper $selection "zjets" &
-# selection="_3jets_inclusive"
-# run_template_looper $selection "zjets" &
-
-
-
-# # SR + CRS
-# selection="_inclusive"
-# run_template_looper $selection "zjets"
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"	    &
-# run_template_looper $selection "ttv"    &
-# run_template_looper $selection "FS_BG"  &
-
-# # run_template_looper $selection "zjets"
-# # # run_template_looper $selection "ttbar"
-# # # # run_template_looper $selection "top"
-
-# selection="_SRA_withb"
-# run_template_looper $selection "zjets"  &
-
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"	    &
-# run_template_looper $selection "ttv"    &
-# run_template_looper $selection "FS_BG"  &
-									    
-# selection="_SRA_withb"				    
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"	    &
-# run_template_looper $selection "ttv"    &
-# run_template_looper $selection "FS_BG"  &
-									    
-# selection="_SRB_bveto"				    
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"	    &
-# run_template_looper $selection "ttv"    &
-# run_template_looper $selection "FS_BG"  &
-									    
-# selection="_SRB_withb"				    
-# run_template_looper $selection "All_MC" &
-# run_template_looper $selection "vv"	    &
-# run_template_looper $selection "ttv"    &
-# run_template_looper $selection "FS_BG"  &
+#selection="1lCRallbin_absiso_dphi_met150"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#
+#selection="1lCRallbin_absiso_met150"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#
