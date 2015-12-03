@@ -24,14 +24,18 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   TH1D * h_ttbar = NULL;
   TH1D * h_zjets = NULL;
   TH1D * h_QCD = NULL;
-  getYield(   h_data, iter, Form("data%s" , selection.c_str() ), variable, type, region );
+  TH1D * h_top = NULL;
+  TH1D * h_ttv = NULL;
+  getYield(   h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
   if( usefsbkg ) getYield(  h_ttbar, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ), "metgt1jet", "em", "inclusive" );
   else {
-  getYield(  h_ttbar, iter, Form("ttbar%s", selection.c_str() ), variable, type, region );
-  getYield(  h_zjets, iter, Form("zjets_htbin%s", selection.c_str() ), variable, type, region );
-  getYield(  h_QCD, iter, Form("QCD%s", selection.c_str() ), variable, type, region );
+  getYield(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ), variable, type, region );
+  getYield(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
+  getYield(  h_QCD, iter, Form("QCD_%s", selection.c_str() ), variable, type, region );
+  getYield(  h_top, iter, Form("top_%s", selection.c_str() ), variable, type, region );
+  getYield(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
   }
-  getYield(  h_wjets, iter, Form("wjets_htbin%s", selection.c_str() ), variable, type, region );
+  getYield(  h_wjets, iter, Form("wjets_htbin_%s", selection.c_str() ), variable, type, region );
   if( usetemplates ){
 	h_ttbar->Scale(0.15);
 //	h_wjets->Scale(1./h_wjets->GetSumOfWeights());
@@ -151,6 +155,8 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   h_ttbar->Rebin(rebin);
   h_zjets->Rebin(rebin);
   h_QCD->Rebin(rebin);
+  h_top->Rebin(rebin);
+  h_ttv->Rebin(rebin);
 
   float norm_factor = 1;
 
@@ -174,20 +180,26 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
 
   h_wjets->SetFillColor(kBlue);
   h_ttbar->SetFillColor(kCyan-3);
+  h_top->SetFillColor(kCyan-3);
+  h_ttv->SetFillColor(kCyan-3);
   h_zjets->SetFillColor(kGreen+2);
   h_QCD->SetFillColor(kOrange-2);
 
   h_wjets->SetFillStyle(1001);
   h_ttbar->SetFillStyle(1001);
+  h_top->SetFillStyle(1001);
+  h_ttv->SetFillStyle(1001);
   h_zjets->SetFillStyle(1001);
   h_QCD->SetFillStyle(1001);
 
   THStack * stack = new THStack("stack","");
 
-  stack->Add(h_wjets);
   stack->Add(h_ttbar);
+  stack->Add(h_wjets);
   stack->Add(h_zjets);
   stack->Add(h_QCD);
+  stack->Add(h_top);
+  stack->Add(h_ttv);
   
   h_data->GetXaxis()->SetLabelSize(0);
   h_data->GetYaxis()->SetLabelSize(0.05);
@@ -232,6 +244,8 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   }
   l1->AddEntry( h_zjets , "DY"            , "f");
   l1->AddEntry( h_QCD , "QCD"          , "f");
+  l1->AddEntry( h_ttv ,  "ttv"            , "f");
+  l1->AddEntry( h_top , "single top"            , "f");
   l1->Draw("same");
   
   c1->cd();
@@ -269,6 +283,9 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   if( TString(variable).Contains("NEvents") )    
   {
    h_rat->GetXaxis()->SetLabelSize(0.06);
+   if( TString(variable).Contains("2l") ){
+   //h_rat->GetXaxis()->SetBinLabel(1,"CR4"); //   h_rat->GetXaxis()->SetBinLabel(2,"CR5");
+   // h_rat->GetXaxis()->SetBinLabel(3,"CR6");
    h_rat->GetXaxis()->SetBinLabel(1,"njets>=4\n,E_{T}^{miss}[250,325],MT2W<200");
    h_rat->GetXaxis()->SetBinLabel(2,"njets>=4\n,E_{T}^{miss}>325,MT2W<200");
    h_rat->GetXaxis()->SetBinLabel(3,"njets>=4\n,E_{T}^{miss}[250,325],MT2W>200");
@@ -278,7 +295,21 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
    h_rat->GetXaxis()->SetBinLabel(7,"njets>=5\n,E_{T}^{miss}>250,MT2W<200,compressed");
    h_rat->GetXaxis()->SetBinLabel(8,"njets>=5\n,E_{T}^{miss}>250,MT2W>200,compressed");
    h_rat->GetXaxis()->LabelsOption("v");
+ 
+   }
+   else{
+   h_rat->GetXaxis()->SetBinLabel(1,"njets>=4\n,E_{T}^{miss}[250,325],MT2W<200");
+   h_rat->GetXaxis()->SetBinLabel(2,"njets>=4\n,E_{T}^{miss}>325,MT2W<200");
+   h_rat->GetXaxis()->SetBinLabel(3,"njets>=4\n,E_{T}^{miss}[250,325],MT2W>200");
+   h_rat->GetXaxis()->SetBinLabel(4,"njets>=4\n,E_{T}^{miss}[325,450],MT2W>200");
+   h_rat->GetXaxis()->SetBinLabel(5,"njets>=4\n,E_{T}^{miss}>450,MT2W>200");
+   h_rat->GetXaxis()->SetBinLabel(6,"njets==3\n,E_{T}^{miss}>350,MT2W>200");
+   h_rat->GetXaxis()->SetBinLabel(7,"njets>=5\n,E_{T}^{miss}>250,MT2W<200,compressed");
+   h_rat->GetXaxis()->SetBinLabel(8,"njets>=5\n,E_{T}^{miss}>250,MT2W>200,compressed");
+   h_rat->GetXaxis()->LabelsOption("v");
+   }
   }
+
   if( TString(variable).Contains("mt") )         h_rat->GetXaxis()->SetTitle("m_{T}(l;#nu) GeV");
   if( TString(variable).Contains("MHT") )        h_rat->GetXaxis()->SetTitle("H_{T}^{miss} GeV");
   if( TString(variable).Contains("mhtphi") )     h_rat->GetXaxis()->SetTitle("H_{T} Phi");

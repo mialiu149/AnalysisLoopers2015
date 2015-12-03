@@ -26,13 +26,11 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
         helper = babylocation+"data_single_muon_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
         helper = babylocation+"data_single_electron_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
  }
-  
   else if ( sample == "All_MC" ){
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/dyjetsll_50ns_m1050nlo*.root"  , iter.c_str() ));
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/dyjetsll_50ns_m50nlo*.root"    , iter.c_str() ));
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/tt2lnu_50ns_php8*.root"         , iter.c_str() ));	
   }
-
   else if( sample == "zjets" ){
         helper = babylocation+"DYJetsToLL_m10To50_amcnlo_pythia8_25ns*.root"; ch->Add(helper.c_str()); //inclusive sample
         helper = babylocation+"DYJetsToLL_m50_amcnlo_pythia8_25ns*.root"; ch->Add(helper.c_str());
@@ -60,10 +58,6 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   else if( sample == "ttbar" ){
         helper = babylocation+"ttbar_powheg_pythia8*ext3*.root"; ch->Add(helper.c_str());
   }
-
-  else if( sample == "top" ){
-	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/t_*.root", iter.c_str() ));	
-  }
   else if ( sample == "QCD"){
         helper = babylocation+"QCD*.root"; ch->Add(helper.c_str());
   }
@@ -73,11 +67,11 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   }
 
   else if( sample == "ttv" ){
-	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/tth*.root", iter.c_str() ));	
-	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/ttw*.root", iter.c_str() ));	
-	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/ttv*.root", iter.c_str() ));	
+        helper = babylocation+"ttz_*.root";ch->Add(helper.c_str());//single top
   }
-  
+  else if( sample=="top"){
+        helper = babylocation+"ST*.root";ch->Add(helper.c_str());//single top
+  } 
   else if( sample == "FS_BG" ){
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/ttall_msdecays*.root", iter.c_str() ));	
 

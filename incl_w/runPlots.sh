@@ -9,12 +9,9 @@ if [ ! -d "../output/ZMET2015/$analysis_version/plots/Closure/" ]; then
 fi
 
 lumi=2.1
-#selection="1lCRallbin_met150"
-#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mt\",\"$selection\" )" 
-#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 
-#selection="1lCRallbin"
-#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mt\",\"$selection\" )" 
-#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 
+selection="1lCRallbin_absiso_dphi_met150_2jet"
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mt\",\"$selection\" )" 
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 
 #selection="1lCRallbin_lep200"
 #root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mt\",\"$selection\" )" 
 #root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 

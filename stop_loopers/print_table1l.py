@@ -82,7 +82,7 @@ for row in row_inputs[1:]:
         ratio_row+="&${:.2f}".format(ratio.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(ratio.GetBinError(i+1))+'$'        
     table.write(row_to_print+'\\\\\n')
 table.write("databkgsub"+sum_row+'\\\\\n') 
-table.write("databkgsub"+ratio_row+'\\\\\n') 
+table.write("kfactor"+ratio_row+'\\\\\n') 
 table.write('\\hline\hline\n')
 table.write('\\end{tabular}\n')
 table.write('\\end{center}\n')

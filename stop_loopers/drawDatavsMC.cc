@@ -7,7 +7,6 @@
 #include "TPad.h"
 #include "TLatex.h"
 #include "THStack.h"
-
 #include <iostream>
 
 #include "../sharedCode/histTools.cc"
@@ -23,11 +22,15 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   TH1F * h_ttbar = NULL;
   TH1F * h_zjets = NULL;
   TH1F * h_QCD = NULL;
+  TH1F * h_top = NULL;
+  TH1F * h_ttv = NULL;
 
   getBackground(   h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
   if( usefsbkg ) getBackground(  h_ttbar, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ), "metgt1jet", "em", "inclusive" );
   else {
   getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ), variable, type, region );
+  getBackground(  h_top, iter, Form("top_%s", selection.c_str() ), variable, type, region );
+  getBackground(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
   getBackground(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
   getBackground(  h_QCD, iter, Form("QCD_%s", selection.c_str() ), variable, type, region );
   }
@@ -54,7 +57,6 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	cout<<"ttbar: "<<val_ttbar<<endl;
   
 	float scaleval = ((val_data-val_ttbar)/(val_wjets));
-//	h_wjets->Scale(scaleval);
   
 	val_data  = h_data  -> Integral(1,49);
 	val_ttbar = h_ttbar -> Integral(1,49);
@@ -74,7 +76,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   float xmin = 50; float xmax = 200;
   float ymin = 1e-1; float ymax = 1e2;
 
-  int rebin = 5;
+  int rebin = 10;
   
   if( variable == "mt3" ){
 	xmin = 0;
@@ -111,9 +113,9 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
     ymin = 0;
     rebin = 1;
   }
-  if( TString(variable).Contains("met") || TString(variable).Contains("mt") ){
+  if( TString(variable).Contains("met") || TString(variable).Contains("mt") || TString(variable).Contains("MT2W")){
 	if( type == "em" ) rebin = 20;
-	else rebin = 20;
+	else rebin = 50;
 	  xmin = 0;
 	  if( usefsbkg ) xmax = 300;
 	  else           xmax = 500;
@@ -161,6 +163,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_data->Rebin(rebin);
   h_wjets->Rebin(rebin);
   h_ttbar->Rebin(rebin);
+  h_top->Rebin(rebin);
+  h_ttv->Rebin(rebin);
   h_zjets->Rebin(rebin);
   h_QCD->Rebin(rebin);
 
@@ -185,11 +189,15 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   h_wjets->SetFillColor(kBlue);
   h_ttbar->SetFillColor(kCyan-3);
+  h_top->SetFillColor(kCyan-3);
+  h_ttv->SetFillColor(kCyan-3);
   h_zjets->SetFillColor(kGreen+2);
   h_QCD->SetFillColor(kOrange-2);
 
   h_wjets->SetFillStyle(1001);
   h_ttbar->SetFillStyle(1001);
+  h_top->SetFillStyle(1001);
+  h_ttv->SetFillStyle(1001);
   h_zjets->SetFillStyle(1001);
   h_QCD->SetFillStyle(1001);
 
@@ -221,6 +229,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   updateoverflow( h_data , xmax );
   updateoverflow( h_wjets, xmax );
   updateoverflow( h_ttbar, xmax );
+  updateoverflow( h_top, xmax );
+  updateoverflow( h_ttv, xmax );
   updateoverflow( h_zjets, xmax );
   updateoverflow( h_QCD, xmax );
 
@@ -228,6 +238,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   stack->Add(h_wjets);
   stack->Add(h_ttbar);
+  stack->Add(h_top);
+  stack->Add(h_ttv);
   stack->Add(h_zjets);
   stack->Add(h_QCD);
   
@@ -272,6 +284,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	l1->AddEntry( h_ttbar , "t#bar{t} MC"       , "f");
   }
   l1->AddEntry( h_zjets , "DY"            , "f");
+  l1->AddEntry( h_ttv ,  "ttv"            , "f");
+  l1->AddEntry( h_top , "single top"            , "f");
   l1->AddEntry( h_QCD , "QCD"          , "f");
   l1->Draw("same");
   
@@ -307,6 +321,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_rat->GetYaxis()->CenterTitle();
   if( variable == "nVert"               )    h_rat->GetXaxis()->SetTitle("N_{vtx}");
   if( TString(variable).Contains("met") )    h_rat->GetXaxis()->SetTitle("E_{T}^{miss} GeV");
+  if( TString(variable).Contains("MT2W") )    h_rat->GetXaxis()->SetTitle("MT2W GeV");
   if( TString(variable).Contains("absIso") )    h_rat->GetXaxis()->SetTitle("absIso03 GeV");
   if( TString(variable).Contains("mt") )     h_rat->GetXaxis()->SetTitle("m_{T}(l;#nu) GeV");
   if( TString(variable).Contains("MHT") )    h_rat->GetXaxis()->SetTitle("H_{T}^{miss} GeV");

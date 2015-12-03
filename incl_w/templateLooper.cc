@@ -165,7 +165,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   double nmu = 0;
   double nemu = 0;
 
-
   double nem_2jets = 0;
   double nem_2jets_mll = 0;
 

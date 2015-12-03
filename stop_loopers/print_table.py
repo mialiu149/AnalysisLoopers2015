@@ -3,9 +3,9 @@ from ROOT import TH1F,TFile
 lumi = 2.1
 table_header = '\\begin{tabular}{lcccccccc}\n'
 title = '1l CR & & & & & & & &\\\\\n'
-hist_prefix = 'h_lep_event_NEvents1lCR_yield'
+hist_prefix = 'h_lep_event_NEventsSR_yield'
 #input_dir = '/home/users/mliu/public_html/rootfiles/CutHistos/Sync/'
-input_dir = '/home/users/mliu/public_html/analysis2015/incl_w/V00-00-04/datavsmc/rootfiles/'
+input_dir = '/home/users/mliu/public_html/analysis2015/stop_loopers/V00-00-01/datavsmc/rootfiles/'
 ##cols to print out
 #label_col = ['Sample','[250,300] GeV','[300,350]','[350,400] GeV','[400,500] GeV','[500,inf] GeV','njets==3']
 label_col = ['Sample','[250,325],low dM','[325,Inf],low dM','[250,325],high dM','[325,450],high dM','[450,Inf],high dM','njets==3,high mass','compressed1','compressed2']
@@ -82,7 +82,7 @@ for row in row_inputs[1:]:
         ratio_row+="&${:.2f}".format(ratio.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(ratio.GetBinError(i+1))+'$'        
     table.write(row_to_print+'\\\\\n')
 table.write("databkgsub"+sum_row+'\\\\\n') 
-table.write("databkgsub"+ratio_row+'\\\\\n') 
+table.write("kfactor"+ratio_row+'\\\\\n') 
 table.write('\\hline\hline\n')
 table.write('\\end{tabular}\n')
 table.write('\\end{center}\n')

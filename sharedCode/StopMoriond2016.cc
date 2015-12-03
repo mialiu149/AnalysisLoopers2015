@@ -30,7 +30,7 @@ bool passPreselection()
   //to add: track veto.
   if( NSLeps!= 1)      return false; // require at least 1 good lepton
   if( pfmet() < 50)    return false; // met cut
-  if( ngoodjets() < 3) return false; // >=3 jets  
+  if( ngoodjets() < 2) return false; // >=3 jets  
   return true;
 }
 
@@ -58,6 +58,7 @@ bool pass2lPreselection()
   if( mll< 20 )        return false; // mll cut
   if( pfmet() < 50)    return false; // met cut
   if( ngoodjets() < 3) return false; // >=3 jets  
+
   return true;
 }
 
@@ -77,14 +78,14 @@ bool passBaseline(){
 
 bool passSR( string selection )
 {
- if(!passBaseline()) return false; 
+ if( !passBaseline()) return false; 
  if( TString(selection).Contains("all"))  return true;
  if( TString(selection).Contains("bin1") && !(ngoodjets()>3&&pfmet()>250&&pfmet()<325&&MT2W()<200)) return false;
- if( TString(selection).Contains("bin2") && !(ngoodjets()>3&&pfmet()>325&&MT2W()<200)) return false;
+ if( TString(selection).Contains("bin2") && !(ngoodjets()>3&&pfmet()>325&&MT2W()<200))              return false;
  if( TString(selection).Contains("bin3") && !(ngoodjets()>3&&pfmet()>250&&pfmet()<350&&MT2W()>200)) return false;
  if( TString(selection).Contains("bin4") && !(ngoodjets()>3&&pfmet()>350&&pfmet()<450&&MT2W()>200)) return false;
- if( TString(selection).Contains("bin5") && !(ngoodjets()>3&&pfmet()>450&&MT2W()>200)) return false;
- if( TString(selection).Contains("bin6") && !(ngoodjets()==3&&pfmet()>250&&MT2W()>200)) return false;
+ if( TString(selection).Contains("bin5") && !(ngoodjets()>3&&pfmet()>450&&MT2W()>200))              return false;
+ if( TString(selection).Contains("bin6") && !(ngoodjets()==3&&pfmet()>250&&MT2W()>200))             return false;
  if( TString(selection).Contains("bin7") && !(ngoodjets()>4&&pfmet()>250&&MT2W()<200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return false;
  if( TString(selection).Contains("bin8") && !(ngoodjets()>4&&pfmet()>250&&MT2W()>200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return false;
 
@@ -93,43 +94,54 @@ bool passSR( string selection )
 
 bool pass1lCR( string selection )
 {
- if(!passPreselection())  return false; 
+ if( !passPreselection()) return false; 
  if( nvetoleps() > 1 )    return false; // second lepton veto
  if( ngoodbtags() > 0)    return false; // bveto 
- if( TString(selection).Contains("met150") && pfmet()<150)   return false;
- if( TString(selection).Contains("mt120")  && mt_met_lep()<120)   return false;
- if( TString(selection).Contains("lep200") && lep1_pt()<200) return false;
- if( TString(selection).Contains("absiso") && lep1_pt()*lep1_relIso03EA()>10) return false;
- if( TString(selection).Contains("dphi")   && mindphi_met_j1_j2()< 0.8 ) return false;
- //if( mt_met_lep() < 40 ) return false;
+ if( TString(selection).Contains("met150") && pfmet()<150)                     return false;
+ if( TString(selection).Contains("mt120")  && mt_met_lep()<120)                return false;
+ if( TString(selection).Contains("lep200") && lep1_pt()<200)                   return false;
+ if( TString(selection).Contains("absiso") && lep1_pt()*lep1_relIso03EA()>10)  return false;
+ if( TString(selection).Contains("dphi")   && mindphi_met_j1_j2()< 0.8 )       return false;
  if( TString(selection).Contains("all"))  return true;
  if( TString(selection).Contains("bin1") && (ngoodjets()>3&&pfmet()>250&&pfmet()<325&&MT2W()<200)) return true;
- if( TString(selection).Contains("bin2") && (ngoodjets()>3&&pfmet()>325&&MT2W()<200)) return true;
+ if( TString(selection).Contains("bin2") && (ngoodjets()>3&&pfmet()>325&&MT2W()<200))              return true;
  if( TString(selection).Contains("bin3") && (ngoodjets()>3&&pfmet()>250&&pfmet()<350&&MT2W()>200)) return true;
  if( TString(selection).Contains("bin4") && (ngoodjets()>3&&pfmet()>350&&pfmet()<450&&MT2W()>200)) return true;
- if( TString(selection).Contains("bin5") && (ngoodjets()>3&&pfmet()>450&&MT2W()>200)) return true;
- if( TString(selection).Contains("bin6") && (ngoodjets()==3&&pfmet()>250&&MT2W()>200)) return true;
+ if( TString(selection).Contains("bin5") && (ngoodjets()>3&&pfmet()>450&&MT2W()>200))              return true;
+ if( TString(selection).Contains("bin6") && (ngoodjets()==3&&pfmet()>250&&MT2W()>200))             return true;
  if( TString(selection).Contains("bin7") && (ngoodjets()>4&&pfmet()>250&&MT2W()<200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
  if( TString(selection).Contains("bin8") && (ngoodjets()>4&&pfmet()>250&&MT2W()>200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
+
  return false;
 }
 
 bool pass2lCR( string selection )
 {
- if(!pass2lPreselection())         return false; 
-// if( PassTrackVeto_v3())           return false;
-// if( PassTauVeto())                return false;
-// if( pfmet()<150)                  return false;
- if( TString(selection).Contains("all"))  return true;
- if( TString(selection).Contains("bin1") && (ngoodjets()>3&&pfmet()>250&&pfmet()<325&&MT2W()<200)) return true;
- if( TString(selection).Contains("bin2") && (ngoodjets()>3&&pfmet()>325&&MT2W()<200)) return true;
- if( TString(selection).Contains("bin3") && (ngoodjets()>3&&pfmet()>250&&pfmet()<350&&MT2W()>200)) return true;
- if( TString(selection).Contains("bin4") && (ngoodjets()>3&&pfmet()>350&&pfmet()<450&&MT2W()>200)) return true;
- if( TString(selection).Contains("bin5") && (ngoodjets()>3&&pfmet()>450&&MT2W()>200)) return true;
- if( TString(selection).Contains("bin6") && (ngoodjets()==3&&pfmet()>250&&MT2W()>200)) return true;
- if( TString(selection).Contains("bin7") && (ngoodjets()>4&&pfmet()>250&&MT2W()<200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
- if( TString(selection).Contains("bin8") && (ngoodjets()>4&&pfmet()>250&&MT2W()>200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
- 
+ ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4();
+ ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4();
+ if( TString(selection).Contains("CR4")) { if(!pass2lPreselection()) return false;}  // this is to validate total normalization and ISR modeling.
+ if( !passPreselection())                 return false;                              // preselection with 1 lep+ met50 +2jets 
+
+ bool met_mt_cut = ( pfmet()>100 && mt_met_lep()>40 );                                          // some additional requirement for CRs
+ bool passCR5 = ( met_mt_cut && nvetoleps()!=1 && nvetoleps()==2);                              // fail lepton veto.
+ bool passCR6 = ( met_mt_cut && !(nvetoleps()!=1 && nvetoleps()==2) && !PassTrackVeto_v3() );   // fail track veto: CR6
+
+ // the following corresponds to SR bins.
+ if( (TString(selection).Contains("CR5") && passCR5||TString(selection).Contains("CR6") && passCR6 ) && TString(selection).Contains("yield") ){
+     if( TString(selection).Contains("all"))                                                               return true;
+     if( TString(selection).Contains("bin1") && (ngoodjets()>3 && pfmet()>250 && pfmet()<325&&MT2W()<200)) return true;
+     if( TString(selection).Contains("bin2") && (ngoodjets()>3 && pfmet()>325 && MT2W()<200))              return true;
+     if( TString(selection).Contains("bin3") && (ngoodjets()>3 && pfmet()>250 && pfmet()<350&&MT2W()>200)) return true;
+     if( TString(selection).Contains("bin4") && (ngoodjets()>3 && pfmet()>350 && pfmet()<450&&MT2W()>200)) return true;
+     if( TString(selection).Contains("bin5") && (ngoodjets()>3 && pfmet()>450 && MT2W()>200))              return true;
+     if( TString(selection).Contains("bin6") && (ngoodjets()==3 && pfmet()>250 && MT2W()>200))             return true;
+     if( TString(selection).Contains("bin7") && (ngoodjets()>4  && pfmet()>250 && MT2W()<200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
+     if( TString(selection).Contains("bin8") && (ngoodjets()>4  && pfmet()>250 && MT2W()>200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
+ }
+
+ if( TString(selection).Contains("CR5") && passCR5 && !TString(selection).Contains("yield")) return true; // for plots in CR5 
+ if( TString(selection).Contains("CR6") && passCR6 && !TString(selection).Contains("yield")) return true; // for plots in CR6
+
  return false;
 }
 
