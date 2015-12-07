@@ -1,11 +1,12 @@
 '''this script takes in root files containing hists and prints out a latex table'''
 from ROOT import TH1F,TFile
 lumi = 2.1
+selection = 'yield_CR5_CR6'
 table_header = '\\begin{tabular}{lcccccccc}\n'
 title = '2l CR & & & & & & & &\\\\\n'
-hist_prefix = 'h_lep_event_NEvents2lCR_yield'
+hist_prefix = 'h_lep_event_NEvents2lCR_'+selection
 #input_dir = '/home/users/mliu/public_html/rootfiles/CutHistos/Sync/'
-input_dir = '/home/users/mliu/public_html/analysis2015/incl_w/V00-00-04/datavsmc/rootfiles/'
+input_dir = '/home/users/mliu/public_html/analysis2015/stop_loopers/V00-00-01/datavsmc/rootfiles/'
 ##cols to print out
 #label_col = ['Sample','[250,300] GeV','[300,350]','[350,400] GeV','[400,500] GeV','[500,inf] GeV','njets==3']
 label_col = ['Sample','[250,325],low dM','[325,Inf],low dM','[250,325],high dM','[325,450],high dM','[450,Inf],high dM','njets==3,high mass','compressed1','compressed2']
@@ -27,13 +28,15 @@ for col in label_col:
 #              {'file':'Rare.root','row_label':'Rare','hist_name':hist_prefix+'_Rare'}
 #              ]
 row_inputs = [
-              {'file':'data_yield_hists.root','row_label':'data','hist_name':hist_prefix},
-              {'file':'zjets_htbin_yield_hists.root','row_label':'z+jets','hist_name':hist_prefix},
-              {'file':'wjets_htbin_yield_hists.root','row_label':'w+jets','hist_name':hist_prefix},
-              {'file':'ttbar_yield_hists.root','row_label':'ttbar','hist_name':hist_prefix}
+              {'file':'data_yield_CR5_CR6_hists.root','row_label':'data','hist_name':hist_prefix},
+              {'file':'zjets_htbin_yield_CR5_CR6_hists.root','row_label':'z+jets','hist_name':hist_prefix},
+              {'file':'wjets_htbin_yield_CR5_CR6_hists.root','row_label':'w+jets','hist_name':hist_prefix},
+              {'file':'top_yield_CR5_CR6_hists.root','row_label':'single top','hist_name':hist_prefix},
+              {'file':'ttv_yield_CR5_CR6_hists.root','row_label':'ttv','hist_name':hist_prefix},
+              {'file':'ttbar_yield_CR5_CR6_hists.root','row_label':'ttbar','hist_name':hist_prefix}
              ]
 ##table to print out####
-table = open('table_test.tex','w')
+table = open('table2lCR.tex','w')
 table.write('%BEGINLATEX%\n')
 table.write('\\begin{table}\n')
 table.write('\\begin{center}\n')
@@ -82,7 +85,7 @@ for row in row_inputs[1:]:
         ratio_row+="&${:.2f}".format(ratio.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(ratio.GetBinError(i+1))+'$'        
     table.write(row_to_print+'\\\\\n')
 table.write("databkgsub"+sum_row+'\\\\\n') 
-table.write("databkgsub"+ratio_row+'\\\\\n') 
+table.write("kfactor"+ratio_row+'\\\\\n') 
 table.write('\\hline\hline\n')
 table.write('\\end{tabular}\n')
 table.write('\\end{center}\n')

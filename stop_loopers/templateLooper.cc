@@ -353,7 +353,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            histname = Form("h_lep_event_NEvents2lCR_%s",selection.c_str());
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
            if(TString(selection).Contains("CR5")&&pass2lCR("CR5")||TString(selection).Contains("CR6")&&pass2lCR("CR6")){
-
            if(pass2lCR(Form("bin1_%s",selection.c_str()))) histos_cutflow[histname]->Fill(1,weight); 
            if(pass2lCR(Form("bin2_%s",selection.c_str()))) histos_cutflow[histname]->Fill(2,weight); 
            if(pass2lCR(Form("bin3_%s",selection.c_str()))) histos_cutflow[histname]->Fill(3,weight); 
@@ -362,8 +361,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(pass2lCR(Form("bin6_%s",selection.c_str()))) histos_cutflow[histname]->Fill(6,weight); 
            if(pass2lCR(Form("bin7_%s",selection.c_str()))) histos_cutflow[histname]->Fill(7,weight); 
            if(pass2lCR(Form("bin8_%s",selection.c_str()))) histos_cutflow[histname]->Fill(8,weight); 
-           if(pass2lCR(Form("all_%s",selection.c_str()))) histos_cutflow[histname]->Fill(9,weight); 
-
+           if(pass2lCR(Form("all_%s",selection.c_str())))  histos_cutflow[histname]->Fill(9,weight); 
            }
            continue;
           }

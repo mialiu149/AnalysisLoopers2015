@@ -81,7 +81,7 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   }
   if( TString(variable).Contains("NEvents") ){
 	xmin = 0.5;
-	xmax = 8.5;
+	xmax = 9.5;
 	rebin = 1;
   }
   if( TString(variable).Contains("mhtphi") ){
@@ -160,7 +160,6 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
 
   float norm_factor = 1;
 
-   cout <<"wtf"<<endl;
   TCanvas * c1 = new TCanvas("c1","");
   c1->cd();
   // c1->SetLogy();
@@ -259,14 +258,14 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   rat_pad->cd();
   rat_pad->SetGridy();
 
-  TH1F* h_rat = (TH1F*)h_data  -> Clone("h_rat");
-  TH1F* h_den = (TH1F*)h_wjets -> Clone("h_den");
+  TH1D* h_rat = (TH1D*)h_data  -> Clone("h_rat");
+  TH1D* h_den = (TH1D*)h_wjets -> Clone("h_den");
   h_den->Add(h_ttbar);
   h_den->Add(h_zjets);
   h_den->Add(h_QCD);
 
   h_rat->Divide(h_den);
-  h_rat->GetYaxis()->SetRangeUser(0.,2.0);
+  h_rat->GetYaxis()->SetRangeUser(0.,2);
   if( TString(variable).Contains("met") ){
   h_rat->GetYaxis()->SetRangeUser(0.0,2.0);
   }
@@ -294,6 +293,7 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
    h_rat->GetXaxis()->SetBinLabel(6,"njets==3\n,E_{T}^{miss}>350,MT2W>200");
    h_rat->GetXaxis()->SetBinLabel(7,"njets>=5\n,E_{T}^{miss}>250,MT2W<200,compressed");
    h_rat->GetXaxis()->SetBinLabel(8,"njets>=5\n,E_{T}^{miss}>250,MT2W>200,compressed");
+   h_rat->GetXaxis()->SetBinLabel(9,"njets>=4");
    h_rat->GetXaxis()->LabelsOption("v");
  
    }
@@ -306,6 +306,7 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
    h_rat->GetXaxis()->SetBinLabel(6,"njets==3\n,E_{T}^{miss}>350,MT2W>200");
    h_rat->GetXaxis()->SetBinLabel(7,"njets>=5\n,E_{T}^{miss}>250,MT2W<200,compressed");
    h_rat->GetXaxis()->SetBinLabel(8,"njets>=5\n,E_{T}^{miss}>250,MT2W>200,compressed");
+   h_rat->GetXaxis()->SetBinLabel(9,"njets>=4");
    h_rat->GetXaxis()->LabelsOption("v");
    }
   }
