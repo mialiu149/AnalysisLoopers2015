@@ -25,7 +25,8 @@ bool passPreselection()
  if(lep1_pt()>30&&fabs(lep1_eta())<2.1&&lep1_passMediumID()&&fabs(lep1_d0())<0.02&&fabs(lep1_dz())<0.1&&lep1_MiniIso()<0.1) ++NSLeps;
  } 
  else if (lep1_is_el()){
-  if(lep1_pt()>35&&(fabs(lep1_eta())<1.4||fabs(lep1_eta())>1.6&&fabs(lep1_eta())<2.1)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps; 
+  //if(lep1_pt()>35&&(fabs(lep1_eta())<1.4||fabs(lep1_eta())>1.6&&fabs(lep1_eta())<2.1)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps; 
+  if(lep1_pt()>35&&(fabs(lep1_eta())<1.4)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps;//use only barrel electrons for moriond. 
  }
   //to add: track veto.
   if( NSLeps!= 1)      return false; // require at least 1 good lepton
@@ -122,19 +123,20 @@ bool pass2lCR( string selection )
  if( TString(selection).Contains("CR4")) { if(!pass2lPreselection()) return false;}  // this is to validate total normalization and ISR modeling.
  if( !passPreselection())                 return false;                              // preselection with 1 lep+ met50 +2jets 
 
- bool met_mt_cut = ( pfmet()>100 && mt_met_lep()>40 );                                          // some additional requirement for CRs
- bool passCR5 = ( met_mt_cut && nvetoleps()!=1 && nvetoleps()==2);                              // fail lepton veto.
- bool passCR6 = ( met_mt_cut && !(nvetoleps()!=1 && nvetoleps()==2) && !PassTrackVeto_v3() );   // fail track veto: CR6
+ bool met_mt_cut = ( pfmet()>250 && mt_met_lep() > 150 );                                       // some additional requirement for CRs
+ bool passCR5 = ( met_mt_cut && nvetoleps()==2);                                                // fail lepton veto.
+ bool passCR6 = ( met_mt_cut && (!PassTrackVeto_v3()||!PassTauVeto()));      // fail track veto: CR6
 
  // the following corresponds to SR bins.
- if( (TString(selection).Contains("CR5") && passCR5||TString(selection).Contains("CR6") && passCR6 ) && TString(selection).Contains("yield") ){
-     if( TString(selection).Contains("all"))                                                               return true;
-     if( TString(selection).Contains("bin1") && (ngoodjets()>3 && pfmet()>250 && pfmet()<325&&MT2W()<200)) return true;
-     if( TString(selection).Contains("bin2") && (ngoodjets()>3 && pfmet()>325 && MT2W()<200))              return true;
-     if( TString(selection).Contains("bin3") && (ngoodjets()>3 && pfmet()>250 && pfmet()<350&&MT2W()>200)) return true;
-     if( TString(selection).Contains("bin4") && (ngoodjets()>3 && pfmet()>350 && pfmet()<450&&MT2W()>200)) return true;
-     if( TString(selection).Contains("bin5") && (ngoodjets()>3 && pfmet()>450 && MT2W()>200))              return true;
-     if( TString(selection).Contains("bin6") && (ngoodjets()==3 && pfmet()>250 && MT2W()>200))             return true;
+ if( (TString(selection).Contains("CR5") && passCR5 || TString(selection).Contains("CR6") && passCR6 ) && TString(selection).Contains("yield") ){
+     if( TString(selection).Contains("all")  && (ngoodjets()>3  && pfmet()>250)) return true;
+//     if( TString(selection).Contains("all")) return true; // very loose met and mt cut
+     if( TString(selection).Contains("bin1") && (ngoodjets()>3  && pfmet()>250 && pfmet()<325&&MT2W()<200)) return true;
+     if( TString(selection).Contains("bin2") && (ngoodjets()>3  && pfmet()>325 && MT2W()<200))              return true;
+     if( TString(selection).Contains("bin3") && (ngoodjets()>3  && pfmet()>250 && pfmet()<350&&MT2W()>200)) return true;
+     if( TString(selection).Contains("bin4") && (ngoodjets()>3  && pfmet()>350 && pfmet()<450&&MT2W()>200)) return true;
+     if( TString(selection).Contains("bin5") && (ngoodjets()>3  && pfmet()>450 && MT2W()>200))              return true;
+     if( TString(selection).Contains("bin6") && (ngoodjets()==3 && pfmet()>350 && MT2W()>200))              return true;
      if( TString(selection).Contains("bin7") && (ngoodjets()>4  && pfmet()>250 && MT2W()<200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
      if( TString(selection).Contains("bin8") && (ngoodjets()>4  && pfmet()>250 && MT2W()>200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
  }

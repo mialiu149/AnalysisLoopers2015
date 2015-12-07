@@ -70,7 +70,8 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
         helper = babylocation+"ttz_*.root";ch->Add(helper.c_str());//single top
   }
   else if( sample=="top"){
-        helper = babylocation+"ST*.root";ch->Add(helper.c_str());//single top
+        helper = babylocation+"ST_tW_*_5f_inclusiveDecays.root";ch->Add(helper.c_str());//single top
+        helper = babylocation+"ST_*channel.root"; ch->Add(helper.c_str());
   } 
   else if( sample == "FS_BG" ){
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/ttall_msdecays*.root", iter.c_str() ));	
