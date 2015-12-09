@@ -3,6 +3,6 @@
   gROOT->ProcessLine(".L ScanChain.C+");
 
   TChain *ch = new TChain("t"); 
-  ch->Add("/nfs-6/userdata/mliu/onelepbabies/V00-00-01/DYJetsToLL_m10To50_amcnlo_pythia8_25ns.root");
+  ch->Add("/nfs-7/userdata/mliu/onelepbabies/V00-00-04/ttbar_powheg_pythia8_25ns_1.root");
   ScanChain(ch); 
 }

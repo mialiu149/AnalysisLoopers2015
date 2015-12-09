@@ -2,9 +2,9 @@
 #define ANALYSISSELECTIONS_H
 
 #include "StopSelections.h"
-bool passPreselection();
+bool passPreselection(std::string selection);
 bool pass2lPreselection();
-bool passBaseline();
+bool passBaseline( std::string selection);
 bool passSR( std::string selection );
 bool passRegion(std::string selection);
 bool passStudyRegion(std::string selection);

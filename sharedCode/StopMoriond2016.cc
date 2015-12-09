@@ -12,26 +12,40 @@
 
 #include "StopMoriond2016.h"
 #include "histTools.h"
-#include "V00_00_02.h"
+#include "V00_00_04.h"
 
 using namespace std;
-using namespace V00_00_02_np; 
+using namespace V00_00_04_np; 
 
-bool passPreselection()
+bool passPreselection(string selection)
 {
  int NSLeps = 0;         
- if( !(HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27())) return false;//trigger
+ if(TString(selection).Contains("met_trigger")) { if( !(HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27() || HLT_MET170() )) return false;}// single lep OR MET trigger 
+ else if( !(HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27())) return false;//single lep trigger
+ if(TString(selection).Contains("met_trigger")) { // if OR met trigger, use lower lepton pt cut
  if(lep1_is_mu()){
- if(lep1_pt()>30&&fabs(lep1_eta())<2.1&&lep1_passMediumID()&&fabs(lep1_d0())<0.02&&fabs(lep1_dz())<0.1&&lep1_MiniIso()<0.1) ++NSLeps;
- } 
- else if (lep1_is_el()){
-  //if(lep1_pt()>35&&(fabs(lep1_eta())<1.4||fabs(lep1_eta())>1.6&&fabs(lep1_eta())<2.1)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps; 
-  if(lep1_pt()>35&&(fabs(lep1_eta())<1.4)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps;//use only barrel electrons for moriond. 
+   if(lep1_pt()>20&&fabs(lep1_eta())<2.1&&lep1_passMediumID()&&fabs(lep1_d0())<0.02&&fabs(lep1_dz())<0.1&&lep1_MiniIso()<0.1) ++NSLeps;
+  } 
+  else if (lep1_is_el()){
+  //if(lep1_pt()>35&&(fabs(lep1_eta())<1.4442||fabs(lep1_eta())>1.6&&fabs(lep1_eta())<2.1)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps; //use all electrons
+  if(lep1_pt()>20&&(fabs(lep1_eta())<1.4442)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps;//use only barrel electrons for moriond. 
+  }
  }
-  //to add: track veto.
-  if( NSLeps!= 1)      return false; // require at least 1 good lepton
-  if( pfmet() < 50)    return false; // met cut
+
+ else {
+ if(lep1_is_mu()){
+   if(lep1_pt()>30&&fabs(lep1_eta())<2.1&&lep1_passMediumID()&&fabs(lep1_d0())<0.02&&fabs(lep1_dz())<0.1&&lep1_MiniIso()<0.1) ++NSLeps;
+  } 
+  else if (lep1_is_el()){
+  //if(lep1_pt()>35&&(fabs(lep1_eta())<1.4442||fabs(lep1_eta())>1.6&&fabs(lep1_eta())<2.1)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps; //use all electrons
+  if(lep1_pt()>35&&(fabs(lep1_eta())<1.4442)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps;//use only barrel electrons for moriond. 
+  }
+ } 
+  if( NSLeps!= 1)                                                   return false; // require at least 1 good lepton
+  if( pfmet() < 50)                                                 return false; // min met cut.
+  if( TString(selection).Contains("met_trigger")&&pfmet() < 250)    return false; // met cut
   if( ngoodjets() < 2) return false; // >=3 jets  
+
   return true;
 }
 
@@ -63,8 +77,8 @@ bool pass2lPreselection()
   return true;
 }
 
-bool passBaseline(){
- if(!passPreselection())     return false;
+bool passBaseline(string selection){
+ if(!passPreselection(selection))     return false;
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4();
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4();
  if(nvetoleps()!=1 && !(nvetoleps()==2&&dRbetweenVectors(l1lv,l2lv)<0.01) ) return false;
@@ -79,7 +93,7 @@ bool passBaseline(){
 
 bool passSR( string selection )
 {
- if( !passBaseline()) return false; 
+ if( !passBaseline(selection)) return false; 
  if( TString(selection).Contains("all"))  return true;
  if( TString(selection).Contains("bin1") && !(ngoodjets()>3&&pfmet()>250&&pfmet()<325&&MT2W()<200)) return false;
  if( TString(selection).Contains("bin2") && !(ngoodjets()>3&&pfmet()>325&&MT2W()<200))              return false;
@@ -95,7 +109,7 @@ bool passSR( string selection )
 
 bool pass1lCR( string selection )
 {
- if( !passPreselection()) return false; 
+ if( !passPreselection(selection)) return false; 
  if( nvetoleps() > 1 )    return false; // second lepton veto
  if( ngoodbtags() > 0)    return false; // bveto 
  if( TString(selection).Contains("met150") && pfmet()<150)                     return false;
@@ -120,12 +134,12 @@ bool pass2lCR( string selection )
 {
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4();
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4();
- if( TString(selection).Contains("CR4")) { if(!pass2lPreselection()) return false;}  // this is to validate total normalization and ISR modeling.
- if( !passPreselection())                 return false;                              // preselection with 1 lep+ met50 +2jets 
+ if( TString(selection).Contains("CR4")) { if(!pass2lPreselection()) return false;}          // this is to validate total normalization and ISR modeling.
+ if( !passPreselection(selection))                 return false;                             // preselection with 1 lep+ met50 +2jets||met trigger cuts 
 
- bool met_mt_cut = ( pfmet()>250 && mt_met_lep() > 150 );                                       // some additional requirement for CRs
- bool passCR5 = ( met_mt_cut && nvetoleps()==2);                                                // fail lepton veto.
- bool passCR6 = ( met_mt_cut && (!PassTrackVeto_v3()||!PassTauVeto()));      // fail track veto: CR6
+ bool met_mt_cut = ( pfmet()>250 && mt_met_lep() > 150 );                                    // some additional requirement for CRs
+ bool passCR5 = ( met_mt_cut && nvetoleps()==2);                                             // fail lepton veto.
+ bool passCR6 = ( met_mt_cut && (!PassTrackVeto_v3()||!PassTauVeto()));                      // fail track veto: CR6
 
  // the following corresponds to SR bins.
  if( (TString(selection).Contains("CR5") && passCR5 || TString(selection).Contains("CR6") && passCR6 ) && TString(selection).Contains("yield") ){

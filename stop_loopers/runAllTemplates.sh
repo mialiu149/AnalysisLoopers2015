@@ -4,40 +4,52 @@ source settings.sh
 
 compile_looper
 #selection="3jets_met150_mt120"
-selection="2lCR5"
-./runTemplateLooper $selection $analysis_version data  &
-./runTemplateLooper $selection $analysis_version ttbar &
-./runTemplateLooper $selection $analysis_version zjets &
-./runTemplateLooper $selection $analysis_version wjets &
-./runTemplateLooper $selection $analysis_version QCD &
-./runTemplateLooper $selection $analysis_version zjets_htbin &
-./runTemplateLooper $selection $analysis_version wjets_htbin &
-./runTemplateLooper $selection $analysis_version top &
-./runTemplateLooper $selection $analysis_version ttv &
+#selection="2lCR5"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#./runTemplateLooper $selection $analysis_version top &
+#./runTemplateLooper $selection $analysis_version ttv &
 
-selection="2lCR6"
-./runTemplateLooper $selection $analysis_version data  &
-./runTemplateLooper $selection $analysis_version ttbar &
-./runTemplateLooper $selection $analysis_version zjets &
-./runTemplateLooper $selection $analysis_version wjets &
-./runTemplateLooper $selection $analysis_version QCD &
-./runTemplateLooper $selection $analysis_version zjets_htbin &
-./runTemplateLooper $selection $analysis_version wjets_htbin &
-./runTemplateLooper $selection $analysis_version top &
-./runTemplateLooper $selection $analysis_version ttv &
+#selection="2lCR6"
+#./runTemplateLooper $selection $analysis_version data  &
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#./runTemplateLooper $selection $analysis_version top &
+#./runTemplateLooper $selection $analysis_version ttv &
 
-selection="yield_CR5"
+#selection="yield_CR5"
+#./runTemplateLooper $selection $analysis_version data & 
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#./runTemplateLooper $selection $analysis_version top &
+#./runTemplateLooper $selection $analysis_version ttv &
+#
+#selection="yield_CR6"
+#./runTemplateLooper $selection $analysis_version ttbar &
+#./runTemplateLooper $selection $analysis_version zjets &
+#./runTemplateLooper $selection $analysis_version wjets &
+#./runTemplateLooper $selection $analysis_version QCD &
+#./runTemplateLooper $selection $analysis_version zjets_htbin &
+#./runTemplateLooper $selection $analysis_version wjets_htbin &
+#./runTemplateLooper $selection $analysis_version top &
+#./runTemplateLooper $selection $analysis_version ttv &
+#
+
+selection="yield"
 ./runTemplateLooper $selection $analysis_version data & 
-./runTemplateLooper $selection $analysis_version ttbar &
-./runTemplateLooper $selection $analysis_version zjets &
-./runTemplateLooper $selection $analysis_version wjets &
-./runTemplateLooper $selection $analysis_version QCD &
-./runTemplateLooper $selection $analysis_version zjets_htbin &
-./runTemplateLooper $selection $analysis_version wjets_htbin &
-./runTemplateLooper $selection $analysis_version top &
-./runTemplateLooper $selection $analysis_version ttv &
-
-selection="yield_CR6"
 ./runTemplateLooper $selection $analysis_version ttbar &
 ./runTemplateLooper $selection $analysis_version zjets &
 ./runTemplateLooper $selection $analysis_version wjets &

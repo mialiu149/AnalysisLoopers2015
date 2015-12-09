@@ -17,14 +17,15 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   TChain* ch = new TChain("t");
 
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/",iter.c_str());
-  string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-03");
+  string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-04");
   string helper;
   
   if ( sample == "data" ){
-        helper = babylocation+"data_single_electron_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
-        helper = babylocation+"data_single_muon_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
-        helper = babylocation+"data_single_muon_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
-        helper = babylocation+"data_single_electron_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
+        //helper = babylocation+"data_single_electron_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
+        //helper = babylocation+"data_single_muon_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
+        //helper = babylocation+"data_single_muon_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
+        //helper = babylocation+"data_single_electron_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_met_2015D_*.root"; ch->Add(helper.c_str());
  }
   else if ( sample == "All_MC" ){
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/dyjetsll_50ns_m1050nlo*.root"  , iter.c_str() ));

@@ -1,14 +1,15 @@
 '''this script takes in root files containing hists and prints out a latex table'''
 from ROOT import TH1F,TFile
+import os
+
 lumi = 2.1
 selection = 'yield_CR5_CR6'
 table_header = '\\begin{tabular}{lcccccccc}\n'
 title = '2l CR & & & & & & & &\\\\\n'
 hist_prefix = 'h_lep_event_NEvents2lCR_'+selection
-#input_dir = '/home/users/mliu/public_html/rootfiles/CutHistos/Sync/'
-input_dir = '/home/users/mliu/public_html/analysis2015/stop_loopers/V00-00-01/datavsmc/rootfiles/'
+input_dir = os.environ['analysis_output']
+print input_dir
 ##cols to print out
-#label_col = ['Sample','[250,300] GeV','[300,350]','[350,400] GeV','[400,500] GeV','[500,inf] GeV','njets==3']
 label_col = ['Sample','[250,325],low dM','[325,Inf],low dM','[250,325],high dM','[325,450],high dM','[450,Inf],high dM','njets==3,high mass','compressed1','compressed2']
 col_string = ''
 for col in label_col:
@@ -28,12 +29,12 @@ for col in label_col:
 #              {'file':'Rare.root','row_label':'Rare','hist_name':hist_prefix+'_Rare'}
 #              ]
 row_inputs = [
-              {'file':'data_yield_CR5_CR6_hists.root','row_label':'data','hist_name':hist_prefix},
-              {'file':'zjets_htbin_yield_CR5_CR6_hists.root','row_label':'z+jets','hist_name':hist_prefix},
-              {'file':'wjets_htbin_yield_CR5_CR6_hists.root','row_label':'w+jets','hist_name':hist_prefix},
-              {'file':'top_yield_CR5_CR6_hists.root','row_label':'single top','hist_name':hist_prefix},
-              {'file':'ttv_yield_CR5_CR6_hists.root','row_label':'ttv','hist_name':hist_prefix},
-              {'file':'ttbar_yield_CR5_CR6_hists.root','row_label':'ttbar','hist_name':hist_prefix}
+              {'file':'data_'+selection+'_hists.root','row_label':'data','hist_name':hist_prefix},
+#              {'file':'zjets_htbin_'+selection+'_hists.root','row_label':'z+jets','hist_name':hist_prefix},
+              {'file':'wjets_htbin_'+selection+'_hists.root','row_label':'w+jets','hist_name':hist_prefix},
+              {'file':'top_'+selection+'_hists.root','row_label':'single top','hist_name':hist_prefix},
+              {'file':'ttv_'+selection+'_hists.root','row_label':'ttv','hist_name':hist_prefix},
+              {'file':'ttbar_'+selection+'_hists.root','row_label':'ttbar','hist_name':hist_prefix}
              ]
 ##table to print out####
 table = open('table2lCR.tex','w')
@@ -50,8 +51,8 @@ table.write('\\hline\n')
 
 for row in row_inputs[0:1]:
     row_to_print = row['row_label']
-    file = TFile(input_dir+row['file']) 
-    print input_dir+row['file']
+    file = TFile(input_dir+'/'+row['file']) 
+    print input_dir+'/'+row['file']
     hist = file.Get(row['hist_name']) 
     row['hist'] = hist
     for i in range(len(label_col)-1):
@@ -59,11 +60,11 @@ for row in row_inputs[0:1]:
     table.write(row_to_print+'\\\\\n')
 table.write('\\hline\n')
 
-bkg1 = TFile(input_dir+row_inputs[0]['file'])
+bkg1 = TFile(input_dir+'/'+row_inputs[0]['file'])
 hbkg1 = bkg1.Get(row_inputs[0]['hist_name'])
 sum_bkg = hbkg1.Clone('sum_bkg')
 
-bkg2 = TFile(input_dir+row_inputs[-1]['file'])
+bkg2 = TFile(input_dir+'/'+row_inputs[-1]['file'])
 hbkg2 = bkg2.Get(row_inputs[-1]['hist_name'])
 den = hbkg2.Clone('den')
 
@@ -71,7 +72,7 @@ for row in row_inputs[1:]:
     row_to_print = row['row_label']
     sum_row = ''
     ratio_row = ''
-    file = TFile(input_dir+row['file'])
+    file = TFile(input_dir+'/'+row['file'])
     hist = file.Get(row['hist_name']) 
     row['hist'] = hist
     if row_inputs.index(row) is not len(row_inputs)-1:

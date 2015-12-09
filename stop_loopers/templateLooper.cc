@@ -16,7 +16,7 @@
 #include "Math/VectorUtil.h"
 
 #include "templateLooper.h"
-#include "../sharedCode/V00_00_02.h"
+#include "../sharedCode/V00_00_04.h"
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/METTemplateSelections.h"
 #include "../sharedCode/StopMoriond2016.h"
@@ -27,7 +27,7 @@
 
 using namespace std;
 using namespace duplicate_removal;
-using namespace V00_00_02_np;
+using namespace V00_00_04_np;
 const bool debug = false;
 const bool usejson = true;
 const bool dovtxreweighting = true;
@@ -57,7 +57,6 @@ void templateLooper::bookHistos(std::string region){
   variable.push_back("ptl1");           variable_bins.push_back(1000);  
   variable.push_back("met");            variable_bins.push_back(1000);  
   variable.push_back("ht");	        variable_bins.push_back(1000);  
-//  variable.push_back("lep1_ooEmooP");	variable_bins.push_back(1000);  
   variable.push_back("mt");	        variable_bins.push_back(1000);  
   variable.push_back("njets");          variable_bins.push_back(20  );  
   variable.push_back("nVert");          variable_bins.push_back(50  );  
@@ -235,7 +234,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 	TFile f(currentFile->GetTitle());
     TTree *tree = dynamic_cast<TTree*>(f.Get("t"));
-    v00_00_02.Init(tree);
+    v00_00_04.Init(tree);
 
     // event loop
     //unsigned int nEvents = tree->GetEntries();
@@ -243,7 +242,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
     cout<<"Processing File: "<<TString(currentFile->GetTitle())<<endl;
 
     for (unsigned int event = 0 ; event < nEvents; ++event){
-	  v00_00_02.GetEntry(event);
+	  v00_00_04.GetEntry(event);
           ++nEventsTotal;
           // ~~~~~~~~~~~
           //   continue;
@@ -316,9 +315,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           //       additional event selection (to protect again some gen level cuts for example)      // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
 
-          if( ak4_HT() < 100  )            continue;
+          //if( ak4_HT() < 100  )            continue;
           if( mindphi_met_j1_j2() < 0.8)   continue;
-
+          
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflow histograms     // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
@@ -352,7 +351,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            //CR2l
            histname = Form("h_lep_event_NEvents2lCR_%s",selection.c_str());
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
-           if(TString(selection).Contains("CR5")&&pass2lCR("CR5")||TString(selection).Contains("CR6")&&pass2lCR("CR6")){
+           if((TString(selection).Contains("CR5")&&pass2lCR("CR5"))||(TString(selection).Contains("CR6")&&pass2lCR("CR6"))){
            if(pass2lCR(Form("bin1_%s",selection.c_str()))) histos_cutflow[histname]->Fill(1,weight); 
            if(pass2lCR(Form("bin2_%s",selection.c_str()))) histos_cutflow[histname]->Fill(2,weight); 
            if(pass2lCR(Form("bin3_%s",selection.c_str()))) histos_cutflow[histname]->Fill(3,weight); 
@@ -374,6 +373,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           //2l CR
           if(TString(selection).Contains("2l")) {
              if( !pass2lCR(selection.c_str())) continue;
+          // if(!(HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27())&&HLT_MET170())         cout<<lep1_pt()<<endl;
           }
           //SR
           if(TString(selection).Contains("SR")) {
