@@ -1,4 +1,4 @@
- #include <iostream>
+#include <iostream>
 #include "TChain.h"
 #include "TSystem.h"
 #include "TROOT.h"
@@ -17,16 +17,51 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   TChain* ch = new TChain("t");
 
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/",iter.c_str());
-  string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-04");
+  //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-04");
+  string babylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v7__20151208/merged_files/";
+  //string babylocation = "/nfs-7/userdata/mliu/jes_nominal/"; //jes nominal
+  //babylocation = "/nfs-7/userdata/mliu/jes_up/";
+  //babylocation = "/nfs-7/userdata/mliu/jes_dn/";
   string helper;
-  
-  if ( sample == "data" ){
-        //helper = babylocation+"data_single_electron_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
-        //helper = babylocation+"data_single_muon_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
-        //helper = babylocation+"data_single_muon_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
-        //helper = babylocation+"data_single_electron_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
-        helper = babylocation+"data_met_2015D_*.root"; ch->Add(helper.c_str());
+
+  if ( sample == "jes_nominal_ttz"){
+       helper = "/nfs-7/userdata/mliu/jes_nominal/TTZ*"; ch->Add(helper.c_str());
+  }
+  else if (sample == "jes_nominal_ttz_btag")
+ {
+     helper = "/nfs-7/userdata/mliu/jes_nominal_wbtag/TTZToLLNuNu.root"; ch->Add(helper.c_str());
  }
+  else if (sample == "jes_up_ttz")
+  {
+       helper = "/nfs-7/userdata/mliu/jes_up/TTZ*"; ch->Add(helper.c_str());
+  } 
+ else if (sample == "jes_dn_ttz")
+  {
+       helper = "/nfs-7/userdata/mliu/jes_dn/TTZ*"; ch->Add(helper.c_str());
+  }
+ else if (sample == "ttw"){
+      helper = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v7__20151208/merged_files/TTWJetsToQQ_amcnlo_pythia8_25ns.root"; ch->Add(helper.c_str());
+ }
+else if (sample == "tZq"){
+     helper = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v7__20151208/merged_files/tZq_*.root"; ch->Add(helper.c_str());
+ }
+else if (sample == "ww"){
+    helper = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v7__20151208/merged_files/WW*";ch->Add(helper.c_str());
+ }
+else if (sample == "wz"){
+    helper = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v7__20151208/merged_files/WZ*";ch->Add(helper.c_str());
+ }
+else if (sample == "zz"){
+    helper = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v7__20151208/merged_files/ZZ*";ch->Add(helper.c_str());
+ }
+  else if ( sample == "data" ){
+        helper = babylocation+"data_single_electron_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_single_muon_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_single_muon_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_single_electron_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_met_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_met_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
+  }
   else if ( sample == "All_MC" ){
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/dyjetsll_50ns_m1050nlo*.root"  , iter.c_str() ));
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/dyjetsll_50ns_m50nlo*.root"    , iter.c_str() ));
@@ -76,7 +111,6 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   } 
   else if( sample == "FS_BG" ){
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/ttall_msdecays*.root", iter.c_str() ));	
-
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/t_bartw.root", iter.c_str() ));	
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/t_toptw.root", iter.c_str() ));	
 	// // ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/wz_3lnu*.root", iter.c_str() ));	

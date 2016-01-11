@@ -31,13 +31,13 @@ for col in label_col:
 row_inputs = [
               {'file':'data_'+selection+'_hists.root','row_label':'data','hist_name':hist_prefix},
 #              {'file':'zjets_htbin_'+selection+'_hists.root','row_label':'z+jets','hist_name':hist_prefix},
-              {'file':'wjets_htbin_'+selection+'_hists.root','row_label':'w+jets','hist_name':hist_prefix},
-              {'file':'top_'+selection+'_hists.root','row_label':'single top','hist_name':hist_prefix},
-              {'file':'ttv_'+selection+'_hists.root','row_label':'ttv','hist_name':hist_prefix},
+#              {'file':'wjets_htbin_'+selection+'_hists.root','row_label':'w+jets','hist_name':hist_prefix},
+#              {'file':'top_'+selection+'_hists.root','row_label':'single top','hist_name':hist_prefix},
+#              {'file':'ttv_'+selection+'_hists.root','row_label':'ttv','hist_name':hist_prefix},
               {'file':'ttbar_'+selection+'_hists.root','row_label':'ttbar','hist_name':hist_prefix}
              ]
 ##table to print out####
-table = open('table2lCR.tex','w')
+table = open('table'+selection+'.tex','w')
 table.write('%BEGINLATEX%\n')
 table.write('\\begin{table}\n')
 table.write('\\begin{center}\n')
@@ -92,3 +92,4 @@ table.write('\\end{tabular}\n')
 table.write('\\end{center}\n')
 table.write('\\end{table}\n')
 table.write('%ENDLATEX%')
+print 'table saved in : ','table'+selection+'.tex'

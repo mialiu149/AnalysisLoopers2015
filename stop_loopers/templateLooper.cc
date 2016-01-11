@@ -16,7 +16,7 @@
 #include "Math/VectorUtil.h"
 
 #include "templateLooper.h"
-#include "../sharedCode/V00_00_04.h"
+#include "../sharedCode/V00_00_05.h"
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/METTemplateSelections.h"
 #include "../sharedCode/StopMoriond2016.h"
@@ -27,7 +27,7 @@
 
 using namespace std;
 using namespace duplicate_removal;
-using namespace V00_00_04_np;
+using namespace V00_00_05_np;
 const bool debug = false;
 const bool usejson = true;
 const bool dovtxreweighting = true;
@@ -41,7 +41,6 @@ templateLooper::~templateLooper()
 };
 
 void templateLooper::bookHistos(std::string region){
-
   // hist naming convention: "h_<leptype>_<object>_<variable>_<selection>"
   vector <string> leptype;
   leptype.push_back("el");
@@ -141,7 +140,7 @@ void templateLooper::bookHistos(std::string region){
   //             8,0.5,8.5
   //            );//book histos for all SRs and CRs
                 string histoname = "h_"+leptype.at(lepind)+"_event_"+histonames_cutflow.at(selind)+"_"+region.c_str();
-                histos_cutflow[histoname] = new TH1D(histoname.c_str(),histoname.c_str(),9,0.5,9.5);
+                histos_cutflow[histoname] = new TH1D(histoname.c_str(),histoname.c_str(),11,0.5,11.5);
                 histos_cutflow[histoname]->Sumw2();
 		}
   }
@@ -234,7 +233,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 	TFile f(currentFile->GetTitle());
     TTree *tree = dynamic_cast<TTree*>(f.Get("t"));
-    v00_00_04.Init(tree);
+    v00_00_05.Init(tree);
 
     // event loop
     //unsigned int nEvents = tree->GetEntries();
@@ -242,7 +241,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
     cout<<"Processing File: "<<TString(currentFile->GetTitle())<<endl;
 
     for (unsigned int event = 0 ; event < nEvents; ++event){
-	  v00_00_04.GetEntry(event);
+	  v00_00_05.GetEntry(event);
           ++nEventsTotal;
           // ~~~~~~~~~~~
           //   continue;
@@ -300,8 +299,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  if( is_data() ){
 		weight = 1.0;
 	   } else if( !is_data() ){
-                  if( TString(selection).Contains("yield"))  weight *= 2.1*scale1fb();
-	       	  else weight *= scale1fb();
+                  weight = event_weight(selection.c_str());
+                  if( TString(selection).Contains("yield"))  weight *= 2.1;
+                  //cout<<"weightfromsel:"<<weight<<"nobtagsf"<<scale1fb()*2.1<<":"<<scale1fb()*weight_btagsf()*2.1<<":"<<scale1fb()*weight_btagsf_heavy_UP()*2.1<<endl;
 	  }
 
 	  if( !is_data() && dovtxreweighting ){	
@@ -358,9 +358,17 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(pass2lCR(Form("bin4_%s",selection.c_str()))) histos_cutflow[histname]->Fill(4,weight); 
            if(pass2lCR(Form("bin5_%s",selection.c_str()))) histos_cutflow[histname]->Fill(5,weight); 
            if(pass2lCR(Form("bin6_%s",selection.c_str()))) histos_cutflow[histname]->Fill(6,weight); 
-           if(pass2lCR(Form("bin7_%s",selection.c_str()))) histos_cutflow[histname]->Fill(7,weight); 
-           if(pass2lCR(Form("bin8_%s",selection.c_str()))) histos_cutflow[histname]->Fill(8,weight); 
-           if(pass2lCR(Form("all_%s",selection.c_str())))  histos_cutflow[histname]->Fill(9,weight); 
+//           if(pass2lCR(Form("bin6_%s",selection.c_str())) && (!PassTrackVeto_v3()||!PassTauVeto()))  
+           //if(pass2lCR(Form("bin6_%s",selection.c_str())) && (!PassTrackVeto_v3()||!PassTauVeto()) && !(eventtype()==1||eventtype()==2||eventtype()==3))  
+          if(pass2lCR(Form("bin6_%s",selection.c_str()))) 
+          cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() << ":EventType:"<< eventtype() <<endl; 
+//<<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
+           if(pass2lCR(Form("bin7_%s",selection.c_str())))  histos_cutflow[histname]->Fill(7,weight); 
+           if(pass2lCR(Form("bin8_%s",selection.c_str())))  histos_cutflow[histname]->Fill(8,weight); 
+           if(pass2lCR(Form("bin9_%s",selection.c_str())))  histos_cutflow[histname]->Fill(9,weight); 
+           if(pass2lCR(Form("bin10_%s",selection.c_str()))) histos_cutflow[histname]->Fill(10,weight); 
+           if(pass2lCR(Form("bin11_%s",selection.c_str()))) histos_cutflow[histname]->Fill(11,weight); 
+           if(pass2lCR(Form("all_%s",selection.c_str())))   histos_cutflow[histname]->Fill(12,weight); 
            }
            continue;
           }

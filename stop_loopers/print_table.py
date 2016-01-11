@@ -3,13 +3,14 @@ from ROOT import TH1F,TFile
 import os
 
 lumi = 2.1
-selection = 'yield'
+selection = 'SR_yield_met_trigger'
 table_header = '\\begin{tabular}{lcccccccc}\n'
 title = 'SR & & & & & & & &\\\\\n'
-hist_prefix = 'h_lep_event_NEventsSR_'+selection
+hist_prefix = 'h_lep_event_NEventsSR_'+selection+'_btagsf'
 input_dir = os.environ['analysis_output']
 print input_dir
 ##cols to print out
+#/jes_nominal_ttz_btag_SR_yield_met_trigger_btagsf_heavy_UP_hists.root
 label_col = ['Sample','[250,325],low dM','[325,Inf],low dM','[250,325],high dM','[325,450],high dM','[450,Inf],high dM','njets==3,high mass','compressed1','compressed2']
 col_string = ''
 for col in label_col:
@@ -29,15 +30,14 @@ for col in label_col:
 #              {'file':'Rare.root','row_label':'Rare','hist_name':hist_prefix+'_Rare'}
 #              ]
 row_inputs = [
-              {'file':'data_'+selection+'_hists.root','row_label':'data','hist_name':hist_prefix},
-#              {'file':'zjets_htbin_'+selection+'_hists.root','row_label':'z+jets','hist_name':hist_prefix},
-              {'file':'wjets_htbin_'+selection+'_hists.root','row_label':'w+jets','hist_name':hist_prefix},
-              {'file':'top_'+selection+'_hists.root','row_label':'single top','hist_name':hist_prefix},
-              {'file':'ttv_'+selection+'_hists.root','row_label':'ttv','hist_name':hist_prefix},
-              {'file':'ttbar_'+selection+'_hists.root','row_label':'ttbar','hist_name':hist_prefix}
+              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_hists.root','row_label':'nominal','hist_name':hist_prefix},
+              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_heavy_UP_hists.root','row_label':'nominal','hist_name':hist_prefix+'_heavy_UP'},
+              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_heavy_DN_hists.root','row_label':'nominal','hist_name':hist_prefix+'_heavy_DN'},
+              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_light_UP_hists.root','row_label':'nominal','hist_name':hist_prefix+'_light_UP'},
+              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_light_DN_hists.root','row_label':'nominal','hist_name':hist_prefix+'_light_DN'}
              ]
 ##table to print out####
-table = open('tableSR.tex','w')
+table = open('tableSR_btag.tex','w')
 table.write('%BEGINLATEX%\n')
 table.write('\\begin{table}\n')
 table.write('\\begin{center}\n')
@@ -56,7 +56,7 @@ for row in row_inputs[0:1]:
     hist = file.Get(row['hist_name']) 
     row['hist'] = hist
     for i in range(len(label_col)-1):
-        row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
+        row_to_print+='&$'+"{:.5f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.5f}".format(hist.GetBinError(i+1))+'$'
     table.write(row_to_print+'\\\\\n')
 table.write('\\hline\n')
 
@@ -64,10 +64,12 @@ bkg1 = TFile(input_dir+'/'+row_inputs[0]['file'])
 hbkg1 = bkg1.Get(row_inputs[0]['hist_name'])
 sum_bkg = hbkg1.Clone('sum_bkg')
 
-bkg2 = TFile(input_dir+'/'+row_inputs[-1]['file'])
-hbkg2 = bkg2.Get(row_inputs[-1]['hist_name'])
+bkg2 = TFile(input_dir+'/'+row_inputs[0]['file'])
+hbkg2 = bkg2.Get(row_inputs[0]['hist_name'])
 den = hbkg2.Clone('den')
 
+ratio_rows = []
+    
 for row in row_inputs[1:]:
     row_to_print = row['row_label']
     sum_row = ''
@@ -75,18 +77,23 @@ for row in row_inputs[1:]:
     file = TFile(input_dir+'/'+row['file'])
     hist = file.Get(row['hist_name']) 
     row['hist'] = hist
-    if row_inputs.index(row) is not len(row_inputs)-1:
-       sum_bkg.Add(hist,-1)
-    ratio = sum_bkg.Clone('ratio')
+    for i in range(len(label_col)-1):
+        row_to_print+='&$'+"{:.5f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.5f}".format(hist.GetBinError(i+1))+'$'
+    #if row_inputs.index(row) is not len(row_inputs)-1:
+    hist.Add(sum_bkg,-1)
+    ratio = hist.Clone('ratio')
     ratio.Divide(den)
 
     for i in range(len(label_col)-1):
-        row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
-        sum_row+="&${:.2f}".format(sum_bkg.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(sum_bkg.GetBinError(i+1))+'$'
-        ratio_row+="&${:.2f}".format(ratio.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(ratio.GetBinError(i+1))+'$'        
+     #   row_to_print+='&$'+"{:.5f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.5f}".format(hist.GetBinError(i+1))+'$'
+     #   sum_row+="&${:.5f}".format(sum_bkg.GetBinContent(i+1))+'\\pm'+"{:.5f}".format(sum_bkg.GetBinError(i+1))+'$'
+        ratio_row+="&${:.5f}".format(ratio.GetBinContent(i+1))+'\\pm'+"{:.5f}".format(ratio.GetBinError(i+1))+'$'       
+    ratio_rows.append(ratio_row) 
     table.write(row_to_print+'\\\\\n')
-table.write("databkgsub"+sum_row+'\\\\\n') 
-table.write("kfactor"+ratio_row+'\\\\\n') 
+table.write("heavy (up-nom)/nom"+ratio_rows[0]+'\\\\\n') 
+table.write("light (up-nom)/nom"+ratio_rows[1]+'\\\\\n') 
+table.write("heavy (dn-nom)/nom"+ratio_rows[2]+'\\\\\n') 
+table.write("light (dn-nom)/nom"+ratio_rows[3]+'\\\\\n') 
 table.write('\\hline\hline\n')
 table.write('\\end{tabular}\n')
 table.write('\\end{center}\n')
