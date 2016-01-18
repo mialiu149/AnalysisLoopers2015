@@ -67,6 +67,13 @@ float calculateMt(const LorentzVector p4, double met, double met_phi){
   return sqrt(2*Et1*Et2*(1.0 - cos(phi1-phi2)));
 }
 
+float getMT(LorentzVector lep,LorentzVector met){
+  return sqrt(2*met.Et()*lep.Et()*(1-cos(getdphi(lep.Phi(),met.Phi()) ) ) );
+}
+
+float getMT(TLorentzVector lep,TLorentzVector met){
+  return sqrt(2*met.Et()*lep.Et()*(1-cos(getdphi(lep.Phi(),met.Phi()) ) ) );
+}
 float DPhi_W_lep(float MET, float MET_Phi, LorentzVector p4){
   const TVector3 lep(p4.x(), p4.y(), p4.z());
   const TVector3 met(MET*cos(MET_Phi),MET*sin(MET_Phi),0);

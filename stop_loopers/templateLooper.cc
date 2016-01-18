@@ -20,6 +20,7 @@
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/METTemplateSelections.h"
 #include "../sharedCode/StopMoriond2016.h"
+#include "../sharedCode/AnalysisUtils.h"
 
 #include "../../CORE/Tools/dorky/dorky.h"
 #include "../../CORE/Tools/goodrun.h"
@@ -91,7 +92,14 @@ void templateLooper::bookHistos(std::string region){
 
   // random extra hists here
   bookHist("h_templ_met", "h_templ_met", 500,0,500);
+  bookHist("h_gen_mt", "h_gen_mt", 500,0,500);
+  bookHist("h_gen_mt_up", "h_gen_mt_up", 500,0,500);
+  bookHist("h_gen_mt_dn", "h_gen_mt_dn", 500,0,500);
+  bookHist("h_gen_lep_pt", "h_gen_lep_pt", 500,0,500);
+  bookHist("h_gen_nu_pt", "h_gen_nu_pt", 500,0,500);
+  bookHist("h_gen_w_mass", "h_gen_w_mass", 500,0,500);
 
+ //phi and eta plots, they have the same x and y limits.
   vector <string> phivars;
   phivars.push_back("metphi");
   phivars.push_back("deltaphi_lep_met");
@@ -266,7 +274,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 			continue;
            }
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : pass MET filter  and json " <<endl;
-
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
 	  //Deal with duplicates in data//
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
@@ -361,7 +368,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 //           if(pass2lCR(Form("bin6_%s",selection.c_str())) && (!PassTrackVeto_v3()||!PassTauVeto()))  
            //if(pass2lCR(Form("bin6_%s",selection.c_str())) && (!PassTrackVeto_v3()||!PassTauVeto()) && !(eventtype()==1||eventtype()==2||eventtype()==3))  
           if(pass2lCR(Form("bin6_%s",selection.c_str()))) 
-          cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() << ":EventType:"<< eventtype() <<endl; 
+   cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() << ":EventType:"<< eventtype() <<endl; 
 //<<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
            if(pass2lCR(Form("bin7_%s",selection.c_str())))  histos_cutflow[histname]->Fill(7,weight); 
            if(pass2lCR(Form("bin8_%s",selection.c_str())))  histos_cutflow[histname]->Fill(8,weight); 
@@ -427,6 +434,62 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 //           } // end of printout
            
           npass += weight;
+
+        //-~-~-~-~-~-~-~-~-~-//
+        // w width evaluation//
+        //-~-~-~-~-~-~-~-~-~-//
+        if(TString(selection).Contains("W_width")){
+           if(!(passPreselection("SR"))) continue;
+          // select gen lepton and gen neutrino, need to write a function.
+          int genlepi = -999;
+          int gennui = -999;
+          vector<vector<int>> selected_leps;
+          ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > genlep;
+          ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > gennu; 
+          selected_leps = lep_nu_fromW();       
+          if(selected_leps.at(0).size()+selected_leps.at(1).size()==2) {genlepi = selected_leps.at(0)[0] ; gennui = selected_leps.at(1)[0] ;} 
+          if(selected_leps.at(2).size()+selected_leps.at(3).size()==2) {genlepi = selected_leps.at(2)[0]; gennui = selected_leps.at(3)[0] ;}           
+          if(genlepi<0||gennui<0) continue;//skip event if pair not found 
+          genlep = genleps_p4().at(genlepi); 
+          gennu  = gennus_p4().at(gennui);
+          // boost both to w rest frame
+           TLorentzVector genlep_t(genlep.Pt(),genlep.Eta(),genlep.Phi(),genlep.E());
+           TLorentzVector gennu_t(gennu.Pt(),gennu.Eta(),gennu.Phi(),gennu.E());
+           TLorentzVector cm = genlep_t + gennu_t;
+           TLorentzVector genlep_boosted = genlep_t;
+           TLorentzVector gennu_boosted = gennu_t;
+           TVector3 boost = -cm.BoostVector();
+
+           genlep_boosted.Boost(boost);
+           gennu_boosted.Boost(boost);
+           //cm.Boost( -cm.BoostVector() );
+           //cout << cm.Px() << " " << cm.Py() << " " << cm.Pz() << " " << cm.E() << endl;
+          //cout << genlep_boosted.Px() << " " << genlep_boosted.Py() << " " << genlep_boosted.Pz() << " " << genlep_boosted.E() << endl;
+          //cout << genlep_t.Px() << " " << genlep_t.Py() << " " << genlep_t.Pz() << " " << genlep_t.E() << endl;
+           //cout << gennu_boosted.Px() << " " << gennu_boosted.Py() << " " << gennu_boosted.Pz() << " " << gennu_boosted.E() << endl;
+           //scale them to make the width to be 1.02, 2.195 ± 0.083--> width
+           //plots to validate the width change.
+           float massratio = ((genlep_boosted+gennu_boosted).M()-80.376)/80.376;
+           TLorentzVector genlep_boosted_up = genlep_boosted*(1-massratio)+genlep_boosted*massratio*1.04; 
+           TLorentzVector genlep_boosted_dn = genlep_boosted*(1-massratio)+genlep_boosted*massratio*0.96; 
+           TLorentzVector gennu_boosted_up = gennu_boosted*(1-massratio)+gennu_boosted*massratio*1.04; 
+           TLorentzVector gennu_boosted_dn = gennu_boosted*(1-massratio)+gennu_boosted*massratio*0.96; 
+           //boost back to the cm system.
+           genlep_boosted_up.Boost(-boost);
+           genlep_boosted_dn.Boost(-boost);
+           gennu_boosted_up.Boost(-boost);
+           gennu_boosted_dn.Boost(-boost);
+           //plot mt
+           float mt = getMT(genlep_t,gennu_t);
+           float mt_up = getMT(genlep_boosted_up,gennu_boosted_up);
+           float mt_dn = getMT(genlep_boosted_dn,gennu_boosted_dn);
+           event_hists.at("h_gen_mt")->Fill(mt_met_lep()); 
+           event_hists.at("h_gen_mt_up")->Fill(mt_up); 
+           event_hists.at("h_gen_mt_dn")->Fill(mt_dn);
+           event_hists.at("h_gen_lep_pt")->Fill(genlep_t.Pt()); 
+           event_hists.at("h_gen_nu_pt")->Fill(gennu_t.Pt()); 
+           event_hists.at("h_gen_w_mass")->Fill((genlep_t+gennu_t).M()); 
+        }
     } // end loop over events
   } // end loop over files
 

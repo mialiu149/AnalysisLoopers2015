@@ -45,11 +45,11 @@ int lep1type()
      float sel_pt_mu = 20;
      float sel_eta_mu = 2.1 ;
      float veto_pt_mu = 10;
-     float veto_eta_mu = 2.1;
+     float veto_eta_mu = 2.4;
      float sel_pt_el = 20;
      float sel_eta_el = 1.4442;
      float veto_pt_el = 10;
-     float veto_eta_el = 2.1;
+     float veto_eta_el = 2.4;
      float sel_miniRelIso_el  = 0.1;
      float sel_miniRelIso_mu  = 0.1 ;
      float veto_miniRelIso_mu = 0.2 ;
@@ -165,9 +165,13 @@ bool passPreselection(string selection)
  //--- trigger requirement---//
  //--------------------------//
 
+   //if(abs(run())==259685&&abs(evt())==1017920573)        
+  // cout<<"Run_Number_premet:"<<run()<< ":EventNumber:"<< evt() << ":EventType:"<< eventtype() << "HLT_SingleMu20():" <<HLT_SingleMu20()<<"HLT_SingleEl27"<<HLT_SingleEl27()<<"HLT_MET170"<<HLT_MET170()<<endl; 
  int NSLeps = 0;         
- if(TString(selection).Contains("met_trigger")) { if( !(HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27() || HLT_MET170() )) return false;}// single lep OR MET trigger 
- else if( !(HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27())) return false;//single lep trigger
+// if(TString(selection).Contains("met_trigger")) { 
+   if( !(HLT_SingleMu20()||HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27() || HLT_MET170() )) return false;
+//  }// single lep OR MET trigger 
+// else if( !(HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27())) return false;//single lep trigger
 // if(TString(selection).Contains("met_trigger")) { // if OR met trigger, use lower lepton pt cut
 /* if(lep1_is_mu()){
    if(lep1_pt()>20&&fabs(lep1_eta())<2.1&&lep1_passMediumID()&&fabs(lep1_d0())<0.02&&fabs(lep1_dz())<0.1&&lep1_MiniIso()<0.1) ++NSLeps;
@@ -197,8 +201,14 @@ bool passPreselection(string selection)
   if( eventtype() == 0  ||eventtype() == 4 || eventtype() == 6)     return false; 
   //if( NSLeps < 1)                                                   return false; // require at least 1 good lepton
   if( pfmet() < 50)                                                 return false; // min met cut.
+     //      if(abs(run())==259685&&abs(evt())==1017920573)        
+   //cout<<"Run_Number_passmet:"<<run()<< ":EventNumber:"<< evt() << ":EventType:"<< eventtype() <<endl; 
   if( TString(selection).Contains("met_trigger")&&pfmet() < 250)    return false; // met cut
+       //    if(abs(run())==259685&&abs(evt())==1017920573)        
+ //  cout<<"Run_Number_passmet250:"<<run()<< ":EventNumber:"<< evt() << ":EventType:"<< eventtype() <<endl; 
   if( ngoodjets() < 2)                                              return false; // >=3 jets  
+   //        if(abs(run())==259685&&abs(evt())==1017920573)        
+   //cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() << ":EventType:"<< eventtype() <<endl; 
 
   return true;
 }
@@ -290,9 +300,9 @@ bool pass2lCR( string selection )
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4();
  if( TString(selection).Contains("CR4")) { if(!pass2lPreselection()) return false;}          // this is to validate total normalization and ISR modeling.
  if( !passPreselection(selection))                 return false;                             // preselection with at least 1 lep+ met50 +2jets||met trigger cuts 
+ if( ngoodbtags()<1)                               return false;
  bool met_mt_cut = ( pfmet()>250 && mt_met_lep() > 150 );                                    // some additional requirement for CRs
  bool passCR5 = ( met_mt_cut &&  (eventtype()==1||eventtype()==2||eventtype()==3));                                            // fail lepton veto.
- //bool passCR6 = ( met_mt_cut && (!PassTrackVeto_v3()||!PassTauVeto()) && !(eventtype()==1||eventtype()==2||eventtype()==3));                      // fail track veto: CR6
  bool passCR6 = ( met_mt_cut && (!PassTrackVeto_v3()||!PassTauVeto()) &&!(eventtype()==1||eventtype()==2||eventtype()==3));                      // fail track veto: CR6
 
  // the following corresponds to SR bins.
@@ -332,4 +342,46 @@ bool passStudyRegion( string selection)
 {
   if( TString(selection).Contains("lep_pt_200") && !(ngoodjets() >=3 && lep1_pt()>200)) return false;
   return true;
+}
+
+vector<vector<int>> lep_nu_fromW()
+{ 
+ vector<int> leps_plus;
+ vector<int> nus_plus;
+ vector<int> leps_minus;
+ vector<int> nus_minus;
+ vector <vector<int>> lep_nu;
+ 
+ if(!(passPreselection("SR"))) { cout<<"failpre"<<lep_nu.size()<<endl; return lep_nu;}
+
+// do we need to match to the reco lepton????
+
+ for (int i=0;i<genleps_p4().size();i++) 
+ {
+    //if(genleps_motherid()[i] == 24  && genleps_p4()[i].pt() > 20 && genleps_fromHardProcessDecayed()[i])  leps_plus.push_back(i);
+   // if(genleps_motherid()[i] == -24 && genleps_p4()[i].pt() > 20 && genleps_fromHardProcessDecayed()[i])  leps_minus.push_back(i);
+//    if(genleps_motherid()[i] == 24  && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1 || genleps_status()[i] == 23))  leps_plus.push_back(i);
+//    if(genleps_motherid()[i] == -24 && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1 || genleps_status()[i] == 23))  leps_minus.push_back(i);
+     if(genleps_motherid()[i] == 24 && (abs(genleps_id()[i]) == 11||abs(genleps_id()[i]) == 13) && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1)) leps_plus.push_back(i);
+     if(genleps_motherid()[i] == -24 && (abs(genleps_id()[i]) == 11||abs(genleps_id()[i]) == 13) && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1)) leps_minus.push_back(i);
+//     if(genleps_motherid()[i] == -24 && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1)) leps_minus.push_back(i); 
+//   if(genleps_motherid()[i] == 24 && (abs(genleps_id()[i]) == 11||abs(genleps_id()[i]) == 13) && genleps_p4()[i].pt() > 1 )  {leps_plus.push_back(i);cout<< "status of plus genlep : "<<genleps_id()[i]<<endl;}
+//   if(genleps_motherid()[i] == -24 && (abs(genleps_id()[i]) == 11||abs(genleps_id()[i]) == 13)  && genleps_p4()[i].pt() > 1 )  {leps_minus.push_back(i);cout<< "status of minus genlep : "<<genleps_id()[i]<<endl;}
+ }
+
+ for (int i=0;i<gennus_p4().size();i++){
+     if(gennus_motherid()[i] == 24 && (abs(gennus_id()[i]) == 12||abs(gennus_id()[i]) == 14) && gennus_p4()[i].pt() > 1 && (gennus_status()[i] == 1)) nus_plus.push_back(i);
+     if(gennus_motherid()[i] == -24 && (abs(gennus_id()[i]) == 12||abs(gennus_id()[i]) == 14) && gennus_p4()[i].pt() > 1 && (gennus_status()[i] == 1)) nus_minus.push_back(i);
+//    if(gennus_motherid()[i] == 24  && gennus_p4()[i].pt() > 20 && gennus_status()[i] == 1)  nus_plus.push_back(i);
+ //   if(gennus_motherid()[i] == -24 && gennus_p4()[i].pt() > 20 && gennus_status()[i] == 1)  nus_minus.push_back(i);
+ }
+
+lep_nu.push_back(leps_plus);
+lep_nu.push_back(nus_plus);
+lep_nu.push_back(leps_minus);
+lep_nu.push_back(nus_minus);
+//cout<<"plus:"<<leps_plus.size()<<":"<<nus_plus.size()<<endl;
+//cout<<"minus:"<<leps_minus.size()+leps_plus.size()<<endl;
+return lep_nu;
+
 }

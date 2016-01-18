@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <utility>
 #include <assert.h>
+#include "TLorentzVector.h"
 
 using namespace std;
 
@@ -65,6 +66,8 @@ bool isVetoTrack_v2(int ipf, LorentzVector lepp4_, int charge);
 bool isVetoTrack_v3(int ipf, LorentzVector lepp4_, int charge);
 bool isVetoTau(int ipf, LorentzVector lepp4_, int charge);
 float DPhi_W_lep(float MET, float MET_Phi, LorentzVector p4);
+float getMT(LorentzVector lep,LorentzVector met);
+float getMT(TLorentzVector lep,TLorentzVector met);
 //int leptonIsFromW(int idx, int id, bool alsoSusy);
 //bool idIsCharm(int id);
 //bool idIsBeauty(int id);
