@@ -51,7 +51,7 @@ compile_looper
 #./runTemplateLooper $selection $analysis_version jes_dn_ttz& 
 #./runTemplateLooper $selection $analysis_version jes_nominal_ttz& 
 
-#selection="SR"
+#selection="W_width"
 #./runTemplateLooper $selection $analysis_version data  &
 #./runTemplateLooper $selection $analysis_version ttbar &
 #./runTemplateLooper $selection $analysis_version zjets &
@@ -72,7 +72,7 @@ compile_looper
 #./runTemplateLooper $selection $analysis_version wjets_htbin &
 #
 
-selection="CR5_CR6_yield_met_trigger"
+selection="met_trigger_CR2l_yield"
 ./runTemplateLooper $selection $analysis_version data  &
 #./runTemplateLooper $selection $analysis_version ttbar &
 #./runTemplateLooper $selection $analysis_version zjets &
@@ -81,6 +81,7 @@ selection="CR5_CR6_yield_met_trigger"
 #./runTemplateLooper $selection $analysis_version zjets_htbin &
 #./runTemplateLooper $selection $analysis_version wjets_htbin &
 #
+
 #selection="1l2lCRallbin"
 #./runTemplateLooper $selection $analysis_version data  &
 #./runTemplateLooper $selection $analysis_version ttbar &

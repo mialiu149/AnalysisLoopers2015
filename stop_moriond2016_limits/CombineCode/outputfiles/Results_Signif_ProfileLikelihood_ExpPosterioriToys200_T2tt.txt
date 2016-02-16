@@ -1,0 +1,4 @@
+Method ProfileLikelihood Type ExpPosterioriToys200 Sample T2tt_425_325 obtainedSignif 0.356211
+Method ProfileLikelihood Type ExpPosterioriToys200 Sample T2tt_500_325 obtainedSignif 0.422897
+Method ProfileLikelihood Type ExpPosterioriToys200 Sample T2tt_650_325 obtainedSignif 1.1521
+Method ProfileLikelihood Type ExpPosterioriToys200 Sample T2tt_850_100 obtainedSignif 1.01783

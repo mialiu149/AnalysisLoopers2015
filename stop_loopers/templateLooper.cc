@@ -91,13 +91,17 @@ void templateLooper::bookHistos(std::string region){
   }
 
   // random extra hists here
-  bookHist("h_templ_met", "h_templ_met", 500,0,500);
-  bookHist("h_gen_mt", "h_gen_mt", 500,0,500);
-  bookHist("h_gen_mt_up", "h_gen_mt_up", 500,0,500);
-  bookHist("h_gen_mt_dn", "h_gen_mt_dn", 500,0,500);
-  bookHist("h_gen_lep_pt", "h_gen_lep_pt", 500,0,500);
-  bookHist("h_gen_nu_pt", "h_gen_nu_pt", 500,0,500);
-  bookHist("h_gen_w_mass", "h_gen_w_mass", 500,0,500);
+  bookHist("h_gen_mt", "h_gen_mt", 1000,0,1000);
+  bookHist("h_gen_mt_up", "h_gen_mt_up", 1000,0,1000);
+  bookHist("h_gen_mt_dn", "h_gen_mt_dn", 1000,0,1000);
+  bookHist("h_reco_mt", "h_reco_mt", 1000,0,1000);
+  bookHist("h_reco_mt_up", "h_reco_mt_up", 1000,0,1000);
+  bookHist("h_reco_mt_dn", "h_reco_mt_dn", 1000,0,1000);
+  bookHist("h_gen_lep_pt", "h_gen_lep_pt", 1000,0,1000);
+  bookHist("h_gen_nu_pt", "h_gen_nu_pt", 1000,0,1000);
+  bookHist("h_gen_w_mass", "h_gen_w_mass", 1000,0,1000);
+  bookHist("h_gen_w_mass_up", "h_gen_w_mass_up", 1000,0,1000);
+  bookHist("h_gen_w_mass_dn", "h_gen_w_mass_dn", 1000,0,1000);
 
  //phi and eta plots, they have the same x and y limits.
   vector <string> phivars;
@@ -186,8 +190,13 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
    eventFilter metFilterTxt;
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
    if ( TString(sample).Contains("data") ) {
-   cout<<"Loading bad event files ..."<<endl;
+    cout<<"Loading bad event files ..."<<endl;
     // old lists for partial dataset
+    // add from hj email
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/csc2015_Dec01.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/ecalscn1043093_Dec01.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/badResolutionTrack_Jan13.txt");
+    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/muonBadTrack_Jan13.txt");
     metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleEG_csc2015.txt");
     metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleMuon_csc2015.txt");
     metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_HTMHT_csc2015.txt");
@@ -266,8 +275,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //         MET filter  and json      //
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
 
+           if(run()==254907&&evt()==79611375)  cout<<"nveto:"<<nvetoleps()<<"eventtype:"<<eventtype()<<endl;
 	 // if ( is_data() && usejson && !goodrun(run(), ls()) ) continue;
-           if (!filt_eebadsc()) continue;
+           if (!filt_eebadsc())   continue;
            if (!filt_hbhenoise()) continue;
            if (is_data() && metFilterTxt.eventFails(run(), ls(), evt())) {
 		//cout<<"Found bad event in data: "<<run()<<", "<<ls()<<", "<<evt()<<endl;
@@ -333,15 +343,17 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
            //signal
            string histname = Form("h_lep_event_NEventsSR_%s",selection.c_str());
-           if(passSR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
-           if(passSR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
-           if(passSR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
-           if(passSR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
-           if(passSR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
-           if(passSR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
-           if(passSR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
-           if(passSR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
-           if(passSR("all"))  histos_cutflow[histname]->Fill(9,weight); 
+           if(passSR("SR_yield_bin1")) histos_cutflow[histname]->Fill(1,weight); 
+           if(passSR("SR_yield_bin2")) histos_cutflow[histname]->Fill(2,weight);
+//           if(passSR("SR_yield_bin1")||passSR("SR_yield_bin2")) cout<<run()<<":"<<ls() <<":"<< evt() << ":"<< MT2W()<<":"<<pfmet()<<endl; 
+//           if(passSR("SR_yield_bin1")) cout<<run()<<":"<<ls() <<":"<< evt() << ":"<< MT2W()<<":"<<pfmet()<<endl; 
+           if(passSR("SR_yield_bin3")) histos_cutflow[histname]->Fill(3,weight); 
+           if(passSR("SR_yield_bin4")) histos_cutflow[histname]->Fill(4,weight); 
+           if(passSR("SR_yield_bin5")) histos_cutflow[histname]->Fill(5,weight); 
+           if(passSR("SR_yield_bin6")) histos_cutflow[histname]->Fill(6,weight); 
+           if(passSR("SR_yield_bin7")) histos_cutflow[histname]->Fill(7,weight); 
+           if(passSR("SR_yield_bin8")) histos_cutflow[histname]->Fill(8,weight); 
+           if(passSR("SR_yield_all"))  histos_cutflow[histname]->Fill(9,weight); 
            //CR1l
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
            histname = Form("h_lep_event_NEvents1lCR_%s",selection.c_str());
@@ -365,11 +377,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(pass2lCR(Form("bin4_%s",selection.c_str()))) histos_cutflow[histname]->Fill(4,weight); 
            if(pass2lCR(Form("bin5_%s",selection.c_str()))) histos_cutflow[histname]->Fill(5,weight); 
            if(pass2lCR(Form("bin6_%s",selection.c_str()))) histos_cutflow[histname]->Fill(6,weight); 
-//           if(pass2lCR(Form("bin6_%s",selection.c_str())) && (!PassTrackVeto_v3()||!PassTauVeto()))  
-           //if(pass2lCR(Form("bin6_%s",selection.c_str())) && (!PassTrackVeto_v3()||!PassTauVeto()) && !(eventtype()==1||eventtype()==2||eventtype()==3))  
-          if(pass2lCR(Form("bin6_%s",selection.c_str()))) 
-   cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() << ":EventType:"<< eventtype() <<endl; 
-//<<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
+           if(pass2lCR(Form("bin6_%s",selection.c_str()))) 
+           //<<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
            if(pass2lCR(Form("bin7_%s",selection.c_str())))  histos_cutflow[histname]->Fill(7,weight); 
            if(pass2lCR(Form("bin8_%s",selection.c_str())))  histos_cutflow[histname]->Fill(8,weight); 
            if(pass2lCR(Form("bin9_%s",selection.c_str())))  histos_cutflow[histname]->Fill(9,weight); 
@@ -432,12 +441,15 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            //cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() <<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
            //cout<<run()<<":"<<ls()<<":"<<evt()<<"\n"<<endl; 
 //           } // end of printout
-           
           npass += weight;
+         if(TString(selection).Contains("SR")){
+           if( !passBaseline(selection.c_str())) continue; //sr plots
+         }
 
-        //-~-~-~-~-~-~-~-~-~-//
-        // w width evaluation//
-        //-~-~-~-~-~-~-~-~-~-//
+         //-~-~-~-~-~-~-~-~-~-//
+         // w width evaluation//
+         //-~-~-~-~-~-~-~-~-~-//
+
         if(TString(selection).Contains("W_width")){
            if(!(passPreselection("SR"))) continue;
           // select gen lepton and gen neutrino, need to write a function.
@@ -452,9 +464,13 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if(genlepi<0||gennui<0) continue;//skip event if pair not found 
           genlep = genleps_p4().at(genlepi); 
           gennu  = gennus_p4().at(gennui);
-          // boost both to w rest frame
-           TLorentzVector genlep_t(genlep.Pt(),genlep.Eta(),genlep.Phi(),genlep.E());
-           TLorentzVector gennu_t(gennu.Pt(),gennu.Eta(),gennu.Phi(),gennu.E());
+          //event_hists.at("h_gen_mt")->Fill(getMT(genlep,gennu)); 
+          //boost both to w rest frame
+           TLorentzVector genlep_t;
+           TLorentzVector gennu_t;
+           genlep_t.SetPtEtaPhiE(genlep.Pt(),genlep.Eta(),genlep.Phi(),genlep.E());
+           gennu_t.SetPtEtaPhiE(gennu.Pt(),gennu.Eta(),gennu.Phi(),gennu.E());
+
            TLorentzVector cm = genlep_t + gennu_t;
            TLorentzVector genlep_boosted = genlep_t;
            TLorentzVector gennu_boosted = gennu_t;
@@ -464,31 +480,58 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            gennu_boosted.Boost(boost);
            //cm.Boost( -cm.BoostVector() );
            //cout << cm.Px() << " " << cm.Py() << " " << cm.Pz() << " " << cm.E() << endl;
-          //cout << genlep_boosted.Px() << " " << genlep_boosted.Py() << " " << genlep_boosted.Pz() << " " << genlep_boosted.E() << endl;
-          //cout << genlep_t.Px() << " " << genlep_t.Py() << " " << genlep_t.Pz() << " " << genlep_t.E() << endl;
+           //cout << genlep_boosted.Px() << " " << genlep_boosted.Py() << " " << genlep_boosted.Pz() << " " << genlep_boosted.E() << endl;
+           //cout << genlep_t.Px() << " " << genlep_t.Py() << " " << genlep_t.Pz() << " " << genlep_t.E() << endl;
            //cout << gennu_boosted.Px() << " " << gennu_boosted.Py() << " " << gennu_boosted.Pz() << " " << gennu_boosted.E() << endl;
            //scale them to make the width to be 1.02, 2.195 ± 0.083--> width
            //plots to validate the width change.
-           float massratio = ((genlep_boosted+gennu_boosted).M()-80.376)/80.376;
-           TLorentzVector genlep_boosted_up = genlep_boosted*(1-massratio)+genlep_boosted*massratio*1.04; 
-           TLorentzVector genlep_boosted_dn = genlep_boosted*(1-massratio)+genlep_boosted*massratio*0.96; 
-           TLorentzVector gennu_boosted_up = gennu_boosted*(1-massratio)+gennu_boosted*massratio*1.04; 
-           TLorentzVector gennu_boosted_dn = gennu_boosted*(1-massratio)+gennu_boosted*massratio*0.96; 
+           float massratio = ((genlep_boosted+gennu_boosted).M()-80.385)/80.385;
+           //TLorentzVector genlep_boosted_up = genlep_boosted*(1-massratio)+genlep_boosted*massratio*1.023; 
+           //TLorentzVector genlep_boosted_dn = genlep_boosted*(1-massratio)+genlep_boosted*massratio*0.977; 
+           //TLorentzVector gennu_boosted_up = gennu_boosted*(1-massratio)+gennu_boosted*massratio*1.023; 
+           //TLorentzVector gennu_boosted_dn = gennu_boosted*(1-massratio)+gennu_boosted*massratio*0.977; 
+           TLorentzVector genlep_boosted_up = genlep_boosted*(1+massratio*.02); 
+           TLorentzVector genlep_boosted_dn = genlep_boosted*(1-massratio*.02); 
+           TLorentzVector gennu_boosted_up = gennu_boosted*(1+massratio*.02); 
+           TLorentzVector gennu_boosted_dn = gennu_boosted*(1-massratio*.02); 
+
            //boost back to the cm system.
            genlep_boosted_up.Boost(-boost);
            genlep_boosted_dn.Boost(-boost);
            gennu_boosted_up.Boost(-boost);
            gennu_boosted_dn.Boost(-boost);
+           TLorentzVector lep_boosted_up = genlep_boosted_up - genlep_t;
+           TLorentzVector lep_boosted_dn = genlep_boosted_dn - genlep_t;
+           TLorentzVector nu_boosted_up = gennu_boosted_up - gennu_t;
+           TLorentzVector nu_boosted_dn = gennu_boosted_dn - gennu_t;
+           TLorentzVector reco_lep;
+           TLorentzVector met_lv;
+           reco_lep.SetPtEtaPhiE(lep1_p4().pt(),lep1_p4().eta(),lep1_p4().phi(),lep1_p4().E());
+           met_lv.SetPxPyPzE(pfmet()*TMath::Cos(event_met_ph),pfmet()*TMath::Sin(event_met_ph),0,pfmet());
+           
            //plot mt
            float mt = getMT(genlep_t,gennu_t);
            float mt_up = getMT(genlep_boosted_up,gennu_boosted_up);
            float mt_dn = getMT(genlep_boosted_dn,gennu_boosted_dn);
-           event_hists.at("h_gen_mt")->Fill(mt_met_lep()); 
+           float reco_mt = getMT(reco_lep,met_lv);
+           float reco_mt_up = getMT(reco_lep + lep_boosted_up,met_lv + nu_boosted_up);
+           float reco_mt_dn = getMT(reco_lep + lep_boosted_dn,met_lv+nu_boosted_dn);
+           //only consider events with mt > 120 and met > 200
+           //if(gennu_t.Pt() < 200) continue;
+//         if(pfmet()<200) continue;
+           event_hists.at("h_gen_mt")->Fill(mt); 
            event_hists.at("h_gen_mt_up")->Fill(mt_up); 
            event_hists.at("h_gen_mt_dn")->Fill(mt_dn);
+           //reco mt
+           event_hists.at("h_reco_mt")->Fill(reco_mt); 
+           event_hists.at("h_reco_mt_up")->Fill(reco_mt_up); 
+           event_hists.at("h_reco_mt_dn")->Fill(reco_mt_dn);
+           //some validation plots
            event_hists.at("h_gen_lep_pt")->Fill(genlep_t.Pt()); 
            event_hists.at("h_gen_nu_pt")->Fill(gennu_t.Pt()); 
            event_hists.at("h_gen_w_mass")->Fill((genlep_t+gennu_t).M()); 
+           event_hists.at("h_gen_w_mass_up")->Fill((genlep_boosted_up+gennu_boosted_up).M()); 
+           event_hists.at("h_gen_w_mass_dn")->Fill((genlep_boosted_dn+gennu_boosted_dn).M()); 
         }
     } // end loop over events
   } // end loop over files

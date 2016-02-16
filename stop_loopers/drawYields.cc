@@ -23,17 +23,17 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   TH1D * h_wjets = NULL;
   TH1D * h_ttbar = NULL;
   TH1D * h_zjets = NULL;
-  TH1D * h_QCD = NULL;
-  TH1D * h_top = NULL;
-  TH1D * h_ttv = NULL;
+//  TH1D * h_QCD = NULL;
+///  TH1D * h_top = NULL;
+//  TH1D * h_ttv = NULL;
   getYield(   h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
   if( usefsbkg ) getYield(  h_ttbar, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ), "metgt1jet", "em", "inclusive" );
   else {
   getYield(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ), variable, type, region );
   getYield(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
-  getYield(  h_QCD, iter, Form("QCD_%s", selection.c_str() ), variable, type, region );
-  getYield(  h_top, iter, Form("top_%s", selection.c_str() ), variable, type, region );
-  getYield(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
+ //getYield(  h_QCD, iter, Form("QCD_%s", selection.c_str() ), variable, type, region );
+ //getYield(  h_top, iter, Form("top_%s", selection.c_str() ), variable, type, region );
+ //getYield(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
   }
   getYield(  h_wjets, iter, Form("wjets_htbin_%s", selection.c_str() ), variable, type, region );
   if( usetemplates ){
@@ -65,31 +65,10 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
 
   //MAKE PLOTS
   float xmin = 50; float xmax = 200;
-  float ymin = 1e-1; float ymax = 1e2;
+  float ymin = 1e-1; float ymax = 0.5;
 
   int rebin = 5;
   
-  if( variable == "mt3" ){
-	xmin = 0;
-	xmax = 150;
-	rebin = 25;
-  }
-  if( TString(variable).Contains("MHT") ){
-	xmin = 0;
-	xmax = 250;
-	rebin = 5;
-  }
-  if( TString(variable).Contains("NEvents") ){
-	xmin = 0.5;
-	xmax = 9.5;
-	rebin = 1;
-  }
-  if( TString(variable).Contains("mhtphi") ){
-	// xmin = 0;
-	// xmax = 250;
-        // ymin = 0;
-	rebin = 5;
-  }
   if( type == "em" ){
     rebin = 10;
 	ymin = 1e0;
@@ -112,57 +91,20 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
 	  else           xmax = 500;
     ymax = 5e1;
   }
-  if( variable == "ht" ){
-      xmin = 0; 
-      xmax = 500;
-      rebin = 40;
-  }
-  if( TString(variable).Contains("iso")){
-     xmin = 0;
-     xmax = 100;
-     rebin = 10;
- }
-   if( TString(variable).Contains("relIso")){
-     xmin = 0;
-     xmax = 10;
-     rebin = 20;
- } 
-   if( TString(variable).Contains("absIso")){
-     xmin = 0;
-     xmax = 100;
-     rebin = 5;
- }
  
-  if( TString(variable).Contains("pt") ){
-     xmin = 0;
-     xmax = 500;
-     rebin = 20;
-  }
-  if( variable == "njets" ){
-	xmin = 0;
-	xmax = 10;
-        ymax = 5e1;
-	rebin = 1;
-  }
-  if( TString(variable).Contains("phi") || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
-	xmin = -3.2;
-	xmax = 3.2;
-	ymax = 1000;
-	rebin = 10;
-  }
-  h_data->Rebin(rebin);
-  h_wjets->Rebin(rebin);
-  h_ttbar->Rebin(rebin);
-  h_zjets->Rebin(rebin);
-  h_QCD->Rebin(rebin);
-  h_top->Rebin(rebin);
-  h_ttv->Rebin(rebin);
+//  h_data->Rebin(rebin);
+//  h_wjets->Rebin(rebin);
+//  h_ttbar->Rebin(rebin);
+//  h_zjets->Rebin(rebin);
+//  h_QCD->Rebin(rebin);
+//  h_top->Rebin(rebin);
+//  h_ttv->Rebin(rebin);
 
   float norm_factor = 1;
 
   TCanvas * c1 = new TCanvas("c1","");
   c1->cd();
-  // c1->SetLogy();
+//  // c1->SetLogy();
 
   TPad *pad = new TPad( "p_main", "p_main", 0.0, 0.35, 1.0, 1.0);
   pad->SetBottomMargin(0.3);
@@ -171,34 +113,32 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   pad->SetLeftMargin(0.18);
   pad->Draw("B");
   pad->cd();
-  if( !(TString(variable).Contains("phi") || variable == "nVert" || variable == "mhtphi" || type == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir") ){
-	pad->SetLogy();
-  }
+//  pad->SetLogy();
   
   h_data->SetLineWidth(2);
 
   h_wjets->SetFillColor(kBlue);
   h_ttbar->SetFillColor(kCyan-3);
-  h_top->SetFillColor(kCyan-3);
-  h_ttv->SetFillColor(kCyan-3);
+//  h_top->SetFillColor(kCyan-3);
+//  h_ttv->SetFillColor(kCyan-3);
   h_zjets->SetFillColor(kGreen+2);
-  h_QCD->SetFillColor(kOrange-2);
+//  h_QCD->SetFillColor(kOrange-2);
 
   h_wjets->SetFillStyle(1001);
   h_ttbar->SetFillStyle(1001);
-  h_top->SetFillStyle(1001);
-  h_ttv->SetFillStyle(1001);
+//  h_top->SetFillStyle(1001);
+//  h_ttv->SetFillStyle(1001);
   h_zjets->SetFillStyle(1001);
-  h_QCD->SetFillStyle(1001);
+//  h_QCD->SetFillStyle(1001);
 
   THStack * stack = new THStack("stack","");
 
   stack->Add(h_ttbar);
   stack->Add(h_wjets);
   stack->Add(h_zjets);
-  stack->Add(h_QCD);
-  stack->Add(h_top);
-  stack->Add(h_ttv);
+//  stack->Add(h_QCD);
+//  stack->Add(h_top);
+//  stack->Add(h_ttv);
   
   h_data->GetXaxis()->SetLabelSize(0);
   h_data->GetYaxis()->SetLabelSize(0.05);
@@ -211,9 +151,6 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   }
   else{
 	h_data->GetYaxis()->SetRangeUser(ymin*luminosity, h_data->GetMaximum() * ymax );
-  }
-  if( TString(variable).Contains("phi") || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
-	h_data->GetYaxis()->SetRangeUser(0, h_data->GetMaximum()*1.4 );  
   }
   
   h_data->GetXaxis()->SetRangeUser(xmin, xmax);
@@ -242,9 +179,9 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
 	l1->AddEntry( h_ttbar , "t#bar{t} MC"       , "f");
   }
   l1->AddEntry( h_zjets , "DY"            , "f");
-  l1->AddEntry( h_QCD , "QCD"          , "f");
-  l1->AddEntry( h_ttv ,  "ttv"            , "f");
-  l1->AddEntry( h_top , "single top"            , "f");
+//  l1->AddEntry( h_QCD , "QCD"          , "f");
+//  l1->AddEntry( h_ttv ,  "ttv"            , "f");
+//  l1->AddEntry( h_top , "single top"            , "f");
   l1->Draw("same");
   
   c1->cd();
@@ -262,12 +199,12 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   TH1D* h_den = (TH1D*)h_wjets -> Clone("h_den");
   h_den->Add(h_ttbar);
   h_den->Add(h_zjets);
-  h_den->Add(h_QCD);
+ // h_den->Add(h_QCD);
 
   h_rat->Divide(h_den);
   h_rat->GetYaxis()->SetRangeUser(0.,2);
   if( TString(variable).Contains("met") ){
-  h_rat->GetYaxis()->SetRangeUser(0.0,2.0);
+      h_rat->GetYaxis()->SetRangeUser(0.0,2.0);
   }
   h_rat->GetYaxis()->SetLabelSize(0.05);
   h_rat->GetXaxis()->SetLabelSize(0.05);
@@ -283,8 +220,6 @@ void drawYields( std::string iter = "", float luminosity = 1.0, const string sel
   {
    h_rat->GetXaxis()->SetLabelSize(0.06);
    if( TString(variable).Contains("2l") ){
-   //h_rat->GetXaxis()->SetBinLabel(1,"CR4"); //   h_rat->GetXaxis()->SetBinLabel(2,"CR5");
-   // h_rat->GetXaxis()->SetBinLabel(3,"CR6");
    h_rat->GetXaxis()->SetBinLabel(1,"njets>=4\n,E_{T}^{miss}[250,325],MT2W<200");
    h_rat->GetXaxis()->SetBinLabel(2,"njets>=4\n,E_{T}^{miss}>325,MT2W<200");
    h_rat->GetXaxis()->SetBinLabel(3,"njets>=4\n,E_{T}^{miss}[250,325],MT2W>200");

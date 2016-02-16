@@ -1,0 +1,10 @@
+TTbar1lSR  1 1.57 2 0.79 3 0. 4 0.31 5 0.95 6 0.31 7 0.31 8 0.16 9 0.16
+TTbar1lStat1 1 1.31
+TTbar1lStat2 2 1.45
+TTbar1lStat4 4 1.71
+TTbar1lStat5 5 1.41
+TTbar1lStat6 6 1.71
+TTbar1lStat7 7 1.71
+TTbar1lStat8 8 2.0
+TTbar1lStat9 9 2.0
+TTbar1lSyst 1 1.3 2 1.3 3 1.3 4 1.3 5 1.3 6 1.3 7 1.3 8 1.3 9 1.3

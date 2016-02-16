@@ -1,0 +1,26 @@
+# My significance experiment
+imax 1  number of channels
+jmax 5  number of backgrounds
+kmax 11  number of nuisance parameters
+------------
+# observations 
+bin                            2         
+observation                    18        
+------------
+#now we list all expected number of events
+bin                            2            2            2            2            2            2           
+process                        signal       TTbar2l      TTbar1l      WJets        SingleTop    TTV         
+process                        0            1            2            3            4            5           
+rate                           0.52042      10.37450     0.94314      3.04420      2.18470      1.95040     
+------------
+signalSyst2          lnN       1.30000      -            -            -            -            -           
+TTbar2lStat2         lnN       -            1.12309      -            -            -            -           
+TTbar2lSyst2         lnN       -            1.30000      -            -            -            -           
+TTbar1lStat2         lnN       -            -            1.40825      -            -            -           
+TTbar1lSyst2         lnN       -            -            1.30000      -            -            -           
+WJetsStat2           lnN       -            -            -            1.29022      -            -           
+WJetsSyst2           lnN       -            -            -            1.30000      -            -           
+SingleTopStat2       lnN       -            -            -            -            1.28868      -           
+SingleTopSyst2       lnN       -            -            -            -            1.30000      -           
+TTVStat2             lnN       -            -            -            -            -            1.09112     
+TTVSyst2             lnN       -            -            -            -            -            1.30000     

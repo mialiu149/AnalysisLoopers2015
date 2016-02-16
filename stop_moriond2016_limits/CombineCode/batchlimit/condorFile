@@ -1,0 +1,17 @@
+universe=grid
+Grid_Resource=condor cmssubmit-r1.t2.ucsd.edu glidein-collector.t2.ucsd.edu
++DESIRED_Sites="T2_US_UCSD"
+Should_Transfer_Files = YES
+WhenToTransferOutput = ON_EXIT
+Transfer_Input_Files = HiggsCombine_CMSSW_7_1_5.tar.gz,datacards_950.tar.gz
+Transfer_Output_Files = /dev/null
+Output = /data/tmp/milu/limits//logs/condorLog_T2tt_950.stdout
+Error = /data/tmp/milu/limits//logs/condorLog_T2tt_950.stderr
+Log = /data/tmp/milu/limits//logs/condorLog_T2tt_950.log
++Owner = undefined
+Notify_user = milu@fnal.gov
+x509userproxy = /tmp/x509up_u31584
+Executable = condorExecutable.sh
+Transfer_executable = True
+arguments = false /hadoop/cms/store/user/mliu/condor/limits/ HiggsCombine_CMSSW_7_1_5 datacards_950.tar.gz CMSSW_7_1_5/src/HiggsAnalysis/CombinedLimit/
+Queue 1

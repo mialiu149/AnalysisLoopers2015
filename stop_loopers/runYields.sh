@@ -9,16 +9,17 @@ if [ ! -d "../output/ZMET2015/$analysis_version/plots/Closure/" ]; then
 fi
 
 lumi=1
-selection="yield_CR5"
-root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEventsSR\",             \"$selection\")" 
-root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents1lCR\",             \"$selection\")" 
-root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents2lCR\",             \"$selection\")" 
 
-selection="yield_CR6"
+selection="met_trigger_SR_yield"
 root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEventsSR\",             \"$selection\")" 
-root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents1lCR\",             \"$selection\")" 
-root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents2lCR\",             \"$selection\")" 
-selection="yield_CR5_CR6"
-root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEventsSR\",             \"$selection\")" 
-root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents1lCR\",             \"$selection\")" 
-root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents2lCR\",             \"$selection\")" 
+#root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents1lCR\",             \"$selection\")" 
+#root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents2lCR\",             \"$selection\")" 
+#
+#selection="yield_CR6"
+#root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEventsSR\",             \"$selection\")" 
+#root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents1lCR\",             \"$selection\")" 
+#root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents2lCR\",             \"$selection\")" 
+#selection="yield_CR5_CR6"
+#root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEventsSR\",             \"$selection\")" 
+#root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents1lCR\",             \"$selection\")" 
+#root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents2lCR\",             \"$selection\")" 

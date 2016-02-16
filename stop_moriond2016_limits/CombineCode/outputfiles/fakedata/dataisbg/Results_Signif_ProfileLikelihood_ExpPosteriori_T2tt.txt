@@ -1,0 +1,4 @@
+Method ProfileLikelihood Type ExpPosteriori Sample T2tt_425_325 obtainedSignif 0.816271
+Method ProfileLikelihood Type ExpPosteriori Sample T2tt_500_325 obtainedSignif 0.65088
+Method ProfileLikelihood Type ExpPosteriori Sample T2tt_650_325 obtainedSignif 1.52326
+Method ProfileLikelihood Type ExpPosteriori Sample T2tt_850_100 obtainedSignif 1.31911

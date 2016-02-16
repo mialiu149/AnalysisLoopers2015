@@ -1,0 +1,4 @@
+Method ProfileLikelihood Type Obs Sample T2tt_425_325 obtainedSignif 0
+Method ProfileLikelihood Type Obs Sample T2tt_500_325 obtainedSignif 0
+Method ProfileLikelihood Type Obs Sample T2tt_650_325 obtainedSignif 0
+Method ProfileLikelihood Type Obs Sample T2tt_850_100 obtainedSignif 0

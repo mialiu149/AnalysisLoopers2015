@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------------------------------
 
 // STL include(s)
-#include "core/include/SCycleBase.h"
+//#include "core/include/SCycleBase.h"
 #include <vector>
 #include <cmath>
 

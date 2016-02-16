@@ -1,0 +1,4 @@
+Method Asymptotic Type PostFit Sample T2tt_425_325 obtainedLimits 2.52494
+Method Asymptotic Type PostFit Sample T2tt_500_325 obtainedLimits 3.13768
+Method Asymptotic Type PostFit Sample T2tt_650_325 obtainedLimits 1.29045
+Method Asymptotic Type PostFit Sample T2tt_850_100 obtainedLimits 1.61078

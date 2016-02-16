@@ -1,0 +1,47 @@
+# My significance experiment
+imax  1  number of channels
+jmax  4  number of backgrounds
+kmax 31  number of nuisance parameters
+------------
+# observations 
+bin         1
+observation 21
+------------
+#now we list all expected number of events
+bin          1       1       1       1       1       
+process     sig       2l       1l       1ltop       znunu
+process      0     1    2    3       4
+rate        11.2221  19.2686  0.51  0.67  0.62978
+------------
+SigStat1     lnN 1.05908  -  -  -  -
+Bg2lStat1     lnN -  1.12584  -  -  -
+Bg1lStat1     lnN -  -  1.5  -  -
+Bg1lTopStat1     lnN -  -  -  2  -
+BgZnunuStat1     lnN -  -  -  -  1.10218
+ TrigSyst        lnN 1.01  -  - 1.01  1.01
+ LumSyst         lnN 1.046  -  - 1.046  1.046
+ BLFSyst         lnN 0.991743 -  -  -  -
+ BHFSyst         lnN 1.00033 -  -  -  -
+ JESSyst         lnN 2 -  -  -  -
+ ISRSyst         lnN 0.99744 -  -  -  -
+ MuRFSyst        lnN 1.00134 -  -  -  -
+ LEffSyst        lnN 1.00468 -  -  -  -
+ LEffFSSyst      lnN 0.990496 -  -  -  -
+ LVetoSyst1       lnN 1.03 -  -  -  -
+ BHFSyst2l       lnN  - 1.00199 -  -  -
+ BLFSyst2l       lnN  - 1.01915 -  -  -
+ LEffSyst2l      lnN  - 1.01919 -  -  -
+ TopPtSyst2l     lnN  - 0.944126 -  -  -
+ NJSyst2l        lnN  - 1.00402 -  -  -
+ PDFSyst2l       lnN  - 1.00111 -  -  -
+ AsSyst2l        lnN  - 1.00013 -  -  -
+ muRFSyst2l      lnN  - 1.00564 -  -  -
+ JESSyst2l       lnN  - 1.01476 -  -  -
+ METSyst2l       lnN  - 1.02385 -  -  -
+ PUSystZ         lnN  -  -  -  - 1.04772
+ LEffSystZ       lnN  -  -  -  - 1.0737
+ JESSystZ        lnN  -  -  -  - 1.00538
+ BSFSystZ        lnN  -  -  -  - 1.04553
+ QSqSystZ        lnN  -  -  -  - 1.10159
+ PDFSystZ        lnN  -  -  -  - 1.07972
+

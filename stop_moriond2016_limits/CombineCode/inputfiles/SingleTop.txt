@@ -1,0 +1,11 @@
+SingleTopSR  1 1.56 2 0.97 3 0.55 4 0.18 5 2.18 6 0.36 7 0.91 8 0.91 9 1.27
+SingleTopStat1 1 1.33
+SingleTopStat2 2 1.43
+SingleTopStat3 3 1.58
+SingleTopStat4 4 2.
+SingleTopStat5 5 1.29
+SingleTopStat6 6 1.71
+SingleTopStat7 7 1.45
+SingleTopStat8 8 1.45
+SingleTopStat9 9 1.38
+SingleTopSyst 1 1.3 2 1.3 3 1.3 4 1.3 5 1.3 6 1.3 7 1.3 8 1.3 9 1.3

@@ -1,0 +1,11 @@
+RareSR  1 2.66 2 1.33 3 0.67 4 0.76 5 2.0 6 1.62 7 1.22 8 1.33 9 0.73
+RareStat1 1 1.08
+RareStat2 2 1.11
+RareStat3 3 1.16
+RareStat4 4 1.14
+RareStat5 5 1.09
+RareStat6 6 1.10
+RareStat7 7 1.12
+RareStat8 8 1.11
+RareStat9 9 1.15
+RareSyst 1 1.3 2 1.3 3 1.3 4 1.3 5 1.3 6 1.3 7 1.3 8 1.3 9 1.3

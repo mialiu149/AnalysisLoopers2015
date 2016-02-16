@@ -2,13 +2,6 @@
 export analysis="incl_z" 
 export analysis_version="V00-00-01"
 export study="datavsmc"
-#echo "Analysis version = $analysis_version"
-
-#export analysis=$1 
-#export study=$2
-#export analysis_version=$3
-#echo "Analysis version = $analysis_version"
-
 localdirectory=`pwd`
 export analysis_output=$HOME/public_html/analysis2015/$analysis/$analysis_version/$study/rootfiles
 export plot_output=$HOME/public_html/analysis2015/$analysis/$analysis_version/$study/plots

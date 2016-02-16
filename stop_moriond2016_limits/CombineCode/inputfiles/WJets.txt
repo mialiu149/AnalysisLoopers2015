@@ -1,0 +1,11 @@
+WJetsSR  1 0.75 2 0.37 3 0.15 4 0.28 5 3.04 6 1.56 7 0.82 8 0.73 9 0.67
+WJetsStat1 1 1.28
+WJetsStat2 2 1.34
+WJetsStat3 3 1.41
+WJetsStat4 4 1.37
+WJetsStat5 5 1.29
+WJetsStat6 6 1.40
+WJetsStat7 7 1.24
+WJetsStat8 8 1.22
+WJetsStat9 9 1.19
+WJetsSyst 1 1.3 2 1.3 3 1.3 4 1.3 5 1.3 6 1.3 7 1.3 8 1.3 9 1.3

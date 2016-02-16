@@ -1,0 +1,4 @@
+Method ProfileLikelihood Type ExpPrioriToys200 Sample T2tt_425_325 obtainedSignif 0.78679
+Method ProfileLikelihood Type ExpPrioriToys200 Sample T2tt_500_325 obtainedSignif 0.67593
+Method ProfileLikelihood Type ExpPrioriToys200 Sample T2tt_650_325 obtainedSignif 1.6421
+Method ProfileLikelihood Type ExpPrioriToys200 Sample T2tt_850_100 obtainedSignif 1.53505

@@ -19,7 +19,7 @@
 #include "../sharedCode/V00_00_02.h"
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/METTemplateSelections.h"
-#include "../sharedCode/StopMoriond2016.h"
+#include "../sharedCode/WJetsSelection.h"
 
 #include "../../CORE/Tools/dorky/dorky.h"
 #include "../../CORE/Tools/goodrun.h"
@@ -28,6 +28,7 @@
 using namespace std;
 using namespace duplicate_removal;
 using namespace V00_00_02_np;
+using namespace wjetssel;
 const bool debug = false;
 const bool usejson = true;
 const bool dovtxreweighting = true;
@@ -42,7 +43,6 @@ templateLooper::~templateLooper()
 
 void templateLooper::bookHistos(std::string region){
 
-  // hist naming convention: "h_<leptype>_<object>_<variable>_<selection>"
   vector <string> leptype;
   leptype.push_back("el");
   leptype.push_back("el_br");
@@ -267,7 +267,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
 	  if( is_data() ) {
 		DorkyEventIdentifier id(run(), evt(), ls());
-	if (is_duplicate(id) ){
+        	if (is_duplicate(id) ){
 		  ++nDuplicates;
 		  continue;
 		}
@@ -298,14 +298,14 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           //~-~-~-~-~-~-~-~-//
           // event selection// 
 	  //~-~-~-~-~-~-~-~-//
-          if( !passPreselection() )       continue;
+          if( !passRegion(selection.c_str()) )       continue;
           if( ak4_HT() < 150  )           continue;
 
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflow histograms     // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-
-          if(TString(selection).Contains("yield")){
+          // will fix this later for w+jets. there are for stop signals.
+          /*  if(TString(selection).Contains("yield")){
            //signal
            string histname ="h_lep_event_NEventsSR_yield";
            if(passSR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
@@ -346,23 +346,22 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if(TString(selection).Contains("2l")) {
           if( !pass2lCR(selection.c_str())) continue;
           }
-
           if(TString(selection).Contains("SR")) {
           if( !passSR(selection.c_str()))   continue;
           }
-
+*/
           //if( !passRegion(selection.c_str())) continue; 
  	  if( lep1_is_mu()) nmu++;
 	  if( lep1_is_el()) nel++;
           //regions of interest
-          //if( ngoodjets() >=3 && event_met_pt > 150 && ngoodbtags()<1 &&  mt_met_lep() > 120 && lep1_relIso03EA()*lep1_pt() < 5) njet2_met100 = true; 
           float MET = pfmet();
           float METPhi = pfmet_phi();
           float METx = MET*TMath::Cos(METPhi);
           float METy = MET*TMath::Sin(METPhi);
           ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
           metlv.SetPxPyPzE(METx,METy,0.,MET);
-//          if(mindphi_met_j1_j2() < 0.8) continue;
+          if(mindphi_met_j1_j2() < 0.8) continue;
+
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//
@@ -382,12 +381,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
 	  fillHist( "event", "chiso" , region.c_str(), lep1_chiso()       , weight );	 
 	  fillHist( "event", "deltaphi_lep_met" , region.c_str(), ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv) , weight );	 
-          if(mt_met_lep()>175 && fabs(lep1_eta()) > 1.6 &&lep1_is_el())
-          { 
-           cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() <<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
-           //cout<<run()<<":"<<ls()<<":"<<evt()<<"\n"<<endl; 
-           }
-	  //-~-~-~-~-~-~-~-~-~-//
+          //-~-~-~-~-~-~-~-~-~-//
 	  //Fill Template hists//
 	  //-~-~-~-~-~-~-~-~-~-//	  
          npass += weight;
@@ -438,11 +432,11 @@ void templateLooper::fillHist( string obj, string var, string sel, float value, 
 		hist = Form("h_el_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
 	  }
-          if( lep1_is_el() && fabs(lep1_eta())>1.6&&fabs(lep1_eta())<2.1 ){
+          if( lep1_is_el() && fabs(lep1_eta())>1.5&&fabs(lep1_eta())<2.1 ){
 		hist = Form("h_el_ec_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
           }
-          if( lep1_is_el() &&fabs(lep1_eta())<1.4 ){
+          if( lep1_is_el() &&fabs(lep1_eta())<1.442 ){
 		hist = Form("h_el_br_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
           }

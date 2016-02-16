@@ -1,0 +1,4 @@
+Method Asymptotic Type PreFit Sample T2tt_425_325 obtainedLimits 2.52479
+Method Asymptotic Type PreFit Sample T2tt_500_325 obtainedLimits 3.13604
+Method Asymptotic Type PreFit Sample T2tt_650_325 obtainedLimits 1.29108
+Method Asymptotic Type PreFit Sample T2tt_850_100 obtainedLimits 1.61241

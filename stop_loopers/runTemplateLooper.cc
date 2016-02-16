@@ -18,7 +18,8 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/",iter.c_str());
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-04");
-  string babylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v7__20151208/merged_files/";
+//  string babylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v7__20151208/merged_files/";
+  string babylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/";
   //string babylocation = "/nfs-7/userdata/mliu/jes_nominal/"; //jes nominal
   //babylocation = "/nfs-7/userdata/mliu/jes_up/";
   //babylocation = "/nfs-7/userdata/mliu/jes_dn/";
@@ -82,7 +83,8 @@ else if (sample == "zz"){
            helper = babylocation+"WJetsToLNu_HT100To200*.root";ch->Add(helper.c_str());//ht binned
            helper = babylocation+"WJetsToLNu_HT200To400*.root";ch->Add(helper.c_str());//ht binned
            helper = babylocation+"WJetsToLNu_HT400To600*.root";ch->Add(helper.c_str());//ht binned
-           helper = babylocation+"WJetsToLNu_HT600To800*.root";ch->Add(helper.c_str());//ht binned
+           //helper = babylocation+"WJetsToLNu_HT600To800*.root";ch->Add(helper.c_str());//ht binned
+           helper = "/nfs-6/userdata/mliu/onelepbabies/V00-00-09/WJetsToLNu_HT600To800_madgraph_pythia8_25ns*.root"; ch->Add(helper.c_str());// add 600 to 800 from my own babies
            helper = babylocation+"WJetsToLNu_HT800To1200*.root";ch->Add(helper.c_str());//ht binned
            helper = babylocation+"WJetsToLNu_HT1200To2500*.root";ch->Add(helper.c_str());//ht binned
            helper = babylocation+"WJetsToLNu_HT2500ToInf*.root";ch->Add(helper.c_str());//ht binned

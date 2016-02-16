@@ -21,18 +21,18 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   TH1F * h_wjets = NULL;
   TH1F * h_ttbar = NULL;
   TH1F * h_zjets = NULL;
-  TH1F * h_QCD = NULL;
-  TH1F * h_top = NULL;
-  TH1F * h_ttv = NULL;
+//  TH1F * h_QCD = NULL;
+//  TH1F * h_top = NULL;
+//  TH1F * h_ttv = NULL;
 
   getBackground(   h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
   if( usefsbkg ) getBackground(  h_ttbar, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ), "metgt1jet", "em", "inclusive" );
   else {
   getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ), variable, type, region );
-  getBackground(  h_top, iter, Form("top_%s", selection.c_str() ), variable, type, region );
-  getBackground(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
+  //getBackground(  h_top, iter, Form("top_%s", selection.c_str() ), variable, type, region );
+ // getBackground(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
   getBackground(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
-  getBackground(  h_QCD, iter, Form("QCD_%s", selection.c_str() ), variable, type, region );
+//  getBackground(  h_QCD, iter, Form("QCD_%s", selection.c_str() ), variable, type, region );
   }
   if( usetemplates ) getTemplateMET( h_wjets, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ) );
   else getBackground(  h_wjets, iter, Form("wjets_htbin_%s", selection.c_str() ), variable, type, region );
@@ -43,7 +43,6 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   // h_other->Scale(luminosity);
   // h_vvbkg->Scale(luminosity);
   // h_vvbkg->Scale(0);
-
   if( usetemplates ){
   
 	h_ttbar->Scale(0.15);
@@ -74,7 +73,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   //MAKE PLOTS
   float xmin = 50; float xmax = 200;
-  float ymin = 1e-1; float ymax = 1e2;
+  float ymin = 1e-1; float ymax = 1e-5;
 
   int rebin = 10;
   
@@ -114,8 +113,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
     rebin = 1;
   }
   if( TString(variable).Contains("met") || TString(variable).Contains("mt") || TString(variable).Contains("MT2W")){
-	if( type == "em" ) rebin = 20;
-	else rebin = 50;
+	if( type == "em" ) rebin = 40;
+	else rebin = 40;
 	  xmin = 0;
 	  if( usefsbkg ) xmax = 300;
 	  else           xmax = 500;
@@ -163,10 +162,10 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_data->Rebin(rebin);
   h_wjets->Rebin(rebin);
   h_ttbar->Rebin(rebin);
-  h_top->Rebin(rebin);
-  h_ttv->Rebin(rebin);
+//  h_top->Rebin(rebin);
+//  h_ttv->Rebin(rebin);
   h_zjets->Rebin(rebin);
-  h_QCD->Rebin(rebin);
+//  h_QCD->Rebin(rebin);
 
   float norm_factor = 1;
 
@@ -182,24 +181,24 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   pad->Draw();
   pad->cd();
   if( !(TString(variable).Contains("phi") || variable == "nVert" || variable == "mhtphi" || type == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir") ){
-	pad->SetLogy();
+	//pad->SetLogy();
   }
   
   h_data->SetLineWidth(2);
 
   h_wjets->SetFillColor(kBlue);
   h_ttbar->SetFillColor(kCyan-3);
-  h_top->SetFillColor(kCyan-3);
-  h_ttv->SetFillColor(kCyan-3);
+//  h_top->SetFillColor(kCyan-3);
+//  h_ttv->SetFillColor(kCyan-3);
   h_zjets->SetFillColor(kGreen+2);
-  h_QCD->SetFillColor(kOrange-2);
+//  h_QCD->SetFillColor(kOrange-2);
 
   h_wjets->SetFillStyle(1001);
   h_ttbar->SetFillStyle(1001);
-  h_top->SetFillStyle(1001);
-  h_ttv->SetFillStyle(1001);
+//  h_top->SetFillStyle(1001);
+//  h_ttv->SetFillStyle(1001);
   h_zjets->SetFillStyle(1001);
-  h_QCD->SetFillStyle(1001);
+//  h_QCD->SetFillStyle(1001);
 
   /*float norm_factor =   h_data->Integral(h_data->FindBin(81),h_data->FindBin(100)-1)/
 	(h_wjets->Integral(h_wjets->FindBin(81),h_wjets->FindBin(101)-1) +
@@ -229,19 +228,19 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   updateoverflow( h_data , xmax );
   updateoverflow( h_wjets, xmax );
   updateoverflow( h_ttbar, xmax );
-  updateoverflow( h_top, xmax );
-  updateoverflow( h_ttv, xmax );
+//  updateoverflow( h_top, xmax );
+//  updateoverflow( h_ttv, xmax );
   updateoverflow( h_zjets, xmax );
-  updateoverflow( h_QCD, xmax );
+//  updateoverflow( h_QCD, xmax );
 
   THStack * stack = new THStack("stack","");
 
   stack->Add(h_wjets);
   stack->Add(h_ttbar);
-  stack->Add(h_top);
-  stack->Add(h_ttv);
+//  stack->Add(h_top);
+//  stack->Add(h_ttv);
   stack->Add(h_zjets);
-  stack->Add(h_QCD);
+//  stack->Add(h_QCD);
   
   h_data->GetXaxis()->SetLabelSize(0);
   h_data->GetYaxis()->SetLabelSize(0.05);
@@ -284,9 +283,9 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	l1->AddEntry( h_ttbar , "t#bar{t} MC"       , "f");
   }
   l1->AddEntry( h_zjets , "DY"            , "f");
-  l1->AddEntry( h_ttv ,  "ttv"            , "f");
-  l1->AddEntry( h_top , "single top"            , "f");
-  l1->AddEntry( h_QCD , "QCD"          , "f");
+//  l1->AddEntry( h_ttv ,  "ttv"            , "f");
+//  l1->AddEntry( h_top , "single top"            , "f");
+//  l1->AddEntry( h_QCD , "QCD"          , "f");
   l1->Draw("same");
   
   c1->cd();
@@ -304,7 +303,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   TH1F* h_den = (TH1F*)h_wjets -> Clone("h_den");
   h_den->Add(h_ttbar);
   h_den->Add(h_zjets);
-  h_den->Add(h_QCD);
+//  h_den->Add(h_QCD);
 
   h_rat->Divide(h_den);
 

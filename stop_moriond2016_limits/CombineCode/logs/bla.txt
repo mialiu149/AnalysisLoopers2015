@@ -1,0 +1,9 @@
+
+ -- Profile Likelihood -- 
+Significance: 0
+       (p-value = 0.5)
+Done in 0.00 min (cpu), 0.00 min (real)
+mean   expected limit: r < 0.414974 +/- 0.026372 @ 95%CL (500 toyMC)
+median expected limit: r < 0.027288 @ 95%CL (500 toyMC)
+   68% expected band : 0 < r < 1.06984
+   95% expected band : 0 < r < 2.00885

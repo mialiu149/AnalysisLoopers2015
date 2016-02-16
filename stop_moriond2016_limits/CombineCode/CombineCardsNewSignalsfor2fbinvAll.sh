@@ -1,0 +1,13 @@
+. CombineCardsNewSignalsfor2fbinv.sh T2tt_425_325
+. CombineCardsNewSignalsfor2fbinv.sh T2tt_500_325
+. CombineCardsNewSignalsfor2fbinv.sh T2tt_650_325
+. CombineCardsNewSignalsfor2fbinv.sh T2tt_850_100
+. CombineCardsNewSignalsfor2fbinv.sh T2tb_700_250_100
+. CombineCardsNewSignalsfor2fbinv.sh T2tb_700_400_100
+. CombineCardsNewSignalsfor2fbinv.sh T2tb_700_550_100
+. CombineCardsNewSignalsfor2fbinv.sh T2bw_700_250_100
+. CombineCardsNewSignalsfor2fbinv.sh T2bw_700_400_100
+. CombineCardsNewSignalsfor2fbinv.sh T2bw_700_550_100
+. CombineCardsNewSignalsfor2fbinv.sh T2bw_600_187p5_50
+. CombineCardsNewSignalsfor2fbinv.sh T2bw_600_325_50
+. CombineCardsNewSignalsfor2fbinv.sh T2bw_600_462p5_50
