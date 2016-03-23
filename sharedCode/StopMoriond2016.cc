@@ -140,7 +140,7 @@ int lep2type()
   if(secondLep_isVeto) return 2; 
   return 0;
 }
-
+/*
 int  eventtype(){
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4(); 
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4(); 
@@ -157,6 +157,26 @@ int  eventtype(){
  }
  return 0; // no good lepton.
 }
+*/
+int  eventtype(){
+ ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4(); 
+ ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4(); 
+ if ((lep1type() == 1 && lep2type() == 0)||(lep1type() == 0 && lep2type() == 1)) return 5; // only one sel lepton.lep1 is the sel lepton, or only lep2 is the sel
+ if (lep1type() == 1 && lep2type() == 1) return 1; // both are sel
+ if (lep1type() == 2 && (lep2type() != 1) || lep1type() !=1 && (lep2type() == 2)) return 4; //both are veto. or worse than veto
+
+ if (dRbetweenVectors(l1lv,l2lv)>0.01) {    // cases lep1 and lep2 don't overlap.
+ if (lep1type() == 1 && lep2type() == 2) return 2; //lep1 is sel, lep2 is veto.
+ if (lep1type() == 2 && lep2type() == 1) return 3; //lep2 is sel, lep1 is veto.
+ }
+ else {
+ if((lep1type() == 1&&lep1_is_mu()&&lep2type() == 1&&lep2_is_el())||(lep1type() == 1&&lep1_is_el()&&lep2type() == 1&&lep2_is_mu())) return 1;
+ if(lep1type() == 1) return 5;  // two lep overlap and are sel.
+ }
+ if(lep1type() == 0 && lep2type() == 0) return 6;  
+ else return 0; // no good lepton. :(
+}
+
 
 bool passPreselection(string selection)
 {

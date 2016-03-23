@@ -18,37 +18,6 @@ using namespace std;
 using namespace V00_00_02_np; 
 
 namespace zjetssel{
-//baseline for stop. don't need it???
-bool passBaseline(string selection){
- if(!passPreselection(selection))     return false;
- ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4();
- ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4();
- if(nvetoleps()!=1 && !(nvetoleps()==2&&dRbetweenVectors(l1lv,l2lv)<0.01) ) return false;
- if(!PassTrackVeto_v3())     return false;
- if(!PassTauVeto())          return false;
- if(ngoodbtags()<1)          return false;
- if(pfmet()<250)             return false;
- if(mt_met_lep()<150)        return false;
- if(mindphi_met_j1_j2()<0.8) return false;
- return true;
-}
-
-//binning for stop moriond 2016, don't need it here?
-bool passSR( string selection ) {
- if( !passBaseline(selection)) return false; 
- if( TString(selection).Contains("all"))  return true;
- if( TString(selection).Contains("bin1") && !(ngoodjets()>3&&pfmet()>250&&pfmet()<325&&MT2W()<200)) return false;
- if( TString(selection).Contains("bin2") && !(ngoodjets()>3&&pfmet()>325&&MT2W()<200))              return false;
- if( TString(selection).Contains("bin3") && !(ngoodjets()>3&&pfmet()>250&&pfmet()<350&&MT2W()>200)) return false;
- if( TString(selection).Contains("bin4") && !(ngoodjets()>3&&pfmet()>350&&pfmet()<450&&MT2W()>200)) return false;
- if( TString(selection).Contains("bin5") && !(ngoodjets()>3&&pfmet()>450&&MT2W()>200))              return false;
- if( TString(selection).Contains("bin6") && !(ngoodjets()==3&&pfmet()>250&&MT2W()>200))             return false;
- if( TString(selection).Contains("bin7") && !(ngoodjets()>4&&pfmet()>250&&MT2W()<200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return false;
- if( TString(selection).Contains("bin8") && !(ngoodjets()>4&&pfmet()>250&&MT2W()>200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return false;
-
- return true;
-}
-
 bool passPreselection(string selection) {// trigger + lepton selections
  //--------------------------//
  //--- trigger requirement---//
@@ -59,12 +28,13 @@ bool passPreselection(string selection) {// trigger + lepton selections
  //  }
 //   else if (!(HLT_SingleMu20()||HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27())) return false;
    //event type
+   if( !(HLT_Mu8El17()||HLT_Mu17El12()||HLT_DiEl()||HLT_DiMu()))            return false;
    if( !(eventtype()==1))                                            return false;
    if( !(lep1_is_mu()&&lep2_is_mu()||lep1_is_el()&&lep2_is_el()))    return false;
-//   if( pfmet() < 50)                                                 return false; // min met cut.
+   if( pfmet() < 50)                                                 return false; // min met cut.
 //   if( TString(selection).Contains("met_trigger")&&pfmet() < 250)    return false; // met cut
-   //if( ngoodjets() < 2 )                                             return false; // >=3 jets  
-//   if( ngoodbtags() > 0)                                             return false; //for bveto
+   if( ngoodjets() < 2 )                                             return false; // >=3 jets  
+   if( ngoodbtags() > 0)                                             return false; //for bveto
    return true;
  }//end of funtion passPreselection
 
@@ -203,9 +173,10 @@ int lep2type() { // second lepton type
                      lep2_miniRelIsoEA()<veto_miniRelIso_el ){
                      secondLep_isVeto = true;
             } // end if veto electron                                                                         }
-  if(secondLep_isSel)  return 1;
-  if(secondLep_isVeto) return 2; 
-  return 0;
- }
- }
+    if(secondLep_isSel)  return 1;
+    if(secondLep_isVeto) return 2; 
+    return 0;
+   } //end of lep2_is_el
+ }//end of lep2 function
+
 }//end namespace

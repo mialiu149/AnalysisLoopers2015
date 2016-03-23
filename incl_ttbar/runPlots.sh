@@ -9,13 +9,19 @@ if [ ! -d "../output/ZMET2015/$analysis_version/plots/Closure/" ]; then
 fi
 
 lumi=2.26
-selection="baseline_absiso_pfmet100"
-#selection="baseline_absiso"
+#selection="baseline_absiso_pfmet100"
+#selection="baseline_pfmet100_mll20_vtx"
+#selection="baseline"
+#selection="baseline_no_breq"
+selection="baseline_allsf"
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"mu\", \"mll\",\"$selection\" )" 
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el\", \"ptll\",\"$selection\" )" 
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"mu\", \"ptll\",\"$selection\" )" 
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"mu\", \"njets\",\"$selection\" )" 
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el\", \"mll\",\"$selection\" )" 
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 
-root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"mll\",\"$selection\" )" 
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"met\",\"$selection\" )" 
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ngoodbtags\",\"$selection\" )" 
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptll\",\"$selection\" )" 
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptl1\",\"$selection\" )" 
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptl2\",\"$selection\" )" 

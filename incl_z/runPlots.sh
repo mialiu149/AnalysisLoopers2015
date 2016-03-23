@@ -8,7 +8,7 @@ if [ ! -d "../output/ZMET2015/$analysis_version/plots/Closure/" ]; then
 	cp ../index.php ../output/ZMET2015/$analysis_version/plots/Closure/
 fi
 
-lumi=2.1
+lumi=2.3
 selection="baseline"
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mll\",\"$selection\" )" 
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el\", \"mll\",\"$selection\" )" 

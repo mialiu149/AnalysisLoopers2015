@@ -28,12 +28,13 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   if( usefsbkg ) getBackground(  h_ttbar, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ), "metgt1jet", "em", "inclusive" );
   else {
   getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ), variable, type, region );
-  getBackground(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
+  getBackground(  h_zjets, iter, Form("zjets_%s", selection.c_str() ), variable, type, region );
   getBackground(  h_QCD, iter, Form("QCD_%s", selection.c_str() ), variable, type, region );
   }
   if( usetemplates ) getTemplateMET( h_wjets, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ) );
   else getBackground(  h_wjets, iter, Form("wjets_htbin_%s", selection.c_str() ), variable, type, region );
   cout<<"entries"<<h_data->GetEntries()<<endl;
+
   // h_wjets->Scale(0.057);
   // h_ttbar->Scale(0.057);
   // h_data->Scale(luminosity);
@@ -74,7 +75,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   float xmin = 50; float xmax = 200;
   float ymin = 1e-1; float ymax = 1e2;
 
-  int rebin = 5;
+  int rebin = 10;
   
   if( variable == "mt3" ){
 	xmin = 0;
@@ -164,7 +165,6 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_zjets->Rebin(rebin);
   h_QCD->Rebin(rebin);
 
-  float norm_factor = 1;
 
   TCanvas * c1 = new TCanvas("c1","");
   c1->cd();
@@ -193,11 +193,14 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_zjets->SetFillStyle(1001);
   h_QCD->SetFillStyle(1001);
 
-  /*float norm_factor =   h_data->Integral(h_data->FindBin(81),h_data->FindBin(100)-1)/
-	(h_wjets->Integral(h_wjets->FindBin(81),h_wjets->FindBin(101)-1) +
-	 h_ttbar->Integral(h_ttbar->FindBin(81),h_ttbar->FindBin(101)-1));
+  float norm_factor =   h_data->Integral(h_data->FindBin(81),h_data->FindBin(100)-1)/
+	(
+         h_wjets->Integral(h_wjets->FindBin(81),h_wjets->FindBin(101)-1) +
+	 h_ttbar->Integral(h_ttbar->FindBin(81),h_ttbar->FindBin(101)-1) +
+         h_zjets->Integral(h_zjets->FindBin(81),h_zjets->FindBin(101)-1)
+         );
   cout<<"Norm factor for Z+jets: "<<norm_factor<<endl;
-
+/*
   if( variable != "mll" ){
 	if( region == "passtrig" ){
 	  if( type == "ll" ) norm_factor = 2.71145;
@@ -210,10 +213,11 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  if( type == "mm" ) norm_factor = 6.81433;
 	}
   }
-
-  norm_factor = 1;
-  */
+*/
+  //norm_factor = 1;
+  
   h_wjets->Scale(norm_factor);
+  h_zjets->Scale(norm_factor);
   h_ttbar->Scale(norm_factor);
 //  h_wjets->Scale(luminosity);
  // h_ttbar->Scale(luminosity);

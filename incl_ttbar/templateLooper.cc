@@ -11,6 +11,7 @@
 #include "TFile.h"
 #include "TH1F.h"
 #include "TH1D.h"
+#include "TH2D.h"
 #include "TMath.h"
 
 #include "Math/VectorUtil.h"
@@ -31,7 +32,8 @@ using namespace V00_00_02_np;
 using namespace ttbarsel;
 const bool debug = false;
 const bool usejson = true;
-const bool dovtxreweighting = true;
+const bool dovtxreweighting = false;
+const bool applyLepSFs = true;
 
 templateLooper::templateLooper()
 {
@@ -64,6 +66,7 @@ void templateLooper::bookHistos(std::string region){
   variable.push_back("lep1_ooEmooP");	variable_bins.push_back(1000);  
   variable.push_back("mt");	        variable_bins.push_back(1000);  
   variable.push_back("njets");          variable_bins.push_back(20  );  
+  variable.push_back("ngoodbtags");     variable_bins.push_back(20  );  
   variable.push_back("nVert");          variable_bins.push_back(50 );  
   variable.push_back("relIso03EA");	variable_bins.push_back(1000);  
   variable.push_back("absIso03EA");	variable_bins.push_back(1000);  
@@ -75,7 +78,7 @@ void templateLooper::bookHistos(std::string region){
 	for( unsigned int objind = 0; objind < object.size(); objind++ ){
 	  for( unsigned int varind = 0; varind < variable.size(); varind++ ){
 		for( unsigned int selind = 0; selind < selection.size(); selind++ ){
-		  bookHist(Form("h_%s_%s_%s_%s",
+		   bookHist(Form("h_%s_%s_%s_%s",
 						leptype.at(lepind).c_str(),
 						object.at(objind).c_str(),
 					        variable.at(varind).c_str(),
@@ -88,8 +91,8 @@ void templateLooper::bookHistos(std::string region){
 					        selection.at(selind).c_str()
 						),
 				   static_cast<int>(variable_bins.at(varind)),
-				   //0.0,
-				   -variable_bins.at(varind),
+				   0.0,
+		//		   -variable_bins.at(varind),
 				   variable_bins.at(varind));
 		}
 	  }
@@ -137,6 +140,7 @@ void templateLooper::bookHistos(std::string region){
   //--------------------//
   vector<string> histonames_cutflow; histonames_cutflow.clear();
   histonames_cutflow.push_back("NEventsSR");
+  histonames_cutflow.push_back("NEventsCutflow");
   histonames_cutflow.push_back("NEvents1lCR");
   histonames_cutflow.push_back("NEvents2lCR");
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
@@ -145,8 +149,8 @@ void templateLooper::bookHistos(std::string region){
   //             Form("h_%s_%s",leptype.at(lepind).c_str(),histonames_cutflow.at(selind).c_str()),
   //             8,0.5,8.5
   //            );//book histos for all SRs and CRs
-                string histoname = "h_"+leptype.at(lepind)+"_event_"+histonames_cutflow.at(selind)+"_"+region.c_str();
-                histos_cutflow[histoname] = new TH1D(histoname.c_str(),histoname.c_str(),8,0.5,8.5);
+                string histoname = "h_"+leptype.at(lepind)+"_event_"+histonames_cutflow.at(selind);
+                histos_cutflow[histoname] = new TH1D(histoname.c_str(),histoname.c_str(),10,0.5,10.5);
                 histos_cutflow[histoname]->Sumw2();
 		}
   }
@@ -222,6 +226,49 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	h_vtxweight->SetDirectory(rootdir);
 	f_vtx->Close();
   }
+  //
+  // Open lepton SF histos
+  //
+  TFile *f_el_SF;
+  TFile *f_mu_SF_id;
+  TFile *f_mu_SF_iso;
+  
+  TH2D *h_el_SF = NULL;
+  TH2D *h_mu_SF = NULL;
+  
+  if(applyLepSFs && !(TString(sample).Contains("data"))){
+    
+    f_el_SF     = new TFile("lepsf/kinematicBinSFele.root", "read");
+    f_mu_SF_id  = new TFile("lepsf/TnP_MuonID_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root", "read");
+    f_mu_SF_iso = new TFile("lepsf/TnP_MuonID_NUM_MiniIsoTight_DENOM_LooseID_VAR_map_pt_eta.root");
+    
+    TH2D *h_el_SF_id_temp  = (TH2D*)f_el_SF->Get("CutBasedMedium");
+    TH2D *h_el_SF_iso_temp = (TH2D*)f_el_SF->Get("MiniIso0p1_vs_AbsEta");
+    TH2D *h_mu_SF_id_temp  = (TH2D*)f_mu_SF_id->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_tag_combRelIsoPF04dBeta_bin0_&_tag_pt_bin0_&_tag_IsoMu20_pass");
+    TH2D *h_mu_SF_iso_temp = (TH2D*)f_mu_SF_iso->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_tag_combRelIsoPF04dBeta_bin0_&_tag_pt_bin0_&_PF_pass_&_tag_IsoMu20_pass");
+
+    //out_file->cd();
+
+    TH2D *h_el_SF_id  = (TH2D*)h_el_SF_id_temp->Clone("h_el_SF_id");
+    TH2D *h_el_SF_iso = (TH2D*)h_el_SF_iso_temp->Clone("h_el_SF_iso");
+    TH2D *h_mu_SF_id  = (TH2D*)h_mu_SF_id_temp->Clone("h_mu_SF_id");
+    TH2D *h_mu_SF_iso = (TH2D*)h_mu_SF_iso_temp->Clone("h_mu_SF_iso");
+    h_el_SF_id->SetDirectory(rootdir);
+    h_el_SF_iso->SetDirectory(rootdir);
+    h_mu_SF_id->SetDirectory(rootdir);
+    h_mu_SF_iso->SetDirectory(rootdir);
+    
+    h_el_SF = (TH2D*)h_el_SF_id->Clone("h_el_SF");
+    h_el_SF->Multiply(h_el_SF_iso);
+    h_el_SF->SetDirectory(rootdir);
+    h_mu_SF = (TH2D*)h_mu_SF_id->Clone("h_mu_SF");
+    h_mu_SF->Multiply(h_mu_SF_iso);
+    h_mu_SF->SetDirectory(rootdir);
+    f_el_SF->Close();
+    f_mu_SF_id->Close();
+    f_mu_SF_iso->Close();
+    cout << "loaded lepton SFs" << endl;
+  }
 
   TObjArray *listOfFiles = chain->GetListOfFiles();
   unsigned int nEventsChain = 0;
@@ -252,6 +299,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
       // ~~~~~~~~~~~
       //   continue;
       // ~~~~~~~~~~~
+          string histname = "h_lep_event_NEventsCutflow";
+          histos_cutflow[histname]->Fill(1,1);
 	  if (nEventsTotal % 1000 == 0){ // progress feedback to user
 		if (isatty(1)){ // xterm magic from L. Vacavant and A. Cerri               
           printf("\015\033[32m ---> \033[1m\033[31m%4.1f%%"
@@ -261,10 +310,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
       }
 
 	 // if ( is_data() && usejson && !goodrun(run(), ls()) ) continue;
-           if (!filt_eebadsc()) continue;
-           if (!filt_hbhenoise()) continue;
            if (is_data() && metFilterTxt.eventFails(run(), ls(), evt())) {
 		//cout<<"Found bad event in data: "<<run()<<", "<<ls()<<", "<<evt()<<endl;
+           //if (!filt_eebadsc()) {cout<<"failed"<<endl;continue;}
+           //if (!filt_hbhenoise()) {cout<<"failed"<<endl;continue;}
 			continue;
            }
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
@@ -297,14 +346,96 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
     	  weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(nvtxs()));		
 	  }
 	  
+ 	  if( lep1_is_mu()) nmu++;
+	  if( lep1_is_el()) nel++;
 	  float event_met_pt = pfmet();
 	  float event_met_ph = pfmet_phi();
-
+          //regions of interest
+          float MET = pfmet();
+          float METPhi = pfmet_phi();
+          float METx = MET*TMath::Cos(METPhi);
+          float METy = MET*TMath::Sin(METPhi);
+          ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
+          metlv.SetPxPyPzE(METx,METy,0.,MET);
+//          if(mindphi_met_j1_j2() < 0.8) continue;
+          float mll = (lep1_p4()+lep2_p4()).mass();
+          float ptll = (lep1_p4()+lep2_p4()).pt();
+	
           //~-~-~-~-~-~-~-~-//
           // event selection// 
 	  //~-~-~-~-~-~-~-~-//
-          if( !passRegion(selection.c_str()) )       continue;
+          if( TString(selection).Contains("baseline")&&!passRegion(selection.c_str()) )       continue;
+          
+          histos_cutflow[histname]->Fill(2,1);
+/*        if( (eventtype()==1))   histos_cutflow[histname]->Fill(2,1);
+          if( (eventtype()==2))   histos_cutflow[histname]->Fill(3,1);
+          if( (eventtype()==3))   histos_cutflow[histname]->Fill(4,1);
+          if( (eventtype()==4))   histos_cutflow[histname]->Fill(5,1);
+          if( (eventtype()==5))   histos_cutflow[histname]->Fill(6,1);
+*/
+  //        if( (lep1type()==1))   histos_cutflow[histname]->Fill(7,1);
+          if(TString(selection).Contains("sync")){
+          if( !(lep1type()==1&&lep2type()==1))                                 continue;
+          histos_cutflow[histname]->Fill(3,1);
+	  if( lep1_charge()*lep2_charge()>0 )                                  continue;
+          histos_cutflow[histname]->Fill(4,1);
+          if( !((lep1_is_mu()&&lep2_is_el())||(lep1_is_el()&&lep2_is_mu())) )  continue;
+          histos_cutflow[histname]->Fill(5,1);
+          if( !(HLT_Mu8El17()||HLT_Mu17El12()||HLT_DiEl()||HLT_DiMu()))        continue;
+          histos_cutflow[histname]->Fill(6,1);
+          if(mll<20)                                                           continue;
+          histos_cutflow[histname]->Fill(7,1);
+          if( pfmet() < 50)                                                    continue;
+          histos_cutflow[histname]->Fill(8,1);
+          if( ngoodjets() <2 )                                                 continue;
+          histos_cutflow[histname]->Fill(9,1);
+          if( ngoodbtags()<1)                                                  continue;
+          histos_cutflow[histname]->Fill(10,1);
+          }
 
+          //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+          //     lepton scale factor     // 
+	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+
+	double lepSF    = 1.0;
+	double lepSF_Up = 1.0;
+	double lepSF_Dn = 1.0;
+	if(applyLepSFs && !is_data()){
+	  float lepSF_pt_cutoff = 100.0;
+	  // Lep1 SF
+	  if(lep1_is_el()){
+	    int binX = h_el_SF->GetXaxis()->FindBin( std::min(lepSF_pt_cutoff, lep1_p4().Pt()) );
+	    int binY = h_el_SF->GetYaxis()->FindBin( fabs(lep1_p4().Eta()) );
+	    lepSF    = h_el_SF->GetBinContent( binX, binY );
+	    lepSF_Up = (lepSF + h_el_SF->GetBinError( binX, binY ));
+	    lepSF_Dn = (lepSF - h_el_SF->GetBinError( binX, binY ));
+	  }
+	  if(lep1_is_mu()){
+	    int binX = h_mu_SF->GetXaxis()->FindBin( std::min(lepSF_pt_cutoff, lep1_p4().Pt()) );
+	    int binY = h_mu_SF->GetYaxis()->FindBin( fabs(lep1_p4().Eta()) );
+	    lepSF    = h_mu_SF->GetBinContent( binX, binY );
+	    lepSF_Up = (lepSF + h_mu_SF->GetBinError( binX, binY ));
+	    lepSF_Dn = (lepSF - h_mu_SF->GetBinError( binX, binY ));
+	  }
+
+	  // Lep2 SF
+	  if(lep2_is_el()){
+	    int binX = h_el_SF->GetXaxis()->FindBin( std::min(lepSF_pt_cutoff, lep2_p4().Pt()) );
+	    int binY = h_el_SF->GetYaxis()->FindBin( fabs(lep2_p4().Eta()) );
+	    lepSF    *= h_el_SF->GetBinContent( binX, binY );
+	    lepSF_Up *= (lepSF + h_el_SF->GetBinError( binX, binY ));
+	    lepSF_Dn *= (lepSF - h_el_SF->GetBinError( binX, binY ));
+	  }
+	  if(lep2_is_mu()){
+	    int binX = h_mu_SF->GetXaxis()->FindBin( std::min(lepSF_pt_cutoff, lep2_p4().Pt()) );
+	    int binY = h_mu_SF->GetYaxis()->FindBin( fabs(lep2_p4().Eta()) );
+	    lepSF    *= h_mu_SF->GetBinContent( binX, binY );
+	    lepSF_Up *= (lepSF + h_mu_SF->GetBinError( binX, binY ));
+	    lepSF_Dn *= (lepSF - h_mu_SF->GetBinError( binX, binY ));
+     	  }
+          } 
+          // modifying the weights with SF.
+           weight = weight*lepSF;
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflow histograms     // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
@@ -352,27 +483,13 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           }
           if(TString(selection).Contains("SR")) {
           if( !passSR(selection.c_str()))   continue;
-          }
-*/
-          //if( !passRegion(selection.c_str())) continue; 
- 	  if( lep1_is_mu()) nmu++;
-	  if( lep1_is_el()) nel++;
-          //regions of interest
-          float MET = pfmet();
-          float METPhi = pfmet_phi();
-          float METx = MET*TMath::Cos(METPhi);
-          float METy = MET*TMath::Sin(METPhi);
-          ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
-          metlv.SetPxPyPzE(METx,METy,0.,MET);
-//          if(mindphi_met_j1_j2() < 0.8) continue;
-          float mll = (lep1_p4()+lep2_p4()).mass();
-          float ptll = (lep1_p4()+lep2_p4()).pt();
-	  //-~-~-~-~-~-~-~-~-//
+          }*/
+          //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//
-	 
           string region = selection;
           fillHist( "event", "njets"  , region.c_str(), ngoodjets()    , weight );
+          fillHist( "event", "ngoodbtags"  , region.c_str(), ngoodbtags()    , weight );
           fillHist( "event", "mll"  , region.c_str(),   mll    , weight );
           fillHist( "event", "ptll"  , region.c_str(),   ptll    , weight );
           fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
@@ -390,9 +507,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
 	  fillHist( "event", "chiso" , region.c_str(), lep1_chiso()       , weight );	 
 	  fillHist( "event", "deltaphi_lep_met" , region.c_str(), ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv) , weight );	 
+
           //-~-~-~-~-~-~-~-~-~-//
 	  //Fill Template hists//
 	  //-~-~-~-~-~-~-~-~-~-//	  
+
          npass += weight;
     } // end loop over events
   } // end loop over files
@@ -430,7 +549,6 @@ void templateLooper::bookHistTH1D( string name, string title, int nbins, float x
   hist->SetTitle("Events");
   return;
 }  
-
 
 void templateLooper::fillHist( string obj, string var, string sel, float value, float weight ){
   string hist = "h_";

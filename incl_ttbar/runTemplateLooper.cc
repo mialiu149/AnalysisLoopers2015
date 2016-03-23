@@ -18,16 +18,24 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/",iter.c_str());
 //  string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-03");
-  string babylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/";
+// /hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/Skims_CR_emu__20160202
+  string babylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/Skims_CR_emu__20160202/";
 //  string babylocation_data = Form("/nfs-6/userdata/mliu/onelepbabies/%s/","V00-00-10");
-  string babylocation_data ="/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/";
+  string babylocation_data ="/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/Skims_CR_emu__20160202/";
   string helper;
-  
+  if( sample =="sync") {
+  ch->Add("/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/ttbar_powheg_pythia8_ext3_25ns_1.root");
+}
   if ( sample == "data" ){
         helper = babylocation_data+"data_double_eg*.root"; ch->Add(helper.c_str());
         helper = babylocation_data+"data_double_mu*.root"; ch->Add(helper.c_str());
         helper = babylocation_data+"data_muon_eg*.root"; ch->Add(helper.c_str());
  }
+  else if(sample == "Rare"){
+        helper = babylocation+"WW*.root";ch->Add(helper.c_str());//single top
+        helper = babylocation+"ZZ*.root";ch->Add(helper.c_str());//single top
+        helper = babylocation+"WZ*.root";ch->Add(helper.c_str());//single top
+}
    else if( sample=="top"){
         helper = babylocation+"t_*.root";ch->Add(helper.c_str());//single top
         helper = babylocation+"tbar_*.root"; ch->Add(helper.c_str());

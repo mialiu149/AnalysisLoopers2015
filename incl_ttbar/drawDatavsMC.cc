@@ -24,6 +24,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   TH1F * h_zjets = NULL;
   TH1F * h_top = NULL;
   TH1F * h_ttv = NULL;
+  TH1F * h_Rare = NULL;
 
   getBackground(   h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
   if( usefsbkg ) getBackground(  h_ttbar, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ), "metgt1jet", "em", "inclusive" );
@@ -32,6 +33,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   getBackground(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
   getBackground(  h_top, iter, Form("top_%s", selection.c_str() ), variable, type, region );
   getBackground(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
+  getBackground(  h_Rare, iter, Form("Rare_%s", selection.c_str() ), variable, type, region );
   }
   if( usetemplates ) getTemplateMET( h_wjets, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ) );
   else getBackground(  h_wjets, iter, Form("wjets_htbin_%s", selection.c_str() ), variable, type, region );
@@ -76,7 +78,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   float xmin = 50; float xmax = 200;
   float ymin = 1e-1; float ymax = 1e2;
 
-  int rebin = 5;
+  int rebin = 20;
   
   if( variable == "mt3" ){
 	xmin = 0;
@@ -115,7 +117,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   }
   if( TString(variable).Contains("met") || TString(variable).Contains("mt") ){
 	if( type == "em" ) rebin = 20;
-	else rebin = 20;
+	else rebin = 100;
 	  xmin = 0;
 	  if( usefsbkg ) xmax = 300;
 	  else           xmax = 500;
@@ -145,7 +147,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   if( TString(variable).Contains("pt") ){
 	xmin = 0;
 	xmax = 500;
-	rebin = 25;
+	rebin = 50;
   }
   if( variable == "njets" ){
 	xmin = 0;
@@ -153,6 +155,13 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
         ymax = 5e1;
 	rebin = 1;
   }
+  if( variable == "ngoodbtags" ){
+	xmin = 0;
+	xmax = 5;
+        ymax = 5e1;
+	rebin = 1;
+  }
+ 
   if( TString(variable).Contains("phi") || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
 	xmin = -3.2;
 	xmax = 3.2;
@@ -166,6 +175,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_zjets->Rebin(rebin);
   h_top->Rebin(rebin);
   h_ttv->Rebin(rebin);
+  h_Rare->Rebin(rebin);
 
   float norm_factor = 1;
 
@@ -191,12 +201,14 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_zjets->SetFillColor(kGreen+2);
   h_top->SetFillColor(kOrange-2);
   h_ttv->SetFillColor(kOrange-1);
+  h_Rare->SetFillColor(kOrange-4);
 
   h_wjets->SetFillStyle(1001);
   h_ttbar->SetFillStyle(1001);
   h_zjets->SetFillStyle(1001);
   h_top->SetFillStyle(1001);
   h_ttv->SetFillStyle(1001);
+  h_Rare->SetFillColor(kOrange-1);
 
   /*float norm_factor =   h_data->Integral(h_data->FindBin(81),h_data->FindBin(100)-1)/
 	(h_wjets->Integral(h_wjets->FindBin(81),h_wjets->FindBin(101)-1) +
@@ -218,6 +230,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   norm_factor = 1;
   */
+  norm_factor = 1;
   h_wjets->Scale(norm_factor);
   h_ttbar->Scale(norm_factor);
 //  h_wjets->Scale(luminosity);
@@ -229,12 +242,14 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   updateoverflow( h_zjets, xmax );
   updateoverflow( h_top, xmax );
   updateoverflow( h_ttv, xmax );
+  updateoverflow( h_Rare, xmax );
 
   THStack * stack = new THStack("stack","");
 
-  stack->Add(h_top);
-  stack->Add(h_ttv);
   stack->Add(h_wjets);
+  stack->Add(h_ttv);
+  stack->Add(h_Rare);
+  stack->Add(h_top);
   stack->Add(h_ttbar);
   stack->Add(h_zjets);
   
@@ -281,6 +296,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   l1->AddEntry( h_zjets , "DY"            , "f");
   l1->AddEntry( h_top , "single top"          , "f");
   l1->AddEntry( h_ttv , "ttv"          , "f");
+  l1->AddEntry( h_Rare , "Rare"          , "f");
   l1->Draw("same");
   
   c1->cd();
@@ -300,10 +316,12 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_den->Add(h_zjets);
   h_den->Add(h_top);
   h_den->Add(h_ttv);
+  h_den->Add(h_Rare);
+  l1->AddEntry( h_ttv , "ttv"          , "f");
 
   h_rat->Divide(h_den);
 
-  h_rat->GetYaxis()->SetRangeUser(0.,2.0);
+  h_rat->GetYaxis()->SetRangeUser(0.5,1.5);
   if( TString(variable).Contains("met") ){
   h_rat->GetYaxis()->SetRangeUser(0.0,2.0);
   }

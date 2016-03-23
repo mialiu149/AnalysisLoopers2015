@@ -108,7 +108,6 @@ void getBackground( TH1F* &backgroundhist, std::string iter, std::string bgfilep
 {
   std::string filename = Form("$analysis_output/%s_hists.root", bgfileprefix.c_str() );
   TFile *infile = TFile::Open(filename.c_str(),"READ");
-  //std::cout<<Form("h_%s_event_%s_%s", leptype.c_str(), variable.c_str(), selection.c_str() )<<std::endl;
   backgroundhist = dynamic_cast<TH1F*>(infile->Get(Form("h_%s_event_%s_%s", leptype.c_str(), variable.c_str(), selection.c_str() ))->Clone("backgroundhist"));
   return;
 }
@@ -147,7 +146,6 @@ void updateoverflow( TH1F * &hist, float xmax )
 	hist->SetBinContent( bini + 1, 0 );
 	hist->SetBinError  ( bini + 1, 0 );
   }
-  
   return;
 }
 
