@@ -15,16 +15,18 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   gStyle->SetOptStat(111111);
 
   TChain* ch = new TChain("t");
-
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/",iter.c_str());
-  string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-03");
-  string helper;
+ // string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-03");
+ string babylocation="/nfs-7/userdata/mliu/onelepbabies/"; 
+ string helper;
   
   if ( sample == "data" ){
         helper = babylocation+"data_single_electron_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_single_electron_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_single_electron_2015C*.root"; ch->Add(helper.c_str());
         helper = babylocation+"data_single_muon_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
         helper = babylocation+"data_single_muon_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
-        helper = babylocation+"data_single_electron_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_single_muon_2015C*.root"; ch->Add(helper.c_str());
  }
   
   else if ( sample == "All_MC" ){
@@ -34,15 +36,21 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   }
 
   else if( sample == "zjets" ){
-        helper = babylocation+"DYJetsToLL_m10To50_amcnlo_pythia8_25ns*.root"; ch->Add(helper.c_str()); //inclusive sample
-        helper = babylocation+"DYJetsToLL_m50_amcnlo_pythia8_25ns*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"DYJetsToLL_*.root"; ch->Add(helper.c_str()); //inclusive sample
+//        helper = babylocation+"DYJetsToLL_m50_amcnlo_pythia8_25ns*.root"; ch->Add(helper.c_str());
   }
    else if( sample == "zjets_htbin" ){
           helper = babylocation+"DYJetsToLL_M-5to50_HT*.root"; ch->Add(helper.c_str());//ht binned
           helper = babylocation+"DYJetsToLL_M-50*.root"; ch->Add(helper.c_str());//ht binned
   }
   else if( sample == "wjets" ){
-        helper = babylocation+"WJetsToLNu_madgraph_pythia8_25*.root";ch->Add(helper.c_str());//amcnlo
+        helper = babylocation+"W1JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+        helper = babylocation+"W2JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+        helper = babylocation+"W3JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+        helper = babylocation+"W4JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+  }
+  else if( sample == "wjets_incl") {
+        helper = babylocation+"WJetsToLNu_madgraph_pythia8_25ns*.root";ch->Add(helper.c_str());//njets binned
   }
    else if( sample == "wjets_htbin" ){
            helper = babylocation+"WJetsToLNu_HT100To200*.root";ch->Add(helper.c_str());//ht binned
@@ -56,11 +64,15 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   else if( sample == "zjinc" ){
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/dyjetsll_m50inc*.root"    , iter.c_str() ));
   }
-
   else if( sample == "ttbar" ){
         helper = babylocation+"ttbar_powheg_pythia8*ext3*.root"; ch->Add(helper.c_str());
   }
-
+  else if( sample == "ttbar2l" ){
+        helper = babylocation+"ttbar_diLept_madgraph*ext1*.root"; ch->Add(helper.c_str());
+  }
+  else if( sample == "ttbar1l" ){
+        helper = babylocation+"ttbar_singleLeptFrom*ext1*.root"; ch->Add(helper.c_str());
+  }
   else if( sample == "top" ){
 	ch->Add(Form("/nfs-6/userdata/mliu/onelepbabies/%s/t_*.root", iter.c_str() ));	
   }

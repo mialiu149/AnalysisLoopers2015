@@ -26,10 +26,12 @@ INCLUDE = $(shell root-config --cflags) -I$(CMSROOT) -I$(CMSROOT)../sharedCode/
 CFLAGS = -Wall -Wno-unused-function -g -O2 -fPIC $(INCLUDE) $(EXTRACFLAGS)
 ROOTLIBS = $(shell root-config --ldflags --cflags --libs) -lTMVA #-lEG -lGenVector
 
+STOPVARLIB     = ../stop_variables/StopVariables.so
+
 DICTINCLUDE = $(ROOTSYS)/include/Math/QuantFuncMathCore.h $(ROOTSYS)/include/TLorentzVector.h $(ROOTSYS)/include/Math/Vector4D.h
 
 LINKER = g++
-LINKERFLAGS = $(shell root-config --ldflags --libs) -lEG -lGenVector -lTMVA
+LINKERFLAGS = $(shell root-config --ldflags --libs) -lEG -lGenVector -lTMVA  $(STOPVARLIB)
 # ifeq ($(shell root-config --platform),macosx)
 # 	LINKERFLAGS = -dynamiclib -undefined dynamic_lookup -Wl,-x -O -Xlinker -bind_at_load -flat_namespace $(shell root-config --libs) -lEG -lGenVector
 # endif
@@ -40,13 +42,13 @@ SOURCES = templateLooper.cc runTemplateLooper.cc $(COREPATH)/Tools/dorky/dorky.c
 OBJECTS = $(SOURCES:.cc=.o)
 LIB = libTemplateLooper.so
 
-SHAREDSOURCES = $(wildcard ../sharedCode/*.cc)
+SHAREDSOURCES = $(wildcard ../sharedCode/*.cc )
 SHAREDOBJECTS = $(SHAREDSOURCES:.cc=.o) 
-SHAREDLIB = libSharedCode.so
+SHAREDLIB = libSharedCode.so 
 
 DICT = LinkDef_out.o
 
-LIBS = $(LIB) $(SHAREDLIB) $(FWLIB) 
+LIBS = $(LIB) $(SHAREDLIB) $(FWLIB)  
 
 EXE = runTemplateLooper
 
@@ -150,7 +152,8 @@ clean:
 	$(EXE) \
         ../sharedCode/*.o \
 		../sharedCode/*.d \
-        ../sharedCode/*.so 
+		../sharedCode/*.so  
+
 
 # test: 
 # 	@echo $(INCLUDE)

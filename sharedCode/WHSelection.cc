@@ -10,7 +10,9 @@
 #include "TDirectory.h"
 #include "TKey.h"
 
-#include "StopMoriond2016.h"
+#include "WHSelection.h"
+#include "EventTypeSel.h"
+#include "../stop_variables/MT2_implementations.h"
 #include "histTools.h"
 #include "V00_00_05.h"
 
@@ -19,145 +21,195 @@ using namespace V00_00_05_np;
 
 namespace whsel{
 
+//--------------//
+// preselection //
+//--------------//
 
-int lep1type()
-{
-     float sel_pt_mu = 20;
-     float sel_eta_mu = 2.4 ;
-     float veto_pt_mu = 5;
-     float veto_eta_mu = 2.4;
-     float sel_pt_el = 20;
-     float sel_eta_el = 1.442;
-     float veto_pt_el = 5;
-     float veto_eta_el = 2.4;
-     float sel_miniRelIso_el  = 0.1;
-     float sel_miniRelIso_mu  = 0.1 ;
-     float veto_miniRelIso_mu = 0.2 ;
-     float veto_miniRelIso_el = 0.2 ;
-     bool  firstLep_isSel  = false;
-     bool  firstLep_isVeto = false;
-     if( lep1_is_mu() ){
-            if( lep1_pt()>sel_pt_mu &&
-                fabs(lep1_eta())<sel_eta_mu &&
-                lep1_is_muoid_tight() &&
-                lep1_miniRelIsoEA()<sel_miniRelIso_mu ){
-                firstLep_isSel = true;
-            } // end if good muon                                                                                                                                                    
-            else if ( lep1_pt()>veto_pt_mu &&
-                     fabs(lep1_eta())<veto_eta_mu &&
-                     lep1_passVeto() &&
-                     lep1_miniRelIsoEA()<veto_miniRelIso_mu ){
-                     firstLep_isVeto = true;
-            } // end if veto muon                                                                                                                                                    
-           }
-        if( lep1_is_el() ){
-            if( lep1_pt()>sel_pt_el &&
-                fabs(lep1_eta())<sel_eta_el &&
-                lep1_passMediumID() &&
-                lep1_miniRelIsoEA()<sel_miniRelIso_el ){
-                firstLep_isSel = true;
-            } // end if good electron                                                                                                                                                
-            else if( lep1_pt()>veto_pt_el &&
-                     fabs(lep1_eta())<veto_eta_el &&
-                     lep1_passVeto() &&
-                     lep1_miniRelIsoEA()<veto_miniRelIso_el ){
-                     firstLep_isVeto = true;
-            } // end if veto electron                                                                                                                                                
-          }
-  if(firstLep_isSel)  return 1;
-  if(firstLep_isVeto) return 2; 
-  return 0;
+bool passPreselection(string selection) {
+ //--------------------------//
+ //--- trigger requirement---//
+ //--------------------------//
+ bool passTrigger =  HLT_SingleMu20()|| HLT_SingleEl27();
+ if (TString(selection).Contains("FastSim") ) passTrigger = true; // fast sim doesn't have the right trigger information.
+// int passOneLep = !(eventtype()!=1&&eventtype()!=2&&eventtype()!=3&&eventtype()!=5);
+ bool passOneLep = (lep1type()==1);
+ int passLepSel = !(eventtype()-5);
+
+ if( !passTrigger) return false;
+// if( !passOneLep)  return false; 
+ if( !(lep1_relIso03EA()*lep1_pt() < 5)) return false;
+ if( lep1type()!=1) return false; // lep1 is good lepton
+ if( TString(selection).Contains("SR")){     //if SR, second lepton veto
+ if( !passLepSel)             return false; //second lepton veto
+ if( !PassTrackVeto_v3())     return false;  // ttrack veto
+ if( !PassTauVeto())          return false; // tau veto
 }
-
-
-int lep2type()
-{
-     float sel_pt_mu = 20;
-     float sel_eta_mu = 2.4 ;
-     float veto_pt_mu = 5;
-     float veto_eta_mu = 2.4;
-     float sel_pt_el = 20;
-     float sel_eta_el = 1.442;
-     float veto_pt_el = 5;
-     float veto_eta_el = 2.4;
-
-     float sel_miniRelIso_mu = 0.1 ;
-     float sel_miniRelIso_el = 0.1;
-     float veto_miniRelIso_mu = 0.2 ;
-     float veto_miniRelIso_el = 0.2 ;
-     bool  secondLep_isSel  = false;
-     bool  secondLep_isVeto = false;
-      if( lep2_is_mu() ){
-            if( lep2_pt()>sel_pt_mu &&
-                fabs(lep2_eta())<sel_eta_mu &&
-                lep2_is_muoid_tight() &&
-                lep2_miniRelIsoEA()<sel_miniRelIso_mu ){
-                secondLep_isSel = true;
-            } // end if good muon                                                                                                                                                    
-            else if( lep2_pt()>veto_pt_mu &&
-                     fabs(lep2_eta())<veto_eta_mu &&
-                     lep2_passVeto() &&
-                     lep2_miniRelIsoEA()<veto_miniRelIso_mu ){
-                     secondLep_isVeto = true;
-            } // end if veto muon                                                                                                                                                    
-           }
-
-        if( lep2_is_el() ){
-            if( lep2_pt()>sel_pt_el &&
-                fabs(lep2_eta())<sel_eta_el &&
-                lep2_passMediumID() &&
-                lep2_miniRelIsoEA()<sel_miniRelIso_el ){
-                secondLep_isSel = true;
-            } // end if good electron                                                                                                                                                
-            else if( lep2_pt()>veto_pt_el &&
-                     fabs(lep2_eta())<veto_eta_el &&
-                     lep2_passVeto() &&
-                     lep2_miniRelIsoEA()<veto_miniRelIso_el ){
-                     secondLep_isVeto = true;
-            } // end if veto electron                                                                                                                                                
-          }
-  if(secondLep_isSel)  return 1;
-  if(secondLep_isVeto) return 2; 
-  return 0;
-}
-
-int  eventtype(){
- ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4(); 
- ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4(); 
- if ((lep1type() == 1 && lep2type() == 0)||(lep1type() == 0 && lep2type() == 1)) return 5; // only one sel lepton.lep1 is the sel lepton, or only lep2 is the sel
- if (lep1type() == 1 && lep2type() == 1) return 1; // both are sel
- if (lep1type() == 2 && (lep2type() != 1) || lep1type() !=1 && (lep2type() == 2)) return 4; //both are veto. or worse than veto
-
- if (dRbetweenVectors(l1lv,l2lv)>0.01) {    // cases lep1 and lep2 don't overlap.
- if (lep1type() == 1 && lep2type() == 2) return 2; //lep1 is sel, lep2 is veto.
- if (lep1type() == 2 && lep2type() == 1) return 3; //lep2 is sel, lep1 is veto.
+ // ttbar 1l selections
+ if( TString(selection).Contains("ttbar1l")){
+ if( !passOneLep)             return false; 
+ if( !passLepSel)             return false; //second lepton veto
+ if( ngoodbtags()<2)          return false;
+ if( ngoodjets() < 4)                                              return false; // >=3 jets  
+ if( pfmet() < 200)                                                return false; // min met cut.
  }
- else {
- if((lep1type() == 1&&lep1_is_mu()&&lep2type() == 1&&lep2_is_el())||(lep1type() == 1&&lep1_is_el()&&lep2type() == 1&&lep2_is_mu())) return 1;
- if(lep1type() == 1) return 5;  // two lep overlap and are sel.
- }
- if(lep1type() == 0 && lep2type() == 0) return 6;  
- else return 0; // no good lepton. :(
+ if( pfmet() < 50)                                                 return false; // min met cut.
+ if( ngoodjets() < 2)                                              return false; // >=2 jets  
+// cutflow step cuts
+ if( TString(selection).Contains("step0") && !passTrigger) return false;
+ if( TString(selection).Contains("step1") && !passOneLep) return false; //if cutflow returns true
+ if( TString(selection).Contains("step2") && !(passLepSel && passOneLep)) return false;
+ if( TString(selection).Contains("step3") && !(PassTrackVeto_v3() && passLepSel && passOneLep))   return false; 
+ if( TString(selection).Contains("step4") && !(PassTauVeto() && PassTrackVeto_v3() && passLepSel && passOneLep))   return false;
+//event passed!
+  return true;
 }
 
-vector<int> btaggedjets(std::string selection)
+//--------------//
+//   2l CR      //
+//--------------//
+bool pass2lCR( string selection ) {
+
+ if( !passPreselection(selection))                   return false;                                    // preselection with at least 1 lep+ met50 + >=2jets 
+ if( ngoodbtags() != 2)                               return false;// btagged
+ if( ngoodjets()  != 2)                              return false;// exactly 2 jets
+ 
+  bool met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 0 );                                               // some additional requirement for CRs
+  bool pass2lCR =  met_mt_cut && ( lep2type() ==1 || lep2type() ==2 || !PassTrackVeto_v3()||!PassTauVeto());                      // fail track veto: 2l CR.
+  //bool pass2lCR =  met_mt_cut && ((!PassTrackVeto_v3()||!PassTauVeto()) || eventtype()==1||eventtype() == 2 ||eventtype() == 3);                      // fail track veto: 2l CR.
+
+  float MET = pfmet();
+  float METPhi = pfmet_phi();
+  float METx = MET*TMath::Cos(METPhi);
+  float METy = MET*TMath::Sin(METPhi);
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
+  metlv.SetPxPyPzE(METx,METy,0.,MET);
+  //select b jets
+  std::pair<vector<int>,vector<int>> alljets;
+  alljets = btaggedjets(selection);
+  vector<int> bjets = alljets.first;
+  vector<int> addjets = alljets.second;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> bjetslv;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> addjetslv;
+  if(bjets.size()!= 2) {cout<<"less than two btags, wtf"<<endl; return false; }
+  float m_bb = mbb(bjets);
+  float pt_bb = ptbb(bjets);
+  float mctbb = mct(bjets);
+  float ptlbb = 0;
+ // the following corresponds to SR bins.
+ if(TString(selection).Contains("mbb")) {if(m_bb>150||m_bb<100) return false;} //mbb cut  
+ // if(mctbb<170)    return false;
+ if(!pass2lCR)    return false;
+ if( TString(selection).Contains("yield") ){
+     //if(  TString(selection).Contains("all")  && !(pfmet()>100)) return false;
+     if( TString(selection).Contains("bin1")) { if(pfmet()>100 && pfmet()<125) return true; else return false; }// 
+     if( TString(selection).Contains("bin2")) { if(pfmet()>125 && pfmet()<175) return true; else return false; }// 
+     if( TString(selection).Contains("bin3"))  { if( pfmet()>175)  return true; else return false;} // 
+ }
+ return true;
+}
+//----------------------------------------//
+//// regions for optimization studies     //
+//----------------------------------------//
+bool passStudyRegion( string selection) {
+  float MET = pfmet();
+  float METPhi = pfmet_phi();
+  float METx = MET*TMath::Cos(METPhi);
+  float METy = MET*TMath::Sin(METPhi);
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
+  metlv.SetPxPyPzE(METx,METy,0.,MET);
+  //select b jets
+  std::pair<vector<int>,vector<int>> alljets;
+  alljets = btaggedjets(selection);
+  vector<int> bjets = alljets.first;
+  vector<int> addjets = alljets.second;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> bjetslv;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> addjetslv;
+  if(!passPreselection("SR"))     return false;
+  if(bjets.size()!=2 &&(TString(selection).Contains("2btags")||TString(selection).Contains("step5")))  return false; // require only two btagged.
+  float m_bb = mbb(bjets);
+  float pt_bb = ptbb(bjets);
+  float mctbb = mct(bjets);
+  float ptlbb = 0;
+  int ngoodjets_low = bjets.size()+addjets.size();
+  for (int i=0;i<bjets.size();i++) { ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > jetlv = ak4pfjets_p4().at(bjets.at(i));bjetslv.push_back(jetlv); }
+  for (int i=0;i<addjets.size();i++) { ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > jetlv = ak4pfjets_p4().at(addjets.at(i));addjetslv.push_back(jetlv);}
+  //recal MT2
+  ptlbb = (bjetslv.at(0)+bjetslv.at(1)+lep1_p4()).pt();
+  float MT2lb = CalcMT2_lb_b_(MET, METPhi, lep1_p4(), bjetslv, addjetslv, 0, false);	 
+  if((m_bb>150||m_bb<100)&&TString(selection).Contains("mbb100"))                  return false; 
+  if((m_bb>150||m_bb<90)&&TString(selection).Contains("mbb90"))                  return false; 
+  if((m_bb>150||m_bb<100)&&TString(selection).Contains("step6"))                 return false;// mass window
+  //after requiring two b tags 
+  if(TString(selection).Contains("l5jets")&&ngoodjets_low>5)                     return false;
+  if(TString(selection).Contains("l4jets")&&ngoodjets_low>3)                     return false;
+  if(TString(selection).Contains("3jets")&&ngoodjets_low!=3)                     return false;
+  if(TString(selection).Contains("2jets")&&ngoodjets_low!=2)                     return false; 
+  // mt
+  if(mt_met_lep()<150 && TString(selection).Contains("mt150"))                         return false;
+  if(mt_met_lep()<125 && TString(selection).Contains("mt125"))                         return false;
+  if(mt_met_lep()<120 && TString(selection).Contains("mt120"))                         return false;
+  if(mt_met_lep()<100 && TString(selection).Contains("mt100"))                         return false;
+  //met
+  if(TString(selection).Contains("met50")  && pfmet()   < 50)                      return false;
+  if((pfmet()<50 || pfmet()>100) && TString(selection).Contains("met100"))                         return false; // change to exclusive binning
+  //if(pfmet()<100 && TString(selection).Contains("met125"))                         return false;
+  if((pfmet()<100 || pfmet()>200) && TString(selection).Contains("met150"))                         return false;
+  if(pfmet()<200 && TString(selection).Contains("met175"))                         return false;
+  if(TString(selection).Contains("met200") && pfmet()   < 200)                   return false;
+  //mct
+  if(mctbb<100 && TString(selection).Contains("mct100"))                         return false;
+  if(mctbb<125 && TString(selection).Contains("mct125"))                         return false;
+  if(mctbb<130 && TString(selection).Contains("mct130"))                         return false;
+  if(mctbb<140 && TString(selection).Contains("mct140"))                         return false;
+  if(mctbb<150 && TString(selection).Contains("mct150"))                         return false;
+  if(mctbb<160 && TString(selection).Contains("mct160"))                         return false;
+  if(mctbb<170 && TString(selection).Contains("mct170"))                         return false;
+  if(mctbb<175 && TString(selection).Contains("mct175"))                         return false;
+  if(mctbb<180 && TString(selection).Contains("mct180"))                         return false;
+  if(mctbb<185 && TString(selection).Contains("mct185"))                         return false;
+  if(mctbb<190 && TString(selection).Contains("mct190"))                         return false;
+  if(mctbb<195 && TString(selection).Contains("mct195"))                         return false;
+  if(mctbb<200 && TString(selection).Contains("mct200"))                         return false;
+  if(mctbb<205 && TString(selection).Contains("mct205"))                         return false;
+  if(mctbb<210 && TString(selection).Contains("mct210"))                         return false;
+  if(mctbb<215 && TString(selection).Contains("mct215"))                         return false;
+  if(mctbb<220 && TString(selection).Contains("mct220"))                         return false;
+  if(mctbb<225 && TString(selection).Contains("mct225"))                         return false;
+  //ptlbb && ptbb cuts
+  if(TString(selection).Contains("ptlbb150")&& ptlbb<150)                      return false;
+  if(TString(selection).Contains("ptlbb250")&& ptlbb>250)                      return false;
+  if(TString(selection).Contains("ptbb200")&& pt_bb<200)                       return false;       
+  if(TString(selection).Contains("mt2lb150") &&  MT2lb<150)                    return false;
+  return true;
+}
+
+//-----------------------------------------//
+// the following has some utility functions//
+//-----------------------------------------//
+
+std::pair<vector<int>,vector<int>> btaggedjets(std::string selection)
 {
- vector<int> selJets_idx;
-// vector<pair <int, LorentzVector> > sortedJets_pt;
+ vector<int> bJets_idx;
+ vector<int> nonbJets_idx;
+ std::pair<vector<int>,vector<int>> jets;
+ // add overlap removal
  for(int iJet=0; iJet<(int)ak4pfjets_p4().size(); iJet++){
             if( ak4pfjets_p4().at(iJet).Pt() > 30 &&
-                fabs(ak4pfjets_p4().at(iJet).Eta()) < 2.4 &&
-                ak4pfjets_loose_pfid().at(iJet) &&
-                ak4pfjets_CSV().at(iJet) >0.890 )
-                selJets_idx.push_back(iJet);
+                fabs(ak4pfjets_p4().at(iJet).Eta()) < 2.4 
+                && ak4pfjets_loose_pfid().at(iJet)
+                )
+                {if (ak4pfjets_CSV().at(iJet) >0.890) 
+                   bJets_idx.push_back(iJet);
+                else nonbJets_idx.push_back(iJet);}
  }
- return selJets_idx;
+ jets = std::make_pair (bJets_idx,nonbJets_idx);
+ return jets;
 }
 
 float mbb(vector<int> selbjets_idx)
 {
   if (selbjets_idx.size()<2) {//cout<<"less than two b jets!"<<endl;
- return -999;}
+   return -999;}
   float mbb = (ak4pfjets_p4().at(selbjets_idx.at(0))+ak4pfjets_p4().at(selbjets_idx.at(1))).mass(); 
   return mbb;
 }
@@ -170,146 +222,73 @@ float ptbb(vector<int> selbjets_idx)
   return ptbb;
 }
 
+float mct(vector<int> selbjets_idx){
+   if (selbjets_idx.size()<2) {//cout<<"less than two b jets!"<<endl;
+   return -999;}
+   float ptb1 = ak4pfjets_p4().at(selbjets_idx.at(0)).pt();
+   float ptb2 = ak4pfjets_p4().at(selbjets_idx.at(1)).pt();
+   float phib1 = ak4pfjets_p4().at(selbjets_idx.at(0)).phi();
+   float phib2 = ak4pfjets_p4().at(selbjets_idx.at(1)).phi();
+   float dPhibb = getdphi(phib1,phib2);
+   float mct = sqrt(2*ptb1*ptb2*(1+cos(dPhibb)));
+   
+   return mct;
 
-bool passPreselection(string selection)
-{
- //--------------------------//
- //--- trigger requirement---//
- //--------------------------//
-   if( !(HLT_SingleMu20()||HLT_SingleMuNoEta()||HLT_SingleMuNoIso()||HLT_SingleMuNoIsoNoEta() || HLT_SingleEl27() )) return false;
-   if( TString(selection).Contains("2l") && !(eventtype() == 0  ||eventtype() == 4 || eventtype() == 6))     return false; 
-   if( TString(selection).Contains("SR") && !(eventtype() == 5))     return false; 
-   if( pfmet() < 50)                                                 return false; // min met cut.
-   if( TString(selection).Contains("met_trigger")&&pfmet() < 250)    return false; // met cut
-   if( ngoodjets() < 2)                                              return false; // >=3 jets  
-   //if( ngoodbtags()< 2)                                              return false; // why is this different from my counting for signals.
-   if(TString(selection).Contains("met100") && pfmet()   < 100)      return false;
-   if(TString(selection).Contains("met150") && pfmet()   < 150)      return false;
-   if(TString(selection).Contains("met200") && pfmet()   < 200)      return false;
-   if(TString(selection).Contains("mt100") && mt_met_lep()<100)       return false;
-   if(TString(selection).Contains("mt120") && mt_met_lep()<120)       return false;
-   if(TString(selection).Contains("mt150") && mt_met_lep()<150)       return false;
-   return true;
 }
 
-bool pass2lPreselection()
+float passmct()
 {
- int NSLeps = 0;         
- if(!(HLT_Mu8El17()||HLT_Mu17El12())) return false;
- if(lep1_is_mu()){
- if(lep1_pt()>35&&fabs(lep1_eta())<2.1&&lep1_passMediumID()&&fabs(lep1_d0())<0.02&&fabs(lep1_dz())<0.1&&lep1_MiniIso()<0.1) ++NSLeps;
- } 
- else if (lep1_is_el()){
- if(lep1_pt()>35&&(fabs(lep1_eta())<1.4||fabs(lep1_eta())>1.6 && fabs(lep1_eta())<2.1)&&lep1_passMediumID()&&lep1_MiniIso()<0.1) ++NSLeps; 
- }
- if(lep2_is_mu()){
- if(lep2_pt()>15&&fabs(lep2_eta())<2.1&&lep2_passMediumID()&&fabs(lep2_d0())<0.02&&fabs(lep2_dz())<0.1&&lep2_MiniIso()<0.1) ++NSLeps;
- } 
- else if (lep2_is_el()){
-  if(lep2_pt()>15&&(fabs(lep2_eta())<1.4||fabs(lep2_eta())>1.6 && fabs(lep2_eta())<2.1)&&lep2_passMediumID()&&lep2_MiniIso()<0.1) ++NSLeps; 
- }
- //to add: track veto.
-  if( NSLeps < 2)      return false; // require at least 2 good lepton
-  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4();
-  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4();
-  float mll = (l1lv+l2lv).mass();
-  if( mll< 20 )        return false; // mll cut
-  if( pfmet() < 50)    return false; // met cut
-  if( ngoodjets() < 3) return false; // >=3 jets  
-
-  return true;
+  float MET = pfmet();
+  float METPhi = pfmet_phi();
+  float METx = MET*TMath::Cos(METPhi);
+  float METy = MET*TMath::Sin(METPhi);
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
+  metlv.SetPxPyPzE(METx,METy,0.,MET);
+  //select b jets
+  std::pair<vector<int>,vector<int>> alljets;
+  alljets = btaggedjets("default");
+  vector<int> bjets = alljets.first;
+  vector<int> addjets = alljets.second;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> bjetslv;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> addjetslv;
+// return false;
+  float m_bb = -999, pt_bb = -999, mctbb = -999;
+  if(bjets.size()==2){
+  mctbb = mct(bjets);
+  //ptlbb = 0;
+  }
+  if(bjets.size() < 2 && addjets.size() >=2 ) {
+   m_bb = mbb(addjets);
+   mctbb = mct(addjets);
+  }
+  return mctbb;
 }
 
-bool passBaseline(string selection){
- if(!passPreselection(selection))     return false;
- if( ngoodjets() < 3)        return false; // >=3 jets  
- if(!PassTrackVeto_v3())     return false;
- if(!PassTauVeto())          return false;
- if(ngoodbtags()<1)          return false;
- if(pfmet()<250 )            return false;
- if(mt_met_lep()<150)        return false;
- if(mindphi_met_j1_j2()<0.8) return false;
- return true;
-}
-
-bool passSR( string selection )
+float passmbb()
 {
- if( !passBaseline(selection)) return false; 
- if( TString(selection).Contains("all"))  return true;
- if( TString(selection).Contains("bin1") && !(ngoodjets()>3&&pfmet()>250&&pfmet()<325&&MT2W()<200)) return false;
- if( TString(selection).Contains("bin2") && !(ngoodjets()>3&&pfmet()>325&&MT2W()<200))              return false;
- if( TString(selection).Contains("bin3") && !(ngoodjets()>3&&pfmet()>250&&pfmet()<350&&MT2W()>200)) return false;
- if( TString(selection).Contains("bin4") && !(ngoodjets()>3&&pfmet()>350&&pfmet()<450&&MT2W()>200)) return false;
- if( TString(selection).Contains("bin5") && !(ngoodjets()>3&&pfmet()>450&&MT2W()>200))              return false;
- if( TString(selection).Contains("bin6") && !(ngoodjets()==3&&pfmet()>250&&MT2W()>200))             return false;
- if( TString(selection).Contains("bin7") && !(ngoodjets()>4&&pfmet()>250&&MT2W()<200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return false;
- if( TString(selection).Contains("bin8") && !(ngoodjets()>4&&pfmet()>250&&MT2W()>200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return false;
-
- return true;
-}
-
-bool pass1lCR( string selection )
-{
- if( !passPreselection(selection)) return false; 
- if( nvetoleps() > 1 )    return false; // second lepton veto
- if( ngoodbtags() > 0)    return false; // bveto 
- if( TString(selection).Contains("met150") && pfmet()<150)                     return false;
- if( TString(selection).Contains("mt120")  && mt_met_lep()<120)                return false;
- if( TString(selection).Contains("lep200") && lep1_pt()<200)                   return false;
- if( TString(selection).Contains("absiso") && lep1_pt()*lep1_relIso03EA()>10)  return false;
- if( TString(selection).Contains("dphi")   && mindphi_met_j1_j2()< 0.8 )       return false;
- if( TString(selection).Contains("all"))  return true;
- if( TString(selection).Contains("bin1") && (ngoodjets()>3&&pfmet()>250&&pfmet()<325&&MT2W()<200)) return true;
- if( TString(selection).Contains("bin2") && (ngoodjets()>3&&pfmet()>325&&MT2W()<200))              return true;
- if( TString(selection).Contains("bin3") && (ngoodjets()>3&&pfmet()>250&&pfmet()<350&&MT2W()>200)) return true;
- if( TString(selection).Contains("bin4") && (ngoodjets()>3&&pfmet()>350&&pfmet()<450&&MT2W()>200)) return true;
- if( TString(selection).Contains("bin5") && (ngoodjets()>3&&pfmet()>450&&MT2W()>200))              return true;
- if( TString(selection).Contains("bin6") && (ngoodjets()==3&&pfmet()>250&&MT2W()>200))             return true;
- if( TString(selection).Contains("bin7") && (ngoodjets()>4&&pfmet()>250&&MT2W()<200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
- if( TString(selection).Contains("bin8") && (ngoodjets()>4&&pfmet()>250&&MT2W()>200&&ak4pfjets_pt().at(0)>200&& !ak4pfjets_passMEDbtag().at(0))) return true;
-
- return false;
-}
-
-bool pass2lCR( string selection )
-{
- ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4();
- ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4();
- if( TString(selection).Contains("CR4")) { if(!pass2lPreselection()) return false;}          // this is to validate total normalization and ISR modeling.
- if( !passPreselection(selection))                 return false;                             // preselection with at least 1 lep+ met50 +2jets||met trigger cuts 
- if( ngoodbtags()<1)                               return false;
- bool met_mt_cut = ( pfmet()>250 && mt_met_lep() > 150 );                                    // some additional requirement for CRs
- bool passCR5 = ( met_mt_cut &&  (eventtype()==1||eventtype()==2||eventtype()==3));                                            // fail lepton veto.
- bool passCR6 = ( met_mt_cut && (!PassTrackVeto_v3()||!PassTauVeto()) &&!(eventtype()==1||eventtype()==2||eventtype()==3));                      // fail track veto: CR6
-
- // the following corresponds to SR bins.
- if( (passCR5 ||passCR6 ) && TString(selection).Contains("yield") ){
-     if( TString(selection).Contains("all")  && (ngoodjets()>3  && pfmet()>250)) return true;
-     if( TString(selection).Contains("bin1") && (ngoodjets()>2  && pfmet()>250 && MT2W()<200)) return true; // low mt2w region
-     if( TString(selection).Contains("bin2") && (ngoodjets()>2  && pfmet()>250 && MT2W()>200)) return true;// hight mt2w region
-     if( TString(selection).Contains("bin3") && (ngoodjets()==2  && pfmet()>250 && topnessMod()>6.4)) return true; // add 2 jet region
- }
-
- if( TString(selection).Contains("CR5") && passCR5 && !TString(selection).Contains("yield")) return true; // for plots in CR5 
- if( TString(selection).Contains("CR6") && passCR6 && !TString(selection).Contains("yield")) return true; // for plots in CR6
-
- return false;
-}
-
-bool passRegion(string selection)
-{
-  if( TString(selection).Contains("2jets") && !(ngoodjets() >=2)) return false;
-  if( TString(selection).Contains("2jets_met150") && !(ngoodjets() >=2 && pfmet()>150)) return false;
-  if( TString(selection).Contains("2jets_met150_mt150") && !(ngoodjets() >=2 && pfmet()>150 && mt_met_lep() > 150)) return false;
-  if( TString(selection).Contains("2jets_met150_mt150_dphi") && !(ngoodjets() >=2 && pfmet()>150 && mt_met_lep() > 150 && mindphi_met_j1_j2()>0.8)) return false;
-  if( TString(selection).Contains("2jets_met150_mt150_dphi_absiso") && !(ngoodjets() >=2 && pfmet()>150 && mt_met_lep() > 150 && mindphi_met_j1_j2()>0.8 && lep1_relIso03EA()*lep1_pt() < 5)) return false;
-  return true;
-}
-
-bool passStudyRegion( string selection)
-{
-  if( TString(selection).Contains("lep_pt_200") && !(ngoodjets() >=3 && lep1_pt()>200)) return false;
-  return true;
+  float MET = pfmet();
+  float METPhi = pfmet_phi();
+  float METx = MET*TMath::Cos(METPhi);
+  float METy = MET*TMath::Sin(METPhi);
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
+  metlv.SetPxPyPzE(METx,METy,0.,MET);
+  //select b jets
+  std::pair<vector<int>,vector<int>> alljets;
+  alljets = btaggedjets("default");
+  vector<int> bjets = alljets.first;
+  vector<int> addjets = alljets.second;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> bjetslv;
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> addjetslv;
+// return false;
+  float m_bb = -999, pt_bb = -999, mctbb = -999;
+  if(bjets.size()==2){
+   mctbb = mct(bjets);
+  }
+  if(bjets.size() < 2 && addjets.size() >=2 ) {
+   m_bb = mbb(addjets);
+   mctbb = mct(addjets);
+  }
+return m_bb;
 }
 
 float event_weight(std::string selection)

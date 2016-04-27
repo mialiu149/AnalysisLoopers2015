@@ -1,6 +1,6 @@
 #! /bin/bash
 export analysis="incl_w" 
-export analysis_version="V00-00-04"
+export analysis_version="V00-00-05"
 export study="datavsmc"
 localdirectory=`pwd`
 export analysis_output=$HOME/public_html/analysis2015/$analysis/$analysis_version/$study/rootfiles

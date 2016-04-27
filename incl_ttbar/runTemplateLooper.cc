@@ -15,22 +15,22 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   gStyle->SetOptStat(111111);
 
   TChain* ch = new TChain("t");
-
-  //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/",iter.c_str());
-//  string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-03");
-// /hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/Skims_CR_emu__20160202
-  string babylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/Skims_CR_emu__20160202/";
-//  string babylocation_data = Form("/nfs-6/userdata/mliu/onelepbabies/%s/","V00-00-10");
-  string babylocation_data ="/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/Skims_CR_emu__20160202/";
+ 
+  string babylocation = "/nfs-7/userdata/mliu/onelepbabies/";
+  string babylocation_data = babylocation;
   string helper;
   if( sample =="sync") {
   ch->Add("/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/ttbar_powheg_pythia8_ext3_25ns_1.root");
-}
-  if ( sample == "data" ){
+  }
+  if ( sample == "data_dilep" ){
         helper = babylocation_data+"data_double_eg*.root"; ch->Add(helper.c_str());
         helper = babylocation_data+"data_double_mu*.root"; ch->Add(helper.c_str());
         helper = babylocation_data+"data_muon_eg*.root"; ch->Add(helper.c_str());
  }
+  if ( sample == "data_onelep" ){
+        helper = babylocation_data+"data_single_*"; ch->Add(helper.c_str());
+ }
+ 
   else if(sample == "Rare"){
         helper = babylocation+"WW*.root";ch->Add(helper.c_str());//single top
         helper = babylocation+"ZZ*.root";ch->Add(helper.c_str());//single top
@@ -56,7 +56,10 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
           helper = babylocation+"DYJetsToLL_M-50*.root"; ch->Add(helper.c_str());//ht binned
   }
   else if( sample == "wjets" ){
-        helper = babylocation+"WJetsToLNu_madgraph_pythia8_25*.root";ch->Add(helper.c_str());//amcnlo
+        helper = babylocation+"W1JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+        helper = babylocation+"W2JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+        helper = babylocation+"W3JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+        helper = babylocation+"W4JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
   }
    else if( sample == "wjets_htbin" ){
            helper = babylocation+"WJetsToLNu_HT100To200*.root";ch->Add(helper.c_str());//ht binned
@@ -75,6 +78,12 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
         helper = babylocation+"ttbar_powheg_pythia8*ext3*.root"; ch->Add(helper.c_str());
   }
 
+  else if( sample == "ttbar2l" ){
+        helper = babylocation+"ttbar_diLept_madgraph*ext1*.root"; ch->Add(helper.c_str());
+  }
+  else if( sample == "ttbar1l" ){
+        helper = babylocation+"ttbar_singleLeptFrom*ext1*.root"; ch->Add(helper.c_str());
+  }
  else if ( sample == "QCD"){
         helper = babylocation+"QCD*.root"; ch->Add(helper.c_str());
   }

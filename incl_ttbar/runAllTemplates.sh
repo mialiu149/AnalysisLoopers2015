@@ -4,10 +4,12 @@ source settings.sh
 
 compile_looper
 
-selection="baseline_allsf"
+selection="ttbar1l"
 
 ./runTemplateLooper $selection $analysis_version Rare  &
-./runTemplateLooper $selection $analysis_version data  &
+./runTemplateLooper $selection $analysis_version data_onelep  &
+./runTemplateLooper $selection $analysis_version ttbar1l &
+./runTemplateLooper $selection $analysis_version ttbar2l &
 ./runTemplateLooper $selection $analysis_version ttbar &
 ./runTemplateLooper $selection $analysis_version zjets &
 ./runTemplateLooper $selection $analysis_version wjets &

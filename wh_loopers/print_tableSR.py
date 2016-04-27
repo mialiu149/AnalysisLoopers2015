@@ -3,7 +3,7 @@ from ROOT import TH1F,TFile
 import os
 
 lumi = 2.1
-selection = 'yield'
+selection = 'presel_yield'
 table_header = '\\begin{tabular}{lcccccccc}\n'
 title = 'SR & & & & & & & &\\\\\n'
 hist_prefix = 'h_lep_event_NEventsSR_'+selection

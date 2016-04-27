@@ -8,17 +8,19 @@ if [ ! -d "../output/ZMET2015/$analysis_version/plots/Closure/" ]; then
 	cp ../index.php ../output/ZMET2015/$analysis_version/plots/Closure/
 fi
 
-lumi=2.1
+lumi=2.26
 selection="mt150_met150_2jet_incl"
-root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mt\",\"$selection\" )" 
+#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mt\",\"$selection\" )" 
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_br\", \"mt\",\"$selection\" )" 
-root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 
-root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_br\", \"absIso03EA\",\"$selection\" )" 
-selection="mtbulk_met150_2jet_incl"
-root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mt\",\"$selection\" )" 
-root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_br\", \"mt\",\"$selection\" )" 
-root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 
-root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_br\", \"absIso03EA\",\"$selection\" )" 
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_br\", \"met\",\"$selection\" )" 
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_br\", \"njets\",\"$selection\" )" 
+#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 
+#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_br\", \"absIso03EA\",\"$selection\" )" 
+#selection="mtbulk_met150_2jet_incl"
+#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mt\",\"$selection\" )" 
+#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_br\", \"mt\",\"$selection\" )" 
+#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 
+#root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_br\", \"absIso03EA\",\"$selection\" )" 
 #selection="1lCRallbin_lep200"
 #root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"mt\",\"$selection\" )" 
 #root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"$selection\", \"el_ec\", \"absIso03EA\",\"$selection\" )" 

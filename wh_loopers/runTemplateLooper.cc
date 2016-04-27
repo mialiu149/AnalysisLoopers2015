@@ -19,16 +19,20 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/",iter.c_str());
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-04");
   string babylocation = "/nfs-6/userdata/mliu/whbabies/";
-  string stopbabylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/";
-  string helper;
+//  string stopbabylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/";
+  string stopbabylocation = "/nfs-7/userdata/mliu/onelepbabies/"; 
+ string helper;
 
   if ( sample == "jes_nominal_ttz"){
        helper = "/nfs-7/userdata/mliu/jes_nominal/TTZ*"; ch->Add(helper.c_str());
   }
   else if (sample == "wh_350_1"){
-//       helper = "/home/users/mliu/AnalysisLoopers2015/wh_loopers/../../stop2015/StopBabyMaker/SMS_tchwh_test.root"; ch->Add(helper.c_str());
        helper = babylocation+"SMS_tchwh_350_1.root"; ch->Add(helper.c_str());
  }
+  else if (sample == "wh_150_30"){
+       helper = babylocation+"tchwh_150_30.root"; ch->Add(helper.c_str());
+ }
+ 
   else if (sample == "wh_250_1"){
        helper = babylocation+"SMS_tchwh_250_1.root"; ch->Add(helper.c_str());
  }
@@ -54,17 +58,19 @@ else if (sample == "zz"){
     helper = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies__CMS3_V070411__BabyMaker_V0704X_v7__20151208/merged_files/ZZ*";ch->Add(helper.c_str());
  }
 else if (sample =="diboson"){
-    helper  =stopbabylocation+"WW*";ch->Add(helper.c_str());
-    helper  =stopbabylocation+"WZ*";ch->Add(helper.c_str());
-    helper  =stopbabylocation+"ZZ*";ch->Add(helper.c_str());
+    helper  =stopbabylocation+"WWTo*";ch->Add(helper.c_str());
+    helper  =stopbabylocation+"WZTo1L3Nu_amcnlo_pythia8_25ns.root";ch->Add(helper.c_str());
+    helper  =stopbabylocation+"WZTo3LNu_powheg_pythia8_25ns.root";ch->Add(helper.c_str());
+    helper  =stopbabylocation+"WZTo2L2Q_amcnlo_pythia8_25ns.root";ch->Add(helper.c_str());
+    helper  =stopbabylocation+"ZZTo*";ch->Add(helper.c_str());
 }
   else if ( sample == "data" ){
         helper = stopbabylocation+"data_single_electron_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_single_electron_2015C*.root"; ch->Add(helper.c_str());
+        helper = babylocation+"data_single_muon_2015C*.root"; ch->Add(helper.c_str());
         helper = stopbabylocation+"data_single_muon_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
         helper = stopbabylocation+"data_single_muon_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
         helper = stopbabylocation+"data_single_electron_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
-        helper = stopbabylocation+"data_met_2015D_promptRecoV4*.root"; ch->Add(helper.c_str());
-        helper = stopbabylocation+"data_met_2015D_05Oct2015_v1*.root"; ch->Add(helper.c_str());
   }
   else if( sample == "zjets" ){
         helper = babylocation+"DYJetsToLL_m10To50_amcnlo_pythia8_25ns*.root"; ch->Add(helper.c_str()); //inclusive sample
@@ -75,7 +81,10 @@ else if (sample =="diboson"){
           helper = babylocation+"DYJetsToLL_M-50*.root"; ch->Add(helper.c_str());//ht binned
   }
   else if( sample == "wjets" ){
-        helper = babylocation+"WJetsToLNu_madgraph_pythia8_25*.root";ch->Add(helper.c_str());//amcnlo
+        helper = stopbabylocation+"W1JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+        helper = stopbabylocation+"W2JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+        helper = stopbabylocation+"W3JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
+        helper = stopbabylocation+"W4JetsToLNu*.root";ch->Add(helper.c_str());//njets binned
   }
    else if( sample == "wjets_htbin" ){
            helper = stopbabylocation+"WJetsToLNu_HT100To200*.root";ch->Add(helper.c_str());//ht binned
@@ -89,9 +98,16 @@ else if (sample =="diboson"){
   }
   else if( sample == "wbb"){
         helper = babylocation+"WBJets.root";ch->Add(helper.c_str());
+        helper = stopbabylocation+"WZTo1LNu2Q_amcnlo*.root";ch->Add(helper.c_str());
   }
   else if( sample == "ttbar" ){
         helper = stopbabylocation+"ttbar_powheg_pythia8*ext3*.root"; ch->Add(helper.c_str());
+  }
+  else if( sample == "ttbar2l" ){
+        helper = stopbabylocation+"ttbar_diLept_madgraph*ext1*.root"; ch->Add(helper.c_str());
+  }
+  else if( sample == "ttbar1l" ){
+        helper = stopbabylocation+"ttbar_singleLeptFrom*ext1*.root"; ch->Add(helper.c_str());
   }
   else if ( sample == "QCD"){
         helper = babylocation+"QCD*.root"; ch->Add(helper.c_str());

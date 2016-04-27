@@ -17,10 +17,12 @@
 #include "Math/VectorUtil.h"
 
 #include "templateLooper.h"
-#include "../sharedCode/V00_00_02.h"
+#include "../sharedCode/V00_00_05.h"
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/METTemplateSelections.h"
 #include "../sharedCode/TTbarSelection.h"
+#include "../stop_variables/MT2_implementations.h"
+#include "../sharedCode/WHSelection.h"
 
 #include "../../CORE/Tools/dorky/dorky.h"
 #include "../../CORE/Tools/goodrun.h"
@@ -28,7 +30,7 @@
 
 using namespace std;
 using namespace duplicate_removal;
-using namespace V00_00_02_np;
+using namespace V00_00_05_np;
 using namespace ttbarsel;
 const bool debug = false;
 const bool usejson = true;
@@ -51,6 +53,8 @@ void templateLooper::bookHistos(std::string region){
   leptype.push_back("el_ec");
   leptype.push_back("mu");
   leptype.push_back("lep");
+  leptype.push_back("lep_onelep");
+  leptype.push_back("lep_dilep");
   vector <string> object;
   object.push_back("event");
   vector <string> selection; 
@@ -286,7 +290,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 	TFile f(currentFile->GetTitle());
     TTree *tree = dynamic_cast<TTree*>(f.Get("t"));
-    v00_00_02.Init(tree);
+    v00_00_05.Init(tree);
 
     // event loop
     //unsigned int nEvents = tree->GetEntries();
@@ -294,7 +298,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
     cout<<"Processing File: "<<TString(currentFile->GetTitle())<<endl;
 
     for (unsigned int event = 0 ; event < nEvents; ++event){
-	  v00_00_02.GetEntry(event);
+       v00_00_05.GetEntry(event);
        ++nEventsTotal;
       // ~~~~~~~~~~~
       //   continue;
@@ -357,24 +361,16 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           float METy = MET*TMath::Sin(METPhi);
           ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
           metlv.SetPxPyPzE(METx,METy,0.,MET);
-//          if(mindphi_met_j1_j2() < 0.8) continue;
           float mll = (lep1_p4()+lep2_p4()).mass();
           float ptll = (lep1_p4()+lep2_p4()).pt();
 	
           //~-~-~-~-~-~-~-~-//
           // event selection// 
 	  //~-~-~-~-~-~-~-~-//
-          if( TString(selection).Contains("baseline")&&!passRegion(selection.c_str()) )       continue;
-          
+//          if( TString(selection).Contains("baseline")&&!passRegion(selection.c_str()) )       continue;
           histos_cutflow[histname]->Fill(2,1);
-/*        if( (eventtype()==1))   histos_cutflow[histname]->Fill(2,1);
-          if( (eventtype()==2))   histos_cutflow[histname]->Fill(3,1);
-          if( (eventtype()==3))   histos_cutflow[histname]->Fill(4,1);
-          if( (eventtype()==4))   histos_cutflow[histname]->Fill(5,1);
-          if( (eventtype()==5))   histos_cutflow[histname]->Fill(6,1);
-*/
-  //        if( (lep1type()==1))   histos_cutflow[histname]->Fill(7,1);
-          if(TString(selection).Contains("sync")){
+
+         if(TString(selection).Contains("sync")){
           if( !(lep1type()==1&&lep2type()==1))                                 continue;
           histos_cutflow[histname]->Fill(3,1);
 	  if( lep1_charge()*lep2_charge()>0 )                                  continue;
@@ -436,57 +432,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           } 
           // modifying the weights with SF.
            weight = weight*lepSF;
-          //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-          //    fill cutflow histograms     // 
-	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-          // will fix this later for w+jets. there are for stop signals.
-          /*  if(TString(selection).Contains("yield")){
-           //signal
-           string histname ="h_lep_event_NEventsSR_yield";
-           if(passSR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
-           if(passSR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
-           if(passSR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
-           if(passSR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
-           if(passSR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
-           if(passSR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
-           if(passSR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
-           if(passSR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
-           //CR1l
-           histname = "h_lep_event_NEvents1lCR_yield";
-           if(pass1lCR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
-           if(pass1lCR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
-           if(pass1lCR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
-           if(pass1lCR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
-           if(pass1lCR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
-           if(pass1lCR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
-           if(pass1lCR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
-           if(pass1lCR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
-           //CR2l
-           histname = "h_lep_event_NEvents2lCR_yield";
-           if(pass2lCR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
-           if(pass2lCR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
-           if(pass2lCR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
-           if(pass2lCR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
-           if(pass2lCR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
-           if(pass2lCR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
-           if(pass2lCR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
-           if(pass2lCR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
-           continue;
-          }
-
-          if(TString(selection).Contains("1l")) {
-          if( !pass1lCR(selection.c_str())) continue;
-          }
-     
-          if(TString(selection).Contains("2l")) {
-          if( !pass2lCR(selection.c_str())) continue;
-          }
-          if(TString(selection).Contains("SR")) {
-          if( !passSR(selection.c_str()))   continue;
-          }*/
           //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//
+	  if(!whsel::passPreselection(selection.c_str())) continue;
           string region = selection;
           fillHist( "event", "njets"  , region.c_str(), ngoodjets()    , weight );
           fillHist( "event", "ngoodbtags"  , region.c_str(), ngoodbtags()    , weight );
@@ -507,10 +456,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
 	  fillHist( "event", "chiso" , region.c_str(), lep1_chiso()       , weight );	 
 	  fillHist( "event", "deltaphi_lep_met" , region.c_str(), ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv) , weight );	 
-
-          //-~-~-~-~-~-~-~-~-~-//
-	  //Fill Template hists//
-	  //-~-~-~-~-~-~-~-~-~-//	  
 
          npass += weight;
     } // end loop over events
@@ -564,6 +509,15 @@ void templateLooper::fillHist( string obj, string var, string sel, float value, 
           }
           if( lep1_is_el() &&fabs(lep1_eta())<1.442 ){
 		hist = Form("h_el_br_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+		fillUnderOverFlow(event_hists.at( hist ), value, weight);
+          }
+
+          if( is2lep() ){
+		hist = Form("h_lep_dilep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+		fillUnderOverFlow(event_hists.at( hist ), value, weight);
+          }
+          if( is1lep() ){
+		hist = Form("h_lep_onelep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
           }
 	  if( lep1_is_mu() ){

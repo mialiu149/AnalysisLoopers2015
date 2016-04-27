@@ -26,10 +26,11 @@ INCLUDE = $(shell root-config --cflags) -I$(CMSROOT) -I$(CMSROOT)../sharedCode/
 CFLAGS = -Wall -Wno-unused-function -g -O2 -fPIC $(INCLUDE) $(EXTRACFLAGS)
 ROOTLIBS = $(shell root-config --ldflags --cflags --libs) -lTMVA #-lEG -lGenVector
 
+STOPVARLIB     = ../stop_variables/StopVariables.so
 DICTINCLUDE = $(ROOTSYS)/include/Math/QuantFuncMathCore.h $(ROOTSYS)/include/TLorentzVector.h $(ROOTSYS)/include/Math/Vector4D.h
 
 LINKER = g++
-LINKERFLAGS = $(shell root-config --ldflags --libs) -lEG -lGenVector -lTMVA
+LINKERFLAGS = $(shell root-config --ldflags --libs) -lEG -lGenVector -lTMVA  $(STOPVARLIB)
 # ifeq ($(shell root-config --platform),macosx)
 # 	LINKERFLAGS = -dynamiclib -undefined dynamic_lookup -Wl,-x -O -Xlinker -bind_at_load -flat_namespace $(shell root-config --libs) -lEG -lGenVector
 # endif

@@ -4,14 +4,8 @@
 #include "StopSelections.h"
 
 namespace wjetssel{
-bool passBaseline( std::string selection);
-bool passSR( std::string selection );
-bool passRegion(std::string selection);
-bool passStudyRegion(std::string selection);
 bool passPreselection(std::string selection);
-int  lep1type();// checking the type of the second lepton.  type1: good. type2: 2l_veto. 
-int  lep2type();// checking the type of the second lepton.  type1: good. type2: 2l_veto. 
-int  eventtype(); //1: lep1_sel,lep2_sel, 2: lep1_sel,lep2_sel, 3: lep1_veto, lep2_sel, 4: lep1_veto, lep2_veto., 5: lep1 overlaps with lep2, sel, 6: lep1 overlaps with lep2, veto 
+bool passRegion(std::string selection);
 // following functions are used for gen level studies.
 }
 #endif

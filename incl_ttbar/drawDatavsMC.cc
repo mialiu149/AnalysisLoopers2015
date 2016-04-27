@@ -21,15 +21,19 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   TH1F * h_data  = NULL;
   TH1F * h_wjets = NULL;
   TH1F * h_ttbar = NULL;
+  TH1F * h_ttbar1l = NULL;
+  TH1F * h_ttbar2l = NULL;
   TH1F * h_zjets = NULL;
   TH1F * h_top = NULL;
   TH1F * h_ttv = NULL;
   TH1F * h_Rare = NULL;
 
-  getBackground(   h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
+  getBackground(   h_data, iter, Form("data_onelep_%s" , selection.c_str() ), variable, type, region );
   if( usefsbkg ) getBackground(  h_ttbar, "V07-04-03_updatedHLT", Form("data%s", selection.c_str() ), "metgt1jet", "em", "inclusive" );
   else {
   getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ), variable, type, region );
+  getBackground(  h_ttbar1l, iter, Form("ttbar_%s", selection.c_str() ), variable,"lep_onelep" , region );
+  getBackground(  h_ttbar2l, iter, Form("ttbar_%s", selection.c_str() ), variable,"lep_dilep", region );
   getBackground(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
   getBackground(  h_top, iter, Form("top_%s", selection.c_str() ), variable, type, region );
   getBackground(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
@@ -172,6 +176,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_data->Rebin(rebin);
   h_wjets->Rebin(rebin);
   h_ttbar->Rebin(rebin);
+  h_ttbar1l->Rebin(rebin);
+  h_ttbar2l->Rebin(rebin);
   h_zjets->Rebin(rebin);
   h_top->Rebin(rebin);
   h_ttv->Rebin(rebin);
@@ -195,9 +201,10 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   }
   
   h_data->SetLineWidth(2);
-
   h_wjets->SetFillColor(kBlue);
   h_ttbar->SetFillColor(kCyan-3);
+  h_ttbar2l->SetFillStyle(1001);h_ttbar2l->SetFillColor(kAzure+4);h_ttbar2l->SetLineColor(kAzure+4) ;updateoverflow( h_ttbar2l, xmax );
+  h_ttbar1l->SetFillStyle(1001);h_ttbar1l->SetFillColorAlpha(kAzure+4,0.8);h_ttbar1l->SetLineColor(kAzure-5) ;updateoverflow( h_ttbar1l, xmax );
   h_zjets->SetFillColor(kGreen+2);
   h_top->SetFillColor(kOrange-2);
   h_ttv->SetFillColor(kOrange-1);
@@ -205,6 +212,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   h_wjets->SetFillStyle(1001);
   h_ttbar->SetFillStyle(1001);
+  h_ttbar2l->SetFillStyle(1001);
+  h_ttbar1l->SetFillStyle(1001);
   h_zjets->SetFillStyle(1001);
   h_top->SetFillStyle(1001);
   h_ttv->SetFillStyle(1001);
@@ -233,6 +242,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   norm_factor = 1;
   h_wjets->Scale(norm_factor);
   h_ttbar->Scale(norm_factor);
+  h_ttbar2l->Scale(norm_factor);
+  h_ttbar1l->Scale(norm_factor);
 //  h_wjets->Scale(luminosity);
  // h_ttbar->Scale(luminosity);
   
@@ -250,7 +261,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   stack->Add(h_ttv);
   stack->Add(h_Rare);
   stack->Add(h_top);
-  stack->Add(h_ttbar);
+  stack->Add(h_ttbar2l);
+  stack->Add(h_ttbar1l);
   stack->Add(h_zjets);
   
   h_data->GetXaxis()->SetLabelSize(0);
@@ -291,7 +303,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   if( usefsbkg ){
   	l1->AddEntry( h_ttbar , "FS Bkg"       , "f");
   }else{
-	l1->AddEntry( h_ttbar , "t#bar{t} MC"       , "f");
+	l1->AddEntry( h_ttbar2l , "t#bar{t} 2l"       , "f");
+	l1->AddEntry( h_ttbar1l , "t#bar{t} 1l"       , "f");
   }
   l1->AddEntry( h_zjets , "DY"            , "f");
   l1->AddEntry( h_top , "single top"          , "f");
@@ -312,13 +325,13 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   TH1F* h_rat = (TH1F*)h_data  -> Clone("h_rat");
   TH1F* h_den = (TH1F*)h_wjets -> Clone("h_den");
-  h_den->Add(h_ttbar);
+  h_den->Add(h_ttbar2l);
+  h_den->Add(h_ttbar1l);
   h_den->Add(h_zjets);
   h_den->Add(h_top);
   h_den->Add(h_ttv);
   h_den->Add(h_Rare);
-  l1->AddEntry( h_ttv , "ttv"          , "f");
-
+  
   h_rat->Divide(h_den);
 
   h_rat->GetYaxis()->SetRangeUser(0.5,1.5);

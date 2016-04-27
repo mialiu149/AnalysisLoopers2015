@@ -16,10 +16,11 @@
 #include "Math/VectorUtil.h"
 
 #include "templateLooper.h"
-#include "../sharedCode/V00_00_02.h"
+#include "../sharedCode/V00_00_05.h"
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/METTemplateSelections.h"
 #include "../sharedCode/WJetsSelection.h"
+#include "../sharedCode/WHSelection.h"
 
 #include "../../CORE/Tools/dorky/dorky.h"
 #include "../../CORE/Tools/goodrun.h"
@@ -27,11 +28,12 @@
 
 using namespace std;
 using namespace duplicate_removal;
-using namespace V00_00_02_np;
+using namespace V00_00_05_np;
 using namespace wjetssel;
 const bool debug = false;
 const bool usejson = true;
 const bool dovtxreweighting = true;
+const bool dobtagweighting = true;
 
 templateLooper::templateLooper()
 {
@@ -49,6 +51,8 @@ void templateLooper::bookHistos(std::string region){
   leptype.push_back("el_ec");
   leptype.push_back("mu");
   leptype.push_back("lep");
+  leptype.push_back("lep_onelep");
+  leptype.push_back("lep_dilep");
   vector <string> object;
   object.push_back("event");
   vector <string> selection; 
@@ -56,10 +60,12 @@ void templateLooper::bookHistos(std::string region){
   vector <string> variable;      vector <float> variable_bins;
   variable.push_back("ptl1");           variable_bins.push_back(1000);  
   variable.push_back("met");            variable_bins.push_back(500 );  
+  variable.push_back("mct");            variable_bins.push_back(500 );  
   variable.push_back("ht");	        variable_bins.push_back(1000);  
   variable.push_back("lep1_ooEmooP");	variable_bins.push_back(1000);  
   variable.push_back("mt");	        variable_bins.push_back(1000);  
   variable.push_back("njets");          variable_bins.push_back(20  );  
+  variable.push_back("nbjets");         variable_bins.push_back(20  );  
   variable.push_back("nVert");          variable_bins.push_back(50 );  
   variable.push_back("relIso03EA");	variable_bins.push_back(1000);  
   variable.push_back("absIso03EA");	variable_bins.push_back(1000);  
@@ -97,6 +103,7 @@ void templateLooper::bookHistos(std::string region){
   vector <string> phivars;
   phivars.push_back("metphi");
   phivars.push_back("deltaphi_lep_met");
+  phivars.push_back("mindphi_met_j1_j2");
   phivars.push_back("metphir");
   phivars.push_back("metphi20");
   phivars.push_back("metphi40");
@@ -234,7 +241,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 	TFile f(currentFile->GetTitle());
     TTree *tree = dynamic_cast<TTree*>(f.Get("t"));
-    v00_00_02.Init(tree);
+    v00_00_05.Init(tree);
 
     // event loop
     //unsigned int nEvents = tree->GetEntries();
@@ -242,7 +249,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
     cout<<"Processing File: "<<TString(currentFile->GetTitle())<<endl;
 
     for (unsigned int event = 0 ; event < nEvents; ++event){
-	  v00_00_02.GetEntry(event);
+	  v00_00_05.GetEntry(event);
        ++nEventsTotal;
       // ~~~~~~~~~~~
       //   continue;
@@ -256,8 +263,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
       }
 
 	 // if ( is_data() && usejson && !goodrun(run(), ls()) ) continue;
-           if (!filt_eebadsc()) continue;
-           if (!filt_hbhenoise()) continue;
+           if (is_data()&&!filt_eebadsc()) continue;
+           if (is_data()&&!filt_hbhenoise()) continue;
            if (is_data() && metFilterTxt.eventFails(run(), ls(), evt())) {
 		//cout<<"Found bad event in data: "<<run()<<", "<<ls()<<", "<<evt()<<endl;
 			continue;
@@ -284,14 +291,16 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  if( is_data() ){
 		weight = 1.0;
 	  }else if( !is_data() ){
-                if( TString(selection).Contains("yield"))  weight *= 2.1*scale1fb();
+                if( TString(selection).Contains("yield"))  weight *= 2.26*scale1fb();
 		else weight *= scale1fb();
 	  }
-
+          if( sample == "wjets") weight *= 1.21;
 	  if( !is_data() && dovtxreweighting ){	
     	  weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(nvtxs()));		
 	  }
-	  
+	  if( !is_data() && dobtagweighting){
+          weight *= weight_btagsf();
+          } 
 	  float event_met_pt = pfmet();
 	  float event_met_ph = pfmet_phi();
 
@@ -299,58 +308,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           // event selection// 
 	  //~-~-~-~-~-~-~-~-//
           if( !passRegion(selection.c_str()) )       continue;
-          if( ak4_HT() < 150  )           continue;
-
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflow histograms     // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           // will fix this later for w+jets. there are for stop signals.
-          /*  if(TString(selection).Contains("yield")){
-           //signal
-           string histname ="h_lep_event_NEventsSR_yield";
-           if(passSR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
-           if(passSR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
-           if(passSR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
-           if(passSR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
-           if(passSR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
-           if(passSR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
-           if(passSR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
-           if(passSR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
-           //CR1l
-           histname = "h_lep_event_NEvents1lCR_yield";
-           if(pass1lCR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
-           if(pass1lCR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
-           if(pass1lCR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
-           if(pass1lCR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
-           if(pass1lCR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
-           if(pass1lCR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
-           if(pass1lCR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
-           if(pass1lCR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
-           //CR2l
-           histname = "h_lep_event_NEvents2lCR_yield";
-           if(pass2lCR("bin1")) histos_cutflow[histname]->Fill(1,weight); 
-           if(pass2lCR("bin2")) histos_cutflow[histname]->Fill(2,weight); 
-           if(pass2lCR("bin3")) histos_cutflow[histname]->Fill(3,weight); 
-           if(pass2lCR("bin4")) histos_cutflow[histname]->Fill(4,weight); 
-           if(pass2lCR("bin5")) histos_cutflow[histname]->Fill(5,weight); 
-           if(pass2lCR("bin6")) histos_cutflow[histname]->Fill(6,weight); 
-           if(pass2lCR("bin7")) histos_cutflow[histname]->Fill(7,weight); 
-           if(pass2lCR("bin8")) histos_cutflow[histname]->Fill(8,weight); 
-           continue;
-          }
 
-          if(TString(selection).Contains("1l")) {
-          if( !pass1lCR(selection.c_str())) continue;
-          }
-     
-          if(TString(selection).Contains("2l")) {
-          if( !pass2lCR(selection.c_str())) continue;
-          }
-          if(TString(selection).Contains("SR")) {
-          if( !passSR(selection.c_str()))   continue;
-          }
-*/
-          //if( !passRegion(selection.c_str())) continue; 
  	  if( lep1_is_mu()) nmu++;
 	  if( lep1_is_el()) nel++;
           //regions of interest
@@ -360,16 +322,21 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           float METy = MET*TMath::Sin(METPhi);
           ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
           metlv.SetPxPyPzE(METx,METy,0.,MET);
-          if(mindphi_met_j1_j2() < 0.8) continue;
-
+//          if(mindphi_met_j1_j2() < 0.8) continue;
+//          if(!(whsel::passmbb()>100&&whsel::passmbb()<150)) continue;
+//          if(event_met_pt<100||mt_met_lep()<50) continue; 
+          float mctbb = whsel::passmct();
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//
-	 
+
           string region = selection;
           fillHist( "event", "njets"  , region.c_str(), ngoodjets()    , weight );
+          fillHist( "event", "nbjets"  , region.c_str(), ngoodbtags()   , weight );
           fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
+          fillHist( "event", "mct"    , region.c_str(), mctbb  , weight );
 	  fillHist( "event", "mt"    , region.c_str(),  mt_met_lep()   , weight );
+	  fillHist( "event", "mindphi_met_j1_j2"    , region.c_str(),  mindphi_met_j1_j2(), weight );
           fillHist( "event", "ht"     , region.c_str(), ak4_HT()       , weight );
           fillHist( "event", "lep1_ooEmooP"     , region.c_str(), lep1_ooEmooP()       , weight );
           fillHist( "event", "ptl1"   , region.c_str(), lep1_pt()      , weight );
@@ -415,6 +382,7 @@ void templateLooper::bookHist( string name, string title, int nbins, float xmin,
   event_hists.insert ( pair<std::string,TH1F*>( name, hist ) );		
   return;
 }  
+
 void templateLooper::bookHistTH1D( string name, string title, int nbins, float xmin, float xmax ){
   TH1D * hist = new TH1D( name.c_str(), title.c_str(), nbins, xmin, xmax );
   hist->Sumw2();
@@ -423,11 +391,13 @@ void templateLooper::bookHistTH1D( string name, string title, int nbins, float x
 }  
 
 
-
 void templateLooper::fillHist( string obj, string var, string sel, float value, float weight ){
   string hist = "h_";
   try
 	{
+          hist = Form("h_lep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+	  fillUnderOverFlow(event_hists.at( hist ), value, weight);
+
 	  if( lep1_is_el() ){
 		hist = Form("h_el_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
@@ -444,6 +414,14 @@ void templateLooper::fillHist( string obj, string var, string sel, float value, 
          	hist = Form("h_mu_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
 		fillUnderOverFlow(event_hists.at( hist ), value, weight);
 	  }
+          if( is2lep() ){
+		hist = Form("h_lep_dilep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+		fillUnderOverFlow(event_hists.at( hist ), value, weight);
+          }
+          if( is1lep() ){
+		hist = Form("h_lep_onelep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+		fillUnderOverFlow(event_hists.at( hist ), value, weight);
+          }
 	}
   catch(exception &e)
 	{

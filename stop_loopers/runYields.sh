@@ -10,7 +10,7 @@ fi
 
 lumi=1
 
-selection="met_trigger_SR_yield"
+selection="yield"
 root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEventsSR\",             \"$selection\")" 
 #root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents1lCR\",             \"$selection\")" 
 #root -b -q "drawYields.cc+( \"$analysis_version\",  $lumi, \"$selection\", \"lep\", \"NEvents2lCR\",             \"$selection\")" 

@@ -37,10 +37,10 @@ vector<vector<int>> lep_nu_fromW() {
      if(gennus_motherid()[i] == -24 && (abs(gennus_id()[i]) == 12||abs(gennus_id()[i]) == 14) && gennus_p4()[i].pt() > 1 && (gennus_status()[i] == 1)) nus_minus.push_back(i);
  }
 
- lep_nu.push_back(leps_plus);
- lep_nu.push_back(nus_plus);
- lep_nu.push_back(leps_minus);
- lep_nu.push_back(nus_minus);
+ lep_nu.push_back(leps_plus);//e plus 0 
+ lep_nu.push_back(nus_plus);//nu plus 1
+ lep_nu.push_back(leps_minus); //e minus 2
+ lep_nu.push_back(nus_minus);//nu minus 3
  //cout<<"plus:"<<leps_plus.size()<<":"<<nus_plus.size()<<endl;
  //cout<<"minus:"<<leps_minus.size()+leps_plus.size()<<endl;
  return lep_nu;

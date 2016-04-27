@@ -1,6 +1,6 @@
 #! /bin/bash
 export analysis="incl_ttbar" 
-export analysis_version="V00-00-01"
+export analysis_version="V00-00-03"
 export study="datavsmc"
 localdirectory=`pwd`
 export analysis_output=$HOME/public_html/analysis2015/$analysis/$analysis_version/$study/rootfiles

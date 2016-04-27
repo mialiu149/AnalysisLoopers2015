@@ -11,31 +11,26 @@ input_dir = os.environ['analysis_output']
 print input_dir
 ##cols to print out
 #/jes_nominal_ttz_btag_SR_yield_met_trigger_btagsf_heavy_UP_hists.root
-label_col = ['Sample','[250,325],low dM','[325,Inf],low dM','[250,325],high dM','[325,450],high dM','[450,Inf],high dM','njets==3,high mass','compressed1','compressed2']
+#label_col = ['Sample','[250,325],low dM','[325,Inf],low dM','[250,325],high dM','[325,450],high dM','[450,Inf],high dM','njets==3,high mass','compressed1','compressed2']
+label_col = ['v1','v2','v3','v4','']
 col_string = ''
 for col in label_col:
     if label_col.index(col) is len(label_col)-1:
        col_string+= col
     else:col_string+= col+'&'
 ## inputs to print out rows
-#row_inputs = [
-#              {'file':'Stop_425_325.root','row_label':'$\\tilde{\\mathrm{t}}\\rightarrow\\mathrm{t}\\tilde{\\chi}_{1}^{0}$ (425,325)','hist_name':hist_prefix+'_Stop_425_325'}, 
-#              {'file':'Stop_500_325.root','row_label':'$\\tilde{\\mathrm{t}}\\rightarrow\\mathrm{t}\\tilde{\\chi}_{1}^{0}$ (500,325)','hist_name':hist_prefix+'_Stop_500_325'}, 
-#              {'file':'Stop_650_325.root','row_label':'$\\tilde{\\mathrm{t}}\\rightarrow\\mathrm{t}\\tilde{\\chi}_{1}^{0}$ (650,325)','hist_name':hist_prefix+'_Stop_650_325'}, 
-#              {'file':'Stop_850_100.root','row_label':'$\\tilde{\\mathrm{t}}\\rightarrow\\mathrm{t}\\tilde{\\chi}_{1}^{0}$ (850,100)','hist_name':hist_prefix+'_Stop_850_100'}, 
-#              {'file':'TTbar.root','row_label':'$\\mathrm{t}\\bar{\\mathrm{t}}\\rightarrow \\ell\\ell$','hist_name':hist_prefix+'_TTbar2l'}, 
-#              {'file':'TTbar.root','row_label':'semileptonic $\\mathrm{t}\\bar{\\mathrm{t}}$','hist_name':hist_prefix+'_TTbar1l'},
-#              {'file':'WJets.root','row_label':'W+jets','hist_name':hist_prefix+'_WJets'},
-#              {'file':'SingleTop.root','row_label':'Single top','hist_name':hist_prefix+'_SingleTop'},
-#              {'file':'Rare.root','row_label':'Rare','hist_name':hist_prefix+'_Rare'}
-#              ]
 row_inputs = [
-              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_hists.root','row_label':'nominal','hist_name':hist_prefix},
-              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_heavy_UP_hists.root','row_label':'nominal','hist_name':hist_prefix+'_heavy_UP'},
-              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_heavy_DN_hists.root','row_label':'nominal','hist_name':hist_prefix+'_heavy_DN'},
-              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_light_UP_hists.root','row_label':'nominal','hist_name':hist_prefix+'_light_UP'},
-              {'file':'jes_nominal_ttz_btag_'+selection+'_btagsf_light_DN_hists.root','row_label':'nominal','hist_name':hist_prefix+'_light_DN'}
-             ]
+              {'file':'Stop_425_325.root','row_label':'$\\tilde{\\mathrm{t}}\\rightarrow\\mathrm{t}\\tilde{\\chi}_{1}^{0}$ (425,325)','hist_name':hist_prefix+'_Stop_425_325'}, 
+              {'file':'Stop_500_325.root','row_label':'$\\tilde{\\mathrm{t}}\\rightarrow\\mathrm{t}\\tilde{\\chi}_{1}^{0}$ (500,325)','hist_name':hist_prefix+'_Stop_500_325'}, 
+              {'file':'Stop_650_325.root','row_label':'$\\tilde{\\mathrm{t}}\\rightarrow\\mathrm{t}\\tilde{\\chi}_{1}^{0}$ (650,325)','hist_name':hist_prefix+'_Stop_650_325'}, 
+              {'file':'Stop_850_100.root','row_label':'$\\tilde{\\mathrm{t}}\\rightarrow\\mathrm{t}\\tilde{\\chi}_{1}^{0}$ (850,100)','hist_name':hist_prefix+'_Stop_850_100'}, 
+              {'file':'TTbar.root','row_label':'$\\mathrm{t}\\bar{\\mathrm{t}}\\rightarrow \\ell\\ell$','hist_name':hist_prefix+'_TTbar2l'}, 
+              {'file':'TTbar.root','row_label':'semileptonic $\\mathrm{t}\\bar{\\mathrm{t}}$','hist_name':hist_prefix+'_TTbar1l'},
+              {'file':'WJets.root','row_label':'W+jets','hist_name':hist_prefix+'_WJets'},
+              {'file':'SingleTop.root','row_label':'Single top','hist_name':hist_prefix+'_SingleTop'},
+              {'file':'Rare.root','row_label':'Rare','hist_name':hist_prefix+'_Rare'}
+              ]
+
 ##table to print out####
 table = open('tableSR_btag.tex','w')
 table.write('%BEGINLATEX%\n')
