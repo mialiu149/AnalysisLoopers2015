@@ -3,11 +3,7 @@ from ROOT import TH1F,TFile
 import os
 from zbi import zbi
 
-print zbi(46,152,0.30)
-print zbi(26,43,0.20)
-
 lumi = 10
-#selection="SR_yield_2btags_2jets_mbb100_mct160"
 selection='yield_2lCR'
 table_header = '\\begin{tabular}{lccc}\n'
 title = 'CR &  Mt $>$ 120 & &\\\\\n'

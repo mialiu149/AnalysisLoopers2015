@@ -68,45 +68,71 @@ bool passPreselection(string selection) {
 //   2l CR      //
 //--------------//
 bool pass2lCR( string selection ) {
-
  if( !passPreselection(selection))                   return false;                                    // preselection with at least 1 lep+ met50 + >=2jets 
- if( ngoodbtags() != 2)                               return false;// btagged
+ if( ngoodbtags() != 2)                              return false;// btagged
  if( ngoodjets()  != 2)                              return false;// exactly 2 jets
- 
-  bool met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 0 );                                               // some additional requirement for CRs
+  bool met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 0 ); 
+  if(TString(selection).Contains("mt120"))  met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 120 );                                       // some additional requirement for CRs
+  if(TString(selection).Contains("mt150"))  met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 150 );                                       // some additional requirement for CRs
   bool pass2lCR =  met_mt_cut && ( lep2type() ==1 || lep2type() ==2 || !PassTrackVeto_v3()||!PassTauVeto());                      // fail track veto: 2l CR.
   //bool pass2lCR =  met_mt_cut && ((!PassTrackVeto_v3()||!PassTauVeto()) || eventtype()==1||eventtype() == 2 ||eventtype() == 3);                      // fail track veto: 2l CR.
-
-  float MET = pfmet();
-  float METPhi = pfmet_phi();
-  float METx = MET*TMath::Cos(METPhi);
-  float METy = MET*TMath::Sin(METPhi);
-  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
-  metlv.SetPxPyPzE(METx,METy,0.,MET);
-  //select b jets
-  std::pair<vector<int>,vector<int>> alljets;
-  alljets = btaggedjets(selection);
-  vector<int> bjets = alljets.first;
-  vector<int> addjets = alljets.second;
-  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> bjetslv;
-  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> addjetslv;
-  if(bjets.size()!= 2) {cout<<"less than two btags, wtf"<<endl; return false; }
-  float m_bb = mbb(bjets);
-  float pt_bb = ptbb(bjets);
-  float mctbb = mct(bjets);
-  float ptlbb = 0;
+  float m_bb = passmbb();
+  float mctbb = passmct();
  // the following corresponds to SR bins.
- if(TString(selection).Contains("mbb")) {if(m_bb>150||m_bb<100) return false;} //mbb cut  
- // if(mctbb<170)    return false;
- if(!pass2lCR)    return false;
+ 
+ if( !pass2lCR)                                               return false; //pre selection + reverted veto
+
+ if( TString(selection).Contains("mbb")) {if(m_bb>150||m_bb<90) return false;} //mbb cut  
+ if( TString(selection).Contains("mct50"))  {if(mctbb<50)    return false;} // mct cuts
+ if( TString(selection).Contains("mct100"))  {if(mctbb<100)    return false;} // mct cuts
+ if( TString(selection).Contains("mct125"))  {if(mctbb<125)    return false;}
+ if( TString(selection).Contains("mct150"))  {if(mctbb<150)    return false;}
+ if( TString(selection).Contains("metbin1")) {if(pfmet()<100||pfmet()>200) return false;} //met cuts
+ if( TString(selection).Contains("metbin2")) {if(pfmet()<200) return false;}
+ if( TString(selection).Contains("met100")) {if(pfmet()<100) return false;} 
+ if( TString(selection).Contains("met200")) {if(pfmet()<200) return false;}
+ if( TString(selection).Contains("RegionA")) {if(mctbb<170||mt_met_lep()<150) return false; }// abcd regions
+ if( TString(selection).Contains("RegionB")) {if(mctbb>170||mt_met_lep()<150) return false; }
+ if( TString(selection).Contains("RegionC")) {if(mctbb<170||mt_met_lep()>150) return false; }
+ if( TString(selection).Contains("RegionD")) {if(mctbb>170||mt_met_lep()>150) return false; }
+ // event yields
  if( TString(selection).Contains("yield") ){
-     //if(  TString(selection).Contains("all")  && !(pfmet()>100)) return false;
-     if( TString(selection).Contains("bin1")) { if(pfmet()>100 && pfmet()<125) return true; else return false; }// 
-     if( TString(selection).Contains("bin2")) { if(pfmet()>125 && pfmet()<175) return true; else return false; }// 
-     if( TString(selection).Contains("bin3"))  { if( pfmet()>175)  return true; else return false;} // 
+     if( TString(selection).Contains("metbin1")) { if(!(pfmet()>100 && pfmet()<200)) return false; }// 
+     if( TString(selection).Contains("metbin2")) { if(!(pfmet()>200) ) return false; }// 
+     if( TString(selection).Contains("mct50"))  { if(mctbb<50)  return false;}
+     if( TString(selection).Contains("mct100")) { if(mctbb<100) return false;}
+     if( TString(selection).Contains("mct125")) { if(mctbb<125) return false;}
+     if( TString(selection).Contains("mct150")) { if(mctbb<150) return false;}
+     if( TString(selection).Contains("mct170")) { if(mctbb<170) return false;}
  }
  return true;
 }
+
+bool passmbbCR(  string selection ) {
+
+ if( !passPreselection(selection))                   return false;                                    // preselection with at least 1 lep+ met50 + >=2jets 
+ if( ngoodbtags() != 2)                              return false;// btagged
+ if( ngoodjets()  != 2)                              return false;// exactly 2 jets
+ 
+  bool met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 0 );                                               // some additional requirement for CRs
+  bool pass1l =  met_mt_cut &&  lep2type() !=1&& lep2type() !=2 && PassTrackVeto_v3() && PassTauVeto();                      // pass 2nd lep veto etc.
+
+  float m_bb = passmbb();
+  float mctbb = passmct();
+  bool outside_mbb = (m_bb>150||m_bb<90);
+ // the following corresponds to SR bins.
+ if( !pass1l || !outside_mbb)    return false;
+ if( m_bb>90 && m_bb < 150)    { cout<<"outside mass window"<<endl; return false;}
+ if( TString(selection).Contains("mct170") && mctbb < 170) return false; 
+ if( TString(selection).Contains("yield") ){
+     //if(  TString(selection).Contains("all")  && !(pfmet()>100)) return false;
+     if( TString(selection).Contains("bin1")) { if(pfmet()>50 && pfmet()<100) return true; else return false; }// 
+     if( TString(selection).Contains("bin2")) { if(pfmet()>100 && pfmet()<200) return true; else return false; }// 
+     if( TString(selection).Contains("bin3"))  { if( pfmet()>200)  return true; else return false;} // 
+ }
+ return true;
+}
+
 //----------------------------------------//
 //// regions for optimization studies     //
 //----------------------------------------//
@@ -252,13 +278,12 @@ float passmct()
   vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> bjetslv;
   vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> addjetslv;
 // return false;
-  float m_bb = -999, pt_bb = -999, mctbb = -999;
+  float m_bb = -999, mctbb = -999;
   if(bjets.size()==2){
   mctbb = mct(bjets);
   //ptlbb = 0;
   }
   if(bjets.size() < 2 && addjets.size() >=2 ) {
-   m_bb = mbb(addjets);
    mctbb = mct(addjets);
   }
   return mctbb;
@@ -280,13 +305,12 @@ float passmbb()
   vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> bjetslv;
   vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> >> addjetslv;
 // return false;
-  float m_bb = -999, pt_bb = -999, mctbb = -999;
+  float m_bb = -999, mctbb = -999;
   if(bjets.size()==2){
-   mctbb = mct(bjets);
+   m_bb = mbb(bjets);
   }
   if(bjets.size() < 2 && addjets.size() >=2 ) {
    m_bb = mbb(addjets);
-   mctbb = mct(addjets);
   }
 return m_bb;
 }

@@ -17,7 +17,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   bool usetemplates   = false;
   bool usefsbkg       = false;
   bool use_data(true); 
-  bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(true),use_wbb(false);
+  bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(false),use_wbb(true);
   bool use_top(true),use_ttv(true),use_diboson(true);
   bool use_sig(false);
   bool use_norm_factor(false); float norm_factor = 1;
@@ -169,7 +169,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_top)   l1->AddEntry( h_top , "single top"            , "f");            if(use_sig)      l1->AddEntry(h_sig_300_80,Form("(300,80) x %i",scaleup), "l");
   if(use_wjets) l1->AddEntry( h_wjets , "W+jets "         , "f");                if(use_sig)      l1->AddEntry(h_sig_225_80,Form("(225,80) x %i",scaleup), "l");
   //l1->SetNColumns(1);
-  if(use_wbb) l1->AddEntry( h_wbb , "W+b#bar{b}"          , "f");
+  if(use_wbb) l1->AddEntry( h_wbb , "W+b#bar{b}/WZ(b#bar{b})"          , "f");
   if(use_ttv)   l1->AddEntry( h_ttv ,  "ttv"            , "f");
   if(use_diboson) l1->AddEntry( h_diboson , "diboson"          , "f");
   if(use_zjets) l1->AddEntry( h_zjets , "DY"            , "f");

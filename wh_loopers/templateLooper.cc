@@ -10,6 +10,7 @@
 #include "TDirectory.h"
 #include "TFile.h"
 #include "TH1F.h"
+#include "TH2F.h"
 #include "TH1D.h"
 #include "TMath.h"
 
@@ -216,7 +217,7 @@ void templateLooper::bookHistos(std::string region){
                //             8,0.5,8.5
   //            );//book histos for all SRs and CRs
                 string histoname = "h_"+leptype.at(lepind)+"_event_"+histonames_cutflow.at(selind)+"_"+region.c_str();
-                histos_cutflow[histoname] = new TH1D(histoname.c_str(),histoname.c_str(),11,0.5,11.5);
+                histos_cutflow[histoname] = new TH1D(histoname.c_str(),histoname.c_str(),15,0.5,15.5);
                 histos_cutflow[histoname]->Sumw2();
 		}
   }
@@ -227,7 +228,10 @@ void templateLooper::bookHistos(std::string region){
  
   /*
   bookHist("h_mm_event_drll_2jets", "h_mm_event_drll_2jets", 500,0,5);
-  */
+    */
+  histMCTvsMT = new TH2F( "h_histMCTvsMT", "h_histMCTvsMT", 1000,0,1000,1000,0,1000); histMCTvsMT->Sumw2();
+  histMCTvsMET = new TH2F( "h_histMCTvsMET", "h_histMCTvsMET", 1000,0,1000,1000,0,1000); histMCTvsMET->Sumw2();
+  histMCTvsMbb = new TH2F( "h_histMCTvsMbb", "h_histMCTvsMbb", 1000,0,1000,1000,0,1000); histMCTvsMbb->Sumw2();
 }
 
 void templateLooper::ScanChain ( TChain * chain , const string iter , const string sample, const string selection ){
@@ -376,7 +380,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 
 	  float weight = 1.0;
-          float lumi = 10.0;
+          float lumi = 2.26;
 	  if( is_data() ){
 		weight = 1.0;
 	   } else if( !is_data() ){
@@ -471,22 +475,47 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
        } //end of if yield
               
           if(TString(selection).Contains("yield_2lCR")){
+           if(!pass2lCR(selection.c_str())) continue;
            histname = Form("h_%s_event_NEvents2lCR_%s","lep",selection.c_str());
-           if(pass2lCR("yield_bin1")) histos_cutflow[histname]->Fill(1,weight);
-           if(pass2lCR("yield_bin2")) histos_cutflow[histname]->Fill(2,weight);
-           if(pass2lCR("yield_bin3")) histos_cutflow[histname]->Fill(3,weight);
+           if(pass2lCR("yield_metbin1_mct50")) histos_cutflow[histname]->Fill(1,weight);
+           if(pass2lCR("yield_metbin1_mct100")) histos_cutflow[histname]->Fill(2,weight);
+           if(pass2lCR("yield_metbin1_mct125")) histos_cutflow[histname]->Fill(3,weight);
+           if(pass2lCR("yield_metbin1_mct150")) histos_cutflow[histname]->Fill(4,weight);
+           if(pass2lCR("yield_metbin1_mct170")) histos_cutflow[histname]->Fill(5,weight);
+           if(pass2lCR("yield_metbin2_mct50")) histos_cutflow[histname]->Fill(6,weight);
+           if(pass2lCR("yield_metbin2_mct100")) histos_cutflow[histname]->Fill(7,weight);
+           if(pass2lCR("yield_metbin2_mct125")) histos_cutflow[histname]->Fill(8,weight);
+           if(pass2lCR("yield_metbin2_mct150")) histos_cutflow[histname]->Fill(9,weight);
+           if(pass2lCR("yield_metbin2_mct170")) histos_cutflow[histname]->Fill(10,weight);
+//           if(pass2lCR("yield_metbin2_mct150")) histos_cutflow[histname]->Fill(12,weight);
 
            if( is2lep()) {
            histname = Form("h_%s_event_NEvents2lCR_%s","lep_dilep",selection.c_str());
-           if(pass2lCR("yield_bin1")) histos_cutflow[histname]->Fill(1,weight);
-           if(pass2lCR("yield_bin2")) histos_cutflow[histname]->Fill(2,weight);
-           if(pass2lCR("yield_bin3")) histos_cutflow[histname]->Fill(3,weight);
+           if(pass2lCR("yield_metbin1_mct50")) histos_cutflow[histname]->Fill(1,weight);
+           if(pass2lCR("yield_metbin1_mct100")) histos_cutflow[histname]->Fill(2,weight);
+           if(pass2lCR("yield_metbin1_mct125")) histos_cutflow[histname]->Fill(3,weight);
+           if(pass2lCR("yield_metbin1_mct150")) histos_cutflow[histname]->Fill(4,weight);
+           if(pass2lCR("yield_metbin1_mct170")) histos_cutflow[histname]->Fill(5,weight);
+           if(pass2lCR("yield_metbin2_mct50")) histos_cutflow[histname]->Fill(6,weight);
+           if(pass2lCR("yield_metbin2_mct100")) histos_cutflow[histname]->Fill(7,weight);
+           if(pass2lCR("yield_metbin2_mct125")) histos_cutflow[histname]->Fill(8,weight);
+           if(pass2lCR("yield_metbin2_mct150")) histos_cutflow[histname]->Fill(9,weight);
+           if(pass2lCR("yield_metbin2_mct170")) histos_cutflow[histname]->Fill(10,weight);
+  //         if(pass2lCR("yield_metbin2_mct150")) histos_cutflow[histname]->Fill(12,weight);
            }
            if( is1lep()) {
            histname = Form("h_%s_event_NEvents2lCR_%s","lep_onelep",selection.c_str());
-           if(pass2lCR("yield_bin1")) histos_cutflow[histname]->Fill(1,weight);
-           if(pass2lCR("yield_bin2")) histos_cutflow[histname]->Fill(2,weight);
-           if(pass2lCR("yield_bin3")) histos_cutflow[histname]->Fill(3,weight);
+           if(pass2lCR("yield_metbin1_mct50")) histos_cutflow[histname]->Fill(1,weight);
+           if(pass2lCR("yield_metbin1_mct100")) histos_cutflow[histname]->Fill(2,weight);
+           if(pass2lCR("yield_metbin1_mct125")) histos_cutflow[histname]->Fill(3,weight);
+           if(pass2lCR("yield_metbin1_mct150")) histos_cutflow[histname]->Fill(4,weight);
+           if(pass2lCR("yield_metbin1_mct170")) histos_cutflow[histname]->Fill(5,weight);
+           if(pass2lCR("yield_metbin2_mct50")) histos_cutflow[histname]->Fill(6,weight);
+           if(pass2lCR("yield_metbin2_mct100")) histos_cutflow[histname]->Fill(7,weight);
+           if(pass2lCR("yield_metbin2_mct125")) histos_cutflow[histname]->Fill(8,weight);
+           if(pass2lCR("yield_metbin2_mct150")) histos_cutflow[histname]->Fill(9,weight);
+           if(pass2lCR("yield_metbin2_mct170")) histos_cutflow[histname]->Fill(10,weight);
+       //    if(pass2lCR("yield_metbin2_mct150")) histos_cutflow[histname]->Fill(12,weight);
            }
          continue;   
          }
@@ -672,9 +701,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           npass += weight;
           if(TString(selection).Contains("presel")&& !passPreselection(selection))  continue;
           if(TString(selection).Contains("SR")&& !passStudyRegion(selection.c_str()))     continue;
-          if(TString(selection).Contains("2lCR") && ! pass2lCR(selection.c_str())) continue;
+          if(TString(selection).Contains("2lCR") && !pass2lCR(selection.c_str())) continue;
+          if(TString(selection).Contains("mbbCR") && !passmbbCR(selection.c_str())) continue;
           if(bjets.size()==2) ptlbb = (bjetslv.at(0)+bjetslv.at(1)+lep1_p4()).pt();
-          //if(event_met_pt<100) continue;
+
           string region = selection;
           fillHist( "event", "njets"  , region.c_str(), ngoodjets_low    , weight );
           fillHist( "event", "nbjets"  , region.c_str(), bjets.size(), weight );
@@ -702,6 +732,13 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
 	  fillHist( "event", "MT2W" , region.c_str(), MT2W()       , weight );	 
 	  fillHist( "event", "deltaphi_lep_met" , region.c_str(), ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv) , weight );	 
+          
+          if(is2lep() ) {
+           histMCTvsMT->Fill(mctbb,mt_met_lep(),weight);
+           histMCTvsMET->Fill(mctbb,event_met_pt,weight);
+           histMCTvsMbb->Fill(mctbb,m_bb,weight);
+           }
+
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : finished filling histograms " <<endl;
 
           //-~-~-~-~-~-~-~-~-~-~-//

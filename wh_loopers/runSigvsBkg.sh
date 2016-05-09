@@ -9,7 +9,13 @@ fi
 
 lumi=2.26
 
-selection="2lCR_mbb"
+#selection="2lCR_mbb"
+#selection="mbbCR"
+#selection="mbbCR_mct170"
+#selection="2lCR_mbb_met100_mct125"
+
+selection="2lCR_mbb_met50"
+#selection="2lCR_mbb_mct150"
 #selection="SR_2btags_2jets_mbb"
 #selection="SR_presel_2btags_mbb_pt20_mt150_met100"
 #selection="SR_presel_2btags_mbb_pt20_mt125_met100_mct100"

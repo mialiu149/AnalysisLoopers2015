@@ -3,6 +3,7 @@
 
 #include "TChain.h"
 #include "TH1F.h"
+#include "TH2F.h"
 #include "TH1D.h"
 
 class TChain;
@@ -24,6 +25,8 @@ private:
   std::map<std::string, TH1F*> mettemplate_hists;
   std::map<std::string, TH1F*> event_hists;
   std::map<std::string, TH1D*> histos_cutflow;
-  
+   TH2F* histMCTvsMT; 
+   TH2F* histMCTvsMET; 
+   TH2F* histMCTvsMbb; 
 };
 #endif
