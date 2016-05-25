@@ -18,10 +18,10 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   bool usefsbkg       = false;
   bool use_data(true); 
   bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(false),use_wbb(true);
-  bool use_top(true),use_ttv(true),use_diboson(true);
+  bool use_top(false),use_ttv(true),use_diboson(true);
   bool use_sig(false);
-  bool use_norm_factor(false); float norm_factor = 1;
-  int scaleup = 100;
+  bool use_norm_factor(false); float norm_factor = 1.;
+  int scaleup = 5;
 
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
@@ -43,15 +43,14 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
  
   if(use_data)  getBackground(  h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
   if(use_ttbar) getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ),variable, type, region );
-  if(use_ttbar1l) getBackground(  h_ttbar1l, iter, Form("ttbar_%s", selection.c_str() ), variable,"lep_onelep" , region );
-  if(use_ttbar2l) getBackground(  h_ttbar2l, iter, Form("ttbar_%s", selection.c_str() ), variable,"lep_dilep", region );
-  //if(use_wjets) getBackground(  h_wjets, iter, Form("wjets_htbin_%s", selection.c_str() ), variable, type, region );
-  if(use_wjets) getBackground(  h_wjets, iter, Form("wjets_%s", selection.c_str() ), variable, type, region );
+  if(use_ttbar1l) getBackground(  h_ttbar1l, iter, Form("tops_%s", selection.c_str() ), variable,"lep_onelep" , region );
+  if(use_ttbar2l) getBackground(  h_ttbar2l, iter, Form("tops_%s", selection.c_str() ), variable,"lep_dilep", region );
+  if(use_wjets) getBackground(  h_wjets, iter, Form("wsLF_%s", selection.c_str() ), variable,"lep_LF", region );
+  if(use_wbb)   getBackground(  h_wbb, iter, Form("wsLF_%s", selection.c_str() ), variable, "lep_HF", region );
   if(use_zjets) getBackground(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
-  if(use_top)   getBackground(  h_top, iter, Form("top_%s", selection.c_str() ), variable, type, region );
-  if(use_ttv)   getBackground(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
-  if(use_wbb)   getBackground(  h_wbb, iter, Form("wbb_%s", selection.c_str() ), variable, type, region );
-  if(use_diboson)   getBackground(  h_diboson, iter, Form("diboson_%s", selection.c_str() ), variable, type, region );
+  if(use_top)   getBackground(  h_top, iter, Form("singletop_%s", selection.c_str() ), variable, type, region );
+  if(use_ttv)   getBackground(  h_ttv, iter, Form("wzbb_%s", selection.c_str() ), variable, type, region );
+  if(use_diboson)   getBackground(  h_diboson, iter, Form("rare_%s", selection.c_str() ), variable, type, region );
   if(use_sig)   getBackground(  h_sig_350_1, iter, Form("wh_350_1_%s", selection.c_str() ), variable, type, region );
   if(use_sig)   getBackground(  h_sig_300_80, iter, Form("wh_300_80_%s", selection.c_str() ), variable, type, region );
   if(use_sig)   getBackground(  h_sig_250_1, iter, Form("wh_250_1_%s", selection.c_str() ), variable, type, region );
@@ -61,7 +60,6 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   //-----------------------------              normalization               -------------------------------//
   //------------------------------------------------------------------------------------------------------//
 
-  if(use_norm_factor) 
 //        norm_factor =   h_data->Integral(h_data->FindBin(81),h_data->FindBin(100)-1)/
 //	(h_wjets->Integral(h_wjets->FindBin(81),h_wjets->FindBin(101)-1) +
 //	 h_ttbar->Integral(h_ttbar->FindBin(81),h_ttbar->FindBin(101)-1));
@@ -80,11 +78,6 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
    h_sig_300_80->Scale(luminosity*scaleup);
    h_sig_250_1->Scale(luminosity*scaleup);
    h_sig_225_80->Scale(luminosity*scaleup);
-   /*h_sig_350_1->Scale(luminosity*scaleup*0.00128300190114);
-   h_sig_300_80->Scale(luminosity*scaleup*0.00206056387342);
-   h_sig_250_1->Scale(luminosity*scaleup*0.00497616088593);
-   h_sig_225_80->Scale(luminosity*scaleup*0.00579149982859);
-  */
   }
  
   //------------------------------------------------------------------------------------------------------//
@@ -94,27 +87,27 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   float xmin = 50; float xmax = 500;
   //float ymin = 1e-1; float ymax = 1.5;
   float ymin = 0; float ymax = 1.5;
-  int rebin = 20;
-  if( TString(variable).Contains("MHT") ){	xmin = 0;	xmax = 250;	rebin = 5;  }
+  int rebin = 10;
+  if( TString(variable).Contains("MHT") )    {	xmin = 0;	xmax = 250;	rebin = 5;  }
   if( TString(variable).Contains("NEvents") ){	xmin = 0.5;	xmax = 8.5;	rebin = 1;  }
-  if( TString(variable).Contains("mhtphi") ){	xmin = 0;	xmax = 250;        ymin = 0;	rebin = 5;  }
+  if( TString(variable).Contains("mhtphi") ) {	xmin = 0;	xmax = 250;        ymin = 0;	rebin = 5;  }
   if( variable == "nVert" ){ xmin = 0;    xmax = 50;    ymax = 100;    ymin = 0;    rebin = 1;}
-  if( TString(variable).Contains("met") || TString(variable).Contains("mt") || TString(variable).Contains("MT2") || TString(variable).Contains("mbb") ||TString(variable).Contains("ptbb")|| TString(variable).Contains("MCT"))
-   //{  rebin = 25; xmin = 0;	  xmax = 1000;           ymax = 5e1; }
-   {  rebin = 25; xmin = 0;	  xmax = 500;          }
+  if( TString(variable).Contains("met") || TString(variable).Contains("mt") || TString(variable).Contains("MT2") || TString(variable).Contains("mbb") ||TString(variable).Contains("pt")|| TString(variable).Contains("MCT"))
+  // {   xmin = 0;	  xmax = 500;}
+   {  rebin = 10; xmin = 0;	  xmax = 500; }
   if( variable == "ht" ){xmin = 0;	xmax = 500;	rebin = 25; ymax = 5e1;}
   if( TString(variable).Contains("iso")){ xmin = 0;     xmax = 100;     rebin = 10;  }
   if( TString(variable).Contains("relIso")){     xmin = 0;     xmax = 10;     rebin = 20;  } 
   if( TString(variable).Contains("absIso")){     xmin = 0;     xmax = 100;     rebin = 5;  }
-  if( TString(variable).Contains("pt") ){	xmin = 0;	xmax = 500;	rebin = 50;  }
+  if( TString(variable).Contains("pt") ){	xmin = 0;	xmax = 500;	rebin = 10;  }
   if( variable == "njets" || variable == "nbjets"){ xmin = 0;	xmax = 10;      	rebin = 1;  }
-  if( TString(variable).Contains("phi") || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
+  if(  variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
        xmin = -3.2;
 	xmax = 3.2;
 	ymax = 1000;
 	rebin = 10;
   }
-
+ if( variable == "dphibb" || variable == "deltaphi_lep_met" )   {	xmin = 0;	xmax = 6.4;         ymin = 0;	 ymax=1000; rebin=5;}
  if(use_data)  h_data->Rebin(rebin);
  if(use_wjets) h_wjets->Rebin(rebin);
  if(use_ttbar1l) h_ttbar1l->Rebin(rebin);
@@ -137,15 +130,12 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_zjets) { h_zjets->SetLineColor(kGreen+2);updateoverflow( h_zjets, xmax );h_zjets->SetFillColor(kGreen+2);}
    
   //some special settings
-
-  if( TString(variable).Contains("phi") || variable == "mhtphi" || type    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
-	h_ttbar2l->GetYaxis()->SetRangeUser(0, h_ttbar2l->GetMaximum()*1.4 );  
+//  cout<< h_ttbar2l->GetMaximum() <<endl;
+  if(   TString(variable).Contains("dphi") ||  variable == "mhtphi" || type    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
+    {h_ttbar2l->GetYaxis()->SetRangeUser(0, h_ttbar2l->GetMaximum()*1.4 ); } 
   }
   else{
-	h_ttbar2l->GetYaxis()->SetRangeUser(ymin*luminosity, h_ttbar2l->GetMaximum() * ymax );
-  }
-  if( TString(variable).Contains("phi") || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
-	h_ttbar2l->GetYaxis()->SetRangeUser(0, h_ttbar2l->GetMaximum()*1.4 );  
+   {h_ttbar2l->GetYaxis()->SetRangeUser(ymin*luminosity, h_ttbar2l->GetMaximum() * ymax );}
   }
  //stacked histograms 
   THStack * stack = new THStack("stack","stacked");
@@ -164,14 +154,13 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   l1->SetFillColor(kWhite);    
   l1->SetNColumns(2);
   if(use_data)  l1->AddEntry( h_data  , "data"              , "lpe");
-  if(use_ttbar2l)	l1->AddEntry( h_ttbar2l , "t#bar{t} 2l"       , "f");    if(use_sig)      l1->AddEntry(h_sig_350_1, Form("(350,1) x %i",scaleup), "l");
-  if(use_ttbar1l)	l1->AddEntry( h_ttbar1l , "t#bar{t} 1l"       , "f");    if(use_sig)      l1->AddEntry(h_sig_250_1, Form("(250,1) x %i",scaleup), "l");
+  if(use_ttbar2l)	l1->AddEntry( h_ttbar2l , "2l"       , "f");    if(use_sig)      l1->AddEntry(h_sig_350_1, Form("(350,1) x %i",scaleup), "l");
+  if(use_ttbar1l)	l1->AddEntry( h_ttbar1l , "1l"       , "f");    if(use_sig)      l1->AddEntry(h_sig_250_1, Form("(250,1) x %i",scaleup), "l");
   if(use_top)   l1->AddEntry( h_top , "single top"            , "f");            if(use_sig)      l1->AddEntry(h_sig_300_80,Form("(300,80) x %i",scaleup), "l");
-  if(use_wjets) l1->AddEntry( h_wjets , "W+jets "         , "f");                if(use_sig)      l1->AddEntry(h_sig_225_80,Form("(225,80) x %i",scaleup), "l");
-  //l1->SetNColumns(1);
-  if(use_wbb) l1->AddEntry( h_wbb , "W+b#bar{b}/WZ(b#bar{b})"          , "f");
-  if(use_ttv)   l1->AddEntry( h_ttv ,  "ttv"            , "f");
-  if(use_diboson) l1->AddEntry( h_diboson , "diboson"          , "f");
+  if(use_wjets) l1->AddEntry( h_wjets , "W+LF "         , "f");                if(use_sig)      l1->AddEntry(h_sig_225_80,Form("(225,80) x %i",scaleup), "l");
+  if(use_wbb) l1->AddEntry( h_wbb , "W+HF"          , "f");
+  if(use_ttv)   l1->AddEntry( h_ttv ,  "W+Z(q#bar{q})"            , "f");
+  if(use_diboson) l1->AddEntry( h_diboson , "rare"          , "f");
   if(use_zjets) l1->AddEntry( h_zjets , "DY"            , "f");
   TCanvas * c1 = new TCanvas("c1","");
 //  c1->SetWindowSize(800, 600);
@@ -184,10 +173,10 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   pad->SetTopMargin(0.08);
   pad->SetLeftMargin(0.18);
   pad->Draw(); pad->cd();
-  if( !(TString(variable).Contains("phi") || variable == "nVert" || variable == "mhtphi" || type == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir") ){
+  if( !( TString(variable).Contains("dphi") || variable == "nVert" || variable == "mhtphi" || type == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir") ){
 	pad->SetLogy();
   } 
-   
+  //h_data->GetYaxis()->SetRangeUser(0,100);  
   h_data->GetXaxis()->SetRangeUser(xmin, xmax);
   h_data->SetMarkerStyle(8);
   h_data->SetMarkerSize(0.75);
@@ -210,11 +199,15 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
 
   TH1F* h_rat = (TH1F*)h_data  -> Clone("h_rat");
   TH1F* h_den = (TH1F*)h_wjets -> Clone("h_den");
-  h_den->Add(h_ttbar2l);
-  h_den->Add(h_ttbar1l);
-  h_den->Add(h_zjets);
-  h_den->Add(h_top);
-  h_den->Add(h_ttv);
+
+  cout<<h_den->GetSumOfWeights()<<endl;
+  cout<<h_rat->GetSumOfWeights()<<endl;
+
+  if(use_ttbar2l) h_den->Add(h_ttbar2l);
+  if(use_ttbar1l) h_den->Add(h_ttbar1l);
+  if(use_zjets) h_den->Add(h_zjets);
+  if(use_wbb)   h_den->Add(h_wbb);
+  if(use_diboson)  h_den->Add(h_diboson);
   
   h_rat->Divide(h_den);
 
@@ -241,7 +234,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if( TString(variable).Contains("pt")  ) h_rat->GetXaxis()->SetTitle("p_{T} GeV");
   if( variable == "njets"               ) h_rat->GetXaxis()->SetTitle("N_{jets}");  
   if( variable == "mll"                 ) h_rat->GetXaxis()->SetTitle("M_{\\ell\\ell} GeV");
-  if( TString(variable).Contains("phi") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
+  if( TString(variable).Contains("phi") && !TString(variable).Contains("dphi")) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
   if( TString(variable).Contains("_pt") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
   h_rat->GetXaxis()->SetTitleOffset(0.9);
   h_rat->GetXaxis()->SetTitleSize(0.15);
@@ -272,7 +265,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if( variable == "njets"               ) stack->GetXaxis()->SetTitle("N_{jets}");  
   if( variable == "nbjets"               ) stack->GetXaxis()->SetTitle("N_{bjets}");  
   if( variable == "mll"                 ) stack->GetXaxis()->SetTitle("M_{\\ell\\ell} GeV");
-  if( TString(variable).Contains("phi") ) stack->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
+  if( TString(variable).Contains("phi") && !TString(variable).Contains("dphi")) stack->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
   if( TString(variable).Contains("_pt") ) stack->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
   stack->GetXaxis()->SetLimits(xmin,xmax);
   stack->GetXaxis()->SetTitleOffset(0.9);

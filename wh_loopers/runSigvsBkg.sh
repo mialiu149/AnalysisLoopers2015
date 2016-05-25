@@ -7,16 +7,31 @@ if [ ! -d "../output/ZMET2015/$analysis_version/plots/Closure/" ]; then
 	cp ../index.php ../output/ZMET2015/$analysis_version/plots/Closure/
 fi
 
+#lumi=2.26
 lumi=2.26
 
+#selection="1lCR_met100_mtbulk"    # for wbb look at mt bulk b tagged region
+selection="1lCR_met100_mtbulk_removeveto"    # for wbb look at mt bulk b tagged region
+#selection="1lCR_met100_mbb_mtbulk"    # for wbb look at mt bulk b tagged region
 #selection="2lCR_mbb"
 #selection="mbbCR"
 #selection="mbbCR_mct170"
 #selection="2lCR_mbb_met100_mct125"
-
-selection="2lCR_mbb_met50"
+#selection="2lCR_mbb_met50"
+#selection="SR"
+#selection="SR_met100_mct150_mt150"
+#selection="SR_met100_mt150"
+#selection="yield_2lCR_mbb"                                  #-->2l CR yields with relaxed cuts 
+#selection="2lCR_mbb_mt150"
+#selection="2lCR_mbb_met100"
+#selection="SR_met100_mt150_mct150"
+#selection="1lCR_met100_mct150"
+#selection="1lCR_mtbulk_met100"    # for wbb look at mt bulk b tagged region
 #selection="2lCR_mbb_mct150"
-#selection="SR_2btags_2jets_mbb"
+#selection="SR_2jets_mbb"
+#selection="SR_met100_mt150"
+#selection="SR_met100_mt150_mct150_isr"
+#selection="SR_met100_mt150_mct150_isr_twobtag"
 #selection="SR_presel_2btags_mbb_pt20_mt150_met100"
 #selection="SR_presel_2btags_mbb_pt20_mt125_met100_mct100"
 #selection="SR_presel_2btags_mbb_pt20_mt125_met150_mct125"
@@ -29,24 +44,34 @@ selection="2lCR_mbb_met50"
 #selection="SR_presel_2btags_mbb_pt20_mt125_met150_mct125_l4jets"
 #selection="SR_presel_2btags_mbb_pt20_mt125_met100"
 
+#selection="1lCR_met100_mct150_mbb"    # for wbb look at mt bulk b tagged region
+#selection="2lCR_mt50_met100"
+root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dphibb\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dRbb\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"deltaphi_leadb_met\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"deltaphi_lep_met\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"mindphi_met_j1_j2\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"deltaphi_lep_leadb\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"mt\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MCT\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"met\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ht\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptl1\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ht\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptl1\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"njets\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"absIso03EA\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptbb\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"absIso03EA\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptbb\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptb1\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptb2\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"mbb\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptlbb\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptlbb\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"nbjets\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dphi_Wlep\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dR_lep_leadb\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b_mass\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2lb\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b_mass_lep2\",\"$selection\" )" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b_lep2\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dphi_Wlep\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dR_lep_leadb\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b_mass\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2lb\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b_mass_lep2\",\"$selection\" )" 
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b_lep2\",\"$selection\" )" 
 #
 #selection="SR_presel_2btags_mbb_l5jets"
 #selection="SR_presel_2btags_mbb_l5jets_mt150_met100"
