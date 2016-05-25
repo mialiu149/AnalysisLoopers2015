@@ -322,10 +322,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           float METy = MET*TMath::Sin(METPhi);
           ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
           metlv.SetPxPyPzE(METx,METy,0.,MET);
-//          if(mindphi_met_j1_j2() < 0.8) continue;
-//          if(!(whsel::passmbb()>100&&whsel::passmbb()<150)) continue;
-//          if(event_met_pt<100||mt_met_lep()<50) continue; 
           float mctbb = whsel::passmct();
+//          if(mindphi_met_j1_j2() < 0.8) continue;
+          if(TString(selection).Contains("mbb") && !(whsel::passmbb()>90&&whsel::passmbb()<150)) continue;
+          if(TString(selection).Contains("mct150") && !(mctbb<150)) continue;
+//          if(event_met_pt<100||mt_met_lep()<50) continue; 
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//

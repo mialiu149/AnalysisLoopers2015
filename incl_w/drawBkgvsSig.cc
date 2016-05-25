@@ -18,7 +18,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   bool usefsbkg       = false;
   bool use_data(true); 
   bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(true),use_wbb(false);
-  bool use_top(true),use_ttv(false),use_diboson(false);
+  bool use_top(false),use_ttv(false),use_diboson(false);
   bool use_sig(false);
   bool use_norm_factor(false); float norm_factor = 1.;
   int scaleup = 100;
