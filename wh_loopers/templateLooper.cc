@@ -225,7 +225,10 @@ void templateLooper::bookHistos(std::string region){
   histonames_cutflow.push_back("NEventsSRMultiBinV6");
   histonames_cutflow.push_back("NEvents1lCR");
   histonames_cutflow.push_back("NEvents2lCR");
-  histonames_cutflow.push_back("NEventsPerCut");
+  histonames_cutflow.push_back("NEventsSRCutflow");
+  histonames_cutflow.push_back("NEvents2lCRCutflow");
+  histonames_cutflow.push_back("NEvents1lCRCutflow");
+  histonames_cutflow.push_back("NEventsMtBulkCutflow");
 
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
 		for( unsigned int selind = 0; selind < histonames_cutflow.size(); selind++ ){
@@ -397,7 +400,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 
 	  float weight = 1.0;
-          float lumi = 2.26;
+          float lumi = 20;
 	  if( is_data() ){
 		weight = 1.0;
 	   } else if( !is_data() ){
@@ -429,18 +432,45 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           //    fill cutflow histograms     // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
 	  string histname = "dummy";
-          if(TString(selection).Contains("percut")){
-          histname = Form("h_%s_event_NEventsPerCut_%s","lep",selection.c_str());
+          if(TString(selection).Contains("cutflow")){
+          histname = Form("h_%s_event_NEventsSRCutflow_%s","lep",selection.c_str());
+          histos_cutflow[histname]->Fill(1,weight);                               //Nevents in the skim
+          if(passcutflow("step0")) histos_cutflow[histname]->Fill(2,weight); //trigger
+          if(passcutflow("step1")) histos_cutflow[histname]->Fill(3,weight); //one lept
+          if(passcutflow("step2")) histos_cutflow[histname]->Fill(4,weight); //lep_veto
+          if(passcutflow("step3"))  histos_cutflow[histname]->Fill(5,weight); //track veto
+          if(passcutflow("step4"))  histos_cutflow[histname]->Fill(6,weight); //two jets
+          if(passcutflow("step5"))  histos_cutflow[histname]->Fill(7,weight); //two b tagged
+          if(passcutflow("step6"))  histos_cutflow[histname]->Fill(8,weight); //met
+          if(passcutflow("step7"))  histos_cutflow[histname]->Fill(9,weight); //
+          if(passcutflow("step8"))  histos_cutflow[histname]->Fill(10,weight); //mt
+          if(passcutflow("step9"))  histos_cutflow[histname]->Fill(11,weight); //mbb
+          if(passcutflow("step10"))  histos_cutflow[histname]->Fill(12,weight); //mct
+          histname = Form("h_%s_event_NEvents2lCRCutflow_%s","lep",selection.c_str());
+          histos_cutflow[histname]->Fill(1,weight);                               //Nevents in the skim
+          if(passcutflow("step0")) histos_cutflow[histname]->Fill(2,weight); //trigger
+          if(passcutflow("step1")) histos_cutflow[histname]->Fill(3,weight); //one lept
+          if(!passcutflow("step2")) histos_cutflow[histname]->Fill(4,weight); //lep_veto
+          if(!passcutflow("step3"))  histos_cutflow[histname]->Fill(5,weight); //track veto
+          if(!passcutflow("step4"))  histos_cutflow[histname]->Fill(6,weight); //tau veto
+          histname = Form("h_%s_event_NEvents1lCRCutflow_%s","lep",selection.c_str());
+          histos_cutflow[histname]->Fill(1,weight);                               //Nevents in the skim
+          if(passcutflow("step0")) histos_cutflow[histname]->Fill(2,weight); //trigger
+          if(passcutflow("step1")) histos_cutflow[histname]->Fill(3,weight); //one lept
+          if(passcutflow("step2")) histos_cutflow[histname]->Fill(4,weight); //lep_veto
+          if(passcutflow("step3"))  histos_cutflow[histname]->Fill(5,weight); //track veto
+          if(passcutflow("step4"))  histos_cutflow[histname]->Fill(6,weight); //tau veto
+          histname = Form("h_%s_event_NEventsMtBulkCutflow_%s","lep",selection.c_str());
           histos_cutflow[histname]->Fill(1,weight);                               //Nevents in the skim
           if(passPreselection("step0")) histos_cutflow[histname]->Fill(2,weight); //trigger
           if(passPreselection("step1")) histos_cutflow[histname]->Fill(3,weight); //one lept
           if(passPreselection("step2")) histos_cutflow[histname]->Fill(4,weight); //lep_veto
           if(passPreselection("step3"))  histos_cutflow[histname]->Fill(5,weight); //track veto
           if(passPreselection("step4"))  histos_cutflow[histname]->Fill(6,weight); //tau veto
-          if(passStudyRegion("step5"))  histos_cutflow[histname]->Fill(7,weight); // two btagged
+//          if(passStudyRegion("step5"))  histos_cutflow[histname]->Fill(7,weight); // two btagged
 //          if(passStudyRegion("step6"))  histos_cutflow[histname]->Fill(8,weight); //exactly two jets
           continue;
-           }
+          }
 
            if(TString(selection).Contains("SROneBin_yield")){
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
@@ -477,7 +507,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(passSR("metbin4v1")) histos_cutflow[histname]->Fill(4,weight);
            if( is2lep()) {
            histname = Form("h_%s_event_NEventsSRMultiBinV1_%s","lep_dilep",selection.c_str());
-           //if(passSR(selection.c_str())) histos_cutflow[histname]->Fill(1,weight);
            if(passSR("metbin1v1")) histos_cutflow[histname]->Fill(1,weight);
            if(passSR("metbin2v1")) histos_cutflow[histname]->Fill(2,weight);
            if(passSR("metbin3v1")) histos_cutflow[histname]->Fill(3,weight);
@@ -485,7 +514,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            }
            if( is1lep()) {
            histname = Form("h_%s_event_NEventsSRMultiBinV1_%s","lep_onelep",selection.c_str());
-           //if(passSR(selection.c_str())) histos_cutflow[histname]->Fill(1,weight);
            if(passSR("metbin1v1")) histos_cutflow[histname]->Fill(1,weight);
            if(passSR("metbin2v1")) histos_cutflow[histname]->Fill(2,weight);
            if(passSR("metbin3v1")) histos_cutflow[histname]->Fill(3,weight);
@@ -706,6 +734,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(pass2lCR("yield_metbin5_mct125")) histos_cutflow[histname]->Fill(19,weight);
            if(pass2lCR("yield_metbin5_mct150")) histos_cutflow[histname]->Fill(20,weight);
            }
+
            if( is1lep()) {
            histname = Form("h_%s_event_NEvents2lCR_%s","lep_onelep",selection.c_str());
            if(pass2lCR("yield_metbin1_mct50")) histos_cutflow[histname]->Fill(1,weight);

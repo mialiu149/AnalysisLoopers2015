@@ -27,36 +27,58 @@ namespace whsel{
 
 bool passPreselection(string selection) {
  bool passTrigger =  HLT_SingleMu20()|| HLT_SingleEl27();
- if (TString(selection).Contains("SR") ) passTrigger = true; // fast sim doesn't have the right trigger information.
+// if (TString(selection).Contains("SR") )
+ passTrigger = true; // fast sim doesn't have the right trigger information.
  bool passOneLep = (lep1type()==1);
- int passLepSel = !(eventtype()-5);
+ int passLepSel = !(lep2type()==1||lep2type()==2);
  if( !passTrigger) return false;
  if( lep1type()!=1) return false; // lep1 is good lepton
  if( !(lep1_relIso03EA()*lep1_pt() < 5)) return false;
  if( TString(selection).Contains("SR") || TString(selection).Contains("1lCR")) {     //if SR, second lepton veto
- //if( lep2type()==1||lep2type()==2) return false;
- //if( !PassTrackVeto_v3())          return false;  // ttrack veto
- //if( !PassTauVeto())               return false; // tau veto
+ if( lep2type()==1||lep2type()==2) return false;
+ if( !PassTrackVeto_v3())          return false;  // ttrack veto
+ if( !PassTauVeto())               return false; // tau veto
  }
  if( pfmet() < 50)                                                 return false; // min met cut.
 // if( ngoodbtags() != 2)                              return false;// btagged
- if( !TString(selection).Contains("isr") &&( ngoodjets()  != 2))                              return false;// exactly 2 jets
- if( TString(selection).Contains("isr") &&( ngoodjets()  < 2))                                return false;// exactly 2 jets
- // ttbar 1l selections
-// if( TString(selection).Contains("ttbar1l")){
-// if( !passOneLep)             return false; 
-// if( !passLepSel)             return false; //second lepton veto
-// if( ngoodbtags()<2)          return false;
-// if( ngoodjets() < 4)         return false; // >=3 jets  
-// if( pfmet() < 200)           return false; // min met cut.
- //}
-// cutflow step cuts
- if( TString(selection).Contains("step0") && !passTrigger) return false;
- if( TString(selection).Contains("step1") && !passOneLep)  return false; //if cutflow returns true
- if( TString(selection).Contains("step2") && !(passLepSel && passOneLep)) return false;
- if( TString(selection).Contains("step3") && !(PassTrackVeto_v3() && passLepSel && passOneLep))   return false; 
- if( TString(selection).Contains("step4") && !(PassTauVeto() && PassTrackVeto_v3() && passLepSel && passOneLep))   return false;
+// if( !TString(selection).Contains("isr") &&( ngoodjets()  != 2))                              return false;// exactly 2 jets
+// if( TString(selection).Contains("isr") &&( ngoodjets()  < 2))                                return false;// exactly 2 jets
  return true;
+}
+bool passcutflow( std::string selection){
+  
+ bool passTrigger =  HLT_SingleMu20()|| HLT_SingleEl27();
+ passTrigger = true; // fast sim doesn't have the right trigger information.
+ bool passOneLep = (lep1type()==1);
+ bool passLepSel = !(lep2type()==1||lep2type()==2);
+ std::pair<vector<int>,vector<int>> jets = btaggedjets(); vector<int> seljets = jets.first;// btagged jets.
+  float m_bb = getmbb();  float mctbb = getmct();
+  bool step0 = passTrigger; bool step1 = passOneLep&&step0; bool step2=(passLepSel && step1); bool step3 = (PassTrackVeto_v3() && step2);
+  bool step4 = step3&&PassTauVeto(); bool step5 = step4&&(ngoodjets()==2); 
+//  bool step6=step5&& (ngoodbtags()==2);
+  bool step6=  step5&& (seljets.size()==2);
+  bool step7 = step6 && (pfmet()>100);
+  bool step8 = step7&&(mt_met_lep() > 150);bool step9 = step8&&(m_bb>90&&m_bb<150);bool step10 = step9&&(mctbb>150);
+ if( TString(selection).Contains("step0") && !step0)   return false;
+ if( TString(selection).Contains("step1") && !step1)   return false; //if cutflow returns true
+ if( TString(selection).Contains("step2") && !step2)   return false;
+ if( TString(selection).Contains("step3") && !step3)   return false; 
+ if( TString(selection).Contains("step4") && !step4)   return false;
+ if( TString(selection).Contains("step5") && !step5)   return false;
+ if( TString(selection).Contains("step6") && !step6)   return false;
+ if( TString(selection).Contains("step7") && !step7)   return false;
+ if( TString(selection).Contains("step8") && !step8)   return false;
+ if( TString(selection).Contains("step9") && !step9)   return false;
+ if( TString(selection).Contains("step10") && !step10)   return false;
+ return true;
+}
+
+bool passISR(){
+ //std::pair<vector<int>,vector<int>> jets = btaggedjets(); vector<int> seljets = jets.second;
+ //if( seljets.size()==0) return false;
+ //int leadjet = seljets.at(0); if( ak4pfjets_p4().at(leadjet).pt() > 50)  return true;
+  if(ngoodjets()>2&&ak4pfjets_p4().at(0).pt()>150) return true;
+ else return false;
 }
 
 bool passSR( std::string selection){
@@ -65,11 +87,14 @@ bool passSR( std::string selection){
   bool met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 150 ); 
   if(TString(selection).Contains("mt120"))  met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 120 );                                       
   if(TString(selection).Contains("mt150"))  met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 150 );
-
- if( !passPreselection(selection.c_str()))                        return false;
+  if( !passPreselection(selection.c_str()))                        return false;
  if(TString(selection).Contains("onebtag")) {if( ngoodbtags() != 1)                        return false;}// btagged}
  if(TString(selection).Contains("twobtag")) {if( ngoodbtags() != 2)                        return false;}// btagged}
-// if( ngoodjets()  != 2)                              return false;// exactly 2 jets
+ std::pair<vector<int>,vector<int>> jets = btaggedjets(); vector<int> seljets = jets.first;// btagged jets.
+ //if( ngoodjets()  != 2 && !(ngoodjets() > 2 && passISR()))                                     return false;// exactly 2 jets
+ if( ngoodjets()  != 2 )                                     return false;// exactly 2 jets
+ //if( ngoodbtags() !=2)                               return false;
+ if( seljets.size() !=2)                               return false;
  if( m_bb>150||m_bb<90)                              return false;
  if( !met_mt_cut)                                    return false;
  if( TString(selection).Contains("mct50"))   {if(mctbb<50)     return false;} // mct cuts
@@ -93,12 +118,13 @@ bool passSR( std::string selection){
  if( TString(selection).Contains("metbin1v4")) {if(pfmet()<100||pfmet()>175) return false;} 
  if( TString(selection).Contains("metbin2v4")) {if(pfmet()<175)              return false;} 
 
- if( TString(selection).Contains("metbin1v5")) {if(!(pfmet()>200&&ngoodbtags() == 1 &&mctbb>170))  return false;}
- if( TString(selection).Contains("metbin2v5")) {if(!(pfmet()>100&&ngoodbtags() == 2 &&mctbb>150)) return false;}
+ if( TString(selection).Contains("metbin1v5")) {if(!(pfmet()>100&&ngoodbtags() == 2 && mctbb>150 && ngoodjets()  == 2))  return false;} //add ISR region
+ if( TString(selection).Contains("metbin2v5")) {if(!(pfmet()>100&&ngoodbtags() == 2 && mctbb>150 && passISR())) return false;}
 
  if( TString(selection).Contains("metbin1v6")) {if(!(pfmet()>250&&ngoodbtags() == 1&&mctbb>180)) return false;}
  if( TString(selection).Contains("metbin2v6")) {if(!(pfmet()>100&& pfmet()<175 &&ngoodbtags() == 2 &&mctbb>150)) return false;}
  if( TString(selection).Contains("metbin3v6")) {if(!(pfmet()>175&&ngoodbtags() == 2 &&mctbb>150)) return false;}
+
  return true;
 }
 
@@ -272,7 +298,8 @@ inline bool sortIndexbyCSV( pair<int, float> &vec1, pair<int, float> &vec2 ) {
 vector <pair<int, float>> sortedjetsbyCSV(){
    vector <pair<int, float>> jet_csv_pairs;
    for( size_t jetind = 0; jetind < ak4pfjets_p4().size(); jetind++ ){
-	  if( ak4pfjets_CSV().at(jetind) < 0.890){
+	  if( ak4pfjets_CSV().at(jetind) < 0.605){
+	  //if( ak4pfjets_CSV().at(jetind) < 0.890){
 	    jet_csv_pairs.push_back(make_pair(jetind,ak4pfjets_CSV().at(jetind)));
        }
    }
@@ -289,7 +316,9 @@ std::pair<vector<int>,vector<int>> btaggedjets()  {
                 fabs(ak4pfjets_p4().at(iJet).Eta()) < 2.4 
                 && ak4pfjets_loose_pfid().at(iJet)
                 )
-                {if (ak4pfjets_CSV().at(iJet) >0.890) 
+                {
+               if (ak4pfjets_CSV().at(iJet) >0.605) 
+ //               if (ak4pfjets_CSV().at(iJet) >0.890) 
                    bJets_idx.push_back(iJet);
                 else nonbJets_idx.push_back(iJet);}
  }

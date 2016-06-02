@@ -13,11 +13,11 @@
 #include "TROOT.h"
 #include "TTreeCache.h"
 
-// V00_00_05
-#include "V00_00_05.cc"
+// V80_00
+#include "V80_00.cc"
 
 using namespace std;
-using namespace V00_00_05_np;
+using namespace V80_00_np;
 
 int ScanChain( TChain* chain, bool fast = true, int nEvents = -1, string skimFilePrefix = "test") {
 
@@ -46,7 +46,7 @@ int ScanChain( TChain* chain, bool fast = true, int nEvents = -1, string skimFil
     TTree *tree = (TTree*)file->Get("t");
     if(fast) TTreeCache::SetLearnEntries(10);
     if(fast) tree->SetCacheSize(128*1024*1024);
-    v00_00_05.Init(tree);
+    v80_00.Init(tree);
     
     // Loop over Events in current file
     if( nEventsTotal >= nEventsChain ) continue;
@@ -56,11 +56,11 @@ int ScanChain( TChain* chain, bool fast = true, int nEvents = -1, string skimFil
       // Get Event Content
       if( nEventsTotal >= nEventsChain ) continue;
       if(fast) tree->LoadTree(event);
-      v00_00_05.GetEntry(event);
+      v80_00.GetEntry(event);
       ++nEventsTotal;
     
       // Progress
-      V00_00_05::progress( nEventsTotal, nEventsChain );
+      V80_00::progress( nEventsTotal, nEventsChain );
 
       // Analysis Code
 
