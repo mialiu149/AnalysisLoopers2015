@@ -38,8 +38,9 @@ compile_looper
 #selection="yield_2lCR_mbb"
 #selection="yield_1lCR_met100_mbb_nobveto"
 #selection="cutflow_loosebtag"
-selection="SRMultiBinV1_yield_mbb_mct150_mt150"
+#selection="SRMultiBinV1_yield_mbb_mct150_mt150"
 #selection="SROneBin_yield_met100_mt150_mct150_mbb_loosebtag_3jets"
+selection="yield_2lCR_mbb_mt50"
 ./runTemplateLooper $selection $analysis_version wh_350_1&
 ./runTemplateLooper $selection $analysis_version wh_300_80&
 ./runTemplateLooper $selection $analysis_version wh_250_1&

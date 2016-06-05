@@ -298,8 +298,8 @@ inline bool sortIndexbyCSV( pair<int, float> &vec1, pair<int, float> &vec2 ) {
 vector <pair<int, float>> sortedjetsbyCSV(){
    vector <pair<int, float>> jet_csv_pairs;
    for( size_t jetind = 0; jetind < ak4pfjets_p4().size(); jetind++ ){
-	  if( ak4pfjets_CSV().at(jetind) < 0.605){
-	  //if( ak4pfjets_CSV().at(jetind) < 0.890){
+	 // if( ak4pfjets_CSV().at(jetind) < 0.605){
+	  if( ak4pfjets_CSV().at(jetind) < 0.890){
 	    jet_csv_pairs.push_back(make_pair(jetind,ak4pfjets_CSV().at(jetind)));
        }
    }
@@ -317,8 +317,8 @@ std::pair<vector<int>,vector<int>> btaggedjets()  {
                 && ak4pfjets_loose_pfid().at(iJet)
                 )
                 {
-               if (ak4pfjets_CSV().at(iJet) >0.605) 
- //               if (ak4pfjets_CSV().at(iJet) >0.890) 
+//               if (ak4pfjets_CSV().at(iJet) >0.605) 
+                if (ak4pfjets_CSV().at(iJet) >0.890) 
                    bJets_idx.push_back(iJet);
                 else nonbJets_idx.push_back(iJet);}
  }

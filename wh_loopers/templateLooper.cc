@@ -400,7 +400,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 
 	  float weight = 1.0;
-          float lumi = 20;
+          float lumi = 2.26;
 	  if( is_data() ){
 		weight = 1.0;
 	   } else if( !is_data() ){

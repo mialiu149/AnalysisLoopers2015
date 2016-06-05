@@ -3,7 +3,7 @@ from ROOT import TH1F,TFile
 import os
 
 lumi = 2.26
-selection="yield_2lCR_mbb"
+selection="yield_2lCR_mbb_mt50"
 table_header = '\\begin{tabular}{lccccc}\n'
 title = '2l CR & & & &\\\\\n'
 hist_prefix = 'h_lep_event_NEvents2lCR_'+selection
@@ -37,7 +37,7 @@ row_inputs = [
               {'file':'wzbb_'+selection+'_hists.root','row_label':'w+z(bb)','hist_name':hist_prefix},
               {'file':'rare_'+selection+'_hists.root','row_label':'rare','hist_name':hist_prefix},
               {'file':'tops_'+selection+'_hists.root','row_label':'1l','hist_name':hist_prefix.replace('lep','lep_onelep')},
-              {'file':'singletop_'+selection+'_hists.root','row_label':'2l single top','hist_name':hist_prefix.replace('lep','lep_dilep')},
+#              {'file':'singletop_'+selection+'_hists.root','row_label':'2l single top','hist_name':hist_prefix.replace('lep','lep_dilep')},
               {'file':'tops_'+selection+'_hists.root','row_label':'2l','hist_name':hist_prefix.replace('lep','lep_dilep')}
              ]
 ##table to print out####
