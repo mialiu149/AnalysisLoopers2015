@@ -4,7 +4,8 @@ import os
 from zbi import zbi
 
 lumi = 10
-selection='yield_2lCR'
+#selection='yield_2lCR'
+selection="yield_2lCR_mbb_mt50"
 table_header = '\\begin{tabular}{lccc}\n'
 title = 'CR &  Mt $>$ 120 & &\\\\\n'
 hist_prefix = 'h_lep_event_NEvents2lCR_'+selection
