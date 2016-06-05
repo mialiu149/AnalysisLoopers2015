@@ -14,10 +14,10 @@
 #include "EventTypeSel.h"
 #include "../stop_variables/MT2_implementations.h"
 #include "histTools.h"
-#include "V00_00_05.h"
+#include "V80_00.h"
 #include "Math/VectorUtil.h"
 using namespace std;
-using namespace V00_00_05_np; 
+using namespace V80_00_np; 
 
 namespace whsel{
 
@@ -26,17 +26,17 @@ namespace whsel{
 //--------------//
 
 bool passPreselection(string selection) {
- bool passTrigger =  HLT_SingleMu20()|| HLT_SingleEl27();
+ bool passTrigger =  HLT_SingleMu()|| HLT_SingleEl();
 // if (TString(selection).Contains("SR") )
  passTrigger = true; // fast sim doesn't have the right trigger information.
  bool passOneLep = (lep1type()==1);
  int passLepSel = !(lep2type()==1||lep2type()==2);
  if( !passTrigger) return false;
  if( lep1type()!=1) return false; // lep1 is good lepton
- if( !(lep1_relIso03EA()*lep1_pt() < 5)) return false;
+ if( !(lep1_relIso()*lep1_p4().pt() < 5)) return false;
  if( TString(selection).Contains("SR") || TString(selection).Contains("1lCR")) {     //if SR, second lepton veto
  if( lep2type()==1||lep2type()==2) return false;
- if( !PassTrackVeto_v3())          return false;  // ttrack veto
+ if( !PassTrackVeto())          return false;  // ttrack veto
  if( !PassTauVeto())               return false; // tau veto
  }
  if( pfmet() < 50)                                                 return false; // min met cut.
@@ -47,13 +47,13 @@ bool passPreselection(string selection) {
 }
 bool passcutflow( std::string selection){
   
- bool passTrigger =  HLT_SingleMu20()|| HLT_SingleEl27();
+ bool passTrigger =  HLT_SingleMu()|| HLT_SingleEl();
  passTrigger = true; // fast sim doesn't have the right trigger information.
  bool passOneLep = (lep1type()==1);
  bool passLepSel = !(lep2type()==1||lep2type()==2);
  std::pair<vector<int>,vector<int>> jets = btaggedjets(); vector<int> seljets = jets.first;// btagged jets.
   float m_bb = getmbb();  float mctbb = getmct();
-  bool step0 = passTrigger; bool step1 = passOneLep&&step0; bool step2=(passLepSel && step1); bool step3 = (PassTrackVeto_v3() && step2);
+  bool step0 = passTrigger; bool step1 = passOneLep&&step0; bool step2=(passLepSel && step1); bool step3 = (PassTrackVeto() && step2);
   bool step4 = step3&&PassTauVeto(); bool step5 = step4&&(ngoodjets()==2); 
 //  bool step6=step5&& (ngoodbtags()==2);
   bool step6=  step5&& (seljets.size()==2);
@@ -132,7 +132,7 @@ bool passSR( std::string selection){
 //   2l CR      //
 //--------------//
 bool pass2lCR( string selection ) {
-  bool pass2lCR =  ( lep2type() ==1 || lep2type() ==2 || !PassTrackVeto_v3()||!PassTauVeto());                      // fail track veto: 2l CR.
+  bool pass2lCR =  ( lep2type() ==1 || lep2type() ==2 || !PassTrackVeto()||!PassTauVeto());                      // fail track veto: 2l CR.
  if( !passPreselection(selection))                   return false;                                    // preselection with at least 1 lep+ met50 + >=2jets 
  if( !pass2lCR)               return false; //pre selection + reverted veto
  if( ngoodbtags() != 2)                              return false;// btagged
@@ -194,7 +194,7 @@ bool passbin(std::string selection ) {
 
 bool passmbbCR(  string selection ) {
  bool  met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 0 );                                               // some additional requirement for CRs
- bool  pass1l =  met_mt_cut &&  lep2type() !=1&& lep2type() !=2 && PassTrackVeto_v3() && PassTauVeto(); // pass 2nd lep veto etc.
+ bool  pass1l =  met_mt_cut &&  lep2type() !=1&& lep2type() !=2 && PassTrackVeto() && PassTauVeto(); // pass 2nd lep veto etc.
  float m_bb = getmbb();
  float mctbb = getmct();
  bool  outside_mbb = (m_bb>150||m_bb<90);

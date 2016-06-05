@@ -26,6 +26,12 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   if ( sample == "jes_nominal_ttz"){
        helper = "/nfs-7/userdata/mliu/jes_nominal/TTZ*"; ch->Add(helper.c_str());
   }
+  else if(sample == "mc80_test"){
+      helper = "/nfs-7/userdata/mliu/onelepbabies/80x/ttbarTo2L2Nu_powheg_25ns.root";ch->Add(helper.c_str());
+     }
+  else if(sample == "data80_test"){
+      helper = "/nfs-7/userdata/mliu/onelepbabies/80x/data_muon_eg_Run2016B_MINIAOD_PromptReco-v2.root";ch->Add(helper.c_str());
+     }
   else if (sample == "wh_350_1"){
        helper = babylocation+"SMS_tchwh_350_1.root"; ch->Add(helper.c_str());
  }
