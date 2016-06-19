@@ -7,11 +7,21 @@ if [ ! -d "../output/ZMET2015/$analysis_version/plots/Closure/" ]; then
 	cp ../index.php ../output/ZMET2015/$analysis_version/plots/Closure/
 fi
 
-#lumi=2.26
 lumi=2.26
+#lumi=5
 
+#selection="SR_mbb_mt150_met150"
+#selection="mbbCR"
+#election="SR_met100_mt150_notrigger"
+#selection="SR_twobtag_mbb_notrigger"
+#selection="SR_notrigger"
+#selection="mbbCR_met100_mct150"	
+#selection="mbbCR_met100_mt150"	
+#selection="mbbCR_met100_mct150_mt150"	
+#selection="2lCR_mbb"
+#selection="2lCR_mbb_mt50"
 #selection="1lCR_met100_mtbulk"    # for wbb look at mt bulk b tagged region
-selection="1lCR_met100_mtbulk_removeveto"    # for wbb look at mt bulk b tagged region
+#selection="1lCR_met100_mtbulk_removeveto"    # for wbb look at mt bulk b tagged region
 #selection="1lCR_met100_mbb_mtbulk"    # for wbb look at mt bulk b tagged region
 #selection="2lCR_mbb"
 #selection="mbbCR"
@@ -44,9 +54,12 @@ selection="1lCR_met100_mtbulk_removeveto"    # for wbb look at mt bulk b tagged 
 #selection="SR_presel_2btags_mbb_pt20_mt125_met150_mct125_l4jets"
 #selection="SR_presel_2btags_mbb_pt20_mt125_met100"
 
-#selection="1lCR_met100_mct150_mbb"    # for wbb look at mt bulk b tagged region
 #selection="2lCR_mt50_met100"
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dphibb\",\"$selection\" )" 
+#selection="2lCR_mbb_met100_mt50"
+#selection="1lCR_mbb_met100_mct150_mt150_notrigger"
+selection="1lCR_mbb_bveto_met100_mct150_mt150_notrigger"
+#selection="1lCR_mbb_met100_mt50_bveto"
+#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dphibb\",\"$selection\" )" 
 #root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dRbb\",\"$selection\" )" 
 #root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"deltaphi_leadb_met\",\"$selection\" )" 
 #root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"deltaphi_lep_met\",\"$selection\" )" 
@@ -56,23 +69,16 @@ root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"le
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MCT\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"met\",\"$selection\" )" 
 #root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ht\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptl1\",\"$selection\" )" 
+root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptl1\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"njets\",\"$selection\" )" 
 #root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"absIso03EA\",\"$selection\" )" 
 #root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptbb\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptb1\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptb2\",\"$selection\" )" 
+root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptb1\",\"$selection\" )" 
+root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptb2\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"mbb\",\"$selection\" )" 
 #root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptlbb\",\"$selection\" )" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"nbjets\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dphi_Wlep\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"dR_lep_leadb\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b_mass\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2lb\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b_mass_lep2\",\"$selection\" )" 
-#root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MT2_lb_b_lep2\",\"$selection\" )" 
-#
+
 #selection="SR_presel_2btags_mbb_l5jets"
 #selection="SR_presel_2btags_mbb_l5jets_mt150_met100"
 #root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"mt\",\"$selection\" )" 

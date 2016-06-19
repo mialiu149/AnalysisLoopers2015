@@ -56,10 +56,10 @@ vector<int> bs_fromH() {
  //cout<<"gen_bosons :: "<<genbosons_p4().size()<<endl;
  return bs_fromHiggs; 
 }
-bool isHF(){
-  bool isHF =false;
+int isHF(){
+  int isHF = 0;
   for (int i=0;i<ak4pfjets_p4().size();i++){
-  if (ak4pfjets_hadron_flavor().at(i)==5) isHF=true;
+  if (ak4pfjets_hadron_flavor().at(i)==5) isHF++;
 }
  return isHF; 
 }

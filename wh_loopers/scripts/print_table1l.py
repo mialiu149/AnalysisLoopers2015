@@ -3,17 +3,20 @@ from ROOT import TH1F,TFile
 import os
 
 lumi = 2.26
-selection="yield_1lCR_met100_mbb_nobveto"
+selection="yield_1lCR"
 table_header = '\\begin{tabular}{lccc}\n'
 title = '1l CR   & &\\\\\n'
 hist_prefix = 'h_lep_event_NEvents1lCR_'+selection
 input_dir = os.environ['analysis_output']
-print input_dir
+#input_dir = "/home/users/mliu/public_html/analysis/wh_loopers/V00-06-09/datavsmc/rootfiles/"
+#print input_dir
 ##cols to print out
 #label_col = ['sample','mct$>$50','mct$>$100','mct$>$125','mct$>$150']
-label_col = ['sample','60$<$ mt $<$90','mt$>$150']
-nbins=5
-bins = ["MET [50,100] GeV","MET [100,125] GeV  & &\\\\\n","MET [125,150] GeV  & &\\\\\n","MET [150,200] GeV   & &\\\\\n","MET [200,Inf] GeV & &\\\\\n"]
+label_col = ['sample','\mt\ $>$ 50 GeV','\mt\ $>$ 120 GeV','\mt\ $>$ 150 GeV']
+nbins=1
+#bins = ["MET [50,100] GeV","MET [100,125] GeV  & &\\\\\n","MET [125,150] GeV  & &\\\\\n","MET [150,200] GeV   & &\\\\\n","MET [200,Inf] GeV & &\\\\\n"]
+bins = ["\met\ $>$ 100 GeV"]
+nbins=len(bins)
 col_string = ''
 
 for col in label_col:
@@ -34,7 +37,8 @@ row_inputs = [
               {'file':'rare_'+selection+'_hists.root','row_label':'rare','hist_name':hist_prefix},
               {'file':'tops_'+selection+'_hists.root','row_label':'1l','hist_name':hist_prefix.replace('lep','lep_onelep')},
               {'file':'tops_'+selection+'_hists.root','row_label':'2l','hist_name':hist_prefix.replace('lep','lep_dilep')},
-              {'file':'wsLF_'+selection+'_hists.root','row_label':'w+jets(light)','hist_name':hist_prefix}
+              {'file':'wsLF_'+selection+'_hists.root','row_label':'w+HF','hist_name':hist_prefix.replace('lep','lep_HF')},
+              {'file':'wsLF_'+selection+'_hists.root','row_label':'w+LF','hist_name':hist_prefix.replace('lep','lep_LF')}
              ]
 ##table to print out####
 datarows=[]
@@ -52,15 +56,15 @@ for j in range(nbins):
 
 ########################
 # first one is data
-bkg1 = TFile(input_dir+'/'+row_inputs[0]['file'])
-hbkg1 = bkg1.Get(row_inputs[0]['hist_name'])
+bkg1 = TFile(input_dir+'/'+row_inputs[1]['file'])
+hbkg1 = bkg1.Get(row_inputs[1]['hist_name'])
 sum_bkg = hbkg1.Clone('sum_bkg')
 ########################
 
 ########################
 # the last background is 2l ttbar
-bkg2 = TFile(input_dir+'/'+row_inputs[-1]['file'])
-hbkg2 = bkg2.Get(row_inputs[-1]['hist_name'])
+bkg2 = TFile(input_dir+'/'+row_inputs[0]['file'])
+hbkg2 = bkg2.Get(row_inputs[0]['hist_name'])
 den = hbkg2.Clone('den')
 ########################
 
@@ -73,13 +77,14 @@ for i,row in enumerate(row_inputs[1:]):
     row['hist'] = hist
     #subtract it if it is not the last row, which is 2l ttbar
     #if row['row_label'] is not 'w+jets(light)':
-    if i < len(row):
-       sum_bkg.Add(hist,-1)
-    print row['row_label'],':',hist.GetBinContent(5)
+    sum_bkg.Add(hist,1)
 
 ########find ratio############
 ratio = sum_bkg.Clone('ratio')
 ratio.Divide(den)
+ratio = den.Clone('ratio')
+ratio.Divide(sum_bkg)
+
 
 sum_rows = []
 ratio_rows=[]

@@ -1,6 +1,6 @@
 #! /bin/bash
 export analysis="wh_loopers" 
-export analysis_version="V00-06-02"
+export analysis_version="crsr-15-v00"
 export study="datavsmc"
 localdirectory=`pwd`
 export analysis_output=$HOME/public_html/analysis/$analysis/$analysis_version/$study/rootfiles

@@ -3,16 +3,18 @@ from ROOT import TH1F,TFile
 import os
 
 lumi = 2.26
-selection="yield_2lCR_mbb_mt50"
+selection="yield_2lCR_mbb_met100_mt50"
 table_header = '\\begin{tabular}{lccccc}\n'
 title = '2l CR & & & &\\\\\n'
 hist_prefix = 'h_lep_event_NEvents2lCR_'+selection
 input_dir = os.environ['analysis_output']
 print input_dir
 ##cols to print out
-label_col = ['sample','mct$>$50','mct$>$100','mct$>$125','mct$>$150']
-nbins=5
-bins = ["MET [50,100] GeV","MET [100,125] GeV  & & & &\\\\\n","MET [125,150] GeV  & & & &\\\\\n","MET [150,200] GeV  & & & &\\\\\n","MET [200,Inf] GeV  & & & &\\\\\n"]
+label_col = ['sample','mo mct cut','mct$>$50','mct$>$100','mct$>$125','mct$>$150']
+
+#bins = ["MET $>$ 50 GeV","MET [100,125] GeV  & & & &\\\\\n","MET [125,150] GeV  & & & &\\\\\n","MET [150,200] GeV  & & & &\\\\\n","MET [200,Inf] GeV  & & & &\\\\\n"]
+bins = ["MET $>$ 50 GeV"]
+nbins=len(bins)
 col_string = ''
 
 for col in label_col:
@@ -51,7 +53,8 @@ for j in range(nbins):
         hist = file.Get(row['hist_name']) 
         row['hist'] = hist
         for i in range((len(label_col)-1)*j,(len(label_col)-1)*j+(len(label_col)-1)):
-            row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
+            row_to_print+='&'+"{:.2f}".format(hist.GetBinContent(i+1))
+           # else:row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
         datarows.append((row_to_print+'\\\\\n'))
 
 ########################
@@ -110,8 +113,8 @@ table.write(col_string+'\\\\\n')
 table.write('\\hline\n')
 
 for j in range(nbins):
-    table.write(bins[j])
-    table.write('\\hline\n')
+#    table.write(bins[j])
+#    table.write('\\hline\n')
     table.write(datarows[j])
     table.write('\\hline\n')
     for row in row_inputs[1:]:
@@ -124,8 +127,8 @@ for j in range(nbins):
             row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
         table.write(row_to_print+'\\\\\n')
     table.write("\\hline\n")
-    table.write("databkgsub"+sum_rows[j]+'\\\\\n') 
-    table.write("kfactor"+ratio_rows[j]+'\\\\\n') 
+#    table.write("databkgsub"+sum_rows[j]+'\\\\\n') 
+    table.write("data/MC"+ratio_rows[j]+'\\\\\n') 
     table.write('\\hline\hline\n')
     table.write("\\hline\n")
 table.write('\\end{tabular}\n')

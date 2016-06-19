@@ -1,10 +1,10 @@
 from ROOT import TH1F,TFile
 import os
-selection="cutflow"
+selection="cutflow_notrigger"
 
 def getcf(sample):    
-#    input_dir = os.environ['analysis_output']
-    input_dir = "/home/users/mliu/public_html/analysis2015/wh_loopers/V00-05-25/datavsmc/rootfiles/"
+    input_dir = os.environ['analysis_output']
+#    input_dir = "/home/users/mliu/public_html/analysis2015/wh_loopers/V00-05-25/datavsmc/rootfiles/"
     f =  TFile(input_dir+"/"+sample+'_'+selection+'_hists.root')
     hist = f.Get("h_lep_event_NEventsSRCutflow_"+selection)
     cutflow = []
@@ -53,8 +53,9 @@ if __name__ == "__main__":
    #sample = "wh_250_80"
    #sample = "wh_300_80"
    #sample = "ttbar2l"
-   samples = ["wh_250_1","wh_350_1","wh_225_80","wh_300_80","ttbar2l"]
-   cuts = ['total','trigger','1 lep','2nd lep veto','track veto','tau veto','==2jets','==2 btags','met > 100','mt > 150','mbb window','mct > 150' ]
+   samples = ["wh_250_1","wh_350_1","wh_225_80","wh_300_80"]
+   #samples = ["wsHF","wsLF"]
+   cuts = ['total','trigger','1 lep','2nd lep veto','track veto','tau veto','met > 100','mt > 150','==2jets','==2 btags','mbb window','mct > 150' ]
    cuteff = [getcuteff(sample) for sample in samples]
    #for sample,ce in zip(samples,cuteff):       
    #for cut,y in zip(cuts,ce):

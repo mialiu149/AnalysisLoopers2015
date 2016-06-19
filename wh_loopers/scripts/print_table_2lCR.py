@@ -12,7 +12,8 @@ input_dir = os.environ['analysis_output']
 print input_dir
 #input_dir = '/home/users/mliu/public_html/analysis2015/wh_loopers/V00-00-03/datavsmc/rootfiles/'
 ##cols to print out
-label_col = ['Sample','MET[100,125]','MET[125,175]', 'MET[175,inf]']
+label_col = ['Sample','MET > 50 GeV']
+#,'MET[125,175]', 'MET[175,inf]']
               
 col_string = ''
 for col in label_col:

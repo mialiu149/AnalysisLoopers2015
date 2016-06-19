@@ -21,7 +21,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   bool use_top(false),use_ttv(true),use_diboson(true);
   bool use_sig(false);
   bool use_norm_factor(false); float norm_factor = 1.;
-  int scaleup = 5;
+  int scaleup = 100;
 
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
@@ -87,19 +87,19 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   float xmin = 50; float xmax = 500;
   //float ymin = 1e-1; float ymax = 1.5;
   float ymin = 0; float ymax = 1.5;
-  int rebin = 10;
+  int rebin = 25;
   if( TString(variable).Contains("MHT") )    {	xmin = 0;	xmax = 250;	rebin = 5;  }
   if( TString(variable).Contains("NEvents") ){	xmin = 0.5;	xmax = 8.5;	rebin = 1;  }
   if( TString(variable).Contains("mhtphi") ) {	xmin = 0;	xmax = 250;        ymin = 0;	rebin = 5;  }
   if( variable == "nVert" ){ xmin = 0;    xmax = 50;    ymax = 100;    ymin = 0;    rebin = 1;}
   if( TString(variable).Contains("met") || TString(variable).Contains("mt") || TString(variable).Contains("MT2") || TString(variable).Contains("mbb") ||TString(variable).Contains("pt")|| TString(variable).Contains("MCT"))
   // {   xmin = 0;	  xmax = 500;}
-   {  rebin = 10; xmin = 0;	  xmax = 500; }
+   {  rebin = 25; xmin = 0;	  xmax = 500; }
   if( variable == "ht" ){xmin = 0;	xmax = 500;	rebin = 25; ymax = 5e1;}
   if( TString(variable).Contains("iso")){ xmin = 0;     xmax = 100;     rebin = 10;  }
   if( TString(variable).Contains("relIso")){     xmin = 0;     xmax = 10;     rebin = 20;  } 
   if( TString(variable).Contains("absIso")){     xmin = 0;     xmax = 100;     rebin = 5;  }
-  if( TString(variable).Contains("pt") ){	xmin = 0;	xmax = 500;	rebin = 10;  }
+  if( TString(variable).Contains("pt") ){	xmin = 0;	xmax = 500;	rebin = 25;  }
   if( variable == "njets" || variable == "nbjets"){ xmin = 0;	xmax = 10;      	rebin = 1;  }
   if(  variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
        xmin = -3.2;
@@ -156,9 +156,9 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_data)  l1->AddEntry( h_data  , "data"              , "lpe");
   if(use_ttbar2l)	l1->AddEntry( h_ttbar2l , "2l"       , "f");    if(use_sig)      l1->AddEntry(h_sig_350_1, Form("(350,1) x %i",scaleup), "l");
   if(use_ttbar1l)	l1->AddEntry( h_ttbar1l , "1l"       , "f");    if(use_sig)      l1->AddEntry(h_sig_250_1, Form("(250,1) x %i",scaleup), "l");
-  if(use_top)   l1->AddEntry( h_top , "single top"            , "f");            if(use_sig)      l1->AddEntry(h_sig_300_80,Form("(300,80) x %i",scaleup), "l");
+  if(use_wbb) l1->AddEntry( h_wbb , "W+HF"          , "f");           if(use_sig)      l1->AddEntry(h_sig_300_80,Form("(300,80) x %i",scaleup), "l");
   if(use_wjets) l1->AddEntry( h_wjets , "W+LF "         , "f");                if(use_sig)      l1->AddEntry(h_sig_225_80,Form("(225,80) x %i",scaleup), "l");
-  if(use_wbb) l1->AddEntry( h_wbb , "W+HF"          , "f");
+  if(use_top)   l1->AddEntry( h_top , "single top"            , "f"); 
   if(use_ttv)   l1->AddEntry( h_ttv ,  "W+Z(q#bar{q})"            , "f");
   if(use_diboson) l1->AddEntry( h_diboson , "rare"          , "f");
   if(use_zjets) l1->AddEntry( h_zjets , "DY"            , "f");
@@ -231,9 +231,13 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if( TString(variable).Contains("MHT") )    h_rat->GetXaxis()->SetTitle("H_{T}^{miss} GeV");
   if( TString(variable).Contains("mhtphi") ) h_rat->GetXaxis()->SetTitle("H_{T} Phi");
   if( variable == "ht"                  ) h_rat->GetXaxis()->SetTitle("H_{T} GeV");
-  if( TString(variable).Contains("pt")  ) h_rat->GetXaxis()->SetTitle("p_{T} GeV");
+  if( TString(variable).Contains("ptl1")  ) h_rat->GetXaxis()->SetTitle("lep p_{T} GeV");
+  if( TString(variable).Contains("ptb1")  ) h_rat->GetXaxis()->SetTitle("leading b jet p_{T} GeV");
+  if( TString(variable).Contains("ptb2")  ) h_rat->GetXaxis()->SetTitle("subleading b jet p_{T} GeV");
+  if( TString(variable).Contains("MCT")  ) h_rat->GetXaxis()->SetTitle("M_{CT} GeV");
   if( variable == "njets"               ) h_rat->GetXaxis()->SetTitle("N_{jets}");  
   if( variable == "mll"                 ) h_rat->GetXaxis()->SetTitle("M_{\\ell\\ell} GeV");
+  if( variable == "mbb"                 ) h_rat->GetXaxis()->SetTitle("M_{bb} GeV");
   if( TString(variable).Contains("phi") && !TString(variable).Contains("dphi")) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
   if( TString(variable).Contains("_pt") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
   h_rat->GetXaxis()->SetTitleOffset(0.9);
@@ -253,7 +257,10 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   stack->Draw();
   if( variable == "nVert"               )    stack->GetXaxis()->SetTitle("N_{vtx}");
   if( variable == "mbb"               )    stack->GetXaxis()->SetTitle("M_{bb} GeV");
-  if( variable == "MCT"               )    stack->GetXaxis()->SetTitle("MCT");
+  if( variable == "MCT"               )    stack->GetXaxis()->SetTitle("M_{CT} GeV");
+  if( TString(variable).Contains("ptl1")  ) stack->GetXaxis()->SetTitle("lep p_{T} GeV");
+  if( TString(variable).Contains("ptb1")  ) stack->GetXaxis()->SetTitle("leading b jet p_{T} GeV");
+  if( TString(variable).Contains("ptb2")  ) stack->GetXaxis()->SetTitle("subleading b jet p_{T} GeV");
   if( TString(variable).Contains("met") )    stack->GetXaxis()->SetTitle("E_{T}^{miss} GeV");
   if( TString(variable).Contains("MT2W") )    stack->GetXaxis()->SetTitle("MT2W GeV");
   if( TString(variable).Contains("absIso") )    stack->GetXaxis()->SetTitle("absIso03 GeV");
@@ -261,7 +268,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if( TString(variable).Contains("MHT") )    stack->GetXaxis()->SetTitle("H_{T}^{miss} GeV");
   if( TString(variable).Contains("mhtphi") ) stack->GetXaxis()->SetTitle("H_{T} Phi");
   if( variable == "ht"                  ) stack->GetXaxis()->SetTitle("H_{T} GeV");
-  if( TString(variable).Contains("pt")  ) stack->GetXaxis()->SetTitle("p_{T} GeV");
+  //if( TString(variable).Contains("pt")  ) stack->GetXaxis()->SetTitle("p_{T} GeV");
   if( variable == "njets"               ) stack->GetXaxis()->SetTitle("N_{jets}");  
   if( variable == "nbjets"               ) stack->GetXaxis()->SetTitle("N_{bjets}");  
   if( variable == "mll"                 ) stack->GetXaxis()->SetTitle("M_{\\ell\\ell} GeV");
@@ -299,7 +306,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   l1->Draw();
   drawCMSLatex( c1, luminosity*norm_factor );
   }
-  c1->SaveAs(Form("${plot_output}/h_%s_%s_signalregion%s_%s.png", variable.c_str(), type.c_str(), selection.c_str(), region.c_str() ));
-  c1->SaveAs(Form("${plot_output}/h_%s_%s_signalregion%s_%s.pdf", variable.c_str(), type.c_str(), selection.c_str(), region.c_str() ));
+  c1->SaveAs(Form("${plot_output}/h_%s_%s_%s.png", variable.c_str(), type.c_str(), selection.c_str() ));
+  c1->SaveAs(Form("${plot_output}/h_%s_%s_%s.pdf", variable.c_str(), type.c_str(), selection.c_str() ));
   return;
 }
