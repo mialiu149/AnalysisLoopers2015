@@ -367,7 +367,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
                 fflush(stdout);
            } 
           }
-
+         if(TString(sample).Contains("ws_ht100")&&genht()>100) continue; //stitch samples
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
 	  //         MET filter  and json      //
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
@@ -487,6 +487,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            //signal
            histname = Form("h_%s_event_NEventsSROneBin_%s","lep",selection.c_str());
            if(passSR(selection.c_str())) histos_cutflow[histname]->Fill(1,weight);
+           if(pass2lCR("mbb_met100_mct150_mt150_notrigger")) histos_cutflow[histname]->Fill(2,weight);
+           if(pass1lCR("mbb_met100_mct150_mt150_bveto_notrigger")) histos_cutflow[histname]->Fill(3,weight);
+           if(passmbbCR("met100_mct150_mt150_notrigger")) histos_cutflow[histname]->Fill(4,weight);
            if( is2lep()) {
            histname = Form("h_%s_event_NEventsSROneBin_%s","lep_dilep",selection.c_str());
            if(passSR(selection.c_str())) histos_cutflow[histname]->Fill(1,weight);
@@ -695,92 +698,91 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            }
            continue;
           //CR1l
-       } //end of if yield
+           }//end of if yield
               
           if(TString(selection).Contains("yield_2lCR")){
            if(!pass2lCR(selection.c_str())) continue;
            histname = Form("h_%s_event_NEvents2lCR_%s","lep",selection.c_str());
-           if(pass2lCR("yield_metbin1")) histos_cutflow[histname]->Fill(1,weight);
-           if(pass2lCR("yield_metbin1_mct50")) histos_cutflow[histname]->Fill(2,weight);
-           if(pass2lCR("yield_metbin1_mct100")) histos_cutflow[histname]->Fill(3,weight);
-           if(pass2lCR("yield_metbin1_mct125")) histos_cutflow[histname]->Fill(4,weight);
-           if(pass2lCR("yield_metbin1_mct150")) histos_cutflow[histname]->Fill(5,weight);
-           if(pass2lCR("yield_metbin2")) histos_cutflow[histname]->Fill(6,weight);
-           if(pass2lCR("yield_metbin2_mct50")) histos_cutflow[histname]->Fill(7,weight);
-           if(pass2lCR("yield_metbin2_mct100")) histos_cutflow[histname]->Fill(8,weight);
-           if(pass2lCR("yield_metbin2_mct125")) histos_cutflow[histname]->Fill(9,weight);
-           if(pass2lCR("yield_metbin2_mct150")) histos_cutflow[histname]->Fill(10,weight);
-           if(pass2lCR("yield_metbin3")) histos_cutflow[histname]->Fill(11,weight);
-           if(pass2lCR("yield_metbin3_mct50")) histos_cutflow[histname]->Fill(12,weight);
-           if(pass2lCR("yield_metbin3_mct100")) histos_cutflow[histname]->Fill(13,weight);
-           if(pass2lCR("yield_metbin3_mct125")) histos_cutflow[histname]->Fill(14,weight);
-           if(pass2lCR("yield_metbin3_mct150")) histos_cutflow[histname]->Fill(15,weight);
-           if(pass2lCR("yield_metbin4")) histos_cutflow[histname]->Fill(16,weight);
-           if(pass2lCR("yield_metbin4_mct50")) histos_cutflow[histname]->Fill(17,weight);
-           if(pass2lCR("yield_metbin4_mct100")) histos_cutflow[histname]->Fill(18,weight);
-           if(pass2lCR("yield_metbin4_mct125")) histos_cutflow[histname]->Fill(19,weight);
-           if(pass2lCR("yield_metbin4_mct150")) histos_cutflow[histname]->Fill(20,weight);
-           if(pass2lCR("yield_metbin5")) histos_cutflow[histname]->Fill(21,weight);
-           if(pass2lCR("yield_metbin5_mct50")) histos_cutflow[histname]->Fill(22,weight);
-           if(pass2lCR("yield_metbin5_mct100")) histos_cutflow[histname]->Fill(23,weight);
-           if(pass2lCR("yield_metbin5_mct125")) histos_cutflow[histname]->Fill(24,weight);
-           if(pass2lCR("yield_metbin5_mct150")) histos_cutflow[histname]->Fill(25,weight);
+           if(pass2lCR("yield_mbb_met100_mt50")) histos_cutflow[histname]->Fill(1,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt50")) histos_cutflow[histname]->Fill(2,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt50")) histos_cutflow[histname]->Fill(3,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt50")) histos_cutflow[histname]->Fill(4,weight);
+           if(pass2lCR("yield_mbb_met100_mct150_mt50")) histos_cutflow[histname]->Fill(5,weight);
+           if(pass2lCR("yield_mbb_met100_mt50")) histos_cutflow[histname]->Fill(6,weight);
+           if(pass2lCR("yield_mbb_met100_mt75")) histos_cutflow[histname]->Fill(7,weight);
+           if(pass2lCR("yield_mbb_met100_mt100")) histos_cutflow[histname]->Fill(8,weight);
+           if(pass2lCR("yield_mbb_met100_mt120")) histos_cutflow[histname]->Fill(9,weight);
+           if(pass2lCR("yield_mbb_met100_mt150")) histos_cutflow[histname]->Fill(10,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt50")) histos_cutflow[histname]->Fill(11,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt75")) histos_cutflow[histname]->Fill(12,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt100")) histos_cutflow[histname]->Fill(13,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt120")) histos_cutflow[histname]->Fill(14,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt150")) histos_cutflow[histname]->Fill(15,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt50")) histos_cutflow[histname]->Fill(16,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt75")) histos_cutflow[histname]->Fill(17,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt100")) histos_cutflow[histname]->Fill(18,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt120")) histos_cutflow[histname]->Fill(19,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt150")) histos_cutflow[histname]->Fill(20,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt50")) histos_cutflow[histname]->Fill(21,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt75")) histos_cutflow[histname]->Fill(22,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt100")) histos_cutflow[histname]->Fill(23,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt120")) histos_cutflow[histname]->Fill(24,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt150")) histos_cutflow[histname]->Fill(25,weight);
            if( is2lep()) {
            histname = Form("h_%s_event_NEvents2lCR_%s","lep_dilep",selection.c_str());
-           if(pass2lCR("yield_metbin1")) histos_cutflow[histname]->Fill(1,weight);
-           if(pass2lCR("yield_metbin1_mct50")) histos_cutflow[histname]->Fill(2,weight);
-           if(pass2lCR("yield_metbin1_mct100")) histos_cutflow[histname]->Fill(3,weight);
-           if(pass2lCR("yield_metbin1_mct125")) histos_cutflow[histname]->Fill(4,weight);
-           if(pass2lCR("yield_metbin1_mct150")) histos_cutflow[histname]->Fill(5,weight);
-           if(pass2lCR("yield_metbin2")) histos_cutflow[histname]->Fill(6,weight);
-           if(pass2lCR("yield_metbin2_mct50")) histos_cutflow[histname]->Fill(7,weight);
-           if(pass2lCR("yield_metbin2_mct100")) histos_cutflow[histname]->Fill(8,weight);
-           if(pass2lCR("yield_metbin2_mct125")) histos_cutflow[histname]->Fill(9,weight);
-           if(pass2lCR("yield_metbin2_mct150")) histos_cutflow[histname]->Fill(10,weight);
-           if(pass2lCR("yield_metbin3")) histos_cutflow[histname]->Fill(11,weight);
-           if(pass2lCR("yield_metbin3_mct50")) histos_cutflow[histname]->Fill(12,weight);
-           if(pass2lCR("yield_metbin3_mct100")) histos_cutflow[histname]->Fill(13,weight);
-           if(pass2lCR("yield_metbin3_mct125")) histos_cutflow[histname]->Fill(14,weight);
-           if(pass2lCR("yield_metbin3_mct150")) histos_cutflow[histname]->Fill(15,weight);
-           if(pass2lCR("yield_metbin4")) histos_cutflow[histname]->Fill(16,weight);
-           if(pass2lCR("yield_metbin4_mct50")) histos_cutflow[histname]->Fill(17,weight);
-           if(pass2lCR("yield_metbin4_mct100")) histos_cutflow[histname]->Fill(18,weight);
-           if(pass2lCR("yield_metbin4_mct125")) histos_cutflow[histname]->Fill(19,weight);
-           if(pass2lCR("yield_metbin4_mct150")) histos_cutflow[histname]->Fill(20,weight);
-           if(pass2lCR("yield_metbin5")) histos_cutflow[histname]->Fill(21,weight);
-           if(pass2lCR("yield_metbin5_mct50")) histos_cutflow[histname]->Fill(22,weight);
-           if(pass2lCR("yield_metbin5_mct100")) histos_cutflow[histname]->Fill(23,weight);
-           if(pass2lCR("yield_metbin5_mct125")) histos_cutflow[histname]->Fill(24,weight);
-           if(pass2lCR("yield_metbin5_mct150")) histos_cutflow[histname]->Fill(25,weight);
+           if(pass2lCR("yield_mbb_met100_mt50")) histos_cutflow[histname]->Fill(1,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt50")) histos_cutflow[histname]->Fill(2,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt50")) histos_cutflow[histname]->Fill(3,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt50")) histos_cutflow[histname]->Fill(4,weight);
+           if(pass2lCR("yield_mbb_met100_mct150_mt50")) histos_cutflow[histname]->Fill(5,weight);
+           if(pass2lCR("yield_mbb_met100_mt50")) histos_cutflow[histname]->Fill(6,weight);
+           if(pass2lCR("yield_mbb_met100_mt75")) histos_cutflow[histname]->Fill(7,weight);
+           if(pass2lCR("yield_mbb_met100_mt100")) histos_cutflow[histname]->Fill(8,weight);
+           if(pass2lCR("yield_mbb_met100_mt120")) histos_cutflow[histname]->Fill(9,weight);
+           if(pass2lCR("yield_mbb_met100_mt150")) histos_cutflow[histname]->Fill(10,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt50")) histos_cutflow[histname]->Fill(11,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt75")) histos_cutflow[histname]->Fill(12,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt100")) histos_cutflow[histname]->Fill(13,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt120")) histos_cutflow[histname]->Fill(14,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt150")) histos_cutflow[histname]->Fill(15,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt50")) histos_cutflow[histname]->Fill(16,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt75")) histos_cutflow[histname]->Fill(17,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt100")) histos_cutflow[histname]->Fill(18,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt120")) histos_cutflow[histname]->Fill(19,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt150")) histos_cutflow[histname]->Fill(20,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt50")) histos_cutflow[histname]->Fill(21,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt75")) histos_cutflow[histname]->Fill(22,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt100")) histos_cutflow[histname]->Fill(23,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt120")) histos_cutflow[histname]->Fill(24,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt150")) histos_cutflow[histname]->Fill(25,weight);
            }
            if( is1lep()) {
            histname = Form("h_%s_event_NEvents2lCR_%s","lep_onelep",selection.c_str());
-
-           if(pass2lCR("yield_metbin1")) histos_cutflow[histname]->Fill(1,weight);
-           if(pass2lCR("yield_metbin1_mct50")) histos_cutflow[histname]->Fill(2,weight);
-           if(pass2lCR("yield_metbin1_mct100")) histos_cutflow[histname]->Fill(3,weight);
-           if(pass2lCR("yield_metbin1_mct125")) histos_cutflow[histname]->Fill(4,weight);
-           if(pass2lCR("yield_metbin1_mct150")) histos_cutflow[histname]->Fill(5,weight);
-           if(pass2lCR("yield_metbin2")) histos_cutflow[histname]->Fill(6,weight);
-           if(pass2lCR("yield_metbin2_mct50")) histos_cutflow[histname]->Fill(7,weight);
-           if(pass2lCR("yield_metbin2_mct100")) histos_cutflow[histname]->Fill(8,weight);
-           if(pass2lCR("yield_metbin2_mct125")) histos_cutflow[histname]->Fill(9,weight);
-           if(pass2lCR("yield_metbin2_mct150")) histos_cutflow[histname]->Fill(10,weight);
-           if(pass2lCR("yield_metbin3")) histos_cutflow[histname]->Fill(11,weight);
-           if(pass2lCR("yield_metbin3_mct50")) histos_cutflow[histname]->Fill(12,weight);
-           if(pass2lCR("yield_metbin3_mct100")) histos_cutflow[histname]->Fill(13,weight);
-           if(pass2lCR("yield_metbin3_mct125")) histos_cutflow[histname]->Fill(14,weight);
-           if(pass2lCR("yield_metbin3_mct150")) histos_cutflow[histname]->Fill(15,weight);
-           if(pass2lCR("yield_metbin4")) histos_cutflow[histname]->Fill(16,weight);
-           if(pass2lCR("yield_metbin4_mct50")) histos_cutflow[histname]->Fill(17,weight);
-           if(pass2lCR("yield_metbin4_mct100")) histos_cutflow[histname]->Fill(18,weight);
-           if(pass2lCR("yield_metbin4_mct125")) histos_cutflow[histname]->Fill(19,weight);
-           if(pass2lCR("yield_metbin4_mct150")) histos_cutflow[histname]->Fill(20,weight);
-           if(pass2lCR("yield_metbin5")) histos_cutflow[histname]->Fill(21,weight);
-           if(pass2lCR("yield_metbin5_mct50")) histos_cutflow[histname]->Fill(22,weight);
-           if(pass2lCR("yield_metbin5_mct100")) histos_cutflow[histname]->Fill(23,weight);
-           if(pass2lCR("yield_metbin5_mct125")) histos_cutflow[histname]->Fill(24,weight);
-           if(pass2lCR("yield_metbin5_mct150")) histos_cutflow[histname]->Fill(25,weight);
+           if(pass2lCR("yield_mbb_met100_mt50")) histos_cutflow[histname]->Fill(1,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt50")) histos_cutflow[histname]->Fill(2,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt50")) histos_cutflow[histname]->Fill(3,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt50")) histos_cutflow[histname]->Fill(4,weight);
+           if(pass2lCR("yield_mbb_met100_mct150_mt50")) histos_cutflow[histname]->Fill(5,weight);
+           if(pass2lCR("yield_mbb_met100_mt50")) histos_cutflow[histname]->Fill(6,weight);
+           if(pass2lCR("yield_mbb_met100_mt75")) histos_cutflow[histname]->Fill(7,weight);
+           if(pass2lCR("yield_mbb_met100_mt100")) histos_cutflow[histname]->Fill(8,weight);
+           if(pass2lCR("yield_mbb_met100_mt120")) histos_cutflow[histname]->Fill(9,weight);
+           if(pass2lCR("yield_mbb_met100_mt150")) histos_cutflow[histname]->Fill(10,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt50")) histos_cutflow[histname]->Fill(11,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt75")) histos_cutflow[histname]->Fill(12,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt100")) histos_cutflow[histname]->Fill(13,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt120")) histos_cutflow[histname]->Fill(14,weight);
+           if(pass2lCR("yield_mbb_met100_mct50_mt150")) histos_cutflow[histname]->Fill(15,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt50")) histos_cutflow[histname]->Fill(16,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt75")) histos_cutflow[histname]->Fill(17,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt100")) histos_cutflow[histname]->Fill(18,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt120")) histos_cutflow[histname]->Fill(19,weight);
+           if(pass2lCR("yield_mbb_met100_mct100_mt150")) histos_cutflow[histname]->Fill(20,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt50")) histos_cutflow[histname]->Fill(21,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt75")) histos_cutflow[histname]->Fill(22,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt100")) histos_cutflow[histname]->Fill(23,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt120")) histos_cutflow[histname]->Fill(24,weight);
+           if(pass2lCR("yield_mbb_met100_mct125_mt150")) histos_cutflow[histname]->Fill(25,weight);
           }
          continue;   
          }
@@ -816,36 +818,40 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
          }
          continue;   
          }
-
           if(TString(selection).Contains("yield_mbbCR")){
            if(!passmbbCR(selection.c_str())) continue;
            histname = Form("h_%s_event_NEventsmbbCR_%s","lep",selection.c_str());
-           if(passmbbCR("yield_mt50")) histos_cutflow[histname]->Fill(1,weight);
+           if(passmbbCR("yield_met100_mt50")) histos_cutflow[histname]->Fill(1,weight);
            if(passmbbCR("yield_met100_mt150")) histos_cutflow[histname]->Fill(2,weight);
            if(passmbbCR("yield_mt50_met100_mct150")) histos_cutflow[histname]->Fill(3,weight);
+           if(passmbbCR("yield_mt150_met100_mct150")) histos_cutflow[histname]->Fill(4,weight);
            if( is2lep()) {
            histname = Form("h_%s_event_NEventsmbbCR_%s","lep_dilep",selection.c_str());
-           if(passmbbCR("yield_mt50")) histos_cutflow[histname]->Fill(1,weight);
+           if(passmbbCR("yield_met100_mt50")) histos_cutflow[histname]->Fill(1,weight);
            if(passmbbCR("yield_met100_mt150")) histos_cutflow[histname]->Fill(2,weight);
            if(passmbbCR("yield_mt50_met100_mct150")) histos_cutflow[histname]->Fill(3,weight);
+           if(passmbbCR("yield_mt150_met100_mct150")) histos_cutflow[histname]->Fill(4,weight);
            }
            if( is1lep()) {
            histname = Form("h_%s_event_NEventsmbbCR_%s","lep_onelep",selection.c_str());
-           if(passmbbCR("yield_mt50")) histos_cutflow[histname]->Fill(1,weight);
+           if(passmbbCR("yield_met100_mt50")) histos_cutflow[histname]->Fill(1,weight);
            if(passmbbCR("yield_met100_mt150")) histos_cutflow[histname]->Fill(2,weight);
            if(passmbbCR("yield_mt50_met100_mct150")) histos_cutflow[histname]->Fill(3,weight);
+           if(passmbbCR("yield_mt150_met100_mct150")) histos_cutflow[histname]->Fill(4,weight);
           }
            if(gensel::isHF()){
            histname = Form("h_%s_event_NEventsmbbCR_%s","lep_HF",selection.c_str());
-           if(passmbbCR("yield_mt50")) histos_cutflow[histname]->Fill(1,weight);
+           if(passmbbCR("yield_met100_mt50")) histos_cutflow[histname]->Fill(1,weight);
            if(passmbbCR("yield_met100_mt150")) histos_cutflow[histname]->Fill(2,weight);
            if(passmbbCR("yield_mt50_met100_mct150")) histos_cutflow[histname]->Fill(3,weight);
+           if(passmbbCR("yield_mt150_met100_mct150")) histos_cutflow[histname]->Fill(4,weight);
           }
            if(!gensel::isHF()){
            histname = Form("h_%s_event_NEventsmbbCR_%s","lep_LF",selection.c_str());
-           if(passmbbCR("yield_mt50")) histos_cutflow[histname]->Fill(1,weight);
+           if(passmbbCR("yield_met100_mt50")) histos_cutflow[histname]->Fill(1,weight);
            if(passmbbCR("yield_met100_mt150")) histos_cutflow[histname]->Fill(2,weight);
            if(passmbbCR("yield_mt50_met100_mct150")) histos_cutflow[histname]->Fill(3,weight);
+           if(passmbbCR("yield_mt150_met100_mct150")) histos_cutflow[histname]->Fill(4,weight);
           }
          continue;   
          }
@@ -1024,7 +1030,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
           fillHist( "event", "nbjets"  , region.c_str(), ngoodbtags(), weight );
           fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
-	  fillHist( "event", "mt"    , region.c_str(),  mt_met_lep()   , weight );
 	  if(ngoodbtags()==0) fillHist( "event", "mt_0btag"    , region.c_str(),  mt_met_lep()   , weight );
 	  if(ngoodbtags()==2) fillHist( "event", "mt_2btag"    , region.c_str(),  mt_met_lep()   , weight );
 	  fillHist( "event", "mt"    , region.c_str(),  mt_met_lep()   , weight );
@@ -1054,10 +1059,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  fillHist( "event", "emiso" , region.c_str(), lep1_emiso()        , weight );	 
 	  fillHist( "event", "MT2W" , region.c_str(), MT2W()       , weight );	 
 	  fillHist( "event", "dphibb" , region.c_str(), getdphibb()       , weight );	 
-	  fillHist( "event", "deltaphi_lep_met" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv)), weight );	 
-	  fillHist( "event", "deltaphi_lep_leadb" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(), ak4pfjets_p4().at(seljets.at(0)))), weight );	 
-	  fillHist( "event", "dR_lep_leadb"    , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaR(lep1_p4(), ak4pfjets_p4().at(seljets.at(0))))   , weight );
-	  fillHist( "event", "deltaphi_leadb_met" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(ak4pfjets_p4().at(seljets.at(0)),metlv)), weight );	 
+//	  fillHist( "event", "deltaphi_lep_met" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv)), weight );	 
+//	  fillHist( "event", "deltaphi_lep_leadb" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(), ak4pfjets_p4().at(seljets.at(0)))), weight );	 
+//	  fillHist( "event", "dR_lep_leadb"    , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaR(lep1_p4(), ak4pfjets_p4().at(seljets.at(0))))   , weight );
+//	  fillHist( "event", "deltaphi_leadb_met" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(ak4pfjets_p4().at(seljets.at(0)),metlv)), weight );	 
           
 //          if(ngoodbtags()==2) {
            histMCTvsMT->Fill(mctbb,mt_met_lep(),weight);

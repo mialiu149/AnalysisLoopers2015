@@ -42,9 +42,9 @@ compile_looper
 #selection="1lCR_mbb_bveto_met100_mct150_mt150"
 #selection="yield_2lCR_mbb_mt50"
 #selection="1lCR_onejets_met50_mtbulk_btag"
+
 #selection="2lCR_mbb_met100_mt50"
-#selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag_notrigger"
-selection="mbbCR_met100_mct150_mt50"	
+selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag_notrigger"
 ./runTemplateLooper $selection $analysis_version wh_300_80&
 ./runTemplateLooper $selection $analysis_version wh_350_1&
 ./runTemplateLooper $selection $analysis_version wh_250_1&
@@ -64,8 +64,7 @@ selection="mbbCR_met100_mct150_mt50"
 ./runTemplateLooper $selection $analysis_version ttv &
 ./runTemplateLooper $selection $analysis_version zjets &
 
-#selection="SR_mbb_met100_mt150_mct150_notrigger_twobtag"
-selection="yield_mbbCR_met100_mt50"	
+selection="SR_mbb_met100_mt150_mct150_notrigger_twobtag"
 ./runTemplateLooper $selection $analysis_version wh_300_80&
 ./runTemplateLooper $selection $analysis_version wh_350_1&
 ./runTemplateLooper $selection $analysis_version wh_250_1&

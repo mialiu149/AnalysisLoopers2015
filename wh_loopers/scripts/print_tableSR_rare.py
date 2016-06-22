@@ -35,17 +35,10 @@ for col in label_col:
 #              {'file':'Stop_850_100.root','row_label':'$\\tilde{\\mathrm{t}}\\rightarrow\\mathrm{t}\\tilde{\\chi}_{1}^{0}$ (850,100)','hist_name':hist_prefix+'_Stop_850_100'}, 
 #              ]
 row_inputs = [
-              {'file':'data_'+selection+'_hists.root','row_label':'data','hist_name':hist_prefix},
-              {'file':'tops_'+selection+'_hists.root','row_label':'2l top','hist_name':hist_prefix.replace('lep','lep_dilep')},
-              {'file':'tops_'+selection+'_hists.root','row_label':'1l top','hist_name':hist_prefix.replace('lep','lep_onelep')},
-              {'file':'ws_htbin_'+selection+'_hists.root','row_label':'w+HF','hist_name':hist_prefix.replace('lep','lep_HF')},
-              {'file':'ws_htbin_'+selection+'_hists.root','row_label':'w+LF','hist_name':hist_prefix.replace('lep','lep_LF')},
-              {'file':'wzbb_'+selection+'_hists.root','row_label':'w+z(bb)','hist_name':hist_prefix},
-              {'file':'rare_'+selection+'_hists.root','row_label':'rare','hist_name':hist_prefix},
-              {'file':'wh_225_80_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (225,80)','hist_name':hist_prefix}, 
-              {'file':'wh_250_1_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (250,1)','hist_name':hist_prefix}, 
-              {'file':'wh_300_80_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (300,80)','hist_name':hist_prefix}, 
-              {'file':'wh_350_1_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (350,1)','hist_name':hist_prefix}
+              {'file':'diboson_'+selection+'_hists.root','row_label':'diboson','hist_name':hist_prefix},
+              {'file':'ttv_'+selection+'_hists.root','row_label':'ttv','hist_name':hist_prefix},
+              {'file':'zjets_'+selection+'_hists.root','row_label':'zjets','hist_name':hist_prefix},
+              {'file':'rare_'+selection+'_hists.root','row_label':'rare','hist_name':hist_prefix}
              ]
 ##table to print out####
 datarows=[]

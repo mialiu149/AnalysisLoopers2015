@@ -1,6 +1,8 @@
 #! /bin/bash
 export analysis="wh_loopers" 
-export analysis_version="crsr-15-v00"
+#export analysis_version="crmtbulk-15-v00"
+#export analysis_version="cr0b-15-v01"
+export analysis_version="sr-15-v02"
 export study="datavsmc"
 localdirectory=`pwd`
 export analysis_output=$HOME/public_html/analysis/$analysis/$analysis_version/$study/rootfiles

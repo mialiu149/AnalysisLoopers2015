@@ -3,7 +3,8 @@ from ROOT import TH1F,TFile
 import os
 
 lumi = 2.26
-selection="yield_mbbCR"
+#selection="yield_mbbCR"
+selection="yield_mbbCR_met100_mt50"	
 table_header = '\\begin{tabular}{lccc}\n'
 title = '1l CR   & &\\\\\n'
 hist_prefix = 'h_lep_event_NEventsmbbCR_'+selection
@@ -11,7 +12,7 @@ input_dir = os.environ['analysis_output']
 print input_dir
 ##cols to print out
 #label_col = ['sample','mct$>$50','mct$>$100','mct$>$125','mct$>$150']
-label_col = ['sample','\mt\ $>$ 50 GeV','\mt\ $>$ 120 GeV','\mt\ $>$ 150 GeV']
+label_col = ['sample','\crmbb','\mt\ $>$ 150 GeV','\mct\ $>$ 150 GeV','\mt\ $>$ 150 GeV, \mct\ $>$ 150 GeV']
 nbins=1
 #bins = ["MET [50,100] GeV","MET [100,125] GeV  & &\\\\\n","MET [125,150] GeV  & &\\\\\n","MET [150,200] GeV   & &\\\\\n","MET [200,Inf] GeV & &\\\\\n"]
 bins = ["\met\ $>$ 100 GeV"]
@@ -98,9 +99,9 @@ for j in range(nbins):
 ########print table##########
 table = open('table'+selection+'.tex','w')
 table.write('%BEGINLATEX%\n')
-table.write('\\begin{table}\n')
-table.write('\\begin{center}\n')
-table.write('\\small\n')
+#table.write('\\begin{table}\n')
+#table.write('\\begin{center}\n')
+#table.write('\\small\n')
 table.write(table_header)
 table.write('\\hline\n')
 table.write(title)
@@ -109,8 +110,8 @@ table.write(col_string+'\\\\\n')
 table.write('\\hline\n')
 
 for j in range(nbins):
-    table.write(bins[j])
-    table.write('\\hline\n')
+#    table.write(bins[j])
+#    table.write('\\hline\n')
     table.write(datarows[j])
     table.write('\\hline\n')
     for row in row_inputs[1:]:
@@ -123,12 +124,12 @@ for j in range(nbins):
             row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
         table.write(row_to_print+'\\\\\n')
     table.write("\\hline\n")
-#    table.write("databkgsub"+sum_rows[j]+'\\\\\n') 
-    table.write("kfactor"+ratio_rows[j]+'\\\\\n') 
-    table.write('\\hline\hline\n')
+    table.write("All MC"+sum_rows[j]+'\\\\\n') 
+    table.write("data/MC"+ratio_rows[j]+'\\\\\n') 
+#    table.write('\\hline\hline\n')
     table.write("\\hline\n")
 table.write('\\end{tabular}\n')
-table.write('\\end{center}\n')
-table.write('\\end{table}\n')
-table.write('%ENDLATEX%')
+#table.write('\\end{center}\n')
+#table.write('\\end{table}\n')
+#table.write('%ENDLATEX%')
 print 'table saved in : ','table'+selection+'.tex'

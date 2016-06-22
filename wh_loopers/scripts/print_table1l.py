@@ -126,8 +126,8 @@ for j in range(nbins):
             row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
         table.write(row_to_print+'\\\\\n')
     table.write("\\hline\n")
-    table.write("databkgsub"+sum_rows[j]+'\\\\\n') 
-    table.write("kfactor"+ratio_rows[j]+'\\\\\n') 
+    table.write("All MC"+sum_rows[j]+'\\\\\n') 
+    table.write("data/MC"+ratio_rows[j]+'\\\\\n') 
     table.write('\\hline\hline\n')
     table.write("\\hline\n")
 table.write('\\end{tabular}\n')

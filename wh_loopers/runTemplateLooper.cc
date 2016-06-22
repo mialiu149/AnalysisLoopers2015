@@ -21,7 +21,10 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   string babylocation = "/nfs-6/userdata/mliu/whbabies/";
   //string babylocation="/nfs-6/userdata/mliu/whbabies_btagfix/";
   string stopbabylocation = "/nfs-7/userdata/mliu/onelepbabies/"; 
- string helper;
+//  string stopbabylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies_JECup__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/";  // jec up
+//  string stopbabylocation = "/hadoop/cms/store/user/jgwood/condor/stop_1l_babies/stop_babies_JECdown__CMS3_V070411__BabyMaker_V0704X_v9__20160127/merged_files/"; //jec down 
+
+  string helper;
 
   if ( sample == "jes_nominal_ttz"){
        helper = "/nfs-7/userdata/mliu/jes_nominal/TTZ*"; ch->Add(helper.c_str());
@@ -95,7 +98,7 @@ else if (sample =="diboson"){
            helper = stopbabylocation+"WJetsToLNu_HT1200To2500*.root";ch->Add(helper.c_str());//ht binned
            helper = stopbabylocation+"WJetsToLNu_HT2500ToInf*.root";ch->Add(helper.c_str());//ht binned
   }
-  else if( sample == "ws_incl"){
+  else if( sample == "ws_ht100"){
         helper = stopbabylocation+"WJetsToLNu_madgraph_pythia8_25ns.root";ch->Add(helper.c_str());
   }
   else if( sample == "wbb"){

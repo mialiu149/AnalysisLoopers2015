@@ -1,0 +1,10 @@
+echo "merging stitched w+jets samples"
+#selection="1lCR_mbb_bveto_met100_mct150_mt150"
+#selection="1lCR_mbb_bveto_met100_mct150"
+#selection="yield_1lCR"
+#selection="yield_2lCR_jecup"
+selection="mbbCR_met100_mct150_mt50"	
+#selection="mbbCR_met100_mct150_mt50"	
+#selection="yield_mbbCR_met100_mt50"	
+#selection="2lCR_mbb_met100_mt50"
+hadd -f ${analysis_output}/wsLF_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
