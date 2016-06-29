@@ -14,29 +14,35 @@
 #include "EventTypeSel.h"
 #include "../stop_variables/MT2_implementations.h"
 #include "histTools.h"
-#include "V00_00_05.h"
+//#include "V00_00_05.h"
+#include "V80_00.h"
 #include "Math/VectorUtil.h"
 using namespace std;
-using namespace V00_00_05_np; 
+//using namespace V00_00_05_np; 
+using namespace V80_00_np; 
 
 namespace whsel{
-
+//static const float BTAGWP = 0.460;
+static const float BTAGWP = 0.800;
 //--------------//
 // preselection //
 //--------------//
 
 bool passPreselection(string selection) {
- bool passTrigger =  HLT_SingleMu20()|| HLT_SingleEl27() || HLT_SingleMuNoIso();
- if (TString(selection).Contains("notrigger") ) passTrigger = true; // fast sim doesn't have the right trigger information.
+ bool passTrigger =  HLT_SingleMu()|| HLT_SingleEl();
+// if (TString(selection).Contains("notrigger") ) 
+ passTrigger = true; // fast sim doesn't have the right trigger information.
  bool passOneLep = (lep1type()==1);
- int passLepSel = !(lep2type()==1||lep2type()==2);
  if( !passTrigger) return false;
  if( lep1type()!=1) return false; // lep1 is good lepton
- if( !(lep1_relIso03EA()*lep1_pt() < 5)) return false;
+ //if( !TString(selection).Contains("noabsiso") && !(lep1_relIso()*lep1_p4().pt() < 5)) return false;
+ //if( TString(selection).Contains("reliso") && !(lep1_relIso() < 0.1)) return false;
+ //if( !(lep1_relIso() < 0.1)) return false;
+ if( !(lep1_relIso()*lep1_p4().pt() < 5)) return false;
  if( TString(selection).Contains("SR") || TString(selection).Contains("1lCR")) {     //if SR, second lepton veto
  if( lep2type()==1||lep2type()==2) return false;
  //if( eventtype()!=5)               return false;
- if( !PassTrackVeto_v3())          return false;  // track veto
+ if( !PassTrackVeto())          return false;  // ttrack veto
  if( !PassTauVeto())               return false; // tau veto
  }
  if( pfmet() < 50)                                                 return false; // min met cut.
@@ -45,13 +51,13 @@ bool passPreselection(string selection) {
 
 bool passcutflow( std::string selection){
   
- bool passTrigger =  HLT_SingleMu20()|| HLT_SingleEl27();
-  passTrigger = true; // fast sim doesn't have the right trigger information.
+ bool passTrigger =  HLT_SingleMu()|| HLT_SingleEl();
+ passTrigger = true; // fast sim doesn't have the right trigger information.
  bool passOneLep = (lep1type()==1);
  bool passLepSel = !(lep2type()==1||lep2type()==2);
  std::pair<vector<int>,vector<int>> jets = btaggedjets(); vector<int> seljets = jets.first;// btagged jets.
   float m_bb = getmbb();  float mctbb = getmct();
-  bool step0 = passTrigger; bool step1 = passOneLep&&step0; bool step2=(passLepSel && step1); bool step3 = (PassTrackVeto_v3() && step2);
+  bool step0 = passTrigger; bool step1 = passOneLep&&step0; bool step2=(passLepSel && step1); bool step3 = (PassTrackVeto() && step2);
   bool step4 = step3&&PassTauVeto(); bool step5 = step4&&(pfmet()>100);
  // bool step6 = step5;
   bool step6 = step5&&(mctbb>150);
@@ -99,7 +105,7 @@ bool passSR( std::string selection){
  vector<int> seljets = selbjets();
  if( ngoodjets()  != 2 )                                     return false;// exactly 2 jets
  //if( ngoodbtags() !=2)                                  return false;
- //if( seljets.size() !=2)                                  return false;
+// if( bjets.size() !=2)                                  return false;
  if( !met_mt_cut)                                         return false;
  if( TString(selection).Contains("mbb"))     {if(m_bb>150||m_bb<90)       return false;}
  if( TString(selection).Contains("mct50"))   {if(mctbb<50)                 return false;} // mct cuts
@@ -111,6 +117,7 @@ bool passSR( std::string selection){
  if( TString(selection).Contains("met150"))  {if(pfmet()<150)              return false;} 
  if( TString(selection).Contains("met175"))  {if(pfmet()<175)              return false;} 
  if( TString(selection).Contains("met200"))  {if(pfmet()<200)              return false;}
+ if( TString(selection).Contains("met250"))  {if(pfmet()<250)              return false;}
 
  if( TString(selection).Contains("metbin1v1")) {if(pfmet()<100||pfmet()>125) return false;} //met cuts
  if( TString(selection).Contains("metbin2v1")) {if(pfmet()<125||pfmet()>150) return false;}
@@ -144,7 +151,7 @@ bool passSR( std::string selection){
 //   2l CR      //
 //--------------//
 bool pass2lCR( string selection ) {
-  bool pass2lCR =  ( lep2type() ==1 || lep2type() ==2 || !PassTrackVeto_v3()||!PassTauVeto());                      // fail track veto: 2l CR.
+  bool pass2lCR =  ( lep2type() ==1 || lep2type() ==2 || !PassTrackVeto()||!PassTauVeto());                      // fail track veto: 2l CR.
   if( !passPreselection(selection))                   return false;                                    // preselection with at least 1 lep+ met50 + >=2jets 
   if( !pass2lCR)                                      return false; //pre selection + reverted veto
   if( ngoodbtags() != 2)                              return false;// btagged
@@ -156,13 +163,15 @@ bool pass2lCR( string selection ) {
 
 bool pass1lCR( string selection ) {
   if(!passPreselection("1lCR"))                      return false;// preselection with at least 1 lep+ met50 + >=2jets 
-  if(TString(selection).Contains("bveto"))    {if(ngoodbtags()>0)   return false;}
+/*  if(TString(selection).Contains("bveto"))    {if(ngoodbtags()>0)   return false;}
   if(TString(selection).Contains("twobtag"))  {if(ngoodbtags()!= 2) return false;}// btagged}
   if(TString(selection).Contains("btag"))     {if(ngoodbtags()< 1)  return false;}// btagged}
   if(TString(selection).Contains("twojets"))  {if(ngoodjets()!= 2)  return false;}// exactly 2 jets
   if(TString(selection).Contains("onejets"))  {if(ngoodjets()> 2)   return false;}//  less than 2 jets
+*/
 //  vector<int> jets = selbjets();
  // if( jets.size()<2)                                  return false;
+  if(ngoodbtags()>0)   return false;
   if(ngoodjets()!= 2)  return false;
   if( !passmetmt(selection))                            return false;
   if( !passbin(selection))                              return false;
@@ -209,7 +218,7 @@ bool passbin(std::string selection ) {
 
 bool passmbbCR(  string selection ) {
  bool  met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 0 );                                               // some additional requirement for CRs
- bool  pass1l =  met_mt_cut &&  lep2type() !=1&& lep2type() !=2 && PassTrackVeto_v3() && PassTauVeto(); // pass 2nd lep veto etc.
+ bool  pass1l =  met_mt_cut &&  lep2type() !=1&& lep2type() !=2 && PassTrackVeto() && PassTauVeto(); // pass 2nd lep veto etc.
  float m_bb = getmbb();
  float mctbb = getmct();
  bool  outside_mbb = (m_bb>150||m_bb<90);
@@ -310,8 +319,8 @@ inline bool sortIndexbyCSV( pair<int, float> &vec1, pair<int, float> &vec2 ) {
 vector <pair<int, float>> sortedjetsbyCSV(){
    vector <pair<int, float>> jet_csv_pairs;
    for( size_t jetind = 0; jetind < ak4pfjets_p4().size(); jetind++ ){
-	 // if( ak4pfjets_CSV().at(jetind) < 0.605){
-	  if( ak4pfjets_CSV().at(jetind) < 0.890 && ak4pfjets_p4().at(jetind).Pt() > 30 &&
+	  if( ak4pfjets_CSV().at(jetind) < BTAGWP && ak4pfjets_p4().at(jetind).Pt() > 30 &&// loose btagging.
+	  //if( ak4pfjets_CSV().at(jetind) < 0.800 && ak4pfjets_p4().at(jetind).Pt() > 30 &&
                 fabs(ak4pfjets_p4().at(jetind).Eta()) < 2.4
                 && ak4pfjets_loose_pfid().at(jetind)){
 	    jet_csv_pairs.push_back(make_pair(jetind,ak4pfjets_CSV().at(jetind)));
@@ -331,8 +340,8 @@ std::pair<vector<int>,vector<int>> btaggedjets()  {
                 && ak4pfjets_loose_pfid().at(iJet)
                 )
                 {
-//               if (ak4pfjets_CSV().at(iJet) >0.605) 
-                if (ak4pfjets_CSV().at(iJet) >0.890) 
+               if (ak4pfjets_CSV().at(iJet) > BTAGWP) 
+//                if (ak4pfjets_CSV().at(iJet) >0.800) 
                    bJets_idx.push_back(iJet);
                 else nonbJets_idx.push_back(iJet);}
  }

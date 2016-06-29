@@ -3,10 +3,12 @@ from ROOT import TH1F,TFile
 import os
 
 lumi = 2.26
-#selection="yield_mbbCR"
-selection="yield_mbbCR_met100_mt50"	
-table_header = '\\begin{tabular}{lccc}\n'
+selection="yield_mbbCR"
+#selection="1lCR_mbb_bveto_met100_mct150_mt150_notrigger"
+#table_header = '\\begin{tabular}{lccc}\n'
+table_header = '\\begin{tabular}{lc}\n'
 title = '1l CR   & &\\\\\n'
+wfile="ws_stitch"
 hist_prefix = 'h_lep_event_NEventsmbbCR_'+selection
 input_dir = os.environ['analysis_output']
 print input_dir
@@ -35,10 +37,10 @@ row_inputs = [
 #              {'file':'wsLF_'+selection+'_hists.root','row_label':'w+bb','hist_name':hist_prefix},
               {'file':'wzbb_'+selection+'_hists.root','row_label':'w+z(bb)','hist_name':hist_prefix},
               {'file':'rare_'+selection+'_hists.root','row_label':'rare','hist_name':hist_prefix},
-              {'file':'tops_'+selection+'_hists.root','row_label':'1l','hist_name':hist_prefix.replace('lep','lep_onelep')},
-              {'file':'tops_'+selection+'_hists.root','row_label':'2l','hist_name':hist_prefix.replace('lep','lep_dilep')},
-              {'file':'wsLF_'+selection+'_hists.root','row_label':'w+LF','hist_name':hist_prefix.replace('lep','lep_LF')},
-              {'file':'wsLF_'+selection+'_hists.root','row_label':'w+HF','hist_name':hist_prefix.replace('lep','lep_HF')}
+              {'file':'tops_mad_'+selection+'_hists.root','row_label':'1l top','hist_name':hist_prefix.replace('lep','lep_onelep')},
+              {'file':wfile+'_'+selection+'_hists.root','row_label':'w+LF','hist_name':hist_prefix.replace('lep','lep_LF')},
+              {'file':wfile+'_'+selection+'_hists.root','row_label':'w+HF','hist_name':hist_prefix.replace('lep','lep_HF')},
+              {'file':'tops_mad_'+selection+'_hists.root','row_label':'2l top','hist_name':hist_prefix.replace('lep','lep_dilep')}
              ]
 ##table to print out####
 datarows=[]
@@ -51,49 +53,60 @@ for j in range(nbins):
         hist = file.Get(row['hist_name']) 
         row['hist'] = hist
         for i in range((len(label_col)-1)*j,(len(label_col)-1)*j+(len(label_col)-1)):
-            row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
+            if i<3: continue
+            row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'$'
         datarows.append((row_to_print+'\\\\\n'))
 
 ########################
-# first one is data
+# first one is datada
+data = TFile(input_dir+'/'+row_inputs[0]['file'])
+hdata = data.Get(row_inputs[0]['hist_name'])
+sum_bkg = hdata.Clone('sum_bkg')
+
 bkg1 = TFile(input_dir+'/'+row_inputs[1]['file'])
 hbkg1 = bkg1.Get(row_inputs[1]['hist_name'])
-sum_bkg = hbkg1.Clone('sum_bkg')
+mcsum_bkg = hbkg1.Clone('mcsum_bkg')
 ########################
 
 ########################
-bkg2 = TFile(input_dir+'/'+row_inputs[0]['file'])
-hbkg2 = bkg2.Get(row_inputs[0]['hist_name'])
+bkg2 = TFile(input_dir+'/'+row_inputs[-1]['file'])
+hbkg2 = bkg2.Get(row_inputs[-1]['hist_name'])
 den = hbkg2.Clone('den')
 ########################
 
 
 ########################
 ########################
-for i,row in enumerate(row_inputs[2:]):
+for i,row in enumerate(row_inputs[1:len(row_inputs)-1]):
     file = TFile(input_dir+'/'+row['file'])
     hist = file.Get(row['hist_name']) 
     row['hist'] = hist
-    #subtract it if it is not the last row, which is 2l ttbar
-    #if row['row_label'] is not 'w+jets(light)':
-    #if i < len(row):
-    sum_bkg.Add(hist,1)
-    print row['row_label'],':',hist.GetBinContent(5)
+    sum_bkg.Add(hist,-1)
+    
+for i,row in enumerate(row_inputs[2:len(row_inputs)]):
+    file = TFile(input_dir+'/'+row['file'])
+    hist = file.Get(row['hist_name']) 
+    row['hist'] = hist
+    mcsum_bkg.Add(hist)
 
 ########find ratio############
-ratio = den.Clone('ratio')
-ratio.Divide(sum_bkg)
-
+ratio = sum_bkg.Clone('ratio')
+ratio.Divide(den)
 sum_rows = []
+mcsum_rows = []
 ratio_rows=[]
 
 for j in range(nbins):
     sum_row=''
+    mcsum_row=''
     ratio_row=''
     for i in range((len(label_col)-1)*j,(len(label_col)-1)*j+(len(label_col)-1)):
+        if i<3: continue
         sum_row+="&${:.2f}".format(sum_bkg.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(sum_bkg.GetBinError(i+1))+'$'
+        mcsum_row+="&${:.2f}".format(mcsum_bkg.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(mcsum_bkg.GetBinError(i+1))+'$'
         ratio_row+="&${:.2f}".format(ratio.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(ratio.GetBinError(i+1))+'$'        
     sum_rows.append(sum_row)
+    mcsum_rows.append(mcsum_row)
     ratio_rows.append(ratio_row)
 
 ########print table##########
@@ -104,10 +117,10 @@ table.write('%BEGINLATEX%\n')
 #table.write('\\small\n')
 table.write(table_header)
 table.write('\\hline\n')
-table.write(title)
-table.write('\\hline\n')
-table.write(col_string+'\\\\\n')
-table.write('\\hline\n')
+#table.write(title)
+#table.write('\\hline\n')
+#table.write(col_string+'\\\\\n')
+#table.write('\\hline\n')
 
 for j in range(nbins):
 #    table.write(bins[j])
@@ -121,11 +134,13 @@ for j in range(nbins):
         row_to_print = row['row_label']
         ### print out the table
         for i in range((len(label_col)-1)*j,(len(label_col)-1)*j+(len(label_col)-1)):
+            if i<3: continue
             row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
         table.write(row_to_print+'\\\\\n')
     table.write("\\hline\n")
-    table.write("All MC"+sum_rows[j]+'\\\\\n') 
-    table.write("data/MC"+ratio_rows[j]+'\\\\\n') 
+    table.write("All MC"+mcsum_rows[j]+'\\\\\n') 
+    table.write("data-others"+sum_rows[j]+'\\\\\n') 
+    table.write("data-others/MC(2l top)"+ratio_rows[j]+'\\\\\n') 
 #    table.write('\\hline\hline\n')
     table.write("\\hline\n")
 table.write('\\end{tabular}\n')

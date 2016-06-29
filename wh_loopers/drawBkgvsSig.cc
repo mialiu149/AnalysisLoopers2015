@@ -16,12 +16,13 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
 {
   bool usetemplates   = false;
   bool usefsbkg       = false;
+  bool setlog= false;
   bool use_data(true); 
   bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(false),use_wbb(true);
   bool use_top(false),use_ttv(true),use_diboson(true);
   bool use_sig(false);
   bool use_norm_factor(false); float norm_factor = 1.;
-  int scaleup = 100;
+  int scaleup = 50;
 
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
@@ -43,10 +44,10 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
  
   if(use_data)  getBackground(  h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
   if(use_ttbar) getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ),variable, type, region );
-  if(use_ttbar1l) getBackground(  h_ttbar1l, iter, Form("tops_%s", selection.c_str() ), variable,"lep_onelep" , region );
-  if(use_ttbar2l) getBackground(  h_ttbar2l, iter, Form("tops_%s", selection.c_str() ), variable,"lep_dilep", region );
-  if(use_wjets) getBackground(  h_wjets, iter, Form("wsLF_%s", selection.c_str() ), variable,"lep_LF", region );
-  if(use_wbb)   getBackground(  h_wbb, iter, Form("wsLF_%s", selection.c_str() ), variable, "lep_HF", region );
+  if(use_ttbar1l) getBackground(  h_ttbar1l, iter, Form("tops_mad_%s", selection.c_str() ), variable,"lep_onelep" , region );
+  if(use_ttbar2l) getBackground(  h_ttbar2l, iter, Form("tops_mad_%s", selection.c_str() ), variable,"lep_dilep", region );
+  if(use_wjets) getBackground(  h_wjets, iter, Form("ws_stitch_%s", selection.c_str() ), variable,"lep_LF", region );
+  if(use_wbb)   getBackground(  h_wbb, iter, Form("ws_stitch_%s", selection.c_str() ), variable, "lep_HF", region );
   if(use_zjets) getBackground(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
   if(use_top)   getBackground(  h_top, iter, Form("singletop_%s", selection.c_str() ), variable, type, region );
   if(use_ttv)   getBackground(  h_ttv, iter, Form("wzbb_%s", selection.c_str() ), variable, type, region );
@@ -87,7 +88,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   float xmin = 50; float xmax = 500;
   //float ymin = 1e-1; float ymax = 1.5;
   float ymin = 0; float ymax = 1.5;
-  int rebin = 25;
+  int rebin = 10;
   if( TString(variable).Contains("MHT") )    {	xmin = 0;	xmax = 250;	rebin = 5;  }
   if( TString(variable).Contains("NEvents") ){	xmin = 0.5;	xmax = 8.5;	rebin = 1;  }
   if( TString(variable).Contains("mhtphi") ) {	xmin = 0;	xmax = 250;        ymin = 0;	rebin = 5;  }
@@ -174,7 +175,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   pad->SetLeftMargin(0.18);
   pad->Draw(); pad->cd();
   if( !( TString(variable).Contains("dphi") || variable == "nVert" || variable == "mhtphi" || type == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir") ){
-	pad->SetLogy();
+ if(setlog)   pad->SetLogy();
   } 
   //h_data->GetYaxis()->SetRangeUser(0,100);  
   h_data->GetXaxis()->SetRangeUser(xmin, xmax);
@@ -306,7 +307,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   l1->Draw();
   drawCMSLatex( c1, luminosity*norm_factor );
   }
-  c1->SaveAs(Form("${plot_output}/h_%s_%s_%s.png", variable.c_str(), type.c_str(), selection.c_str() ));
-  c1->SaveAs(Form("${plot_output}/h_%s_%s_%s.pdf", variable.c_str(), type.c_str(), selection.c_str() ));
+  c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_mad_htbin.png", variable.c_str(), type.c_str(), selection.c_str() ));
+  c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_mad_htbin.pdf", variable.c_str(), type.c_str(), selection.c_str() ));
   return;
 }
