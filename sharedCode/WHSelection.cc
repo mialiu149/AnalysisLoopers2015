@@ -48,6 +48,19 @@ bool passPreselection(string selection) {
  if( pfmet() < 50)                                                 return false; // min met cut.
  return true;
 }
+bool passWJetsValidation(){
+ bool passTrigger =  HLT_SingleMu()|| HLT_SingleEl();
+// if (TString(selection).Contains("notrigger") ) 
+ passTrigger = true; // fast sim doesn't have the right trigger information.
+ if( lep1type()!=1)                       return false; 
+ if( !(lep1_relIso()*lep1_p4().pt() < 5)) return false;
+ //if( lep2type()==1||lep2type()==2)        return false;
+ if( ngoodjets()<2)                       return false;
+ if( pfmet() < 200)                        return false; // min met cut.
+ //if( ak4_HT()<150)                        return false;
+ 
+ return true;
+}
 
 bool passcutflow( std::string selection){
   
@@ -95,15 +108,20 @@ bool passISR(){
 bool passSR( std::string selection){
   float m_bb = getmbb();
   float mctbb = getmct();
-  bool met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 50 ); 
-  if(TString(selection).Contains("mt120"))  met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 120 );                                       
-  if(TString(selection).Contains("mt150"))  met_mt_cut = ( pfmet() > 50 && mt_met_lep() > 150 );
+  float event_met_pt = pfmet();
+  float mt = mt_met_lep();
+  if(TString(selection).Contains("worseMET") ) {event_met_pt = worseMETrel(0.2);mt = calculateMt(lep1_p4(),event_met_pt,pfmet_phi());}
+  if(TString(selection).Contains("genMET")   ) {event_met_pt = genmet();mt = calculateMt(lep1_p4(),event_met_pt,genmet_phi());}
+  bool met_mt_cut = ( event_met_pt > 50 &&  mt> 50 ); 
+  if(TString(selection).Contains("mt120"))  met_mt_cut = ( event_met_pt > 50 && mt > 120 );                                       
+  if(TString(selection).Contains("mt150"))  met_mt_cut = ( event_met_pt > 50 && mt > 150 );
   if(!passPreselection(selection.c_str()))                                                  return false;
   if(TString(selection).Contains("onebtag")) {if( ngoodbtags() != 1)                        return false;}// btagged}
   if(TString(selection).Contains("twobtag")) {if( ngoodbtags() != 2)                        return false;}// btagged}
  std::pair<vector<int>,vector<int>> jets = btaggedjets(); vector<int> bjets = jets.first;// btagged jets.
  vector<int> seljets = selbjets();
- if( ngoodjets()  != 2 )                                     return false;// exactly 2 jets
+
+ if( ngoodjets()  != 2 )                                  return false;// exactly 2 jets
  //if( ngoodbtags() !=2)                                  return false;
 // if( bjets.size() !=2)                                  return false;
  if( !met_mt_cut)                                         return false;
@@ -113,11 +131,11 @@ bool passSR( std::string selection){
  if( TString(selection).Contains("mct125"))  {if(mctbb<125)                return false;}
  if( TString(selection).Contains("mct150"))  {if(mctbb<150)                return false;}
  if( TString(selection).Contains("mct170"))  {if(mctbb<170)                return false;}
- if( TString(selection).Contains("met100"))  {if(pfmet()<100)              return false;} 
- if( TString(selection).Contains("met150"))  {if(pfmet()<150)              return false;} 
- if( TString(selection).Contains("met175"))  {if(pfmet()<175)              return false;} 
- if( TString(selection).Contains("met200"))  {if(pfmet()<200)              return false;}
- if( TString(selection).Contains("met250"))  {if(pfmet()<250)              return false;}
+ if( TString(selection).Contains("met100"))  {if(event_met_pt<100)              return false;} 
+ if( TString(selection).Contains("met150"))  {if(event_met_pt<150)              return false;} 
+ if( TString(selection).Contains("met175"))  {if(event_met_pt<175)              return false;} 
+ if( TString(selection).Contains("met200"))  {if(event_met_pt<200)              return false;}
+ if( TString(selection).Contains("met250"))  {if(event_met_pt<250)              return false;}
 
  if( TString(selection).Contains("metbin1v1")) {if(pfmet()<100||pfmet()>125) return false;} //met cuts
  if( TString(selection).Contains("metbin2v1")) {if(pfmet()<125||pfmet()>150) return false;}
@@ -151,7 +169,8 @@ bool passSR( std::string selection){
 //   2l CR      //
 //--------------//
 bool pass2lCR( string selection ) {
-  bool pass2lCR =  ( lep2type() ==1 || lep2type() ==2 || !PassTrackVeto()||!PassTauVeto());                      // fail track veto: 2l CR.
+  //bool pass2lCR =  ( lep2type() ==1 || lep2type() ==2 || !PassTrackVeto()||!PassTauVeto());                      // fail track veto: 2l CR.
+  bool pass2lCR =  ( lep2type() ==1 ||  lep2type() ==2);                      // fail track veto: 2l CR.
   if( !passPreselection(selection))                   return false;                                    // preselection with at least 1 lep+ met50 + >=2jets 
   if( !pass2lCR)                                      return false; //pre selection + reverted veto
   if( ngoodbtags() != 2)                              return false;// btagged

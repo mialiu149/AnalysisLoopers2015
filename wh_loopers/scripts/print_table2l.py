@@ -33,7 +33,7 @@ for block in label_col:
 ## inputs to print out rows
 row_inputs = [
               {'file':'data_'+selection+'_hists.root','row_label':'data','hist_name':hist_prefix},
-              {'file':'wsLF_'+selection+'_hists.root','row_label':'w+jets','hist_name':hist_prefix},
+              {'file':'ws_stitch_'+selection+'_hists.root','row_label':'w+jets','hist_name':hist_prefix},
               {'file':'wzbb_'+selection+'_hists.root','row_label':'w+z(bb)','hist_name':hist_prefix},
               {'file':'rare_'+selection+'_hists.root','row_label':'rare','hist_name':hist_prefix},
               {'file':'tops_mad_'+selection+'_hists.root','row_label':'1l top','hist_name':hist_prefix.replace('lep','lep_onelep')},

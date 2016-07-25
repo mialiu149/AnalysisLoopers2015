@@ -34,13 +34,13 @@ for col in label_col:
 #              ]
 row_inputs = [
               {'file':'data_'+selection+'_hists.root','row_label':'data','hist_name':hist_prefix},
+              {'file':'tops_mad_'+selection+'_hists.root','row_label':'Dilepton top quark','hist_name':hist_prefix.replace('lep','lep_dilep')},
 #              {'file':'wsLF_'+selection+'_hists.root','row_label':'w+bb','hist_name':hist_prefix},
-              {'file':'wzbb_'+selection+'_hists.root','row_label':'w+z(bb)','hist_name':hist_prefix},
-              {'file':'rare_'+selection+'_hists.root','row_label':'rare','hist_name':hist_prefix},
-              {'file':'tops_mad_'+selection+'_hists.root','row_label':'1l top','hist_name':hist_prefix.replace('lep','lep_onelep')},
-              {'file':'tops_mad_'+selection+'_hists.root','row_label':'2l top','hist_name':hist_prefix.replace('lep','lep_dilep')},
-              {'file':wfile+'_'+selection+'_hists.root','row_label':'w+HF','hist_name':hist_prefix.replace('lep','lep_HF')},
-              {'file':wfile+'_'+selection+'_hists.root','row_label':'w+LF','hist_name':hist_prefix.replace('lep','lep_LF')}
+              {'file':wfile+'_'+selection+'_hists.root','row_label':'\whf','hist_name':hist_prefix.replace('lep','lep_HF')},
+              {'file':'wzbb_'+selection+'_hists.root','row_label':'\wzbb','hist_name':hist_prefix},
+              {'file':'tops_mad_'+selection+'_hists.root','row_label':'Single lepton top quark','hist_name':hist_prefix.replace('lep','lep_onelep')},
+              {'file':'rare_'+selection+'_hists.root','row_label':'Rare','hist_name':hist_prefix},
+              {'file':wfile+'_'+selection+'_hists.root','row_label':'\wl','hist_name':hist_prefix.replace('lep','lep_LF')}
              ]
 ##table to print out####
 datarows=[]
@@ -139,7 +139,6 @@ for j in range(nbins):
     table.write("data-others"+sum_rows[j]+'\\\\\n') 
     table.write("data-others/MC(W+LF)"+ratio_rows[j]+'\\\\\n') 
     table.write('\\hline\hline\n')
-    table.write("\\hline\n")
 table.write('\\end{tabular}\n')
 table.write('\\end{center}\n')
 table.write('\\end{table}\n')

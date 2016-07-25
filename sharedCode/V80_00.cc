@@ -513,6 +513,16 @@ void V80_00::Init(TTree *tree) {
 		HLT_SingleMu_branch = tree->GetBranch("HLT_SingleMu");
 		if (HLT_SingleMu_branch) {HLT_SingleMu_branch->SetAddress(&HLT_SingleMu_);}
 	}
+	HLT_SingleMuNoIso_branch = 0;
+	if (tree->GetBranch("HLT_SingleMuNoIso") != 0) {
+		HLT_SingleMuNoIso_branch = tree->GetBranch("HLT_SingleMuNoIso");
+		if (HLT_SingleMuNoIso_branch) {HLT_SingleMuNoIso_branch->SetAddress(&HLT_SingleMuNoIso_);}
+	}
+	HLT_SingleElNoIso_branch = 0;
+	if (tree->GetBranch("HLT_SingleElNoIso") != 0) {
+		HLT_SingleElNoIso_branch = tree->GetBranch("HLT_SingleElNoIso");
+		if (HLT_SingleElNoIso_branch) {HLT_SingleElNoIso_branch->SetAddress(&HLT_SingleElNoIso_);}
+	}
 	HLT_MET_branch = 0;
 	if (tree->GetBranch("HLT_MET") != 0) {
 		HLT_MET_branch = tree->GetBranch("HLT_MET");
@@ -608,20 +618,30 @@ void V80_00::Init(TTree *tree) {
 		filt_met_branch = tree->GetBranch("filt_met");
 		if (filt_met_branch) {filt_met_branch->SetAddress(&filt_met_);}
 	}
-	filt_cscbeamhalo2015_branch = 0;
-	if (tree->GetBranch("filt_cscbeamhalo2015") != 0) {
-		filt_cscbeamhalo2015_branch = tree->GetBranch("filt_cscbeamhalo2015");
-		if (filt_cscbeamhalo2015_branch) {filt_cscbeamhalo2015_branch->SetAddress(&filt_cscbeamhalo2015_);}
-	}
-	hardgenpt_branch = 0;
-	if (tree->GetBranch("hardgenpt") != 0) {
-		hardgenpt_branch = tree->GetBranch("hardgenpt");
-		if (hardgenpt_branch) {hardgenpt_branch->SetAddress(&hardgenpt_);}
+	filt_badMuonFilter_branch = 0;
+	if (tree->GetBranch("filt_badMuonFilter") != 0) {
+		filt_badMuonFilter_branch = tree->GetBranch("filt_badMuonFilter");
+		if (filt_badMuonFilter_branch) {filt_badMuonFilter_branch->SetAddress(&filt_badMuonFilter_);}
 	}
 	filt_badChargedCandidateFilter_branch = 0;
 	if (tree->GetBranch("filt_badChargedCandidateFilter") != 0) {
 		filt_badChargedCandidateFilter_branch = tree->GetBranch("filt_badChargedCandidateFilter");
 		if (filt_badChargedCandidateFilter_branch) {filt_badChargedCandidateFilter_branch->SetAddress(&filt_badChargedCandidateFilter_);}
+	}
+	filt_cscbeamhalo2015_branch = 0;
+	if (tree->GetBranch("filt_cscbeamhalo2015") != 0) {
+		filt_cscbeamhalo2015_branch = tree->GetBranch("filt_cscbeamhalo2015");
+		if (filt_cscbeamhalo2015_branch) {filt_cscbeamhalo2015_branch->SetAddress(&filt_cscbeamhalo2015_);}
+	}
+	filt_cscbeamhalo_branch = 0;
+	if (tree->GetBranch("filt_cscbeamhalo") != 0) {
+		filt_cscbeamhalo_branch = tree->GetBranch("filt_cscbeamhalo");
+		if (filt_cscbeamhalo_branch) {filt_cscbeamhalo_branch->SetAddress(&filt_cscbeamhalo_);}
+	}
+	hardgenpt_branch = 0;
+	if (tree->GetBranch("hardgenpt") != 0) {
+		hardgenpt_branch = tree->GetBranch("hardgenpt");
+		if (hardgenpt_branch) {hardgenpt_branch->SetAddress(&hardgenpt_);}
 	}
 	lep1_pdgid_branch = 0;
 	if (tree->GetBranch("lep1_pdgid") != 0) {
@@ -1331,6 +1351,8 @@ void V80_00::GetEntry(unsigned int idx)
 		Mlb_closestb_isLoaded = false;
 		HLT_SingleEl_isLoaded = false;
 		HLT_SingleMu_isLoaded = false;
+		HLT_SingleMuNoIso_isLoaded = false;
+		HLT_SingleElNoIso_isLoaded = false;
 		HLT_MET_isLoaded = false;
 		HLT_DiEl_isLoaded = false;
 		HLT_DiMu_isLoaded = false;
@@ -1350,9 +1372,11 @@ void V80_00::GetEntry(unsigned int idx)
 		ph_ngoodjets_isLoaded = false;
 		ph_ngoodbtags_isLoaded = false;
 		filt_met_isLoaded = false;
-		filt_cscbeamhalo2015_isLoaded = false;
-		hardgenpt_isLoaded = false;
+		filt_badMuonFilter_isLoaded = false;
 		filt_badChargedCandidateFilter_isLoaded = false;
+		filt_cscbeamhalo2015_isLoaded = false;
+		filt_cscbeamhalo_isLoaded = false;
+		hardgenpt_isLoaded = false;
 		lep1_pdgid_isLoaded = false;
 		lep1_production_type_isLoaded = false;
 		lep1_MiniIso_isLoaded = false;
@@ -1585,6 +1609,8 @@ void V80_00::LoadAllBranches()
 	if (Mlb_closestb_branch != 0) Mlb_closestb();
 	if (HLT_SingleEl_branch != 0) HLT_SingleEl();
 	if (HLT_SingleMu_branch != 0) HLT_SingleMu();
+	if (HLT_SingleMuNoIso_branch != 0) HLT_SingleMuNoIso();
+	if (HLT_SingleElNoIso_branch != 0) HLT_SingleElNoIso();
 	if (HLT_MET_branch != 0) HLT_MET();
 	if (HLT_DiEl_branch != 0) HLT_DiEl();
 	if (HLT_DiMu_branch != 0) HLT_DiMu();
@@ -1604,9 +1630,11 @@ void V80_00::LoadAllBranches()
 	if (ph_ngoodjets_branch != 0) ph_ngoodjets();
 	if (ph_ngoodbtags_branch != 0) ph_ngoodbtags();
 	if (filt_met_branch != 0) filt_met();
-	if (filt_cscbeamhalo2015_branch != 0) filt_cscbeamhalo2015();
-	if (hardgenpt_branch != 0) hardgenpt();
+	if (filt_badMuonFilter_branch != 0) filt_badMuonFilter();
 	if (filt_badChargedCandidateFilter_branch != 0) filt_badChargedCandidateFilter();
+	if (filt_cscbeamhalo2015_branch != 0) filt_cscbeamhalo2015();
+	if (filt_cscbeamhalo_branch != 0) filt_cscbeamhalo();
+	if (hardgenpt_branch != 0) hardgenpt();
 	if (lep1_pdgid_branch != 0) lep1_pdgid();
 	if (lep1_production_type_branch != 0) lep1_production_type();
 	if (lep1_MiniIso_branch != 0) lep1_MiniIso();
@@ -2760,6 +2788,32 @@ void V80_00::LoadAllBranches()
 		}
 		return HLT_SingleMu_;
 	}
+	const int &V80_00::HLT_SingleMuNoIso()
+	{
+		if (not HLT_SingleMuNoIso_isLoaded) {
+			if (HLT_SingleMuNoIso_branch != 0) {
+				HLT_SingleMuNoIso_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_SingleMuNoIso_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_SingleMuNoIso_isLoaded = true;
+		}
+		return HLT_SingleMuNoIso_;
+	}
+	const int &V80_00::HLT_SingleElNoIso()
+	{
+		if (not HLT_SingleElNoIso_isLoaded) {
+			if (HLT_SingleElNoIso_branch != 0) {
+				HLT_SingleElNoIso_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_SingleElNoIso_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_SingleElNoIso_isLoaded = true;
+		}
+		return HLT_SingleElNoIso_;
+	}
 	const int &V80_00::HLT_MET()
 	{
 		if (not HLT_MET_isLoaded) {
@@ -3007,31 +3061,18 @@ void V80_00::LoadAllBranches()
 		}
 		return filt_met_;
 	}
-	const float &V80_00::filt_cscbeamhalo2015()
+	const float &V80_00::filt_badMuonFilter()
 	{
-		if (not filt_cscbeamhalo2015_isLoaded) {
-			if (filt_cscbeamhalo2015_branch != 0) {
-				filt_cscbeamhalo2015_branch->GetEntry(index);
+		if (not filt_badMuonFilter_isLoaded) {
+			if (filt_badMuonFilter_branch != 0) {
+				filt_badMuonFilter_branch->GetEntry(index);
 			} else { 
-				printf("branch filt_cscbeamhalo2015_branch does not exist!\n");
+				printf("branch filt_badMuonFilter_branch does not exist!\n");
 				exit(1);
 			}
-			filt_cscbeamhalo2015_isLoaded = true;
+			filt_badMuonFilter_isLoaded = true;
 		}
-		return filt_cscbeamhalo2015_;
-	}
-	const float &V80_00::hardgenpt()
-	{
-		if (not hardgenpt_isLoaded) {
-			if (hardgenpt_branch != 0) {
-				hardgenpt_branch->GetEntry(index);
-			} else { 
-				printf("branch hardgenpt_branch does not exist!\n");
-				exit(1);
-			}
-			hardgenpt_isLoaded = true;
-		}
-		return hardgenpt_;
+		return filt_badMuonFilter_;
 	}
 	const float &V80_00::filt_badChargedCandidateFilter()
 	{
@@ -3045,6 +3086,45 @@ void V80_00::LoadAllBranches()
 			filt_badChargedCandidateFilter_isLoaded = true;
 		}
 		return filt_badChargedCandidateFilter_;
+	}
+	const float &V80_00::filt_cscbeamhalo2015()
+	{
+		if (not filt_cscbeamhalo2015_isLoaded) {
+			if (filt_cscbeamhalo2015_branch != 0) {
+				filt_cscbeamhalo2015_branch->GetEntry(index);
+			} else { 
+				printf("branch filt_cscbeamhalo2015_branch does not exist!\n");
+				exit(1);
+			}
+			filt_cscbeamhalo2015_isLoaded = true;
+		}
+		return filt_cscbeamhalo2015_;
+	}
+	const float &V80_00::filt_cscbeamhalo()
+	{
+		if (not filt_cscbeamhalo_isLoaded) {
+			if (filt_cscbeamhalo_branch != 0) {
+				filt_cscbeamhalo_branch->GetEntry(index);
+			} else { 
+				printf("branch filt_cscbeamhalo_branch does not exist!\n");
+				exit(1);
+			}
+			filt_cscbeamhalo_isLoaded = true;
+		}
+		return filt_cscbeamhalo_;
+	}
+	const float &V80_00::hardgenpt()
+	{
+		if (not hardgenpt_isLoaded) {
+			if (hardgenpt_branch != 0) {
+				hardgenpt_branch->GetEntry(index);
+			} else { 
+				printf("branch hardgenpt_branch does not exist!\n");
+				exit(1);
+			}
+			hardgenpt_isLoaded = true;
+		}
+		return hardgenpt_;
 	}
 	const int &V80_00::lep1_pdgid()
 	{
@@ -5095,6 +5175,8 @@ namespace V80_00_np {
 	const float &Mlb_closestb() { return v80_00.Mlb_closestb(); }
 	const int &HLT_SingleEl() { return v80_00.HLT_SingleEl(); }
 	const int &HLT_SingleMu() { return v80_00.HLT_SingleMu(); }
+	const int &HLT_SingleMuNoIso() { return v80_00.HLT_SingleMuNoIso(); }
+	const int &HLT_SingleElNoIso() { return v80_00.HLT_SingleElNoIso(); }
 	const int &HLT_MET() { return v80_00.HLT_MET(); }
 	const int &HLT_DiEl() { return v80_00.HLT_DiEl(); }
 	const int &HLT_DiMu() { return v80_00.HLT_DiMu(); }
@@ -5114,9 +5196,11 @@ namespace V80_00_np {
 	const int &ph_ngoodjets() { return v80_00.ph_ngoodjets(); }
 	const int &ph_ngoodbtags() { return v80_00.ph_ngoodbtags(); }
 	const float &filt_met() { return v80_00.filt_met(); }
-	const float &filt_cscbeamhalo2015() { return v80_00.filt_cscbeamhalo2015(); }
-	const float &hardgenpt() { return v80_00.hardgenpt(); }
+	const float &filt_badMuonFilter() { return v80_00.filt_badMuonFilter(); }
 	const float &filt_badChargedCandidateFilter() { return v80_00.filt_badChargedCandidateFilter(); }
+	const float &filt_cscbeamhalo2015() { return v80_00.filt_cscbeamhalo2015(); }
+	const float &filt_cscbeamhalo() { return v80_00.filt_cscbeamhalo(); }
+	const float &hardgenpt() { return v80_00.hardgenpt(); }
 	const int &lep1_pdgid() { return v80_00.lep1_pdgid(); }
 	const int &lep1_production_type() { return v80_00.lep1_production_type(); }
 	const float &lep1_MiniIso() { return v80_00.lep1_MiniIso(); }

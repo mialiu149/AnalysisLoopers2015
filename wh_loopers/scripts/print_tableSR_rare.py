@@ -10,7 +10,7 @@ lumi = 2.26
 #selection="SROneBin_yield_met100_mt150_mct150_mbb_loosebtag_3jets"
 
 #selection="SRMultiBinV5_yield_mbb_mct150_mt150_twobtag"
-selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag_notrigger"
+selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag" # get yields in SR
 table_header = '\\begin{tabular}{lc}\n'
 title = '1l CR & \\\\\n'
 hist_prefix = 'h_lep_event_NEventsSROneBin_'+selection
@@ -36,6 +36,8 @@ for col in label_col:
 #              ]
 row_inputs = [
               {'file':'diboson_'+selection+'_hists.root','row_label':'diboson','hist_name':hist_prefix},
+              {'file':'triboson_'+selection+'_hists.root','row_label':'triboson','hist_name':hist_prefix},
+              {'file':'smWH_'+selection+'_hists.root','row_label':'WlvHbb','hist_name':hist_prefix},
               {'file':'ttv_'+selection+'_hists.root','row_label':'ttv','hist_name':hist_prefix},
               {'file':'zjets_'+selection+'_hists.root','row_label':'zjets','hist_name':hist_prefix},
               {'file':'rare_'+selection+'_hists.root','row_label':'rare','hist_name':hist_prefix}

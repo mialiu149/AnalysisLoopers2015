@@ -8,7 +8,9 @@
 #include "TLatex.h"
 #include "THStack.h"
 #include <iostream>
-
+#include "TStyle.h"
+#include "RooHistError.h"
+#include "TGraphAsymmErrors.h"
 #include "../sharedCode/histTools.cc"
 
 using namespace std;
@@ -16,14 +18,14 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
 {
   bool usetemplates   = false;
   bool usefsbkg       = false;
-  bool setlog= false;
+  bool setlog= true;
+  bool drawsys= false;
   bool use_data(true); 
   bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(false),use_wbb(true);
   bool use_top(false),use_ttv(true),use_diboson(true);
   bool use_sig(false);
   bool use_norm_factor(false); float norm_factor = 1.;
   int scaleup = 50;
-
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
   TH1F * h_ttbar1l = NULL;
@@ -43,6 +45,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   cout<<"entries"<<endl;
  
   if(use_data)  getBackground(  h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );
+//  cout<<"line:"<<__LINE__<<endl;
   if(use_ttbar) getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ),variable, type, region );
   if(use_ttbar1l) getBackground(  h_ttbar1l, iter, Form("tops_mad_%s", selection.c_str() ), variable,"lep_onelep" , region );
   if(use_ttbar2l) getBackground(  h_ttbar2l, iter, Form("tops_mad_%s", selection.c_str() ), variable,"lep_dilep", region );
@@ -81,6 +84,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
    h_sig_225_80->Scale(luminosity*scaleup);
   }
  
+  cout<<"line:"<<__LINE__<<endl;
   //------------------------------------------------------------------------------------------------------//
   //------------------------------MAKE PLOTS --> binning etc ---------------------------------------------//
   //------------------------------------------------------------------------------------------------------//
@@ -88,7 +92,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   float xmin = 50; float xmax = 500;
   //float ymin = 1e-1; float ymax = 1.5;
   float ymin = 0; float ymax = 1.5;
-  int rebin = 10;
+  int rebin = 25;
   if( TString(variable).Contains("MHT") )    {	xmin = 0;	xmax = 250;	rebin = 5;  }
   if( TString(variable).Contains("NEvents") ){	xmin = 0.5;	xmax = 8.5;	rebin = 1;  }
   if( TString(variable).Contains("mhtphi") ) {	xmin = 0;	xmax = 250;        ymin = 0;	rebin = 5;  }
@@ -100,10 +104,11 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if( TString(variable).Contains("iso")){ xmin = 0;     xmax = 100;     rebin = 10;  }
   if( TString(variable).Contains("relIso")){     xmin = 0;     xmax = 10;     rebin = 20;  } 
   if( TString(variable).Contains("absIso")){     xmin = 0;     xmax = 100;     rebin = 5;  }
-  if( TString(variable).Contains("pt") ){	xmin = 0;	xmax = 500;	rebin = 25;  }
+  if( TString(variable).Contains("pt") ){	xmin = 0;	xmax = 500;	rebin = 5;  }
+  if( TString(variable).Contains("phi") ){	xmin = 0;	xmax = 10;	rebin = 1;  }
   if( variable == "njets" || variable == "nbjets"){ xmin = 0;	xmax = 10;      	rebin = 1;  }
   if(  variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
-       xmin = -3.2;
+        xmin = -3.2;
 	xmax = 3.2;
 	ymax = 1000;
 	rebin = 10;
@@ -209,8 +214,26 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_zjets) h_den->Add(h_zjets);
   if(use_wbb)   h_den->Add(h_wbb);
   if(use_diboson)  h_den->Add(h_diboson);
-  
-  h_rat->Divide(h_den);
+
+//  TH1F* h_sum = (TH1F*)h_den -> Clone("h_sum");// save the h_sum histogram
+//  saveHist(Form("MCsum_%s.root",selection.c_str()),"h_sum");
+
+  if(drawsys){
+   for(int i = 1; i<=h_den->GetNbinsX(); ++i){
+    h_den->SetBinError(i,h_den->GetBinContent(i)*0.28);
+    //h_den->SetBinError(i,1);
+  }
+   pad->cd();
+   gStyle->SetErrorX(0.5);
+   h_den->SetFillColor(1);
+   h_den->SetFillStyle(3004);
+   h_den->SetLineColor(1);
+   h_den->SetLineStyle(0);
+   h_den->SetMarkerStyle(0);
+   h_den->Draw("e2same");
+   } 
+   rat_pad->cd();
+   h_rat->Divide(h_den);
 
   h_rat->GetYaxis()->SetRangeUser(0.0,2.0);
   if( TString(variable).Contains("met") ){

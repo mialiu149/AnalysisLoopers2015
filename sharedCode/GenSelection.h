@@ -7,5 +7,6 @@ namespace gensel{
 vector<vector<int>>  lep_nu_fromW();
 vector<int>  bs_fromH();
 int isHF();// Heavy flavor
+float gennuptw();
 }//end of namespace
 #endif

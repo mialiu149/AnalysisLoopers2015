@@ -195,7 +195,7 @@ namespace AnalysisUtils {
         // variable initialization
         TRotation R;
         TVector3 xAxis(1,0,0);
-        Double_t beta = boost4Vector.Beta();        // get the magnitude of beta from our boosting 4vector
+        //Double_t beta = boost4Vector.Beta();        // get the magnitude of beta from our boosting 4vector
         TVector3 boostVector = boost4Vector.Vect(); // the z-axis is in the direction of the vector component of the boost (p = gmv).
 
         // calculate the axes of the new coordinate system
@@ -272,7 +272,7 @@ namespace AnalysisUtils {
   std::vector<float> selectedpts;
   indices.push_back(-1);
   selectedpts.push_back(-1);
-  for(int i =0;i<particles.size();i++)
+  for(unsigned int i =0;i<particles.size();i++)
 {
    if(particles.at(i).Pt()>selectedpts.back()) 
   {
@@ -283,13 +283,13 @@ namespace AnalysisUtils {
    int leading = indices.back();
    return leading;
 }
-   float MtMass(std::vector<TLorentzVector> objects,int size)
+   float MtMass(std::vector<TLorentzVector> objects,unsigned int size)
 {
 float Mt2_x = 0;
 float Mt2_y = 0;
 float Mt2_Et = 0;
 if(size>objects.size()) std::cout<<"WARNING::"<<"need more input particles for calculation!!"<<std::endl;
-for(int i  = 0;i<size;i++){
+for(unsigned int i  = 0;i<size;i++){
 TLorentzVector tmp = objects.at(i);
 float px = tmp.Px();
 float py = tmp.Py();
@@ -317,7 +317,7 @@ particles.erase(particles.begin()+leading);
 particleindex.erase(particleindex.begin()+leading);
 }
 
-for(int i=0;i<newparticles.size();i++)
+for(unsigned int i=0;i<newparticles.size();i++)
 {
 particles.push_back(newparticles.at(i));
 particleindex.push_back(oldindex.at(i));
@@ -326,7 +326,7 @@ return;
 }
 
 bool DrPassed(std::vector<TLorentzVector> SelectedLep, TLorentzVector tmp, float dRcut){
-	for(int i = 0; i <SelectedLep.size(); i++){
+	for(unsigned int i = 0; i <SelectedLep.size(); i++){
 		float dr1 = SelectedLep[i].DeltaR(tmp);
 		if(dr1 <= dRcut) return false;
 	}

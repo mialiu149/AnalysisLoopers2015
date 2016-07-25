@@ -5,6 +5,8 @@
 #include "TH1F.h"
 #include "TH2F.h"
 #include "TH1D.h"
+#include "TH2D.h"
+#include "TH3D.h"
 
 class TChain;
 
@@ -28,5 +30,18 @@ private:
    TH2F* histMCTvsMT; 
    TH2F* histMCTvsMET; 
    TH2F* histMCTvsMbb; 
+   TH2D* histscan;
+   TH2D* histscan_genmet;
+   TH2D* histscan_pdfup ;
+   TH2D* histscan_pdfdn ;
+   TH2D* histscan_scaleup ;
+   TH2D* histscan_scaledn ;
+   TH2D* histscan_btagsfup ;
+   TH2D* histscan_btagsfdn ;
+   TH2D* histscan_lepsfup ;
+   TH2D* histscan_lepsfdn ;
+   TH2D* histscan_isrnom;
+   TH2D* histscan_isrup;
+   TH2D* histscan_isrdn ;
 };
 #endif

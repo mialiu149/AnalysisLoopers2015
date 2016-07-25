@@ -17,6 +17,7 @@ bool passbin( std::string selection);
 bool passmetmt( std::string selection);
 float event_weight(std::string selection);
 bool passISR();
+bool passWJetsValidation();
 // the following functions are used to catergorize 2l CR estimation.
 // following functions are used for gen level studies.
 std::pair<vector<int>,vector<int> >btaggedjets();

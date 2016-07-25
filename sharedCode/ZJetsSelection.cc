@@ -30,7 +30,7 @@ bool passPreselection(string selection) {// trigger + lepton selections
    //event type
    if( !(HLT_Mu8El17()||HLT_Mu17El12()||HLT_DiEl()||HLT_DiMu()))            return false;
    if( !(eventtype()==1))                                            return false;
-   if( !(lep1_is_mu()&&lep2_is_mu()||lep1_is_el()&&lep2_is_el()))    return false;
+   if( !((lep1_is_mu()&&lep2_is_mu())||(lep1_is_el()&&lep2_is_el())))    return false;
    if( pfmet() < 50)                                                 return false; // min met cut.
 //   if( TString(selection).Contains("met_trigger")&&pfmet() < 250)    return false; // met cut
    if( ngoodjets() < 2 )                                             return false; // >=3 jets  
@@ -178,5 +178,4 @@ int lep2type() { // second lepton type
     return 0;
    } //end of lep2_is_el
  }//end of lep2 function
-
 }//end namespace

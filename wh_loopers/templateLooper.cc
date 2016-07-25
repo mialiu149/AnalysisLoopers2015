@@ -11,6 +11,8 @@
 #include "TFile.h"
 #include "TH1F.h"
 #include "TH2F.h"
+#include "TH2D.h"
+#include "TH3D.h"
 #include "TH1D.h"
 #include "TMath.h"
 
@@ -23,6 +25,7 @@
 #include "../sharedCode/WHSelection.h"
 #include "../sharedCode/GenSelection.h"
 #include "../sharedCode/AnalysisUtils.h"
+#include "../sharedCode/EventTypeSel.h"
 #include "../stop_variables/MT2_implementations.h"
 #include "../../CORE/Tools/dorky/dorky.h"
 #include "../../CORE/Tools/goodrun.h"
@@ -38,6 +41,8 @@ const bool debug = false;
 const bool usejson = true;
 const bool dovtxreweighting = false;
 const bool dobtagweighting = true;
+const bool applytrigger = true;
+const bool runsigscan = true;
 
 templateLooper::templateLooper()
 {
@@ -50,7 +55,7 @@ templateLooper::~templateLooper()
 void templateLooper::bookHistos(std::string region){
   // hist naming convention: "h_<leptype>_<object>_<variable>_<selection>"
   vector <string> leptype;
-  leptype.push_back("el");
+  leptype.push_back("el"); //currently not setup to run on this.
   leptype.push_back("mu");
   leptype.push_back("lep");
   leptype.push_back("lep_onelep");
@@ -63,37 +68,35 @@ void templateLooper::bookHistos(std::string region){
   selection.push_back(region.c_str());
   vector <string> variable;             vector <float> variable_bins;
   variable.push_back("ptl1");           variable_bins.push_back(1000);  
-  variable.push_back("ptl1_pass");           variable_bins.push_back(1000);  
+  variable.push_back("ptl1_pass");      variable_bins.push_back(1000);  
   variable.push_back("ptb1");           variable_bins.push_back(1000);  
   variable.push_back("ptb2");           variable_bins.push_back(1000);  
   variable.push_back("ptbb");           variable_bins.push_back(1000);  
-  variable.push_back("ptlbb");           variable_bins.push_back(1000);  
+  variable.push_back("ptlbb");          variable_bins.push_back(1000);  
   variable.push_back("met");            variable_bins.push_back(1000);  
-  variable.push_back("met_pass");            variable_bins.push_back(1000);  
+  variable.push_back("met_pass");       variable_bins.push_back(1000);  
   variable.push_back("ht");	        variable_bins.push_back(1000);  
   variable.push_back("mt");	        variable_bins.push_back(1000);  
-  variable.push_back("mt_0btag");	        variable_bins.push_back(1000);  
-  variable.push_back("mt_2btag");	        variable_bins.push_back(1000);  
+  variable.push_back("mt_0btag");	variable_bins.push_back(1000);  
+  variable.push_back("mt_2btag");	variable_bins.push_back(1000);  
   variable.push_back("mbb");	        variable_bins.push_back(1000);  
   variable.push_back("MCT");	        variable_bins.push_back(1000);  
-  variable.push_back("MCT_0btag");	        variable_bins.push_back(1000);  
-  variable.push_back("MCT_2btag");	        variable_bins.push_back(1000);  
-  variable.push_back("njets");          variable_bins.push_back(20  );  
-  variable.push_back("nbjets_gen");     variable_bins.push_back(20  );  
-  variable.push_back("ngenbjets_0btag");     variable_bins.push_back(20  );  
-  variable.push_back("ngenbjets_1btag");     variable_bins.push_back(20  );  
-  variable.push_back("ngenbjets_2btag");     variable_bins.push_back(20  );  
-  variable.push_back("nbjets");         variable_bins.push_back(20  );  
-  variable.push_back("nVert");          variable_bins.push_back(50  );  
+  variable.push_back("MCT_0btag");	variable_bins.push_back(1000);  
+  variable.push_back("MCT_2btag");      variable_bins.push_back(1000);  
   variable.push_back("relIso03EA");	variable_bins.push_back(1000);  
   variable.push_back("absIso03EA");	variable_bins.push_back(1000);  
   variable.push_back("nhiso");	        variable_bins.push_back(1000);  
   variable.push_back("emiso");	        variable_bins.push_back(1000);  
   variable.push_back("MT2W");	        variable_bins.push_back(1000);  
   variable.push_back("dphi_Wlep");	variable_bins.push_back(1000);  
-  //variable.push_back("dphibb");	        variable_bins.push_back(1000);  
-//  variable.push_back("dR_lep_leadb");	variable_bins.push_back(1000);  
-  variable.push_back("MT2lb");  variable_bins.push_back(1000);  
+  variable.push_back("MT2lb");          variable_bins.push_back(1000);  
+  variable.push_back("njets");               variable_bins.push_back(20  );  
+  variable.push_back("nbjets_gen");          variable_bins.push_back(20  );  
+  variable.push_back("ngenbjets_0btag");     variable_bins.push_back(20  );  
+  variable.push_back("ngenbjets_1btag");     variable_bins.push_back(20  );  
+  variable.push_back("ngenbjets_2btag");     variable_bins.push_back(20  );  
+  variable.push_back("nbjets");              variable_bins.push_back(20  );  
+  variable.push_back("nVert");               variable_bins.push_back(50  );  
 
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
 	for( unsigned int objind = 0; objind < object.size(); objind++ ){
@@ -118,24 +121,6 @@ void templateLooper::bookHistos(std::string region){
 	  }
      }
   }
-
-  // some gen level variables
-  bookHist("h_gen_sys_pt", "h_gen_sys_pt", 1000,0,1000);
-  bookHist("h_gen_b_pt", "h_gen_b_pt", 1000,0,1000);
-  bookHist("h_gen_nu_pt", "h_gen_nu_pt", 1000,0,1000);
-  bookHist("h_gen_mt", "h_gen_mt", 1000,0,1000);
-  bookHist("h_gen_mt_up", "h_gen_mt_up", 1000,0,1000);
-  bookHist("h_gen_mt_dn", "h_gen_mt_dn", 1000,0,1000);
-  bookHist("h_reco_mt", "h_reco_mt", 1000,0,1000);
-  bookHist("h_reco_mt_up", "h_reco_mt_up", 1000,0,1000);
-  bookHist("h_reco_mt_dn", "h_reco_mt_dn", 1000,0,1000);
-  bookHist("h_gen_w_mass", "h_gen_w_mass", 1000,0,1000);
-  bookHist("h_gen_h_mass", "h_gen_h_mass", 1000,0,1000);
-  bookHist("h_gen_w_mass_up", "h_gen_w_mass_up", 1000,0,1000);
-  bookHist("h_gen_w_mass_dn", "h_gen_w_mass_dn", 1000,0,1000);
-  bookHist("h_gen_lsp_mass", "h_gen_lsp_mass", 1000,0,1000);
-  bookHist("h_gen_n2_mass", "h_gen_n2_mass", 1000,0,1000);
-  bookHist("h_gen_ch_mass", "h_gen_ch_mass", 1000,0,1000);
 
  //phi and eta plots, they have the same x and y limits.
   vector <string> phivars;
@@ -216,6 +201,25 @@ void templateLooper::bookHistos(std::string region){
 	} //end of object loop
   }//end of loop over leptons
 
+  // some gen level variables
+  bookHist("h_gen_sys_pt", "h_gen_sys_pt", 1000,0,1000);
+  bookHist("h_gen_b_pt", "h_gen_b_pt", 1000,0,1000);
+  bookHist("h_gen_nu_pt", "h_gen_nu_pt", 1000,0,1000);
+  bookHist("h_gen_met", "h_gen_met", 1000,0,1000);
+  bookHist("h_gen_mt", "h_gen_mt", 1000,0,1000);
+  bookHist("h_gen_mt_up", "h_gen_mt_up", 1000,0,1000);
+  bookHist("h_gen_mt_dn", "h_gen_mt_dn", 1000,0,1000);
+  bookHist("h_reco_mt", "h_reco_mt", 1000,0,1000);
+  bookHist("h_reco_mt_up", "h_reco_mt_up", 1000,0,1000);
+  bookHist("h_reco_mt_dn", "h_reco_mt_dn", 1000,0,1000);
+  bookHist("h_gen_w_mass", "h_gen_w_mass", 1000,0,1000);
+  bookHist("h_gen_h_mass", "h_gen_h_mass", 1000,0,1000);
+  bookHist("h_gen_w_mass_up", "h_gen_w_mass_up", 1000,0,1000);
+  bookHist("h_gen_w_mass_dn", "h_gen_w_mass_dn", 1000,0,1000);
+  bookHist("h_gen_lsp_mass", "h_gen_lsp_mass", 1000,0,1000);
+  bookHist("h_gen_n2_mass", "h_gen_n2_mass", 1000,0,1000);
+  bookHist("h_gen_ch_mass", "h_gen_ch_mass", 1000,0,1000);
+
 
   //--------------------// 
   // book Cutflow hists //
@@ -239,10 +243,6 @@ void templateLooper::bookHistos(std::string region){
 
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
 		for( unsigned int selind = 0; selind < histonames_cutflow.size(); selind++ ){
-               //bookHistTH1D(Form("h_%s_%s",leptype.at(lepind).c_str(),histonames_cutflow.at(selind).c_str()),
-               //             Form("h_%s_%s",leptype.at(lepind).c_str(),histonames_cutflow.at(selind).c_str()),
-               //             8,0.5,8.5
-  //            );//book histos for all SRs and CRs
                 string histoname = "h_"+leptype.at(lepind)+"_event_"+histonames_cutflow.at(selind)+"_"+region.c_str();
                 histos_cutflow[histoname] = new TH1D(histoname.c_str(),histoname.c_str(),25,0.5,25.5);
                 histos_cutflow[histoname]->Sumw2();
@@ -250,15 +250,26 @@ void templateLooper::bookHistos(std::string region){
   }
 
  //---------------------------------------------------------//
- // initialize histograms here for all regions of interests //
+ //                 2-D plots booked here                   //
  //---------------------------------------------------------//
  
-  /*
-  bookHist("h_mm_event_drll_2jets", "h_mm_event_drll_2jets", 500,0,5);
-    */
-  histMCTvsMT = new TH2F( "h_histMCTvsMT", "h_histMCTvsMT", 1000,0,1000,1000,0,1000); histMCTvsMT->Sumw2();
+  histMCTvsMT  = new TH2F( "h_histMCTvsMT", "h_histMCTvsMT", 1000,0,1000,1000,0,1000); histMCTvsMT->Sumw2();
   histMCTvsMET = new TH2F( "h_histMCTvsMET", "h_histMCTvsMET", 1000,0,1000,1000,0,1000); histMCTvsMET->Sumw2();
   histMCTvsMbb = new TH2F( "h_histMCTvsMbb", "h_histMCTvsMbb", 1000,0,1000,1000,0,1000); histMCTvsMbb->Sumw2();
+  histscan = new TH2D( "h_histscan", "h_histscan", 24,124,724,15,-1,374); histscan->Sumw2();
+  histscan_genmet = new TH2D( "h_histscan_genmet", "h_histscan_genmet", 24,124,724,15,-1,374); histscan_genmet->Sumw2();
+  histscan_pdfup = new TH2D( "h_histscan_pdfup", "h_histscan_pdfup", 24,124,724,15,-1,374); histscan_pdfup->Sumw2();
+  histscan_pdfdn = new TH2D( "h_histscan_pdfdn", "h_histscan_pdfdn", 24,124,724,15,-1,374); histscan_pdfdn->Sumw2();
+  histscan_scaleup = new TH2D( "h_histscan_scaleup", "h_histscan_scaleup", 24,124,724,15,-1,374); histscan_scaleup->Sumw2();
+  histscan_scaledn = new TH2D( "h_histscan_scaledn", "h_histscan_scaledn", 24,124,724,15,-1,374); histscan_scaledn->Sumw2();
+  histscan_btagsfup = new TH2D( "h_histscan_btagsfup", "h_histscan_btagsfup", 24,124,724,15,-1,374); histscan_btagsfup->Sumw2();
+  histscan_btagsfdn = new TH2D( "h_histscan_btagsfdn", "h_histscan_btagsfdn", 24,124,724,15,-1,374); histscan_btagsfdn->Sumw2();
+  histscan_lepsfup = new TH2D( "h_histscan_lepsfup", "h_histscan_lepsfup", 24,124,724,15,-1,374); histscan_lepsfup->Sumw2();
+  histscan_lepsfdn = new TH2D( "h_histscan_lepsfdn", "h_histscan_lepsfdn", 24,124,724,15,-1,374); histscan_lepsfdn->Sumw2();
+  histscan_isrnom = new TH2D( "h_histscan_isrnom", "h_histscan_isrnom", 24,124,724,15,-1,374); histscan_isrnom->Sumw2();
+  histscan_isrup = new TH2D( "h_histscan_isrup", "h_histscan_isrup", 24,124,724,15,-1,374); histscan_isrup->Sumw2();
+  histscan_isrdn = new TH2D( "h_histscan_isrdn", "h_histscan_isrdn", 24,124,724,15,-1,374); histscan_isrdn->Sumw2();
+  
 }
 
 void templateLooper::ScanChain ( TChain * chain , const string iter , const string sample, const string selection ){
@@ -281,9 +292,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   
   // do this once per job
   const char* json_file ="Cert_271036-274443_13TeV_PromptReco_Collisions16_JSON.txt";
-//  set_goodrun_file(json_file);
-   eventFilter metFilterTxt;
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
+//  set_goodrun_file(json_file);
+/*   eventFilter metFilterTxt;
    if ( TString(sample).Contains("data") ) {
     cout<<"Loading bad event files ..."<<endl;
     // old lists for partial dataset
@@ -319,9 +330,31 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
     metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_ecalscn1043093.txt");
     cout<<" ... finished!"<<endl;
   } 
-
+*/
+  //---------------------------------------------------//
+  //         read reweighting/counter hists            //
+  //---------------------------------------------------//
   TH1F * h_vtxweight = NULL;
   TFile * f_vtx = NULL;
+  TH1F * h_xsecweight = NULL;
+  TFile * f_xsec = NULL;
+  TH3D * h_scanSys = NULL;
+  TH2D * h_scanN = NULL;
+  
+  TFile * f_scanSys = NULL;
+  TH1F * h_trig_el = NULL;
+  TH1F * h_trig_el_ee = NULL;
+  TFile * f_trig_el = NULL;
+  TH1F * h_trig_mu_eb = NULL;
+  TH1F * h_trig_mu_ee = NULL;
+  TFile * f_trig_mu = NULL;
+  TH1F * h_trig_el_eb_veto = NULL;
+  TH1F * h_trig_el_ee_veto = NULL;
+  TFile * f_trig_el_veto = NULL;
+  TH1F * h_trig_mu_eb_veto = NULL;
+  TH1F * h_trig_mu_ee_veto = NULL;
+  TFile * f_trig_mu_veto = NULL;
+
   if( dovtxreweighting ){
 	f_vtx = TFile::Open("nvtx_ratio.root","READ");
 	h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
@@ -329,6 +362,46 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	f_vtx->Close();
   }
 
+  if( runsigscan ){
+       if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : get signal scan counting histogram " <<endl;
+        f_xsec = TFile::Open("xsec_susy_13tev.root","READ");
+        h_xsecweight = (TH1F*)f_xsec->Get("h_xsec_c1n2")->Clone("h_xsecweight");
+        h_xsecweight->SetDirectory(rootdir);
+        f_xsec->Close(); 
+	f_scanSys = TFile::Open("/nfs-6/userdata/mliu/onelepbabies/V80_signalscanv3/SMS_tchwh_lnbb.root","READ");
+	h_scanSys = (TH3D*)f_scanSys->Get("h_counterSMS")->Clone("h_scanSys");
+	h_scanN = (TH2D*)f_scanSys->Get("histNEvts")->Clone("h_scanN");
+	h_scanSys->SetDirectory(rootdir);
+	h_scanN->SetDirectory(rootdir);
+	f_scanSys->Close();
+       if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" :....finished..... " <<endl;
+  }
+  if( applytrigger){
+       f_trig_el = TFile::Open("trigeff_El.root","READ");
+       h_trig_el = (TH1F*)f_trig_el->Get("h_pt_effi_eb_ele27WPLoose")->Clone("h_trig_el");
+       h_trig_el->SetDirectory(rootdir);
+       h_trig_el_ee = (TH1F*)f_trig_el->Get("h_pt_effi_ee_ele27WPLoose")->Clone("h_trig_el_ee");
+       h_trig_el_ee->SetDirectory(rootdir);
+       f_trig_el->Close();
+       f_trig_mu = TFile::Open("trigeff_Mu.root","READ");
+       h_trig_mu_eb = (TH1F*)f_trig_mu->Get("h_pt_effi_eb_ele27WPLoose")->Clone("h_trig_mu_eb");
+       h_trig_mu_ee = (TH1F*)f_trig_mu->Get("h_pt_effi_ee_ele27WPLoose")->Clone("h_trig_mu_ee");
+       h_trig_mu_eb->SetDirectory(rootdir);
+       h_trig_mu_ee->SetDirectory(rootdir);
+       f_trig_mu->Close();
+       f_trig_el_veto = TFile::Open("trigeff_El_Veto.root","READ");
+       h_trig_el_eb_veto = (TH1F*)f_trig_el_veto->Get("h_pt_effi_eb_ele27WPLoose")->Clone("h_trig_el_eb_veto");
+       h_trig_el_ee_veto = (TH1F*)f_trig_el_veto->Get("h_pt_effi_ee_ele27WPLoose")->Clone("h_trig_el_ee_veto");
+       h_trig_el_eb_veto->SetDirectory(rootdir);
+       h_trig_el_ee_veto->SetDirectory(rootdir);
+       f_trig_el_veto->Close();
+       f_trig_mu_veto = TFile::Open("trigeff_Mu_Veto.root","READ");
+       h_trig_mu_eb_veto = (TH1F*)f_trig_mu_veto->Get("h_pt_effi_eb_ele27WPLoose")->Clone("h_trig_mu_eb_veto");
+       h_trig_mu_ee_veto = (TH1F*)f_trig_mu_veto->Get("h_pt_effi_ee_ele27WPLoose")->Clone("h_trig_mu_ee_veto");
+       h_trig_mu_eb_veto->SetDirectory(rootdir);
+       h_trig_mu_ee_veto->SetDirectory(rootdir);
+       f_trig_mu_veto->Close();
+ }
   TObjArray *listOfFiles = chain->GetListOfFiles();
   unsigned int nEventsChain = 0;
   unsigned int nEvents = chain->GetEntries();
@@ -346,36 +419,51 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	TFile f(currentFile->GetTitle());
     TTree *tree = dynamic_cast<TTree*>(f.Get("t"));
     v80_00.Init(tree);
-
     // event loop
-    //unsigned int nEvents = tree->GetEntries();
     nEvents = tree->GetEntries();	
     cout<<"Processing File: "<<TString(currentFile->GetTitle())<<endl;
 
     for (unsigned int event = 0 ; event < nEvents; ++event){
 	  v80_00.GetEntry(event);
           ++nEventsTotal;
-          // ~~~~~~~~~~~
           //   continue;
-          // ~~~~~~~~~~~
-	  if (nEventsTotal % 1000 == 0){ // progress feedback to user
+	  if (nEventsTotal % 100000 == 0){ // progress feedback to user
 		if (isatty(1)){ // xterm magic from L. Vacavant and A. Cerri               
                 printf("\015\033[32m ---> \033[1m\033[31m%4.1f%%"
                  "\033[0m\033[32m <---\033[0m\015", (float)nEventsTotal/(nEventsChain*0.01));
                 fflush(stdout);
            } 
           }
-         if(TString(sample).Contains("ws_ht100")&&genht()>100) continue; //stitch samples
+        
+         float genmetpt;
+	 float weight = 1.0;
+          // fix k-factors for MC samples 
+         if( !is_data()) {
+          genmetpt = gensel::gennuptw();
+          if(TString(sample).Contains("ws_ht100")&&(genht()>100)) continue; //stitch samples
+          if(TString(sample).Contains("ws_ht100_tostitch")&&(genht()>100||genmetpt>200)) continue; //stitch samples
+          if(TString(sample).Contains("ws_njets_tostitch")&&genmetpt>200) continue; //stitch samples
+          if( sample == "ws_njets") weight *= 1.23/kfactor();
+          if( sample == "w1jets") {weight *= 1.238/kfactor(); if(genmetpt>200) continue;}
+          if( sample == "w2jets") {weight *= 1.231/kfactor(); if(genmetpt>200) continue;}
+          if( sample == "w3jets") {weight *= 1.231/kfactor(); if(genmetpt>200) continue;}
+          if( sample == "w4jets") {weight *= 1.144/kfactor(); if(genmetpt>200) continue;}
+          if( sample == "w1jets_nupt200") {weight *= 9.328793e+00/kfactor(); if(genmetpt<200) continue;}
+          if( sample == "w2jets_nupt200") {weight *= 5.173081e+00/kfactor(); if(genmetpt<200) continue;}
+          if( sample == "w3jets_nupt200") {weight *= 8.315804e+00/kfactor();  if(genmetpt<200) continue;}
+          if( sample == "w4jets_nupt200") {weight *= 26.524/1.485/kfactor(); if(genmetpt<200) continue;}
+	 if(TString(sample).Contains("ws_htbin_tostitch")&&genmetpt>200) continue; //stitch samples
+         }
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-	  //         MET filter  and json      //
+	  //         MET filter, trigger and json      //
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-//          if( abs(lep1_pdgid()) == 11) continue;
 //	  if ( is_data() && usejson && !goodrun(run(), ls()) ) continue;
-//          if( run()>274443)  continue; 
           if (is_data() &&!filt_met())   continue;
-          if (is_data() &&!(HLT_SingleMu()|| HLT_SingleEl()))   continue;
+          if (is_data() &&!(HLT_SingleMu()|| HLT_SingleEl() || HLT_SingleMuNoIso()))   continue;
           if (is_data() &&!filt_cscbeamhalo2015())   continue;
-/*           if (is_data() &&!filt_hbhenoise()) continue;
+          if (is_data() &&!filt_badMuonFilter())   continue;
+          if (is_data() &&!filt_badChargedCandidateFilter())   continue;
+/*         if (is_data() &&!filt_hbhenoise()) continue;
            if (is_data() &&!filt_ecaltp()) continue;
            if (is_data() && metFilterTxt.eventFails(run(), ls(), evt())) {
 		//cout<<"Found bad event in data: "<<run()<<", "<<ls()<<", "<<evt()<<endl;
@@ -406,18 +494,25 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //~-~-~-~-~-~-~-~-~-~-//
  	   if( abs(lep1_pdgid()) == 13) nmu++;
 	   if( abs(lep1_pdgid()) == 11) nel++;
+	  //~-~-~-~-~-~-~-~~-~-~-~--~//
+	  //    split emu plot       //
+	  //~-~-~-~-~-~-~-~-~-~-~-~-~//
            if( TString(selection).Contains("muonly") && abs(lep1_pdgid()) != 13)  continue;
+           if( TString(selection).Contains("ebonly") && abs(lep1_p4().eta())>1.2 )  continue;
+           if( TString(selection).Contains("eeonly") && abs(lep1_p4().eta())<1.2 )  continue;
            if( TString(selection).Contains("elonly") && abs(lep1_pdgid()) != 11)  continue;
-
+           
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 	  //   event weights       //
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 
-	  float weight = 1.0;
-          float lumi = 4;
-	  if( is_data() ){
+          float lumi = 12.9;
+          float trigeff = 1;
+          float triglep1 = 1;
+          float triglep2 = 1;
+	  if( is_data() || TString(sample).Contains("SMS")){
 		weight = 1.0;
-	   } else if( !is_data() ){
+	   } else if( !is_data() && !TString(sample).Contains("SMS")){
                   weight = scale1fb();//event_weight(selection.c_str());
                   if( TString(selection).Contains("yield"))  weight *= lumi;//scale by lumi
                   //scale1fb for signals
@@ -427,22 +522,122 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
                   if( TString(sample).Contains("wh_225")) weight *= 0.00579149982859;
 	  }
 	  if( !is_data() && dovtxreweighting ){	
-    	          weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(nvtxs()));		
+    	         weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(nvtxs()));		
 	  }
-
-          if( sample == "ws_njets"&&kfactor()==1) weight *= 1.23;
-	  if( !is_data() && dobtagweighting){
-             weight *= weight_btagsf();
+          if( !is_data() && dobtagweighting){
+                 weight *= weight_btagsf();
           } 
-	  float event_met_pt = pfmet();
-	  float event_met_ph = pfmet_phi();
+          if( !is_data() && applytrigger) {
+    	         if(abs(lep1_pdgid()) == 11){ 
+                   if(lep1_p4().pt()<500) triglep1*= h_trig_el->GetBinContent(h_trig_el->FindBin(lep1_p4().pt()));		
+                   else  triglep1*= h_trig_el->GetBinContent(h_trig_el->FindBin(400));
+                 }
+    	         if(abs(lep1_pdgid()) == 13){
+                   if(abs(lep1_p4().eta()) < 1.2) {
+                   if(lep1_p4().pt()<500) triglep1*= h_trig_mu_eb->GetBinContent(h_trig_mu_eb->FindBin(lep1_p4().pt()));		
+                   else  triglep1*= h_trig_mu_eb->GetBinContent(h_trig_mu_eb->FindBin(400));
+                   }
+                   else {
+                   if(lep1_p4().pt()<500) triglep1*= h_trig_mu_ee->GetBinContent(h_trig_mu_ee->FindBin(lep1_p4().pt()));		
+                   else  triglep1*= h_trig_mu_ee->GetBinContent(h_trig_mu_ee->FindBin(400));
+                   }
+                 }
+            // lep2 is good electron
+    	         if(abs(lep2_pdgid()) == 11 && lep2type()==1) {
+                 if(abs(lep2_p4().eta()) < 1.442) {
+                    if(lep2_p4().pt()<500) triglep2*= h_trig_el->GetBinContent(h_trig_el->FindBin(lep2_p4().pt()));		
+                    else triglep2 *= h_trig_el->GetBinContent(h_trig_el->FindBin(400));
+                 }
+                 else {
+                    if(lep2_p4().pt()<500) triglep2*= h_trig_el_ee->GetBinContent(h_trig_el_ee->FindBin(lep2_p4().pt()));		
+                    else triglep2 *= h_trig_el_ee->GetBinContent(h_trig_el_ee->FindBin(400));
+                   }
+                }
+            // lep2 is a veto electron`
+    	         if(abs(lep2_pdgid()) == 11 && lep2type()==2) {
+                 if(abs(lep2_p4().eta()) < 1.442) {
+                    if(lep2_p4().pt()<500) triglep2*= h_trig_el_eb_veto->GetBinContent(h_trig_el_eb_veto->FindBin(lep2_p4().pt()));		
+                    else triglep2 *= h_trig_el_eb_veto->GetBinContent(h_trig_el_eb_veto->FindBin(400));
+                 }
+                 else {
+                    if(lep2_p4().pt()<500) triglep2*= h_trig_el_ee_veto->GetBinContent(h_trig_el_ee_veto->FindBin(lep2_p4().pt()));		
+                    else triglep2 *= h_trig_el_ee_veto->GetBinContent(h_trig_el_ee_veto->FindBin(400));
+                   }
+                }
+            // lep2 is good muon
+    	         if(abs(lep2_pdgid()) == 13 && lep2type()==1){
+                   if(abs(lep2_p4().eta()) < 1.2) {
+                   if(lep2_p4().pt()<500) triglep2*= h_trig_mu_eb->GetBinContent(h_trig_mu_eb->FindBin(lep2_p4().pt()));		
+                   else  triglep2*= h_trig_mu_eb->GetBinContent(h_trig_mu_eb->FindBin(400));
+                   }
+                   else {
+                   if(lep2_p4().pt()<500) triglep2*= h_trig_mu_ee->GetBinContent(h_trig_mu_ee->FindBin(lep2_p4().pt()));		
+                   else  triglep2*= h_trig_mu_ee->GetBinContent(h_trig_mu_ee->FindBin(400));
+                   }
+                 }
+            // lep2 is veto muon
+    	         if(abs(lep2_pdgid()) == 13 && lep2type()==2){
+                   if(abs(lep2_p4().eta()) < 1.2) {
+                   if(lep2_p4().pt()<500) triglep2*= h_trig_mu_eb_veto->GetBinContent(h_trig_mu_eb_veto->FindBin(lep2_p4().pt()));		
+                   else  triglep2*= h_trig_mu_eb_veto->GetBinContent(h_trig_mu_eb_veto->FindBin(400));
+                   }
+                   else {
+                   if(lep2_p4().pt()<500) triglep2*= h_trig_mu_ee_veto->GetBinContent(h_trig_mu_ee_veto->FindBin(lep2_p4().pt()));		
+                   else  triglep2*= h_trig_mu_ee_veto->GetBinContent(h_trig_mu_ee_veto->FindBin(400));
+                   }
+                 }
 
-          //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-          //       additional event selection (to protect again some gen level cuts for example)      // 
-	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+               if(TString(selection).Contains("2lCR")) trigeff = 1-(1-triglep1)*(1-triglep2) ; else trigeff = triglep1;
+                weight*= trigeff;
+          }
+          
+          //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+          //    calculate the right weights for scan    // 
+	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+	  float c1mass = -999;
+          float n1mass = -999;
+          float sigweight = 1;
+          float xsec =1;
+          float btagsfup = 1;
+          float btagsfdn = 1;
+          float lepsfup = 1;
+          float lepsfdn = 1;
+          float pdfup = 1;
+          float pdfdn = 1;
+          float scaleup = 1;
+          float scaledn = 1;
+          float isrnom =1;
+          float isrup =1;
+          float isrdn =1;
+          int   c1massbin = 0;
+          int   n1massbin = 0;
 
-          //if(TString(sample).Contains("wsLF") && gensel::isHF()) continue;
-
+          if(TString(sample).Contains("SMS")){
+             c1mass = mass_chargino(); 
+             n1mass = mass_lsp();
+             xsec  = h_xsecweight->GetBinContent(h_xsecweight->FindBin(c1mass));
+             c1massbin = h_scanN->GetXaxis()->FindBin(c1mass);
+             n1massbin = h_scanN->GetYaxis()->FindBin(n1mass);
+           // xsec weight
+             sigweight = 1/(h_scanN->GetBinContent(c1massbin,n1massbin))*lumi*xsec*0.58*0.3*1000; // lumi*xsec*branchratio(0.58*0.3*pb/fb)
+             weight*=sigweight;
+           //btag variations
+             btagsfup = 1/weight_btagsf()*weight_btagsf_fastsim_UP()/h_scanSys->GetBinContent(c1massbin,n1massbin,22)*h_scanSys->GetBinContent(c1massbin,n1massbin,14);//need to add normalization
+             btagsfdn = 1/weight_btagsf()*weight_btagsf_fastsim_DN()/h_scanSys->GetBinContent(c1massbin,n1massbin,23)*h_scanSys->GetBinContent(c1massbin,n1massbin,14);//need to add normalization
+           //lepton SF
+             lepsfup = weight_lepSF_fastSim_up();
+             lepsfdn = weight_lepSF_fastSim_down();
+             if(abs(lep1_pdgid()) == 13) {lepsfup = 1.03;lepsfdn = 1.03;}  /// for ichep, fix 3% for muons
+           //pdfs
+             pdfup = pdf_up_weight();  
+             pdfdn = pdf_down_weight();  
+           //scale
+             scaleup = genweights()[109]+1;  
+             scaledn = genweights()[110]+1;  
+           //isr uncern
+             isrup = weight_ISRup(); 
+             isrdn = weight_ISRdown(); 
+          }
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflow histograms     // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
@@ -660,7 +855,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            }
                 continue;
           }
-
+//currently not used 
+/*
            if(TString(selection).Contains("SR_yield")){
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
            if(!passStudyRegion("presel_2btags")) continue;
@@ -704,7 +900,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            continue;
           //CR1l
            }//end of if yield
-              
+  */            
           if(TString(selection).Contains("yield_2lCR")){
            if(!pass2lCR(selection.c_str())) continue;
            histname = Form("h_%s_event_NEvents2lCR_%s","lep",selection.c_str());
@@ -860,11 +1056,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           }
          continue;   
          }
-
-
-        //-~-~-~-~-~-~-~-~-~-//
-         // gen selection     //
-         //-~-~-~-~-~-~-~-~-~-//
+         //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+         // gen selection  ---NEED CLEANUP//
+         //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
 
         if(TString(selection).Contains("gensel")){
           // if(!(passpreselection("sr"))) continue;
@@ -876,6 +1070,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           int nlsp = 0;
           int nn2 = 0;
           int nch = 0;
+           weight =1;
           vector<int> hbs = gensel::bs_fromH();
           vector<vector<int>> selected_leps;
              ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > genlep;
@@ -900,13 +1095,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
              if(abs(gensusy_id()[i])==1000023 && gensusy_status()[i]==62) {nn2++;genn2 = gensusy_p4()[i];} 
              if(abs(gensusy_id()[i])==1000024 && gensusy_status()[i]==62) {nch++;gench = gensusy_p4()[i];}
           } //count susy particles
-
           if(nn2!=1||nch!=1) continue;
           if(TString(selection).Contains("SR")     && !passSR(selection.c_str()))     continue;
           sys = (gench+genn2);
 
           event_hists.at("h_gen_sys_pt")->Fill(sys.pt());
-          continue;
           fillHist( "event", "gen_lep"  , selection.c_str(), selected_leps.at(0).size()+selected_leps.at(2).size() , weight );//couting leptons
           fillHist( "event", "gen_H"  ,   selection.c_str(), nhiggs , weight ); 
           fillHist( "event", "gen_W"  ,   selection.c_str(), nw , weight );     
@@ -924,6 +1117,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if(gensel::bs_fromH().size()>=2) genb2  = genqs_p4().at(gensel::bs_fromH().at(1));
           if(lsps.size() >= 2) genlsp1 = gensusy_p4().at(lsps.at(0));
           if(lsps.size() >= 2) genlsp2 = gensusy_p4().at(lsps.at(1));
+
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : begin the boost part  " <<endl;
+
           float genMET = genmet();
           float genMETPhi = genmet_phi();
           float genMETx = genMET*TMath::Cos(genMETPhi);
@@ -937,6 +1133,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            genlep_t.SetPtEtaPhiE(genlep.Pt(),genlep.Eta(),genlep.Phi(),genlep.E());
            gennu_t.SetPtEtaPhiE(gennu.Pt(),gennu.Eta(),gennu.Phi(),gennu.E());
 
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : boosting  " <<endl;
            TLorentzVector cm = genlep_t + gennu_t;
            TLorentzVector genlep_boosted = genlep_t;
            TLorentzVector gennu_boosted = gennu_t;
@@ -951,6 +1148,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            TLorentzVector gennu_boosted_up = gennu_boosted*(1+massratio*.02); 
            TLorentzVector gennu_boosted_dn = gennu_boosted*(1-massratio*.02); 
 
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : boosting  " <<endl;
            //boost back to the cm system.
            genlep_boosted_up.Boost(-boost);
            genlep_boosted_dn.Boost(-boost);
@@ -963,8 +1161,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            TLorentzVector reco_lep;
            TLorentzVector met_lv;
            reco_lep.SetPtEtaPhiE(lep1_p4().pt(),lep1_p4().eta(),lep1_p4().phi(),lep1_p4().E());
-           met_lv.SetPxPyPzE(pfmet()*TMath::Cos(event_met_ph),pfmet()*TMath::Sin(event_met_ph),0,pfmet());
+           met_lv.SetPxPyPzE(pfmet()*TMath::Cos(pfmet_phi()),pfmet()*TMath::Sin(pfmet_phi()),0,pfmet());
            
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : boosting  " <<endl;
            //plot mt
            float mt = getMT(genlep_t,gennu_t);
            float mt_up = getMT(genlep_boosted_up,gennu_boosted_up);
@@ -972,8 +1171,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            float reco_mt = getMT(reco_lep,met_lv);
            float reco_mt_up = getMT(reco_lep + lep_boosted_up,met_lv + nu_boosted_up);
            float reco_mt_dn = getMT(reco_lep + lep_boosted_dn,met_lv+nu_boosted_dn);
-           event_hists.at("h_gen_lep_pt")->Fill(genlep.pt());
-           event_hists.at("h_gen_nu_pt")->Fill(gennu.pt());
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : boosting  " <<endl;
+          // event_hists.at("h_gen_lep_pt")->Fill(genlep.pt());
+           //event_hists.at("h_gen_nu_pt")->Fill(gennu.pt());
            //event_hists.at("h_gen_b_pt")->Fill(genb1.pt());
            //event_hists.at("h_gen_b_pt")->Fill(genb2.pt());
            //event_hists.at("h_gen_h_mass")->Fill((genb1+genb2).mass());
@@ -984,19 +1184,29 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            event_hists.at("h_gen_mt")->Fill(mt); 
            event_hists.at("h_gen_mt_up")->Fill(mt_up); 
            event_hists.at("h_gen_mt_dn")->Fill(mt_dn);
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : boosting  " <<endl;
            //reco mt
            event_hists.at("h_reco_mt")->Fill(reco_mt); 
            event_hists.at("h_reco_mt_up")->Fill(reco_mt_up); 
            event_hists.at("h_reco_mt_dn")->Fill(reco_mt_dn);
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : boosting  " <<endl;
            //some validation plots
-           event_hists.at("h_gen_lep_pt")->Fill(genlep_t.Pt()); 
+/*           event_hists.at("h_gen_lep_pt")->Fill(genlep_t.Pt()); 
            event_hists.at("h_gen_nu_pt")->Fill(gennu_t.Pt()); 
            event_hists.at("h_gen_w_mass")->Fill((genlep_t+gennu_t).M()); 
            event_hists.at("h_gen_w_mass_up")->Fill((genlep_boosted_up+gennu_boosted_up).M()); 
            event_hists.at("h_gen_w_mass_dn")->Fill((genlep_boosted_dn+gennu_boosted_dn).M());
+*/  
+        if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : boosting  " <<endl;
            continue; 
         }
  
+	  //-~-~-~-~-~-~-~-~-//
+	  //calculate variables//
+	  //-~-~-~-~-~-~-~-~-//
+
+	  float event_met_pt = pfmet();
+	  float event_met_ph = pfmet_phi();
           float MET = pfmet();
           float METPhi = pfmet_phi();
           float METx = MET*TMath::Cos(METPhi);
@@ -1013,29 +1223,52 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           dRbb = getdRbb();
           vector<int> seljets = selbjets();
           //CalcMT2_lb_b_(MET, METPhi, lep1_p4(), bjetslv, addjetslv, 0, false);	 
+
 	  //-~-~-~-~-~-~-~-~-//
-	  //Fill event  hists//
+	  //  selections     //
 	  //-~-~-~-~-~-~-~-~-//
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : selection functions " <<endl;
           npass += weight;
+          //if( mindphi_met_j1_j2()<0.4) continue;
           if(TString(selection).Contains("presel") && !passPreselection(selection))   continue;
           if(TString(selection).Contains("SR")     && !passSR(selection.c_str()))     continue;
           if(TString(selection).Contains("2lCR")   && !pass2lCR(selection.c_str()))   continue;
           if(TString(selection).Contains("1lCR")   && !pass1lCR(selection.c_str()))   continue;
-          //if(mt_met_lep()>350) cout<<run()<<":"<<ls()<<":"<<evt()<<endl;
-          //if((lep1_relIso()*lep1_p4().pt() > 20)) continue;
+          if(TString(selection).Contains("wjetsval")   && !passWJetsValidation())   continue;
           if(TString(selection).Contains("mbbCR")  && !passmbbCR(selection.c_str()))  continue;
 
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
+	  //-~-~-~-~-~-~-~-~-//
+	  //Fill event  hists//
+	  //-~-~-~-~-~-~-~-~-//
 
+
+           // 2D hists for signal scan //
           string region = selection;
+          if( passSR("SMS_SR_met100_mt150_mbb_mct150_twobtag_genMET")) histscan_genmet->Fill(c1mass,n1mass,weight);   // genmet resolution
+          if( passSR("SMS_SR_met100_mt150_mbb_mct150_twobtag")){
+          histscan->Fill(c1mass,n1mass,weight);   // nominal yield;
+          // systematic variations
+          histscan_pdfup->Fill(c1mass,n1mass,weight*pdfup);
+          histscan_pdfdn->Fill(c1mass,n1mass,weight*pdfdn);
+          histscan_scaleup->Fill(c1mass,n1mass,weight*scaleup);
+          histscan_scaledn->Fill(c1mass,n1mass,weight*scaledn);
+          histscan_btagsfup->Fill(c1mass,n1mass,weight*btagsfup);
+          histscan_btagsfdn->Fill(c1mass,n1mass,weight*btagsfdn);
+          histscan_lepsfup->Fill(c1mass,n1mass,weight*lepsfup);
+          histscan_lepsfdn->Fill(c1mass,n1mass,weight*lepsfdn);
+          histscan_isrnom->Fill(c1mass,n1mass,weight*isrnom);
+          histscan_isrup->Fill(c1mass,n1mass,weight*isrup);
+          histscan_isrdn->Fill(c1mass,n1mass,weight*isrdn);
+          }
+
+          event_hists.at("h_gen_nu_pt")->Fill(gensel::gennuptw(),weight);     
+          event_hists.at("h_gen_met")->Fill(genmet(),weight);     
           fillHist( "event", "njets"  , region.c_str(), ngoodjets()    , weight );
           fillHist( "event", "nbjets_gen"  , region.c_str(), gensel::isHF()   , weight );
-
           if(ngoodbtags()==0) fillHist( "event", "ngenbjets_0btag"  , region.c_str(), gensel::isHF()   , weight );
           if(ngoodbtags()==1) fillHist( "event", "ngenbjets_1btag"  , region.c_str(), gensel::isHF()   , weight );
           if(ngoodbtags()==2) fillHist( "event", "ngenbjets_2btag"  , region.c_str(), gensel::isHF()   , weight );
-
           fillHist( "event", "nbjets"  , region.c_str(), ngoodbtags(), weight );
           fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
           fillHist( "event", "met_pass" , region.c_str(), event_met_pt        , weight );
@@ -1043,17 +1276,16 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if((lep1_relIso()*lep1_p4().pt() < 5)) fillHist( "event", "ptl1_pass"   , region.c_str(), lep1_p4().pt()      , weight );
 	  if(ngoodbtags()==0) fillHist( "event", "mt_0btag"    , region.c_str(),  mt_met_lep()   , weight );
 	  if(ngoodbtags()==2) fillHist( "event", "mt_2btag"    , region.c_str(),  mt_met_lep()   , weight );
-  //        if( !(lep1_MiniIso()*lep1_p4().pt() < 5)) continue;
 	  fillHist( "event", "mt"    , region.c_str(),  mt_met_lep()   , weight );
 	  fillHist( "event", "mindphi_met_j1_j2"    , region.c_str(),  mindphi_met_j1_j2(), weight );
 	  fillHist( "event", "MT2lb"    , region.c_str(), MT2lb  , weight );
+          // this is for unblinding purpose. doesn't show data inside mbb window
 	  //if((TString(selection).Contains("SR")||TString(selection).Contains("mbbCR") )&& is_data() && !(m_bb<150&&m_bb>90)) 
           fillHist( "event", "mbb"    , region.c_str(),  m_bb   , weight );
-          //else if(!is_data()) fillHist( "event", "mbb"    , region.c_str(),  m_bb   , weight );
 	  fillHist( "event", "dRbb"    , region.c_str(), dRbb   , weight );
 	  fillHist( "event", "MCT"    , region.c_str(),  mctbb   , weight );
-         if(ngoodbtags()==0)  fillHist( "event", "MCT_0btag"    , region.c_str(),  mctbb   , weight );
-       	 if(ngoodbtags()==2)  fillHist( "event", "MCT_2btag"    , region.c_str(),  mctbb   , weight );
+          if(ngoodbtags()==0)  fillHist( "event", "MCT_0btag"    , region.c_str(),  mctbb   , weight );
+       	  if(ngoodbtags()==2)  fillHist( "event", "MCT_2btag"    , region.c_str(),  mctbb   , weight );
 	  fillHist( "event", "ptbb"    , region.c_str(),  pt_bb   , weight );
 	  fillHist( "event", "ptlbb"    , region.c_str(),  ptlbb   , weight );
           fillHist( "event", "ht"     , region.c_str(), ak4_HT()       , weight );
@@ -1071,6 +1303,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 //	  fillHist( "event", "deltaphi_leadb_met" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(ak4pfjets_p4().at(seljets.at(0)),metlv)), weight );	 
           
 //          if(ngoodbtags()==2) {
+// 
            histMCTvsMT->Fill(mctbb,mt_met_lep(),weight);
            histMCTvsMET->Fill(mctbb,event_met_pt,weight);
            histMCTvsMbb->Fill(mctbb,m_bb,weight);
@@ -1081,7 +1314,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 //	  if(mctbb>150) { 
  //         cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() <<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
  //     }
-          //cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() <<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
            //cout<<run()<<":"<<ls()<<":"<<evt()<<"\n"<<endl; 
 //           } // end of printout
    } // end loop over events
@@ -1151,7 +1383,6 @@ void templateLooper::fillHist( string obj, string var, string sel, float value, 
           }
           hist = Form("h_lep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
           fillUnderOverFlow(event_hists.at( hist ), value, weight);
-	
 	}
   catch(exception &e)
 	{

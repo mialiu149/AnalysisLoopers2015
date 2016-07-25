@@ -10,6 +10,8 @@ lumi = 2.26
 #selection="SROneBin_yield_met100_mt150_mct150_mbb_loosebtag_3jets"
 
 #selection="SRMultiBinV5_yield_mbb_mct150_mt150_twobtag"
+#selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag_worseMET"
+#selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag"
 selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag"
 table_header = '\\begin{tabular}{lc}\n'
 title = 'Expected yields at 4 $fb^{-1}$ & \\\\\n'
@@ -36,12 +38,12 @@ for col in label_col:
 #              ]
 row_inputs = [
               {'file':'data_'+selection+'_hists.root','row_label':'data','hist_name':hist_prefix},
-              {'file':'tops_mad_'+selection+'_hists.root','row_label':'2l top','hist_name':hist_prefix.replace('lep','lep_dilep')},
-              {'file':'tops_mad_'+selection+'_hists.root','row_label':'1l top','hist_name':hist_prefix.replace('lep','lep_onelep')},
-              {'file':'ws_stitch_'+selection+'_hists.root','row_label':'w+HF','hist_name':hist_prefix.replace('lep','lep_HF')},
-              {'file':'ws_stitch_'+selection+'_hists.root','row_label':'w+LF','hist_name':hist_prefix.replace('lep','lep_LF')},
-              {'file':'wzbb_'+selection+'_hists.root','row_label':'w+z(bb)','hist_name':hist_prefix},
-              {'file':'rare_'+selection+'_hists.root','row_label':'rare','hist_name':hist_prefix},
+              {'file':'tops_mad_'+selection+'_hists.root','row_label':'Dilepton top quark','hist_name':hist_prefix.replace('lep','lep_dilep')},
+              {'file':'ws_stitch_'+selection+'_hists.root','row_label':'\wl','hist_name':hist_prefix.replace('lep','lep_LF')},
+              {'file':'ws_stitch_'+selection+'_hists.root','row_label':'\whf','hist_name':hist_prefix.replace('lep','lep_HF')},
+              {'file':'wzbb_'+selection+'_hists.root','row_label':"\wzbb",'hist_name':hist_prefix},
+              {'file':'tops_mad_'+selection+'_hists.root','row_label':'Single lepton top quark','hist_name':hist_prefix.replace('lep','lep_onelep')},
+              {'file':'rare_'+selection+'_hists.root','row_label':'Rare','hist_name':hist_prefix},
               {'file':'wh_225_80_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (225,80)','hist_name':hist_prefix}, 
               {'file':'wh_250_1_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (250,1)','hist_name':hist_prefix}, 
               {'file':'wh_300_80_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (300,80)','hist_name':hist_prefix}, 
@@ -113,6 +115,7 @@ table.write(table_header)
 table.write(title)
 #table.write('\\hline\n')
 #table.write(col_string+'\\\\\n')
+table.write('\\hline\n')
 table.write('\\hline\n')
 
 for j in range(nbins):

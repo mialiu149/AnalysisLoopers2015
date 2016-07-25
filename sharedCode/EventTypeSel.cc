@@ -17,19 +17,19 @@
 using namespace std;
 using namespace V80_00_np; 
 
-// split events according to lepton types.
-/*int  eventtype(){
- ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4(); 
- ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4(); 
- if ((lep1type() == 1 && lep2type() ==1)&&(dRbetweenVectors(l1lv,l2lv)>0.01)) return 1; // both are sel and they don't overlap.
- if ((lep1type() == 1 && lep2type() ==2)&&dRbetweenVectors(l1lv,l2lv)>0.01) return 2; // lep1 is sel,lep2 is veto, and they don't overlap
- if ((lep1type() == 1 && lep2type() ==0)) return 3; // lep1 is sel,lep2 is not a veto, and they don't overlap
-// if (lep1type() == 2 && lep2type() == 2) return 4; //both are veto
-// if (lep1type() == 2 && lep2type() == 1) return 4; //lep2 is sel, lep1 is veto
-// if (lep1type() == 0 && lep2type() == 0) return 5;  
- else return 0; // who cares what it is
+float worseMETrel(float percent){
+float metx = pfmet()*TMath::Cos(pfmet_phi());
+float mety = pfmet()*TMath::Sin(pfmet_phi());
+float genmetx = genmet()*TMath::Cos(genmet_phi());
+float genmety  = genmet()*TMath::Sin(genmet_phi());
+
+float worsemetx = genmetx+(1+percent)*(metx-genmetx) ;
+float worsemety = genmety+(1+percent)*(mety-genmety) ;
+float worsemet = TMath::Sqrt(worsemetx*worsemetx+worsemety*worsemety); 
+
+return worsemet;
 }
-*/
+
 int  eventtype(){
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l1lv = lep1_p4(); 
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > l2lv = lep2_p4(); 

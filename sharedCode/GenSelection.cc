@@ -19,6 +19,16 @@ using namespace V80_00_np;
 
 namespace gensel{
 
+float gennuptw(){
+    vector<vector<int>> selected_leps = lep_nu_fromW(); int gennui =-999;
+    if(selected_leps.at(1).size()+selected_leps.at(3).size() !=1)     return -999; //require only lepton events
+    if(selected_leps.at(1).size()) gennui = selected_leps.at(1)[0] ;//events from w plus 
+    if(selected_leps.at(3).size()) gennui = selected_leps.at(3)[0] ;//events from w minus
+    if(gennui==-999) return -999;
+    float gennupt  = gennus_p4().at(gennui).pt();
+   return gennupt;
+}
+
 vector<vector<int>> lep_nu_fromW() { 
  vector<int> leps_plus;
  vector<int> nus_plus;
@@ -26,12 +36,10 @@ vector<vector<int>> lep_nu_fromW() {
  vector<int> nus_minus;
  vector <vector<int>> lep_nu;
 
- for (int i=0;i<genleps_p4().size();i++) 
- {
+ for (int i=0;i<genleps_p4().size();i++) {
      if(genleps_motherid()[i] == 24 && (abs(genleps_id()[i]) == 11||abs(genleps_id()[i]) == 13) && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1)) leps_plus.push_back(i);
      if(genleps_motherid()[i] == -24 && (abs(genleps_id()[i]) == 11||abs(genleps_id()[i]) == 13) && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1)) leps_minus.push_back(i);
  }
-
  for (int i=0;i<gennus_p4().size();i++){
      if(gennus_motherid()[i] == 24 && (abs(gennus_id()[i]) == 12||abs(gennus_id()[i]) == 14) && gennus_p4()[i].pt() > 1 && (gennus_status()[i] == 1)) nus_plus.push_back(i);
      if(gennus_motherid()[i] == -24 && (abs(gennus_id()[i]) == 12||abs(gennus_id()[i]) == 14) && gennus_p4()[i].pt() > 1 && (gennus_status()[i] == 1)) nus_minus.push_back(i);
@@ -41,8 +49,6 @@ vector<vector<int>> lep_nu_fromW() {
  lep_nu.push_back(nus_plus);//nu plus 1
  lep_nu.push_back(leps_minus); //e minus 2
  lep_nu.push_back(nus_minus);//nu minus 3
- //cout<<"plus:"<<leps_plus.size()<<":"<<nus_plus.size()<<endl;
- //cout<<"minus:"<<leps_minus.size()+leps_plus.size()<<endl;
  return lep_nu;
  }// end of lep_nu_fromW
 

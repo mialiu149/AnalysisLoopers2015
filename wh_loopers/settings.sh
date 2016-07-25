@@ -5,7 +5,14 @@ export analysis="wh_loopers"
 #export analysis_version="sr-16-v00"
 #export analysis_version="elwp_studies_v0"
 #export analysis_version="btagwp_studies_v0"
-export analysis_version="allregions-16-v03"
+# v7 is with 7,56 
+# v8 is with 7,65, fixed trigger eff for di-lepton CR  
+#export analysis_version="allregions-7p65v2_twogood"
+#export analysis_version="allregions-7p65v3"
+export analysis_version="allregions-13fbv3"
+#export analysis_version="allregions-sig"
+#export analysis_version="allregions-16-v03"
+
 export study="datavsmc"
 localdirectory=`pwd`
 export analysis_output=$HOME/public_html/analysis/$analysis/$analysis_version/$study/rootfiles
@@ -29,7 +36,7 @@ function create_plot_output
 		mkdir -p $HOME/public_html/analysis/$analysis/$analysis_version/$study/plots
 		sleep 1
 	else
-		echo "Willl save plots to : $HOME/public_html/analysis/$analysis/$analysis_version/$study/plots/"
+		echo "Will save plots to : $HOME/public_html/analysis/$analysis/$analysis_version/$study/plots/"
 		sleep 1
 	fi
 
@@ -45,7 +52,7 @@ function create_table_output
 		mkdir -p $HOME/public_html/analysis/$analysis/$analysis_version/$study/tables
 		sleep 1
 	else
-		echo "Willl save tables to : $HOME/public_html/analysis/$analysis/$analysis_version/$study/tables/"
+		echo "Will save tables to : $HOME/public_html/analysis/$analysis/$analysis_version/$study/tables/"
 		sleep 1
 	fi
 
