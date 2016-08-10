@@ -40,9 +40,9 @@ using namespace gensel;
 const bool debug = false;
 const bool usejson = true;
 const bool dovtxreweighting = false;
-const bool dobtagweighting = true;
-const bool applytrigger = true;
-const bool runsigscan = true;
+const bool applybtagsf = true;
+const bool applytriggerweight = true;
+const bool applylepsf = true;
 
 templateLooper::templateLooper()
 {
@@ -79,7 +79,7 @@ void templateLooper::bookHistos(std::string region){
   variable.push_back("mt");	        variable_bins.push_back(1000);  
   variable.push_back("mt_0btag");	variable_bins.push_back(1000);  
   variable.push_back("mt_2btag");	variable_bins.push_back(1000);  
-  variable.push_back("mbb");	        variable_bins.push_back(1000);  
+  variable.push_back("mbb");	        variable_bins.push_back(1500);  
   variable.push_back("MCT");	        variable_bins.push_back(1000);  
   variable.push_back("MCT_0btag");	variable_bins.push_back(1000);  
   variable.push_back("MCT_2btag");      variable_bins.push_back(1000);  
@@ -269,6 +269,8 @@ void templateLooper::bookHistos(std::string region){
   histscan_isrnom = new TH2D( "h_histscan_isrnom", "h_histscan_isrnom", 24,124,724,15,-1,374); histscan_isrnom->Sumw2();
   histscan_isrup = new TH2D( "h_histscan_isrup", "h_histscan_isrup", 24,124,724,15,-1,374); histscan_isrup->Sumw2();
   histscan_isrdn = new TH2D( "h_histscan_isrdn", "h_histscan_isrdn", 24,124,724,15,-1,374); histscan_isrdn->Sumw2();
+  histscan_trigup = new TH2D( "h_histscan_trigup", "h_histscan_trigup", 24,124,724,15,-1,374); histscan_trigup->Sumw2();
+  histscan_trigdn = new TH2D( "h_histscan_trigdn", "h_histscan_trigdn", 24,124,724,15,-1,374); histscan_trigdn->Sumw2();
   
 }
 
@@ -300,34 +302,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
     // old lists for partial dataset
     // add from hj email
     metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/csc2015_Dec01.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/ecalscn1043093_Dec01.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/badResolutionTrack_Jan13.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/muonBadTrack_Jan13.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_HTMHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_JetHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MET_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MuonEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleElectron_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SinglePhoton_csc2015.txt");
-    // new lists: supposed to include above but do not always
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_csc2015.txt");
-    // not all samples have events which failed the ecal SC filter
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_ecalscn1043093.txt");
     cout<<" ... finished!"<<endl;
   } 
 */
@@ -362,7 +336,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	f_vtx->Close();
   }
 
-  if( runsigscan ){
+//  if( runsigscan ){
        if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : get signal scan counting histogram " <<endl;
         f_xsec = TFile::Open("xsec_susy_13tev.root","READ");
         h_xsecweight = (TH1F*)f_xsec->Get("h_xsec_c1n2")->Clone("h_xsecweight");
@@ -375,8 +349,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	h_scanN->SetDirectory(rootdir);
 	f_scanSys->Close();
        if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" :....finished..... " <<endl;
-  }
-  if( applytrigger){
+//  }
+  if( applytriggerweight){
        f_trig_el = TFile::Open("trigeff_El.root","READ");
        h_trig_el = (TH1F*)f_trig_el->Get("h_pt_effi_eb_ele27WPLoose")->Clone("h_trig_el");
        h_trig_el->SetDirectory(rootdir);
@@ -492,8 +466,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //~-~-~-~-~-~-~-~~-~-~-//
 	  //    counters         //
 	  //~-~-~-~-~-~-~-~-~-~-//
- 	   if( abs(lep1_pdgid()) == 13) nmu++;
-	   if( abs(lep1_pdgid()) == 11) nel++;
+	  bool ismu = false; bool isel = false;
+ 	   if( abs(lep1_pdgid()) == 13) {nmu++;ismu=true;}
+	   if( abs(lep1_pdgid()) == 11) {nel++;isel=true;}
 	  //~-~-~-~-~-~-~-~~-~-~-~--~//
 	  //    split emu plot       //
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~//
@@ -516,18 +491,23 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
                   weight = scale1fb();//event_weight(selection.c_str());
                   if( TString(selection).Contains("yield"))  weight *= lumi;//scale by lumi
                   //scale1fb for signals
-                  if( TString(sample).Contains("wh_350")) weight *= 0.00128300190114;
-                  if( TString(sample).Contains("wh_300")) weight *= 0.00206056387342;
-                  if( TString(sample).Contains("wh_250")) weight *= 0.00497616088593;
-                  if( TString(sample).Contains("wh_225")) weight *= 0.00579149982859;
+                  //if( TString(sample).Contains("wh_350")) weight *= 0.00128300190114;
+                  //if( TString(sample).Contains("wh_300")) weight *= 0.00206056387342;
+                  //if( TString(sample).Contains("wh_250")) weight *= 0.00497616088593;
+                  //if( TString(sample).Contains("wh_225")) weight *= 0.00579149982859;
 	  }
 	  if( !is_data() && dovtxreweighting ){	
     	         weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(nvtxs()));		
 	  }
-          if( !is_data() && dobtagweighting){
-                 weight *= weight_btagsf();
-          } 
-          if( !is_data() && applytrigger) {
+          if( !is_data() && applybtagsf){
+                 if(TString(selection).Contains("btagsfup")) weight *= weight_btagsf_heavy_UP();
+                 else if(TString(selection).Contains("btagsfdn")) weight *= weight_btagsf_heavy_DN();
+                 else weight *= weight_btagsf();
+          }
+          if( !is_data() && applylepsf) {
+                  weight *= weight_lepSF()*weight_vetoLepSF();
+           }
+          if( !is_data() && applytriggerweight) {
     	         if(abs(lep1_pdgid()) == 11){ 
                    if(lep1_p4().pt()<500) triglep1*= h_trig_el->GetBinContent(h_trig_el->FindBin(lep1_p4().pt()));		
                    else  triglep1*= h_trig_el->GetBinContent(h_trig_el->FindBin(400));
@@ -611,6 +591,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           float isrdn =1;
           int   c1massbin = 0;
           int   n1massbin = 0;
+          float trigup =1;
+          float trigdn =1;
 
           if(TString(sample).Contains("SMS")){
              c1mass = mass_chargino(); 
@@ -627,7 +609,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            //lepton SF
              lepsfup = weight_lepSF_fastSim_up();
              lepsfdn = weight_lepSF_fastSim_down();
-             if(abs(lep1_pdgid()) == 13) {lepsfup = 1.03;lepsfdn = 1.03;}  /// for ichep, fix 3% for muons
+             if(abs(lep1_pdgid()) == 13) {lepsfup = 1.03;lepsfdn = 0.97;}  /// for ichep, fix 3% for muons
            //pdfs
              pdfup = pdf_up_weight();  
              pdfdn = pdf_down_weight();  
@@ -637,15 +619,32 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            //isr uncern
              isrup = weight_ISRup(); 
              isrdn = weight_ISRdown(); 
-          }
+            //trigger eff
+             if(ismu){
+              if(lep1_p4().pt()<100&&abs(lep1_p4().eta())<1.2) {trigup = 1.01;trigdn=0.99;}
+              if(lep1_p4().pt()>100&&abs(lep1_p4().eta())<1.2) {trigup = 1.03;trigdn=0.97;}
+              if(abs(lep1_p4().eta())>1.2){
+                 if(lep1_p4().pt()<100) {trigup = 1.03;trigdn=0.97;}
+                 if(lep1_p4().pt()<200&&lep1_p4().pt()>100) {trigup = 1.1;trigdn=0.9;}
+                 if(lep1_p4().pt()<300&&lep1_p4().pt()>200) {trigup = 1.15;trigdn=0.85;}
+              }
+             if(isel){
+               if(lep1_p4().pt()<35&&lep1_p4().pt()>30||lep1_p4().pt()>100) {trigup = 1.03;trigdn=0.97;}
+                if(lep1_p4().pt()<100&&lep1_p4().pt()>35) {trigup = 1.01;trigdn=0.99;}
+             }
+             }
+           }
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflow histograms     // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
 	  string histname = "dummy";
           if(TString(selection).Contains("cutflow")){
+          //if(TString(sample).Contains("SMS")&&(c1mass !=250||n1mass !=1)) continue;
           histname = Form("h_%s_event_NEventsSRCutflow_%s","lep",selection.c_str());
           histos_cutflow[histname]->Fill(1,weight);                               //Nevents in the skim
-          if(passcutflow("step0")) histos_cutflow[histname]->Fill(2,weight); //trigger
+          //if(passcutflow("step0")) histos_cutflow[histname]->Fill(2,weight); //trigger
+          if(nvtxs()<1 ) continue;
+          histos_cutflow[histname]->Fill(2,weight); //trigger
           if(passcutflow("step1")) histos_cutflow[histname]->Fill(3,weight); //one lept
           if(passcutflow("step2")) histos_cutflow[histname]->Fill(4,weight); //lep_veto
           if(passcutflow("step3"))  histos_cutflow[histname]->Fill(5,weight); //track veto
@@ -654,8 +653,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if(passcutflow("step6"))  histos_cutflow[histname]->Fill(8,weight); //met
           if(passcutflow("step7"))  histos_cutflow[histname]->Fill(9,weight); //
           if(passcutflow("step8"))  histos_cutflow[histname]->Fill(10,weight); //mt
-          if(passcutflow("step9"))  histos_cutflow[histname]->Fill(11,weight); //mbb
-          if(passcutflow("step10"))  histos_cutflow[histname]->Fill(12,weight); //mct
+          if(passcutflow("step9_genmet"))  histos_cutflow[histname]->Fill(11,weight); //mbb
+          if(passcutflow("step10_genmet"))  histos_cutflow[histname]->Fill(12,weight); //mct
           histname = Form("h_%s_event_NEvents2lCRCutflow_%s","lep",selection.c_str());
           histos_cutflow[histname]->Fill(1,weight);                               //Nevents in the skim
           if(passcutflow("step0")) histos_cutflow[histname]->Fill(2,weight); //trigger
@@ -1249,7 +1248,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if( passSR("SMS_SR_met100_mt150_mbb_mct150_twobtag")){
           histscan->Fill(c1mass,n1mass,weight);   // nominal yield;
           // systematic variations
-          histscan_pdfup->Fill(c1mass,n1mass,weight*pdfup);
+          histscan_pdfup->Fill(c1mass,n1mass,1);
           histscan_pdfdn->Fill(c1mass,n1mass,weight*pdfdn);
           histscan_scaleup->Fill(c1mass,n1mass,weight*scaleup);
           histscan_scaledn->Fill(c1mass,n1mass,weight*scaledn);
@@ -1257,6 +1256,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           histscan_btagsfdn->Fill(c1mass,n1mass,weight*btagsfdn);
           histscan_lepsfup->Fill(c1mass,n1mass,weight*lepsfup);
           histscan_lepsfdn->Fill(c1mass,n1mass,weight*lepsfdn);
+          histscan_trigup->Fill(c1mass,n1mass,weight*trigup);
+          histscan_trigdn->Fill(c1mass,n1mass,weight*trigdn);
           histscan_isrnom->Fill(c1mass,n1mass,weight*isrnom);
           histscan_isrup->Fill(c1mass,n1mass,weight*isrup);
           histscan_isrdn->Fill(c1mass,n1mass,weight*isrdn);
@@ -1297,7 +1298,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	 // fillHist( "event", "absIso03EA" , region.c_str(), lep1_relIso03EA()*lep1_pt()        , weight );	 
 	  fillHist( "event", "MT2W" , region.c_str(), MT2W()       , weight );	 
 	  fillHist( "event", "dphibb" , region.c_str(), getdphibb()       , weight );	 
-//	  fillHist( "event", "deltaphi_lep_met" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv)), weight );	 
+	  fillHist( "event", "deltaphi_lep_met" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv)), weight );	 
 //	  fillHist( "event", "deltaphi_lep_leadb" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(), ak4pfjets_p4().at(seljets.at(0)))), weight );	 
 //	  fillHist( "event", "dR_lep_leadb"    , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaR(lep1_p4(), ak4pfjets_p4().at(seljets.at(0))))   , weight );
 //	  fillHist( "event", "deltaphi_leadb_met" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(ak4pfjets_p4().at(seljets.at(0)),metlv)), weight );	 
@@ -1307,14 +1308,15 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            histMCTvsMT->Fill(mctbb,mt_met_lep(),weight);
            histMCTvsMET->Fill(mctbb,event_met_pt,weight);
            histMCTvsMbb->Fill(mctbb,m_bb,weight);
-  //         }
+//         }
           //-~-~-~-~-~-~-~-~-~-~-//
 	  //Print out some events//
 	  //-~-~-~-~-~-~-~-~-~-~-//
 //	  if(mctbb>150) { 
- //         cout<<"Run_Number:"<<run()<< ":EventNumber:"<< evt() <<":lep_pt: "<<lep1_pt()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":diff:"<<event_met_pt-lep1_pt()<<":diff_ratio:"<<(event_met_pt-lep1_pt())/lep1_pt() << ":mt:"<<mt_met_lep()<<endl;
- //     }
-           //cout<<run()<<":"<<ls()<<":"<<evt()<<"\n"<<endl; 
+//          cout<<"Run_Number:"<<run()<<"Lum:"<< evt() <<":EventNumber:"<< evt() << "lep_pdgid"<<lep1_pdgid() <<":lep_pt: "<<lep1_p4().pt()<<  ":lep_eta: "<<lep1_p4().eta()<<":met:"<<event_met_pt<<":met_phi:"<<event_met_ph <<":mct:"<< mctbb<< ":mt:"<< mt_met_lep()<<endl;
+//     }
+          //cout<<run()<<":"<<ls()<<":"<<evt()<<"\n"<<endl; 
+           
 //           } // end of printout
    } // end loop over events
   } // end loop over files

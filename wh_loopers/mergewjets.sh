@@ -2,6 +2,20 @@ echo "merging stitched w+jets samples"
 #selection="SR_met100_mt150_mbb_mct150_twobtag"
 selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag" # get yields in SR
 hadd -f ${analysis_output}/ws_stitch_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
+selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag_btagsfup" # get yields in SR
+hadd -f ${analysis_output}/ws_stitch_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
+selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag_btagsfdn" # get yields in SR
+hadd -f ${analysis_output}/ws_stitch_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
+selection="SR_SROneBin_yield_mbb_mct150_mt120_met100_twobtag" # get yields in SR
+hadd -f ${analysis_output}/ws_stitch_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
+selection="SR_SROneBin_yield_mbb_mct150_mt100_met100_twobtag" # get yields in SR
+hadd -f ${analysis_output}/ws_stitch_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
+selection="SR_SROneBin_yield_mbb_mct150_mt150_met175_twobtag" # get yields in SR
+hadd -f ${analysis_output}/ws_stitch_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
+selection="SR_SROneBin_yield_mbb_mct160_mt120_met100_twobtag" # get yields in SR
+hadd -f ${analysis_output}/ws_stitch_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
+selection="SR_SROneBin_yield_mbb_mct160_mt150_met100_twobtag" # get yields in SR
+hadd -f ${analysis_output}/ws_stitch_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
 selection="SR_met100_mt150_mct150_twobtag"
 hadd -f ${analysis_output}/ws_stitch_${selection}_hists.root ${analysis_output}/ws_ht100_${selection}_hists.root ${analysis_output}/ws_htbin_${selection}_hists.root
 selection="1lCR_mbb_bveto_met100_mct150"

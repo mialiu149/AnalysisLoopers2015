@@ -2,7 +2,7 @@
 from ROOT import TH1F,TFile
 import os
 
-lumi = 2.26
+lumi = '12.9'
 #selection="yield_1lCR_mbb_wbbCR"
 #selection="SROneBin_yield_mbb_mct170_mt150_met200_incloneb"
 
@@ -14,7 +14,7 @@ lumi = 2.26
 #selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag"
 selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag"
 table_header = '\\begin{tabular}{lc}\n'
-title = 'Expected yields at 4 $fb^{-1}$ & \\\\\n'
+title = 'Expected yields at %s $fb^{-1}$ & \\\\\n'%lumi
 hist_prefix = 'h_lep_event_NEventsSROneBin_'+selection
 input_dir = os.environ['analysis_output']
 print input_dir
@@ -105,7 +105,8 @@ for j in range(nbins):
     ratio_rows.append(ratio_row)
 
 ########print table##########
-table = open('table'+selection+'.tex','w')
+output = os.environ['analysis_output']+'/../tables/'
+table = open(output+'table'+selection+'.tex','w')
 table.write('%BEGINLATEX%\n')
 table.write('\\begin{table}\n')
 table.write('\\begin{center}\n')
@@ -151,4 +152,5 @@ table.write('\\end{tabular}\n')
 table.write('\\end{center}\n')
 table.write('\\end{table}\n')
 table.write('%ENDLATEX%')
-print 'table saved in : ','table'+selection+'.tex'
+
+print 'table saved in : ',output+'table'+selection+'.tex'

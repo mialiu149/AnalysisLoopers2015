@@ -1,6 +1,6 @@
 from ROOT import TH1F,TFile
 import os
-selection="cutflow"
+selection="cutflow_genmet"
 
 def getcf(sample):    
     input_dir = os.environ['analysis_output']
@@ -53,10 +53,12 @@ if __name__ == "__main__":
    #sample = "wh_250_80"
    #sample = "wh_300_80"
    #sample = "ttbar2l"
-   #samples = ["wh_250_1","wh_350_1","wh_225_80","wh_300_80"]
-   samples = ["wsLF"]
-   cuts = ['total','trigger','1 lep','2nd lep veto','track veto','tau veto','met > 100','mt > 150','==2jets','==2 btags','mbb window','mct > 150' ]
-   cuteff = [getcuteff(sample) for sample in samples]
+   samples = ["SMS_wh_250_1_noskim","SMS_wh_350_1_noskim"]
+   #samples = ["wsLF"]
+   #cuts = ['total','>= 1 good vertex ','1 good lep','2nd lep veto','track veto','tau veto','met > 100','mt > 150','==2jets','==2 btags','mbb window','mct > 150' ]
+   cuts = ['total','>= 1 good vertex ','1 good lep','2nd lep veto','track veto','tau veto','==2jets','==2 btags','in mbb window','mct > 150 GeV','met > 100 GeV','mt > 150 GeV']
+   #cuteff = [getcuteff(sample) for sample in samples]
+   cuteff = [getcf(sample) for sample in samples]
    #for sample,ce in zip(samples,cuteff):       
    #for cut,y in zip(cuts,ce):
    printtableheader(samples, "selection efficiency") 
@@ -66,6 +68,7 @@ if __name__ == "__main__":
        stringtoprint = ''
        for sample in samples:
            stringtoprint+= "{:.3f}".format(cuteff[samples.index(sample)][i])+'&'
+           #stringtoprint+= "{:.3f}".format(cf[samples.index(sample)][i])+'&'
        print cut, '&',stringtoprint
 
    printtableend()

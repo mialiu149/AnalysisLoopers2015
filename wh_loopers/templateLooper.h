@@ -42,6 +42,8 @@ private:
    TH2D* histscan_lepsfdn ;
    TH2D* histscan_isrnom;
    TH2D* histscan_isrup;
-   TH2D* histscan_isrdn ;
+   TH2D* histscan_isrdn;
+   TH2D* histscan_trigup;
+   TH2D* histscan_trigdn;
 };
 #endif

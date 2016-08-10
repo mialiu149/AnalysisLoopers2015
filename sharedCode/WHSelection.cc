@@ -69,20 +69,23 @@ bool passcutflow( std::string selection){
  bool passOneLep = (lep1type()==1);
  bool passLepSel = !(lep2type()==1||lep2type()==2);
  std::pair<vector<int>,vector<int>> jets = btaggedjets(); vector<int> seljets = jets.first;// btagged jets.
-  float m_bb = getmbb();  float mctbb = getmct();
-  bool step0 = passTrigger; bool step1 = passOneLep&&step0; bool step2=(passLepSel && step1); bool step3 = (PassTrackVeto() && step2);
-  bool step4 = step3&&PassTauVeto(); bool step5 = step4&&(pfmet()>100);
- // bool step6 = step5;
-  bool step6 = step5&&(mctbb>150);
- // bool step6=step5&& (ngoodbtags()==2);
-  bool step7 = step6&& (ngoodjets()==2);
-  bool step8=  step7&& (m_bb>90&&m_bb<150);
-//&& (m_bb>90&&m_bb<150);
-// (seljets.size()==2);
-  bool step9 = step8&& (mctbb>150);
-//(m_bb>90&&m_bb<150);
-  bool step10 = step9&& (seljets.size()==2);
-//(mctbb>150);
+ float m_bb = getmbb();  float mctbb = getmct();
+ float mt = mt_met_lep();
+ float event_met_pt = pfmet();
+ if(TString(selection).Contains("genmet")   ) {event_met_pt = genmet();mt = calculateMt(lep1_p4(),event_met_pt,genmet_phi());}
+
+  bool step0 = passTrigger; 
+  bool step1 = step0 && passOneLep; 
+  bool step2=  step1 && passLepSel; 
+  bool step3 = step2 && PassTrackVeto();
+  bool step4 = step3 && PassTauVeto();
+  bool step5 = step4 && (ngoodbtags()==2);
+  bool step6 = step5 && (ngoodjets()==2);
+  bool step7 = step6 && (m_bb>90&&m_bb<150);
+  bool step8 = step7 && (mctbb>150); 
+  bool step9 = step8 && (event_met_pt > 100);
+  bool step10 = step9&& (mt>150);
+
  if( TString(selection).Contains("step0") && !step0)   return false;
  if( TString(selection).Contains("step1") && !step1)   return false; //if cutflow returns true
  if( TString(selection).Contains("step2") && !step2)   return false;
@@ -129,6 +132,7 @@ bool passSR( std::string selection){
  if( TString(selection).Contains("mct50"))   {if(mctbb<50)                 return false;} // mct cuts
  if( TString(selection).Contains("mct100"))  {if(mctbb<100)                return false;} 
  if( TString(selection).Contains("mct125"))  {if(mctbb<125)                return false;}
+ if( TString(selection).Contains("mct160"))  {if(mctbb<160)                return false;}
  if( TString(selection).Contains("mct150"))  {if(mctbb<150)                return false;}
  if( TString(selection).Contains("mct170"))  {if(mctbb<170)                return false;}
  if( TString(selection).Contains("met100"))  {if(event_met_pt<100)              return false;} 
@@ -216,6 +220,7 @@ bool passmetmt(std::string selection ) {
  if( TString(selection).Contains("mt120"))   {if(mt_met_lep()<120) return false;}
  if( TString(selection).Contains("mt150"))   {if(mt_met_lep()<150) return false;}
  if( TString(selection).Contains("mt250"))   {if(mt_met_lep()<250) return false;}
+ if( TString(selection).Contains("mt450"))   {if(mt_met_lep()<450) return false;}
  return true;
 }
 bool passbin(std::string selection ) {

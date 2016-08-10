@@ -4,7 +4,12 @@ source settings.sh
 
 compile_looper
 
-selection="SR_met100_mt150_mt150_mbb_mct150_twobtag" # this is the SR
+selection="SMS_SR_met100_mt150_mbb_mct150_twobtag" # this is the SR
+./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb  &
+./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb_jecup  &
+./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb_jecdn  &
+
+selection="SR_met100_mt150_mbb_mct150_twobtag" # this is the SR
 ./runTemplateLooper $selection $analysis_version wh_300_80&
 ./runTemplateLooper $selection $analysis_version wh_350_1&
 ./runTemplateLooper $selection $analysis_version wh_250_1&
@@ -16,7 +21,7 @@ selection="SR_met100_mt150_mt150_mbb_mct150_twobtag" # this is the SR
 ./runTemplateLooper $selection $analysis_version rare &
 ./runTemplateLooper $selection $analysis_version wzbb&
 
-selection="SR_met100_mt150_mt150_mct150_twobtag"  # to draw money plot mbb.
+selection="SR_met100_mt150_mct150_twobtag"  # to draw money plot mbb.
 ./runTemplateLooper $selection $analysis_version wh_300_80&
 ./runTemplateLooper $selection $analysis_version wh_350_1&
 ./runTemplateLooper $selection $analysis_version wh_250_1&

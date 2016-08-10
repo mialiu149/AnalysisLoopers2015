@@ -9,9 +9,10 @@ export analysis="wh_loopers"
 # v8 is with 7,65, fixed trigger eff for di-lepton CR  
 #export analysis_version="allregions-7p65v2_twogood"
 #export analysis_version="allregions-7p65v3"
-export analysis_version="allregions-13fbv3"
-#export analysis_version="allregions-sig"
-#export analysis_version="allregions-16-v03"
+#export analysis_version="allregions-13fbv3"
+export analysis_version="allregions-13fbv3_2p1"
+#export analysis_version="V00-06-12-SR"
+#export analysis_version="allregions-16-v02"
 
 export study="datavsmc"
 localdirectory=`pwd`

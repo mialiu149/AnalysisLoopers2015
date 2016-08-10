@@ -150,3 +150,16 @@ void updateoverflow( TH1F * &hist, float xmax )
 }
 
 
+void renormalizebins( TH1F * &hist )
+{
+  for( int bini = 0; bini < hist->GetNbinsX()+1; bini++ ){
+	if( hist->GetBinWidth(bini) > hist->GetBinWidth(1) ){
+	  hist->SetBinContent( bini, hist->GetBinContent( bini )*(hist->GetBinWidth(1)/hist->GetBinWidth(bini)) );	
+	  hist->SetBinError( bini, hist->GetBinError( bini )    *(hist->GetBinWidth(1)/hist->GetBinWidth(bini)) );	
+	  // hist->SetBinContent( bini, hist->GetBinContent( bini ) * (10./hist->GetBinWidth(bini)) );	
+	  // hist->SetBinError(   bini, hist->GetBinError( bini )   * (10./hist->GetBinWidth(bini)) );	
+	}
+  }  
+  return;
+}
+

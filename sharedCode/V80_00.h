@@ -14,7 +14,7 @@
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
 // Generated with the command
-// makeCMS3ClassFiles("chain files", "t", "V80_00", "V80_00_np", "v80_00")
+// makeCMS3ClassFiles("/nfs-6/userdata/mliu/whbabies/SMS_tchwh_lnbb_350_1_0.root", "t", "V80_00", "V80_00_np", "v80_00")
 
 using namespace std; 
 class V80_00 {
