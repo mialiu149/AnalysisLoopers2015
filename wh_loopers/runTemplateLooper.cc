@@ -28,6 +28,12 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   if ( sample == "jes_nominal_ttz"){
        helper = "/nfs-7/userdata/mliu/jes_nominal/TTZ*"; ch->Add(helper.c_str());
   }
+  else if (sample == "SMS_wh_250_1_noskim"){
+       helper = "/nfs-6/userdata/mliu/whbabies/SMS_tchwh_lnbb_250_1_0.root"; ch->Add(helper.c_str());
+ }
+  else if (sample == "SMS_wh_350_1_noskim"){
+       helper = "/nfs-6/userdata/mliu/whbabies/SMS_tchwh_lnbb_350_1_0.root"; ch->Add(helper.c_str());
+ }
   else if (sample == "wh_350_1"){
        helper = sigbabylocation+"SMS_tchwh_350_1.root"; ch->Add(helper.c_str());
  }
@@ -51,7 +57,12 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
   else if (sample == "SMS_tchwh_lnbb"){
        helper = "/nfs-6/userdata/mliu/onelepbabies/V80_signalscanv3/SMS_tchwh_lnbb.root"; ch->Add(helper.c_str());
-       //helper = "/home/users/mliu/Stopmialiu149/StopBabyMaker/SMS_tchwh_lnbb.root"; ch->Add(helper.c_str());
+ }
+  else if (sample == "SMS_tchwh_lnbb_jecup"){
+       helper = "/nfs-6/userdata/mliu/onelepbabies/V80_signalscanv3_jecup/SMS_tchwh_lnbb.root"; ch->Add(helper.c_str());
+ }
+  else if (sample == "SMS_tchwh_lnbb_jecdn"){
+       helper = "/nfs-6/userdata/mliu/onelepbabies/V80_signalscanv3_jecdn/SMS_tchwh_lnbb.root"; ch->Add(helper.c_str());
  }
  else if (sample =="diboson"){
     helper  =stopbabylocation+"WWTo*";ch->Add(helper.c_str());
@@ -136,7 +147,14 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
    }
   else if( sample == "wzbb"){
-        helper = stopbabylocation+"WZTo1LNu2Q_amcnlo*.root";ch->Add(helper.c_str());
+  //      helper = stopbabylocation+"WZTo1LNu2Q_amcnlo*.root";ch->Add(helper.c_str());
+        helper = "/hadoop/cms/store/user/mliu/onelepbabies//V80_13fb_v0_WZTo1LNu2Q_amcnlo_pythia8_25ns/*root";ch->Add(helper.c_str());
+  }
+  else if( sample == "wzbb_jecup"){
+        helper = "/hadoop/cms/store/user/mliu/onelepbabies//V80_13fb_v0_jecdn_WZTo1LNu2Q_amcnlo_pythia8_25ns/*root";ch->Add(helper.c_str());
+  }
+  else if( sample == "wzbb_jecdn"){
+        helper = "/hadoop/cms/store/user/mliu/onelepbabies//V80_13fb_v0_jecup_WZTo1LNu2Q_amcnlo_pythia8_25ns/*root";ch->Add(helper.c_str());
   }
   else if( sample == "rare"){
         helper = stopbabylocation+"TTZ*.root";ch->Add(helper.c_str());//ttv

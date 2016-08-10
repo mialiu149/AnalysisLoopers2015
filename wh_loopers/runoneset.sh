@@ -6,6 +6,12 @@ compile_looper
 
 #selection="1lCR_mbb_bveto_met100_mct150_absmini"
 
+selection="SMS_SR_met100_mt120_mbb_mct160_twobtag" # this is the SR
+./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb  &
+#selection="SMS_SR_met100_mt150_mbb_mct150_twobtag" # this is the SR
+#./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb_jecup  &
+#selection="SMS_SR_met100_mt150_mbb_mct150_twobtag" # this is the SR
+#./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb_jecdn  &
 #./runTemplateLooper $selection $analysis_version data  &
 #./runTemplateLooper $selection $analysis_version wzbb&
 #./runTemplateLooper $selection $analysis_version tops_mad &
@@ -25,5 +31,3 @@ compile_looper
 #./runTemplateLooper $selection $analysis_version wh_225_80&
 
 #selection="SR_met100_mt150_mct150_twobtag"  # to draw money plot mbb.#%selection="SMS_SR"
-selection="SMS_SR_met100_mt150_mbb_mct150_twobtag" # this is the SR
-./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb  &
