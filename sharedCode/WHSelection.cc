@@ -1,7 +1,6 @@
 #include <stdexcept>
 #include <iostream>
 #include <map>
-
 #include "TH1.h"
 #include "TMath.h"
 #include "TH1F.h"
@@ -9,7 +8,6 @@
 #include "TCollection.h"
 #include "TDirectory.h"
 #include "TKey.h"
-
 #include "WHSelection.h"
 #include "EventTypeSel.h"
 #include "../stop_variables/MT2_implementations.h"
@@ -22,10 +20,10 @@ using namespace V80_00_np;
 namespace whsel{
 //static const float BTAGWP = 0.460;
 static const float BTAGWP = 0.800;
+
 //--------------//
 // preselection //
 //--------------//
-
 bool passPreselection(string selection) {
  bool passTrigger =  HLT_SingleMu()|| HLT_SingleEl();
 // if (TString(selection).Contains("notrigger") ) 
@@ -34,7 +32,6 @@ bool passPreselection(string selection) {
  if( !passTrigger) return false;
  if( !passOneLep) return false; // lep1 is good lepton
  if( !(lep1_relIso()*lep1_p4().pt() < 5)) return false;
-//if SR or 1lCR, apply vetoes
  if( TString(selection).Contains("SR") || TString(selection).Contains("1lCR")) {  
  if( lep2type()==1||lep2type()==2) return false;
  if( !PassTrackVeto())          return false;  // ttrack veto
@@ -42,6 +39,7 @@ bool passPreselection(string selection) {
  }
  return true;
 }
+
 bool passWJetsValidation(){
  if( lep1type()!=1)                       return false; 
  if( !(lep1_relIso()*lep1_p4().pt() < 5)) return false;
@@ -68,7 +66,7 @@ bool passcutflow( std::string selection){
   bool step6 = step5 && (ngoodjets()==2);
   bool step7 = step6 && (m_bb>90&&m_bb<150);
   bool step8 = step7 && (mctbb>150); 
-  bool step9 = step8 && (event_met_pt > 100);
+  bool step9 = step8 && (event_met_pt > 150);
   bool step10 = step9&& (mt>150);
 
  if( TString(selection).Contains("step0") && !step0)   return false;
@@ -86,64 +84,21 @@ bool passcutflow( std::string selection){
 }
 
 bool passISR(){
-  if(ngoodjets()>2&&ak4pfjets_p4().at(0).pt()>150) return true;
+  if(ngoodjets() > 2 && ak4pfjets_p4().at(0).pt()>150) return true;
   else return false;
 }
 
 bool passSR( std::string selection){
-  if(!passPreselection(selection.c_str()))                                                  return false;
-  float m_bb = getmbb(); float mctbb = getmct(); float event_met_pt = pfmet(); float mt = mt_met_lep(); bool met_mt_cut;
-  if(TString(selection).Contains("worseMET") ) {event_met_pt = worseMETrel(0.2);mt = calculateMt(lep1_p4(),event_met_pt,pfmet_phi());}
-  if(TString(selection).Contains("genMET")   ) {event_met_pt = genmet();mt = calculateMt(lep1_p4(),event_met_pt,genmet_phi());}
-  met_mt_cut = ( event_met_pt > 50 &&  mt> 50 ); 
-  if(TString(selection).Contains("mt120"))  met_mt_cut = ( event_met_pt > 50 && mt > 120 );                                       
-  if(TString(selection).Contains("mt150"))  met_mt_cut = ( event_met_pt > 50 && mt > 150 );
-  if(TString(selection).Contains("onebtag")) {if( ngoodbtags() != 1)                        return false;}// btagged}
-  if(TString(selection).Contains("twobtag")) {if( ngoodbtags() != 2)                        return false;}// btagged}
   std::pair<vector<int>,vector<int>> jets = btaggedjets(); vector<int> bjets = jets.first;// btagged jets.
-  vector<int> seljets = selbjets();
-
-  if( ngoodjets()  != 2 )                                  return false;// exactly 2 jets
-  if( !met_mt_cut)                                         return false;
-  if( TString(selection).Contains("mbb"))     {if(m_bb>150||m_bb<90)       return false;}
-  if( TString(selection).Contains("mct50"))   {if(mctbb<50)                 return false;} // mct cuts
-  if( TString(selection).Contains("mct100"))  {if(mctbb<100)                return false;} 
-  if( TString(selection).Contains("mct125"))  {if(mctbb<125)                return false;}
-  if( TString(selection).Contains("mct160"))  {if(mctbb<160)                return false;}
-  if( TString(selection).Contains("mct150"))  {if(mctbb<150)                return false;}
-  if( TString(selection).Contains("mct170"))  {if(mctbb<170)                return false;}
-  if( TString(selection).Contains("met100"))  {if(event_met_pt<100)              return false;} 
-  if( TString(selection).Contains("met150"))  {if(event_met_pt<150)              return false;} 
-  if( TString(selection).Contains("met175"))  {if(event_met_pt<175)              return false;} 
-  if( TString(selection).Contains("met200"))  {if(event_met_pt<200)              return false;}
-  if( TString(selection).Contains("met250"))  {if(event_met_pt<250)              return false;}
-
-  if( TString(selection).Contains("metbin1v1")) {if(pfmet()<100||pfmet()>125) return false;} //met cuts
-  if( TString(selection).Contains("metbin2v1")) {if(pfmet()<125||pfmet()>150) return false;}
-  if( TString(selection).Contains("metbin3v1")) {if(pfmet()<150||pfmet()>200) return false;}
-  if( TString(selection).Contains("metbin4v1")) {if(pfmet()<200)              return false;}
-
-  if( TString(selection).Contains("metbin1v2")) {if(pfmet()<100||pfmet()>150) return false;} 
-  if( TString(selection).Contains("metbin2v2")) {if(pfmet()<150||pfmet()>200) return false;}
-  if( TString(selection).Contains("metbin3v2")) {if(pfmet()<200)              return false;}
-
-  if( TString(selection).Contains("metbin1v3")) {if(pfmet()<100||pfmet()>200) return false;} 
-  if( TString(selection).Contains("metbin2v3")) {if(pfmet()<200)              return false;} 
-
-  if( TString(selection).Contains("metbin1v4")) {if(pfmet()<100||pfmet()>175) return false;} 
-  if( TString(selection).Contains("metbin2v4")) {if(pfmet()<175)              return false;} 
-
-  if( TString(selection).Contains("metbin1v5")) {if(!(pfmet()>100&&ngoodbtags() == 2 && mctbb>150 && ngoodjets()  == 2))  return false;} //add ISR region
-  if( TString(selection).Contains("metbin2v5")) {if(!(pfmet()>100&&ngoodbtags() == 2 && mctbb>150 && passISR())) return false;}
-
-  if( TString(selection).Contains("metbin1v6")) {if(!(pfmet()>250&&ngoodbtags() == 1&&mctbb>180)) return false;}
-  if( TString(selection).Contains("metbin2v6")) {if(!(pfmet()>100&& pfmet()<175 &&ngoodbtags() == 2 &&mctbb>150)) return false;}
-  if( TString(selection).Contains("metbin3v6")) {if(!(pfmet()>175&&ngoodbtags() == 2 &&mctbb>150)) return false;}
-  
-  if( TString(selection).Contains("metbin1v7")) {if(!(pfmet()>100 && mctbb>150)) return false;}
-  if( TString(selection).Contains("metbin2v7")) {if(!(pfmet()>200 && mctbb<150 && mctbb>100)) return false;}
- 
- return true;
+  vector<int> seljets = selectedjets();
+  int goodbtags = bjets.size();
+  if(!passPreselection(selection.c_str()))                                                  return false;
+  if(TString(selection).Contains("onebtag")) {if( goodbtags != 1)                        return false;}// btagged}
+  if(TString(selection).Contains("twobtag")) {if( goodbtags != 2)                        return false;}// btagged}
+  if(TString(selection).Contains("mix")) {if( ngoodbtags() < 1 )                        return false;}// btagged}
+  if( ngoodjets()  !=2 )                                                    return false;// exactly 2 jets
+  if( !passbin(selection) )                                        return false;
+  return true;
 }
 
 //--------------//
@@ -155,7 +110,6 @@ bool pass2lCR( string selection ) {
   if( !pass2lCR)                                      return false; //pre selection + reverted veto
   if( ngoodbtags() != 2)                              return false;// btagged
   if( ngoodjets() !=2)                                return false;
-  if( !passmetmt(selection))                          return false;
   if( !passbin(selection))                            return false;
  return true;
 }
@@ -164,62 +118,8 @@ bool pass1lCR( string selection ) {
   if(!passPreselection("1lCR"))                      return false;// preselection with at least 1 lep+ met50 + >=2jets 
   if(ngoodbtags()>0)   return false;
   if(ngoodjets()!= 2)  return false;
-  if( !passmetmt(selection))                            return false;
   if( !passbin(selection))                              return false;
   return true;
-}
-
-bool passmetmt(std::string selection ) {
- if( TString(selection).Contains("metbin1")) {if(pfmet()<50) return false;} //met cuts
-// if( TString(selection).Contains("metbin1")) {if(pfmet()<50||pfmet()>100) return false;} //met cuts
- if( TString(selection).Contains("metbin2")) {if(pfmet()<100||pfmet()>125) return false;} //met cuts
- if( TString(selection).Contains("metbin3")) {if(pfmet()<125||pfmet()>150) return false;} //met cuts
- if( TString(selection).Contains("metbin4")) {if(pfmet()<150||pfmet()>200) return false;} //met cuts
- if( TString(selection).Contains("metbin5")) {if(pfmet()<200) return false;}
- if( TString(selection).Contains("met100"))  {if(pfmet()<100) return false;} 
- if( TString(selection).Contains("met150"))  {if(pfmet()<150) return false;} 
- if( TString(selection).Contains("met175"))  {if(pfmet()<175) return false;} 
- if( TString(selection).Contains("met200"))  {if(pfmet()<200) return false;}
- if( TString(selection).Contains("met250"))  {if(pfmet()<250) return false;}
- if( TString(selection).Contains("mtbulk"))  {if(mt_met_lep()<50 || mt_met_lep()>100) return false;}
- if( TString(selection).Contains("mt50"))    {if(mt_met_lep()<50) return false;}
- if( TString(selection).Contains("mt75"))    {if(mt_met_lep()<75) return false;}
- if( TString(selection).Contains("mt100"))    {if(mt_met_lep()<100) return false;}
- if( TString(selection).Contains("mt120"))   {if(mt_met_lep()<120) return false;}
- if( TString(selection).Contains("mt150"))   {if(mt_met_lep()<150) return false;}
- if( TString(selection).Contains("mt250"))   {if(mt_met_lep()<250) return false;}
- if( TString(selection).Contains("mt450"))   {if(mt_met_lep()<450) return false;}
- return true;
-}
-bool passbin(std::string selection ) {
-  float m_bb = getmbb();
-  float mctbb = getmct();
- if( m_bb<0) return false;
- if( mctbb<0) return false;
- if( TString(selection).Contains("l5jets")&&ngoodjets()>5)                     return false;
- if( TString(selection).Contains("l4jets")&&ngoodjets()>3)                     return false;
- if( TString(selection).Contains("3jets")&&ngoodjets()!=3)                     return false;
- if( TString(selection).Contains("2jets")&&ngoodjets()!=2)                     return false; 
- if( TString(selection).Contains("bveto"))    {if(ngoodbtags()>0)   return false;}
- if( TString(selection).Contains("twobtag"))  {if(ngoodbtags()!= 2) return false;}// btagged}
- if( TString(selection).Contains("btag"))     {if(ngoodbtags()< 1)  return false;}// btagged}
- if( TString(selection).Contains("twojets"))  {if(ngoodjets()!= 2)  return false;}// exactly 2 jets
- if( TString(selection).Contains("onejets"))  {if(ngoodjets()> 2)   return false;}//  less than 2 jets
- if( TString(selection).Contains("mbb_"))     {if(m_bb>150||m_bb<90) return false;} //mbb cut  
- if( TString(selection).Contains("mct50"))   {if(mctbb<50)    return false;} // mct cuts
- if( TString(selection).Contains("mct100"))  {if(mctbb<100)    return false;} // mct cuts
- if( TString(selection).Contains("mct125"))  {if(mctbb<125)    return false;}
- if( TString(selection).Contains("mct150"))  {if(mctbb<150)    return false;}
- if( TString(selection).Contains("RegionA")) {if(mctbb<170||mt_met_lep()<150) return false; }// abcd regions
- if( TString(selection).Contains("RegionB")) {if(mctbb>170||mt_met_lep()<150) return false; }
- if( TString(selection).Contains("RegionC")) {if(mctbb<170||mt_met_lep()>150) return false; }
- if( TString(selection).Contains("RegionD")) {if(mctbb>170||mt_met_lep()>150) return false; }
-  /*if(TString(selection).Contains("ptlbb150")&& ptlbb<150)                      return false;
-  if(TString(selection).Contains("ptlbb250")&& ptlbb>250)                      return false;
-  if(TString(selection).Contains("ptbb200")&& pt_bb<200)                       return false;       
-  if(TString(selection).Contains("mt2lb150") &&  MT2lb<150)                    return false;
-  */
- return true;
 }
 
 bool passmbbCR(  string selection ) {
@@ -230,8 +130,95 @@ bool passmbbCR(  string selection ) {
  if( ngoodbtags() != 2)                              return false;// btagged
  if( ngoodjets()  != 2)                              return false;// exactly 2 jets 
  if( !pass1l || !outside_mbb)                        return false;
- if( !passmetmt(selection))                          return false;
  if( !passbin(selection))                            return false;
+ return true;
+}
+
+bool passbin(std::string selection ) {
+  float m_bb = getmbb(); float mctbb = getmct(); float ptbb=getptbb();float event_met_pt = pfmet(); float mt = mt_met_lep(); bool met_mt_cut;
+  if(TString(selection).Contains("worseMET") ) {event_met_pt = worseMETrel(0.2);mt = calculateMt(lep1_p4(),event_met_pt,pfmet_phi());}
+  if(TString(selection).Contains("genMET")   ) {event_met_pt = genmet();mt = calculateMt(lep1_p4(),event_met_pt,genmet_phi());}
+  met_mt_cut = ( event_met_pt > 50 &&  mt> 50 ); 
+  if(TString(selection).Contains("mt100"))  met_mt_cut = ( event_met_pt > 50 && mt > 100 );                                       
+  if(TString(selection).Contains("mt120"))  met_mt_cut = ( event_met_pt > 50 && mt > 120 );                                       
+  if(TString(selection).Contains("mt150"))  met_mt_cut = ( event_met_pt > 50 && mt > 150 );
+  if( !met_mt_cut)                                                          return false;
+  if( m_bb<0) return false;
+  if( mctbb<0) return false;
+  if( TString(selection).Contains("l5jets")&&ngoodjets()>5)                     return false;
+  if( TString(selection).Contains("l4jets")&&ngoodjets()>3)                     return false;
+  if( TString(selection).Contains("3jets")&&ngoodjets()!=3)                     return false;
+  if( TString(selection).Contains("2jets")&&ngoodjets()!=2)                     return false; 
+  if( TString(selection).Contains("bveto"))    {if(ngoodbtags()>0)   return false;}
+  if( TString(selection).Contains("twobtag"))  {if(ngoodbtags()!= 2) return false;}// btagged}
+  if( TString(selection).Contains("btag"))     {if(ngoodbtags()< 1)  return false;}// btagged}
+  if( TString(selection).Contains("twojets"))  {if(ngoodjets()!= 2)  return false;}// exactly 2 jets
+  if( TString(selection).Contains("onejets"))  {if(ngoodjets()> 2)   return false;}//  less than 2 jets
+  if( TString(selection).Contains("mbb_"))     {if(m_bb>150||m_bb<90) return false;} //mbb cut  
+  if( TString(selection).Contains("RegionA")) {if(mctbb<170||mt_met_lep()<150) return false; }// abcd regions
+  if( TString(selection).Contains("RegionB")) {if(mctbb>170||mt_met_lep()<150) return false; }
+  if( TString(selection).Contains("RegionC")) {if(mctbb<170||mt_met_lep()>150) return false; }
+  if( TString(selection).Contains("RegionD")) {if(mctbb>170||mt_met_lep()>150) return false; }
+  if( TString(selection).Contains("mct50"))   {if(mctbb<50)                 return false;} // mct cuts
+  if( TString(selection).Contains("mct100"))  {if(mctbb<100)                return false;} 
+  if( TString(selection).Contains("mct125"))  {if(mctbb<125)                return false;}
+  if( TString(selection).Contains("mct150"))  {if(mctbb<150)                return false;}
+  if( TString(selection).Contains("mct160"))  {if(mctbb<160)                return false;}
+  if( TString(selection).Contains("mct170"))  {if(mctbb<170)                return false;}
+  if( TString(selection).Contains("met100"))  {if(event_met_pt<100)         return false;} 
+  if( TString(selection).Contains("met125"))  {if(event_met_pt<125)         return false;} 
+  if( TString(selection).Contains("met150"))  {if(event_met_pt<150)         return false;} 
+  if( TString(selection).Contains("met175"))  {if(event_met_pt<175)         return false;} 
+  if( TString(selection).Contains("met200"))  {if(event_met_pt<200)         return false;}
+  if( TString(selection).Contains("met250"))  {if(event_met_pt<250)         return false;}
+  if( TString(selection).Contains("ptb125"))  {if(leadjetpt()<125)         return false;}
+  if( TString(selection).Contains("ptl100"))  {if(lep1_p4().pt()<100)         return false;}
+  if( TString(selection).Contains("lowMET"))  {if(event_met_pt>200 || event_met_pt<125)         return false;}
+  if( TString(selection).Contains("highMET"))  {if(event_met_pt<200)                            return false;}
+
+  if( TString(selection).Contains("metbin1v0")) {if(event_met_pt<100) return false;} //met cuts
+  if( TString(selection).Contains("metbin2v0")||TString(selection).Contains("metbin3v0")||TString(selection).Contains("metbin4v0")) return false;
+
+  if( TString(selection).Contains("metbin1v1")) {if(event_met_pt<100||event_met_pt>125) return false;} //met cuts
+  if( TString(selection).Contains("metbin2v1")) {if(event_met_pt<125||event_met_pt>150) return false;}
+  if( TString(selection).Contains("metbin3v1")) {if(event_met_pt<150||event_met_pt>200) return false;}
+  if( TString(selection).Contains("metbin4v1")) {if(event_met_pt<200)              return false;}
+
+  if( TString(selection).Contains("metbin1v2")) {if(event_met_pt<100||event_met_pt>150) return false;} 
+  if( TString(selection).Contains("metbin2v2")) {if(event_met_pt<150||event_met_pt>200) return false;}
+  if( TString(selection).Contains("metbin3v2")) {if(event_met_pt<200)              return false;}
+  if( TString(selection).Contains("metbin4v2")) return false;
+
+  if( TString(selection).Contains("metbin1v3")) {if(event_met_pt<100||event_met_pt>200) return false;} 
+  if( TString(selection).Contains("metbin2v3")) {if(event_met_pt<200)              return false;} 
+  if( TString(selection).Contains("metbin3v3") || TString(selection).Contains("metbin4v3")) return false;
+
+  if( TString(selection).Contains("metbin1v4")) {if(event_met_pt<125||event_met_pt>200) return false;} 
+  if( TString(selection).Contains("metbin2v4")) {if(event_met_pt<200)              return false;} 
+  if( TString(selection).Contains("metbin3v4") || TString(selection).Contains("metbin4v4")) return false;
+
+  if( TString(selection).Contains("metbin1v5")) {if(event_met_pt<125||event_met_pt>200) return false;} 
+  if( TString(selection).Contains("metbin2v5")) {if(event_met_pt<200||ptbb>250) return false;} 
+  if( TString(selection).Contains("metbin3v5")) {if(event_met_pt<200||ptbb<250) return false;} 
+  if( TString(selection).Contains("metbin4v5")) return false;
+
+  if( TString(selection).Contains("metbin1v6")) {if(!(event_met_pt>100 && event_met_pt<200 && leadjetpt() < 150)) return false;}
+  if( TString(selection).Contains("metbin2v6")) {if(!(event_met_pt>100 && event_met_pt<200 && leadjetpt() > 150)) return false;}
+  if( TString(selection).Contains("metbin3v6")) {if(!(event_met_pt>200 && leadjetpt() < 150)) return false;}
+  if( TString(selection).Contains("metbin4v6")) {if(!(event_met_pt>200 && leadjetpt() > 150)) return false;}
+  
+  if( TString(selection).Contains("metbin1v7")) {if(!(event_met_pt>100 && mctbb>150)) return false;}
+  if( TString(selection).Contains("metbin2v7")) {if(!(event_met_pt>200 && mctbb<150 && mctbb>100)) return false;}
+  if( TString(selection).Contains("metbin3v7") || TString(selection).Contains("metbin4v7")) return false;
+ 
+  if( TString(selection).Contains("metbin1v8")) {if(event_met_pt<125||event_met_pt>200||lep1_p4().pt()<100) return false;} 
+  if( TString(selection).Contains("metbin2v8")) {if(event_met_pt<200)              return false;} 
+  if( TString(selection).Contains("metbin3v8") || TString(selection).Contains("metbin4v8")) return false;
+  /*if(TString(selection).Contains("ptlbb150")&& ptlbb<150)                      return false;
+  if(TString(selection).Contains("ptlbb250")&& ptlbb>250)                      return false;
+  if(TString(selection).Contains("ptbb200")&& pt_bb<200)                       return false;       
+  if(TString(selection).Contains("mt2lb150") &&  MT2lb<150)                    return false;
+  */
  return true;
 }
 
@@ -248,8 +235,7 @@ inline bool sortIndexbyCSV( pair<int, float> &vec1, pair<int, float> &vec2 ) {
 vector <pair<int, float>> sortedjetsbyCSV(){
    vector <pair<int, float>> jet_csv_pairs;
    for( size_t jetind = 0; jetind < ak4pfjets_p4().size(); jetind++ ){
-	  if( ak4pfjets_CSV().at(jetind) < BTAGWP && ak4pfjets_p4().at(jetind).Pt() > 30 &&// loose btagging.
-	  //if( ak4pfjets_CSV().at(jetind) < 0.800 && ak4pfjets_p4().at(jetind).Pt() > 30 &&
+	  if( ak4pfjets_CSV().at(jetind) > BTAGWP && ak4pfjets_p4().at(jetind).Pt() > 30 &&// loose btagging.
                 fabs(ak4pfjets_p4().at(jetind).Eta()) < 2.4
                 && ak4pfjets_loose_pfid().at(jetind)){
 	    jet_csv_pairs.push_back(make_pair(jetind,ak4pfjets_CSV().at(jetind)));
@@ -270,7 +256,6 @@ std::pair<vector<int>,vector<int>> btaggedjets()  {
                 )
                 {
                if (ak4pfjets_CSV().at(iJet) > BTAGWP) 
-//                if (ak4pfjets_CSV().at(iJet) >0.800) 
                    bJets_idx.push_back(iJet);
                 else nonbJets_idx.push_back(iJet);}
  }
@@ -278,7 +263,7 @@ std::pair<vector<int>,vector<int>> btaggedjets()  {
  return jets;
 }
 
-vector<int> selbjets(){
+vector<int> selectedjets(){
  vector<int> seljets;
  std::pair<vector<int>,vector<int>> jets = btaggedjets();
  vector <pair<int, float>> jetscsv = sortedjetsbyCSV();
@@ -290,16 +275,17 @@ vector<int> selbjets(){
 }
 
 float leadjetpt() {
-vector<int> selbjets_idx = selbjets();
+vector<int> selbjets_idx =selectedjets();
 float ptb1 = -999; if(selbjets_idx.size() > 0) ptb1 = ak4pfjets_p4().at(selbjets_idx.at(0)).pt();
 return ptb1;
 }
 
 float subleadjetpt() {
-vector<int> selbjets_idx = selbjets();
+vector<int> selbjets_idx = selectedjets();
 float ptb2 = -999; if(selbjets_idx.size() > 1) ptb2 = ak4pfjets_p4().at(selbjets_idx.at(1)).pt();
 return ptb2;
 }
+
 float mbb(vector<int> selbjets_idx) {
   if (selbjets_idx.size()<2)   return -999;
   float mbb = (ak4pfjets_p4().at(selbjets_idx.at(0))+ak4pfjets_p4().at(selbjets_idx.at(1))).mass(); 
@@ -340,21 +326,29 @@ float dRbb(vector<int> selbjets_idx){
 }
 
 float getdRbb() {
- vector<int> bjets = selbjets(); if(bjets.size()<2) return -999; float mctbb = dRbb(bjets); return mctbb;
+ vector<int> bjets = selectedjets(); if(bjets.size()<2) return -999; float mctbb = dRbb(bjets); return mctbb;
 }
+
 float getmct() {
- vector<int> bjets = selbjets(); if(bjets.size()<2) return -999; float mctbb = mct(bjets); return mctbb;
+ vector<int> bjets = selectedjets(); if(bjets.size()<2) return -999; float mctbb = mct(bjets); return mctbb;
 }
 
 float getmbb() {
-  vector<int> bjets = selbjets(); if(bjets.size()<2) return -999; float m_bb = mbb(bjets); return m_bb;
+  vector<int> bjets = selectedjets(); if(bjets.size()<2) return -999; float m_bb = mbb(bjets); return m_bb;
 }
 
 float getptbb() {
-  vector<int> bjets = selbjets(); if(bjets.size()<2) return -999; float m_bb = ptbb(bjets); return m_bb;
+  vector<int> bjets = selectedjets(); if(bjets.size()<2) return -999; float pt_bb = ptbb(bjets); return pt_bb;
 }
+
 float getdphibb() {
-  vector<int> bjets = selbjets(); if(bjets.size()<2) return -999; float  dphi = dphibb(bjets); return dphi;
+  vector<int> bjets = selectedjets(); if(bjets.size()<2) return -999; float  dphi = dphibb(bjets); return dphi;
+}
+float isrjetpt(){
+  std::pair<vector<int>,vector<int>> jets = btaggedjets(); vector<int> bjets = jets.second;// btagged jets.
+  float isrjet =  -999;
+  if(bjets.size()>0) isrjet =  ak4pfjets_p4().at(bjets.at(0)).pt();
+  return isrjet;
 }
 
 float event_weight(std::string selection) {

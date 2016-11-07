@@ -27,13 +27,14 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
      drawmoneyplot = true;
   }
   if (TString(variable).Contains("deltaphi")) setlog = false;
-  bool use_data(false); 
+  bool use_data(true); 
   bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(false),use_wbb(true);
   bool use_top(false),use_ttv(true),use_diboson(true);
-  bool use_sig(true);
+  bool use_sig(false);
   bool use_250 = use_sig||TString(selection).Contains("SR_met100_mt150_mct150_twobtag");
   bool use_norm_factor(false); float norm_factor = 1.;
   int scaleup = 1;
+
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
   TH1F * h_ttbar1l = NULL;
@@ -58,17 +59,17 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_ttbar2l) getBackground(  h_ttbar2l, iter, Form("tops_mad_%s", selection.c_str() ), variable,"lep_dilep", region );
   //if(use_ttbar1l) getBackground(  h_ttbar1l, iter, Form("tops_%s", selection.c_str() ), variable,"lep_onelep" , region );
   //if(use_ttbar2l) getBackground(  h_ttbar2l, iter, Form("tops_%s", selection.c_str() ), variable,"lep_dilep", region );
- // if(use_wjets) getBackground(  h_wjets, iter, Form("ws_stitch_%s", selection.c_str() ), variable,"lep_LF", region );
-// if(use_wbb)   getBackground(  h_wbb, iter, Form("ws_stitch_%s", selection.c_str() ), variable, "lep_HF", region );
-  if(use_wjets) getBackground(  h_wjets, iter, Form("ws_njets_%s", selection.c_str() ), variable,"lep_LF", region );
-  if(use_wbb)   getBackground(  h_wbb, iter, Form("ws_njets_%s", selection.c_str() ), variable, "lep_HF", region );
+  if(use_wjets) getBackground(  h_wjets, iter, Form("ws_stitch_%s", selection.c_str() ), variable,"lep_LF", region );
+ if(use_wbb)   getBackground(  h_wbb, iter, Form("ws_stitch_%s", selection.c_str() ), variable, "lep_HF", region );
+//  if(use_wjets) getBackground(  h_wjets, iter, Form("ws_njets_%s", selection.c_str() ), variable,"lep_LF", region );
+ // if(use_wbb)   getBackground(  h_wbb, iter, Form("ws_njets_%s", selection.c_str() ), variable, "lep_HF", region );
   if(use_zjets) getBackground(  h_zjets, iter, Form("zjets_htbin_%s", selection.c_str() ), variable, type, region );
   if(use_top)   getBackground(  h_top, iter, Form("singletop_%s", selection.c_str() ), variable, type, region );
   if(use_ttv)   getBackground(  h_ttv, iter, Form("wzbb_%s", selection.c_str() ), variable, type, region );
   if(use_diboson)   getBackground(  h_diboson, iter, Form("rare_%s", selection.c_str() ), variable, type, region );
-  if(use_sig)   getBackground(  h_sig_350_1, iter, Form("wh_350_1_%s", selection.c_str() ), variable, type, region );
+  if(use_sig)   getBackground(  h_sig_350_1, iter, Form("SMS_wh_350_1_noskim_%s", selection.c_str() ), variable, type, region );
   if(use_sig)   getBackground(  h_sig_300_80, iter, Form("wh_300_80_%s", selection.c_str() ), variable, type, region );
-  if(use_sig||TString(selection).Contains("SR_met100_mt150_mct150_twobtag"))   getBackground(  h_sig_250_1, iter, Form("wh_250_1_%s", selection.c_str() ), variable, type, region );
+  if(use_sig||TString(selection).Contains("SR_met100_mt150_mct150_twobtag"))   getBackground(  h_sig_250_1, iter, Form("SMS_wh_250_1_noskim_%s", selection.c_str() ), variable, type, region );
   if(use_sig)   getBackground(  h_sig_225_80, iter, Form("wh_225_80_%s", selection.c_str() ), variable, type, region );
 
   //------------------------------------------------------------------------------------------------------//
@@ -111,14 +112,14 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if( TString(variable).Contains("mhtphi") ) {	xmin = 0;	xmax = 250;        ymin = 0;	rebin = 5;  }
   if( variable == "nVert" ){ xmin = 0;    xmax = 50;    ymax = 100;    ymin = 0;    rebin = 1;}
   if( TString(variable).Contains("met") || TString(variable).Contains("mt") || TString(variable).Contains("MT2") || TString(variable).Contains("mbb") ||TString(variable).Contains("pt")|| TString(variable).Contains("MCT"))
-  // {   xmin = 0;	  xmax = 500;}
-   {  rebin = 50; xmin = 0;	  xmax = 500; }
+   {  rebin = 20; xmin = 10;	  xmax = 490; }
   if( TString(variable).Contains("mbb")) {rebin = 10; xmin = 30;  xmax = 390; }
   if( variable == "ht" ){xmin = 0;	xmax = 500;	rebin = 25; ymax = 5e1;}
   if( TString(variable).Contains("iso")){ xmin = 0;     xmax = 100;     rebin = 10;  }
   if( TString(variable).Contains("relIso")){     xmin = 0;     xmax = 10;     rebin = 20;  } 
   if( TString(variable).Contains("absIso")){     xmin = 0;     xmax = 100;     rebin = 5;  }
-  if( TString(variable).Contains("pt") ){	xmin = 0;	xmax = 500;	rebin = 25;  }
+  if( TString(variable).Contains("pt") ){	xmin = 10;	xmax = 490;	rebin = 20;  }
+  if( TString(variable).Contains("ptb1overptb2") ){	xmin = 0;	xmax = 5;	rebin = 10;  }
   if( TString(variable).Contains("phi") ){	xmin = 0;	xmax = 10;	rebin = 5;  }
   if( variable == "njets" || variable == "nbjets"){ xmin = 0;	xmax = 10;      	rebin = 1;  }
   if(  variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
@@ -298,6 +299,7 @@ else {
   if( TString(variable).Contains("ptl1")  ) h_rat->GetXaxis()->SetTitle("lep p_{T} [GeV]");
   if( TString(variable).Contains("ptb1")  ) h_rat->GetXaxis()->SetTitle("leading b jet p_{T} [GeV]");
   if( TString(variable).Contains("ptb2")  ) h_rat->GetXaxis()->SetTitle("subleading b jet p_{T} [GeV]");
+  if( TString(variable).Contains("ptb1overptb2")  ) h_rat->GetXaxis()->SetTitle("ptb1/ptb2");
   if( TString(variable).Contains("MCT")  ) h_rat->GetXaxis()->SetTitle("M_{CT} [GeV]");
   if( variable == "njets"               ) h_rat->GetXaxis()->SetTitle("N_{jets}");  
   if( variable == "mll"                 ) h_rat->GetXaxis()->SetTitle("M_{\\ell\\ell} [GeV]");

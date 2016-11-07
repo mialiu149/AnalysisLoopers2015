@@ -12,10 +12,11 @@ lumi = '12.9'
 #selection="SRMultiBinV5_yield_mbb_mct150_mt150_twobtag"
 #selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag_worseMET"
 #selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag"
-selection="SR_SROneBin_yield_mbb_mct150_mt150_met100_twobtag"
+selection = "SR_SRMultiBin_V0_yield_mbb_mct150_mt150_met125_twobtag"
+#selection="SR_SROneBin_yield_mbb_mct150_mt150_met125_twobtag" # get yields in SR
 table_header = '\\begin{tabular}{lc}\n'
 title = 'Expected yields at %s $fb^{-1}$ & \\\\\n'%lumi
-hist_prefix = 'h_lep_event_NEventsSROneBin_'+selection
+hist_prefix = 'h_lep_event_NEventsSROneBin'
 input_dir = os.environ['analysis_output']
 print input_dir
 ##cols to print out
@@ -43,11 +44,11 @@ row_inputs = [
               {'file':'ws_stitch_'+selection+'_hists.root','row_label':'\whf','hist_name':hist_prefix.replace('lep','lep_HF')},
               {'file':'wzbb_'+selection+'_hists.root','row_label':"\wzbb",'hist_name':hist_prefix},
               {'file':'tops_mad_'+selection+'_hists.root','row_label':'Single lepton top quark','hist_name':hist_prefix.replace('lep','lep_onelep')},
-              {'file':'rare_'+selection+'_hists.root','row_label':'Rare','hist_name':hist_prefix},
-              {'file':'wh_225_80_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (225,80)','hist_name':hist_prefix}, 
-              {'file':'wh_250_1_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (250,1)','hist_name':hist_prefix}, 
-              {'file':'wh_300_80_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (300,80)','hist_name':hist_prefix}, 
-              {'file':'wh_350_1_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (350,1)','hist_name':hist_prefix}
+              {'file':'rare_'+selection+'_hists.root','row_label':'Rare','hist_name':hist_prefix}
+             # {'file':'wh_225_80_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (225,80)','hist_name':hist_prefix}, 
+#              {'file':'SMS_wh_250_1_noskim_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (250,1)','hist_name':hist_prefix}, 
+             # {'file':'wh_300_80_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (300,80)','hist_name':hist_prefix}, 
+#              {'file':'SMS_wh_350_1_noskim_'+selection+'_hists.root','row_label':'$\\tilde{\\chi}_{1}^{\pm}\\tilde{\\chi}_{1}^{0}$ (350,1)','hist_name':hist_prefix}
              ]
 ##table to print out####
 datarows=[]
@@ -86,7 +87,7 @@ for i,row in enumerate(row_inputs[2:6]):
     row['hist'] = hist
     #if row['row_label'] is not 'w+jets(light)':
     sum_bkg.Add(hist)
-    print row['row_label'],':',hist.GetBinContent(5)
+    print row['row_label'],':',hist.GetBinContent(1)
 
 ########find ratio############
 ratio = sum_bkg.Clone('ratio')

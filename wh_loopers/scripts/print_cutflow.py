@@ -1,15 +1,16 @@
 from ROOT import TH1F,TFile
 import os
-selection="cutflow_genmet"
+selection="cutflow"
 
 def getcf(sample):    
     input_dir = os.environ['analysis_output']
 #    input_dir = "/home/users/mliu/public_html/analysis2015/wh_loopers/V00-05-25/datavsmc/rootfiles/"
     f =  TFile(input_dir+"/"+sample+'_'+selection+'_hists.root')
-    hist = f.Get("h_lep_event_NEventsSRCutflow_"+selection)
+    hist = f.Get("h_lep_event_NEventsSRCutflow")
     cutflow = []
     for i in range(1,13):
         cutflow.append(hist.GetBinContent(i))
+        #cutflow.append(hist.GetBinError(i))
     return cutflow
 
 def getcuteff(sample):
@@ -52,8 +53,8 @@ if __name__ == "__main__":
    #sample = "wh_350_1"
    #sample = "wh_250_80"
    #sample = "wh_300_80"
-   #sample = "ttbar2l"
-   samples = ["SMS_wh_250_1_noskim","SMS_wh_350_1_noskim"]
+   samples = ["tops_mad"]
+   #samples = ["SMS_wh_250_1_noskim","SMS_wh_350_1_noskim"]
    #samples = ["wsLF"]
    #cuts = ['total','>= 1 good vertex ','1 good lep','2nd lep veto','track veto','tau veto','met > 100','mt > 150','==2jets','==2 btags','mbb window','mct > 150' ]
    cuts = ['total','>= 1 good vertex ','1 good lep','2nd lep veto','track veto','tau veto','==2jets','==2 btags','in mbb window','mct > 150 GeV','met > 100 GeV','mt > 150 GeV']

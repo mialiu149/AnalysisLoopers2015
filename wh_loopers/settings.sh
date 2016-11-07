@@ -10,7 +10,7 @@ export analysis="wh_loopers"
 #export analysis_version="allregions-7p65v2_twogood"
 #export analysis_version="allregions-7p65v3"
 #export analysis_version="allregions-13fbv3"
-export analysis_version="allregions-13fbv3_2p1"
+export analysis_version="allregions-27fbv3_2p1"
 #export analysis_version="V00-06-12-SR"
 #export analysis_version="allregions-16-v02"
 
