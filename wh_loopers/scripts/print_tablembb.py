@@ -9,7 +9,7 @@ selection="yield_mbbCR"
 table_header = '\\begin{tabular}{lc}\n'
 title = '1l CR   & &\\\\\n'
 wfile="ws_stitch"
-hist_prefix = 'h_lep_event_NEventsmbbCR_'+selection
+hist_prefix = 'h_lep_event_NEventsmbbCR'
 input_dir = os.environ['analysis_output']
 print input_dir
 ##cols to print out

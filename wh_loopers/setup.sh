@@ -1,5 +1,5 @@
 #! /bin/bash
-setup_CMSSW_74X 
+setup_CMSSW_80X 
 
 #source $PWD/settings.sh
 source /home/users/mliu/AnalysisLoopers_80x/wh_loopers/settings.sh 

@@ -4,7 +4,7 @@ source settings.sh
 
 compile_looper
 
-selection="1lCR_mbb_bveto_met100_mct150"
+selection="1lCR_mbb_bveto_125_mct150"
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
@@ -24,14 +24,14 @@ selection="1lCR_mbb_bveto_met100_mct150"
 #./runTemplateLooper $selection $analysis_version w3jets_nupt200 &
 #./runTemplateLooper $selection $analysis_version w4jets_nupt200 &
 #
-selection="2lCR_met100_mt50"
+selection="2lCR_125_mt50"
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
 ./runTemplateLooper $selection $analysis_version ws_htbin &
 ./runTemplateLooper $selection $analysis_version rare &
 ./runTemplateLooper $selection $analysis_version wzbb&
-selection="2lCR_mbb_met100_mt50"
+selection="2lCR_mbb_125_mt50"
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
@@ -39,7 +39,7 @@ selection="2lCR_mbb_met100_mt50"
 ./runTemplateLooper $selection $analysis_version rare &
 ./runTemplateLooper $selection $analysis_version wzbb&
 
-selection="mbbCR_met100_mt50"
+selection="mbbCR_125_mt50"
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
@@ -71,7 +71,7 @@ selection="yield_mbbCR"
 ./runTemplateLooper $selection $analysis_version rare &
 ./runTemplateLooper $selection $analysis_version wzbb&
 
-selection="2lCR_met100_mt150"
+selection="2lCR_125_mt150"
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
@@ -79,7 +79,7 @@ selection="2lCR_met100_mt150"
 ./runTemplateLooper $selection $analysis_version rare &
 ./runTemplateLooper $selection $analysis_version wzbb&
 
-selection="mbbCR_met100_mt150"
+selection="mbbCR_125_mt150"
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &

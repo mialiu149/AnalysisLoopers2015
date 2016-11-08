@@ -321,7 +321,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   TFile * f_trig_mu_veto = NULL;
 
   if( dovtxreweighting ){
-	f_vtx = TFile::Open("nvtx_ratio.root","READ");
+	f_vtx = TFile::Open("inputhists/nvtx_ratio.root","READ");
 	h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
 	h_vtxweight->SetDirectory(rootdir);
 	f_vtx->Close();
@@ -329,7 +329,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 //  if( runsigscan ){
        if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : get signal scan counting histogram " <<endl;
-        f_xsec = TFile::Open("xsec_susy_13tev.root","READ");
+        f_xsec = TFile::Open("inputhists/xsec_susy_13tev.root","READ");
         h_xsecweight = (TH1F*)f_xsec->Get("h_xsec_c1n2")->Clone("h_xsecweight");
         h_xsecweight->SetDirectory(rootdir);
         f_xsec->Close(); 
@@ -342,25 +342,25 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
        if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" :....finished..... " <<endl;
 //  }
   if( applytriggerweight){
-       f_trig_el = TFile::Open("trigeff_El.root","READ");
+       f_trig_el = TFile::Open("inputhists/trigeff_El.root","READ");
        h_trig_el = (TH1F*)f_trig_el->Get("h_pt_effi_eb_ele27WPLoose")->Clone("h_trig_el");
        h_trig_el->SetDirectory(rootdir);
        h_trig_el_ee = (TH1F*)f_trig_el->Get("h_pt_effi_ee_ele27WPLoose")->Clone("h_trig_el_ee");
        h_trig_el_ee->SetDirectory(rootdir);
        f_trig_el->Close();
-       f_trig_mu = TFile::Open("trigeff_Mu.root","READ");
+       f_trig_mu = TFile::Open("inputhists/trigeff_Mu.root","READ");
        h_trig_mu_eb = (TH1F*)f_trig_mu->Get("h_pt_effi_eb_ele27WPLoose")->Clone("h_trig_mu_eb");
        h_trig_mu_ee = (TH1F*)f_trig_mu->Get("h_pt_effi_ee_ele27WPLoose")->Clone("h_trig_mu_ee");
        h_trig_mu_eb->SetDirectory(rootdir);
        h_trig_mu_ee->SetDirectory(rootdir);
        f_trig_mu->Close();
-       f_trig_el_veto = TFile::Open("trigeff_El_Veto.root","READ");
+       f_trig_el_veto = TFile::Open("inputhists/trigeff_El_Veto.root","READ");
        h_trig_el_eb_veto = (TH1F*)f_trig_el_veto->Get("h_pt_effi_eb_ele27WPLoose")->Clone("h_trig_el_eb_veto");
        h_trig_el_ee_veto = (TH1F*)f_trig_el_veto->Get("h_pt_effi_ee_ele27WPLoose")->Clone("h_trig_el_ee_veto");
        h_trig_el_eb_veto->SetDirectory(rootdir);
        h_trig_el_ee_veto->SetDirectory(rootdir);
        f_trig_el_veto->Close();
-       f_trig_mu_veto = TFile::Open("trigeff_Mu_Veto.root","READ");
+       f_trig_mu_veto = TFile::Open("inputhists/trigeff_Mu_Veto.root","READ");
        h_trig_mu_eb_veto = (TH1F*)f_trig_mu_veto->Get("h_pt_effi_eb_ele27WPLoose")->Clone("h_trig_mu_eb_veto");
        h_trig_mu_ee_veto = (TH1F*)f_trig_mu_veto->Get("h_pt_effi_ee_ele27WPLoose")->Clone("h_trig_mu_ee_veto");
        h_trig_mu_eb_veto->SetDirectory(rootdir);
@@ -429,8 +429,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if (is_data() &&!filt_badMuonFilter())   continue;
           if (is_data() &&!filt_badChargedCandidateFilter())   continue;
  
-         if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : pass MET filter  and json " <<endl;
-
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
 	  //Deal with duplicates in data//
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
@@ -623,6 +621,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflows and counters  // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+	  string histname = "dummy";
+	  string version = "dummy";
            if( TString(selection).Contains("V0")) version = "v0";
            if( TString(selection).Contains("V1")) version = "v1";
            if( TString(selection).Contains("V2")) version = "v2";
@@ -632,8 +632,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if( TString(selection).Contains("V6")) version = "v6";
            if( TString(selection).Contains("V7")) version = "v7";
            if( TString(selection).Contains("V8")) version = "v8";
-	  string histname = "dummy";
-	  string version = "dummy";
+
           if(TString(selection).Contains("cutflow")){
           //if(TString(sample).Contains("SMS")&&(c1mass !=250||n1mass !=1)) continue;
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : cutflow" <<endl;

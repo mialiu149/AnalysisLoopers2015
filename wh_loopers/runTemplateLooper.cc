@@ -19,9 +19,13 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/",iter.c_str());
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-04");
   string sigbabylocation = "/nfs-6/userdata/mliu/onelepbabies/V80_4fb/";
-  string datalocation="/nfs-6/userdata/mliu/onelepbabies/V80_13fb_v0/"; 
+/*  string datalocation="/nfs-6/userdata/mliu/onelepbabies/V80_13fb_v0/"; 
   string babylocation = "/nfs-6/userdata/mliu/onelepbabies/V80_13fb_v0/";
   string stopbabylocation = "/nfs-6/userdata/mliu/onelepbabies/V80_13fb_v0/";
+ */
+  string datalocation="/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/27.2.v5/output/"; 
+  string babylocation = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/27.2.v5/output/";
+  string stopbabylocation = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/27.2.v5/output/";
 
   string helper;
 
@@ -208,15 +212,15 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   }
   else if( sample == "tops_mad" ){
       
-        helper = "/nfs-6/userdata/mliu/onelepbabies/V80_7p65_v2/ttbar_diLept_madgraph*ext1*.root"; ch->Add(helper.c_str());
+/*        helper = "/nfs-6/userdata/mliu/onelepbabies/V80_7p65_v2/ttbar_diLept_madgraph*ext1*.root"; ch->Add(helper.c_str());
         helper = "/nfs-6/userdata/mliu/onelepbabies/V80_7p65_v2/ttbar_singleLeptFrom*ext1*.root"; ch->Add(helper.c_str());
         helper = "/nfs-6/userdata/mliu/onelepbabies/V80_7p65_v2/t_*.root"; ch->Add(helper.c_str());
         helper = "/nfs-6/userdata/mliu/onelepbabies/V80_7p65_v2/tbar_*.root"; ch->Add(helper.c_str());
-        /*helper = stopbabylocation+"ttbar_diLept_madgraph*ext1*.root"; ch->Add(helper.c_str());
+  */    helper = stopbabylocation+"ttbar_diLept_madgraph*ext1*.root"; ch->Add(helper.c_str());
         helper = stopbabylocation+"ttbar_singleLeptFrom*ext1*.root"; ch->Add(helper.c_str());
         helper = stopbabylocation+"t_*.root"; ch->Add(helper.c_str());
         helper = stopbabylocation+"tbar_*.root"; ch->Add(helper.c_str());
-        */  
+          
    }
   else if( sample == "ttbar1l" ){
   }
