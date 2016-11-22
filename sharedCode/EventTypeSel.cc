@@ -105,14 +105,14 @@ int lep1type() {  // first lepton definitions
 
 int lep2type() { // second lepton type
      float sel_pt_mu = 25;
-     float sel_eta_mu = 2.4 ;
+     float sel_eta_mu = 2.1 ;
      float veto_pt_mu = 10;
-     float veto_eta_mu = 2.4;
+     float veto_eta_mu = 2.4; // need to be 2.4
      float sel_miniRelIso_mu = 0.1 ;
      float sel_pt_el = 30;
      float sel_eta_el = 1.442;
      float veto_pt_el = 10;
-     float veto_eta_el = 2.1;
+     float veto_eta_el = 2.4; //need to be 2.4
      float sel_miniRelIso_el = 0.1;
      float veto_miniRelIso_mu = 0.2 ;
      float veto_miniRelIso_el = 0.2 ;

@@ -19,10 +19,10 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/",iter.c_str());
   //string babylocation = Form("/nfs-7/userdata/mliu/onelepbabies/%s/","V00-00-04");
   string sigbabylocation = "/nfs-6/userdata/mliu/onelepbabies/V80_4fb/";
-/*  string datalocation="/nfs-6/userdata/mliu/onelepbabies/V80_13fb_v0/"; 
+ /*string datalocation="/nfs-6/userdata/mliu/onelepbabies/V80_13fb_v0/"; 
   string babylocation = "/nfs-6/userdata/mliu/onelepbabies/V80_13fb_v0/";
   string stopbabylocation = "/nfs-6/userdata/mliu/onelepbabies/V80_13fb_v0/";
- */
+  */
   string datalocation="/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/27.2.v5/output/"; 
   string babylocation = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/27.2.v5/output/";
   string stopbabylocation = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/27.2.v5/output/";
@@ -76,10 +76,11 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
     helper  =stopbabylocation+"ZZTo*";ch->Add(helper.c_str());
  }
   else if ( sample == "data" ){
-        //helper = stopbabylocation+"data_single_electron_*.root"; ch->Add(helper.c_str());
-       // helper = stopbabylocation+"data_single_muon_*.root"; ch->Add(helper.c_str());
-        helper = datalocation+"data_single_electron_*.root"; ch->Add(helper.c_str());
-        helper = datalocation+"data_single_muon_*.root"; ch->Add(helper.c_str());
+        helper = datalocation+"data_single_electron_Run2016B*.root"; ch->Add(helper.c_str());
+        helper = datalocation+"data_single_muon_Run2016B*.root"; ch->Add(helper.c_str());
+        datalocation = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/36.2.v1/output/";
+        helper = datalocation+"data_single_electron_Run2016*.root"; ch->Add(helper.c_str());
+        helper = datalocation+"data_single_muon_Run2016*.root"; ch->Add(helper.c_str());
   }
   else if( sample == "zjets" ){
         helper = babylocation+"DYJetsToLL_m10To50_amcnlo_pythia8_25ns*.root"; ch->Add(helper.c_str()); //inclusive sample
@@ -151,8 +152,8 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
    }
   else if( sample == "wzbb"){
-  //      helper = stopbabylocation+"WZTo1LNu2Q_amcnlo*.root";ch->Add(helper.c_str());
-        helper = "/hadoop/cms/store/user/mliu/onelepbabies//V80_13fb_v0_WZTo1LNu2Q_amcnlo_pythia8_25ns/*root";ch->Add(helper.c_str());
+        helper = stopbabylocation+"WZTo1LNu2Q_amcnlo*.root";ch->Add(helper.c_str());   
+        ch->Add(helper.c_str());
   }
   else if( sample == "wzbb_jecup"){
         helper = "/hadoop/cms/store/user/mliu/onelepbabies//V80_13fb_v0_jecdn_WZTo1LNu2Q_amcnlo_pythia8_25ns/*root";ch->Add(helper.c_str());

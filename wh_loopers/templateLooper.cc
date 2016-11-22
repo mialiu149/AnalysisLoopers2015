@@ -98,6 +98,8 @@ void templateLooper::bookHistos(std::string region){
   variable.push_back("nbjets");              variable_bins.push_back(20  );  
   variable.push_back("nVert");               variable_bins.push_back(50  );  
   variable.push_back("ptb1overptb2");        variable_bins.push_back(10  );
+  variable.push_back("lep_gfit_pt");         variable_bins.push_back(1000);
+  variable.push_back("lep_gfit_ptErr");      variable_bins.push_back(10  );
 
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
 	for( unsigned int objind = 0; objind < object.size(); objind++ ){
@@ -135,6 +137,7 @@ void templateLooper::bookHistos(std::string region){
   phivars.push_back("mindphi_met_j1_j2");
   phivars.push_back("nbjets_diff");
   phivars.push_back("dR_lep_leadb");
+  phivars.push_back("lep_gfit_ratio");   
  
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
 	for( unsigned int objind = 0; objind < object.size(); objind++ ){
@@ -272,10 +275,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
   double nel = 0;
   double nmu = 0;
-  double nemu = 0;
-
-  double nem_2jets = 0;
-  double nem_2jets_mll = 0;
   double npass = 0;
 
   cout<<selection<<endl;
@@ -455,15 +454,15 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
  	   if( abs(lep1_pdgid()) == 13) {nmu++;ismu=true;}
 	   if( abs(lep1_pdgid()) == 11) {nel++;isel=true;}
            if( TString(selection).Contains("muonly") && abs(lep1_pdgid()) != 13)  continue;
+           if( TString(selection).Contains("elonly") && abs(lep1_pdgid()) != 11)  continue;
            if( TString(selection).Contains("ebonly") && abs(lep1_p4().eta())>1.2 )  continue;
            if( TString(selection).Contains("eeonly") && abs(lep1_p4().eta())<1.2 )  continue;
-           if( TString(selection).Contains("elonly") && abs(lep1_pdgid()) != 11)  continue;
            
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 	  //   event weights       //
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 
-          float lumi = 27.2;
+          float lumi = 36.2;
           float trigeff = 1;
           float triglep1 = 1;
           float triglep2 = 1;
@@ -592,7 +591,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            //lepton SF
              lepsfup = weight_lepSF_fastSim_up();
              lepsfdn = weight_lepSF_fastSim_down();
-             if(abs(lep1_pdgid()) == 13) {lepsfup = 1.03;lepsfdn = 0.97;}  /// for ichep, fix 3% for muons
+             if(ismu) {lepsfup = 1.03;lepsfdn = 0.97;}  /// for ichep, fix 3% for muons
            //pdfs
              pdfup = pdf_up_weight();  
              pdfdn = pdf_down_weight();  
@@ -612,7 +611,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
                  if(lep1_p4().pt()<300&&lep1_p4().pt()>200) {trigup = 1.15;trigdn=0.85;}
               }
              if(isel){
-               if(lep1_p4().pt()<35&&lep1_p4().pt()>30||lep1_p4().pt()>100) {trigup = 1.03;trigdn=0.97;}
+                if((lep1_p4().pt()<35&&lep1_p4().pt()>30)||lep1_p4().pt()>100) {trigup = 1.03;trigdn=0.97;}
                 if(lep1_p4().pt()<100&&lep1_p4().pt()>35) {trigup = 1.01;trigdn=0.99;}
               }
              }
@@ -1032,6 +1031,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  fillHist( "event", "ptlbb"    , region.c_str(),  ptlbb   , weight );
           fillHist( "event", "ht"     , region.c_str(), ak4_HT()       , weight );
           fillHist( "event", "ptb1"   , region.c_str(), ptb1   , weight );
+          //fillHist( "event", "lep_gfit_ratio"   , region.c_str(), lep1_gfit_ptErr()/lep1_gfit_pt(), weight );
           fillHist( "event", "ptb2"   , region.c_str(), ptb2    , weight );
           fillHist( "event", "nVert"  , region.c_str(),nvtxs()        , weight );
           fillHist( "event", "metphi" , region.c_str(),event_met_ph        , weight );
