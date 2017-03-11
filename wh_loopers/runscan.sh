@@ -25,5 +25,9 @@ compile_looper
 #./runTemplateLooper $selection $analysis_version wh_225_80&
 
 #selection="SR_met100_mt150_mct150_twobtag"  # to draw money plot mbb.#%selection="SMS_SR"
-selection="SMS_SR_met100_mt150_mbb_mct150_twobtag" # this is the SR
+selection="SR_mix_SRMultiBin_V4_yield_mbb_mct170_mt150_met125_twobtag" # get yields in SR
+./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb  &
+selection="SR_mix_SRMultiBin_V4_yield_mbb_mct170_mt150_met125_twobtag_jecup" # get yields in SR
+./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb  &
+selection="SR_mix_SRMultiBin_V4_yield_mbb_mct170_mt150_met125_twobtag_jecdown" # get yields in SR
 ./runTemplateLooper $selection $analysis_version SMS_tchwh_lnbb  &

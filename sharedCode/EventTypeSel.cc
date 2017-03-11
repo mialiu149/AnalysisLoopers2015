@@ -12,10 +12,10 @@
 
 #include "EventTypeSel.h"
 #include "histTools.h"
-#include "V80_00.h"
+#include "V80_03.h"
 
 using namespace std;
-using namespace V80_00_np; 
+using namespace V80_03_np; 
 
 float worseMETrel(float percent){
 float metx = pfmet()*TMath::Cos(pfmet_phi());
@@ -53,11 +53,12 @@ int  eventtype(){
 int lep1type() {  // first lepton definitions
      float sel_pt_mu = 25;
      float sel_eta_mu = 2.1 ;
-     float veto_pt_mu = 10;
+     float veto_pt_mu = 5;
      float veto_eta_mu = 2.4;
      float sel_pt_el = 30;
      float sel_eta_el = 1.442;
-     float veto_pt_el = 10;
+     //float sel_eta_el = 2.4;
+     float veto_pt_el = 5;
      float veto_eta_el = 2.4;
      float sel_miniRelIso_el  = 0.1;
      float sel_miniRelIso_mu  = 0.1 ;
@@ -65,12 +66,13 @@ int lep1type() {  // first lepton definitions
      float veto_miniRelIso_el = 0.2 ;
      bool  firstLep_isSel  = false;
      bool  firstLep_isVeto = false;
+
      if( abs(lep1_pdgid()) == 13){
             if( lep1_p4().pt()>sel_pt_mu &&
                 fabs(lep1_p4().eta())<sel_eta_mu &&
                 lep1_passTightID() &&
-                lep1_MiniIso() < sel_miniRelIso_mu )
-             // &&                lep1_relIso()*lep1_p4().pt() < 5)
+                lep1_MiniIso() < sel_miniRelIso_mu 
+              && lep1_relIso()*lep1_p4().pt() < 5)
                 {
                 firstLep_isSel = true;
             } // end if good muon                                                                                                                                                    
@@ -86,8 +88,8 @@ int lep1type() {  // first lepton definitions
                 //(fabs(lep1_eta())<sel_eta_el || (fabs(lep1_eta())>1.5&&fabs(lep1_eta())<2.1)) &&//barrel + endcap
                 (fabs(lep1_p4().eta())<sel_eta_el) &&//barrel + endcap
                 lep1_passMediumID() &&
-                lep1_MiniIso()<sel_miniRelIso_el)
-// &&                lep1_relIso()*lep1_p4().pt() < 5 )
+                lep1_MiniIso()<sel_miniRelIso_el
+ &&                lep1_relIso()*lep1_p4().pt() < 5 )
 {
                 firstLep_isSel = true;
             } // end if good electron                                                                                                                                                
@@ -105,13 +107,13 @@ int lep1type() {  // first lepton definitions
 
 int lep2type() { // second lepton type
      float sel_pt_mu = 25;
-     float sel_eta_mu = 2.1 ;
-     float veto_pt_mu = 10;
+     float sel_eta_mu = 2.4 ;
+     float veto_pt_mu = 5;
      float veto_eta_mu = 2.4; // need to be 2.4
      float sel_miniRelIso_mu = 0.1 ;
      float sel_pt_el = 30;
      float sel_eta_el = 1.442;
-     float veto_pt_el = 10;
+     float veto_pt_el = 5;
      float veto_eta_el = 2.4; //need to be 2.4
      float sel_miniRelIso_el = 0.1;
      float veto_miniRelIso_mu = 0.2 ;
@@ -123,34 +125,28 @@ int lep2type() { // second lepton type
             if( lep2_p4().pt()>sel_pt_mu &&
                 fabs(lep2_p4().eta())<sel_eta_mu &&
                 lep2_passTightID() &&
-                lep2_MiniIso()<sel_miniRelIso_mu ){
-                secondLep_isSel = true;
-            } // end if good muon                                                                                                                                                    
+                lep2_MiniIso()<sel_miniRelIso_mu )   
+            secondLep_isSel = true;
             else if( lep2_p4().pt()>veto_pt_mu &&
                      fabs(lep2_p4().eta())<veto_eta_mu &&
                      lep2_passVeto() &&
-                     lep2_MiniIso()<veto_miniRelIso_mu ){
+                     lep2_MiniIso()<veto_miniRelIso_mu )
                      secondLep_isVeto = true;
-            } // end if veto muon                                                                                                                                                    
            }
        //electrons
 	  if( abs(lep2_pdgid()) == 11 ){
             if( lep2_p4().pt()>sel_pt_el &&
-                //fabs(lep2_eta())<sel_eta_el &&
-                //(fabs(lep2_eta())<sel_eta_el || (fabs(lep2_eta())>1.5&&fabs(lep2_eta())<2.1)) &&//barrel+endcap
                 (fabs(lep2_p4().eta())<sel_eta_el) &&//barrel+endcap
                 lep2_passMediumID() &&
-                lep2_MiniIso()<sel_miniRelIso_el ){
+                lep2_MiniIso()<sel_miniRelIso_el )
                 secondLep_isSel = true;
-            } // end if good electron                                                                                                                                                
             else if( lep2_p4().pt()>veto_pt_el &&
                      fabs(lep2_p4().eta())<veto_eta_el &&
                      lep2_passVeto() &&
-                     lep2_MiniIso()<veto_miniRelIso_el ){
+                     lep2_MiniIso()<veto_miniRelIso_el )
                      secondLep_isVeto = true;
-            } // end if veto electron                                                                         }
+          }
   if(secondLep_isSel)  return 1;
   else if(secondLep_isVeto) return 2; 
   else return 0;
-  }
- }
+}

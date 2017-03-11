@@ -17,7 +17,7 @@ bool passbin( std::string selection);
 float event_weight(std::string selection);
 bool passISR();
 bool passWJetsValidation();
-std::pair<vector<int>,vector<int> >btaggedjets();
+std::pair<vector<int>,vector<int> >btaggedjets(bool isloose);
 vector<int> selectedjets();
 float mbb(vector<int>);
 float ptbb(vector<int>);

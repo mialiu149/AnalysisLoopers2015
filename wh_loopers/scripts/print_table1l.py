@@ -3,21 +3,18 @@ from ROOT import TH1F,TFile
 import os
 
 lumi = 2.26
-selection="yield_1lCR_mct150_mt150_bveto_V4"
+selection="yield_1lCR_mct170_mt150_bveto_V4"
 table_header = '\\begin{tabular}{lcc}\n'
 title = '1l CR   & &\\\\\n'
 hist_prefix = 'h_lep_event_NEvents1lCR'
 input_dir = os.environ['analysis_output']
 wfile="ws_stitch"
-#input_dir = "/home/users/mliu/public_html/analysis/wh_loopers/V00-06-09/datavsmc/rootfiles/"
-#print input_dir
-##cols to print out
-#label_col = ['sample','mct$>$50','mct$>$100','mct$>$125','mct$>$150']
+#wfile="ws_stitch_njets"
 label_col = ['sample','\mt\ $>$ 50 GeV','\mt\ $>$ 120 GeV','\mt\ $>$ 150 GeV']
 nbins=1
 #bins = ["MET [50,100] GeV","MET [100,125] GeV  & &\\\\\n","MET [125,150] GeV  & &\\\\\n","MET [150,200] GeV   & &\\\\\n","MET [200,Inf] GeV & &\\\\\n"]
 bins = ["\met\ $>$ 100 GeV"]
-ncol = len(label_col) 
+ncol = len(label_col)-1
 nbins=len(bins)
 col_string = ''
 
@@ -98,11 +95,13 @@ for j in range(nbins):
 
 ########print table##########
 output = os.environ['analysis_output']+'/../tables/'
-table = open(output+'table'+selection+'.tex','w')
+table = open(output+'table'+selection+wfile+'.tex','w')
 table.write('%BEGINLATEX%\n')
-table.write('\\begin{table}\n')
+#table.write('\\begin{table}\n')
 table.write('\\begin{center}\n')
 table.write(table_header)
+table.write('\\hline\n')
+table.write('& 125 GeV $<$ \\met$<$200 GeV &\\met $>$ 200 GeV\\ \\n')
 table.write('\\hline\n')
 
 for j in range(nbins):
@@ -124,6 +123,6 @@ for j in range(nbins):
     table.write('\\hline\hline\n')
 table.write('\\end{tabular}\n')
 table.write('\\end{center}\n')
-table.write('\\end{table}\n')
+#table.write('\\end{table}\n')
 table.write('%ENDLATEX%')
-print 'table saved in : ',output+'table'+selection+'.tex'
+print 'table saved in : ',output+'table'+selection+wfile+'.tex'

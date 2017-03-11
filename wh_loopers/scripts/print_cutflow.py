@@ -21,6 +21,7 @@ def getcuteff(sample):
     cuteff = []
     for x,y in zip(cutflow,cutflowshifted):
         cuteff.append(float(x)/float(y))
+    cutefftotal = cuteff.append(cutflow[-1]/cutflow[0])
     return cuteff
 
 def printtableheader(samples,title):
@@ -53,13 +54,14 @@ if __name__ == "__main__":
    #sample = "wh_350_1"
    #sample = "wh_250_80"
    #sample = "wh_300_80"
-   samples = ["tops_mad"]
+   #samples = ["tops_mad"]
    #samples = ["SMS_wh_250_1_noskim","SMS_wh_350_1_noskim"]
    #samples = ["wsLF"]
+   samples=["SMS_wh_225_75_noskim","SMS_wh_250_1_noskim","SMS_wh_350_100_noskim","SMS_wh_500_1_noskim","SMS_wh_500_125_noskim"]
    #cuts = ['total','>= 1 good vertex ','1 good lep','2nd lep veto','track veto','tau veto','met > 100','mt > 150','==2jets','==2 btags','mbb window','mct > 150' ]
-   cuts = ['total','>= 1 good vertex ','1 good lep','2nd lep veto','track veto','tau veto','==2jets','==2 btags','in mbb window','mct > 150 GeV','met > 100 GeV','mt > 150 GeV']
-   #cuteff = [getcuteff(sample) for sample in samples]
-   cuteff = [getcf(sample) for sample in samples]
+   cuts = ['total','>= 1 good vertex ','1 good lep','2nd lep veto','track veto','tau veto','==2jets','==2 btags','in mbb window','\mct\ $>$ 170 GeV','\met\ $>$ 125 GeV','\mt\ $>$ 150 GeV',"total"]
+   cuteff = [getcuteff(sample) for sample in samples]
+   #cuteff = [getcf(sample) for sample in samples]
    #for sample,ce in zip(samples,cuteff):       
    #for cut,y in zip(cuts,ce):
    printtableheader(samples, "selection efficiency") 

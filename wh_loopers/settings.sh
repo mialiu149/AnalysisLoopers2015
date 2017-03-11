@@ -10,8 +10,12 @@ export analysis="wh_loopers"
 #export analysis_version="allregions-7p65v2_twogood"
 #export analysis_version="allregions-7p65v3"
 #export analysis_version="allregions-13fbv3"
-export analysis_version="allregions-36fbv0_2p1"
-#export analysis_version="V00-06-12-SR"
+#export analysis_version="allregions-18fbv0_2p1"
+#export analysis_version="allregions-18fbv0_2p1"
+# allregions-36fbv10_2p1 is the version used in frozen document for pre-approval.
+# allregions-36fbv11_2p1 is the version used to check the effect of bad muon filter.
+#export analysis_version="allregions-36fbv21_2p1"
+export analysis_version="allregions-36fbv22_2p1"  # version for reminiaod
 #export analysis_version="allregions-16-v02"
 
 export study="datavsmc"

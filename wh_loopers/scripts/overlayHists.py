@@ -30,14 +30,17 @@ if len(sys.argv)>min_argv+5:
 
 c = TCanvas("c", "c")
 c.SetWindowSize(600, 600)
-c.SetLogy()
-l = TLegend(.3, .7, .9, .9)
+#c.SetLogy()
+l = TLegend(.6, .7, .9, .9)
 s = THStack(title, title)
 colors = [kBlue,kRed,kCyan-3,kOrange-2,kMagenta-5]
+fout = TFile('myTest.root','RECREATE')
 
 for i,k in enumerate(keys):
     hZee = fZee.Get(k)
-    hWgamma = fWgamma.Get(k)
+#    hZee.Rebin(20)
+    hWgamma = fWgamma.Get(k.replace("mbbCR","SR_mbb"))
+#    hWgamma.Rebin(20)
     if len(sys.argv)>min_argv+3: h3 = f3.Get(k)
     if len(sys.argv)>min_argv+4: h4 = f4.Get(k)
     if len(sys.argv)>min_argv+5: h5 = f5.Get(k)
@@ -47,7 +50,7 @@ for i,k in enumerate(keys):
 
     if hZee.Integral(): hZee.Scale(1/hZee.Integral())
     if hWgamma.Integral() :hWgamma.Scale(1/hWgamma.Integral())
-    
+        
     if len(sys.argv)>min_argv+3:
        if h3.Integral():
           h3.Scale(1/h3.Integral())
@@ -102,6 +105,6 @@ s.Draw("nostack")
 s.GetXaxis().SetTitle(title+' [GeV]')
 l.SetTextSize(0.03)
 l.Draw()
-
+fout.Write()
 c.Update()
-c.SaveAs("~/public_html/ttz_z_comp/plots/"+title+".pdf")
+c.SaveAs("~/public_html/"+title+".pdf")
