@@ -37,12 +37,9 @@ selection="yield_mbbCR_mix_mct170_mt150_twobtag_V4_btagsfup"
 selection="yield_mbbCR_mix_mct170_mt150_twobtag_V4_btagsfdn"
 selection="SR_mix_SRMultiBin_V4_yield_mbb_mct170_mt150_met125_twobtag_jecup" # get yields in SR
 selection="SR_mix_SRMultiBin_V4_yield_mbb_mct170_mt150_met125_twobtag" # get yields in SR
-#selection="cutflow"
-selection="yield_mbbCR_mix_mct170_mt150_twobtag_V4"
+selection="cutflow"
 selection="SR_mix_SRMultiBin_V4_yield_mbb_mct170_mt150_met125_twobtag" # get yields in SR
-selection="SR_mix_met125_mt150_mct170_twobtag"  # to draw money plot mbb.
-./runTemplateLooper $selection $analysis_version data&
-selection="SR_mix_met125_mt150_mct170_twobtag_metbin1v4"  # to draw money plot mbb.
-./runTemplateLooper $selection $analysis_version data&
-selection="SR_mix_met125_mt150_mct170_twobtag_metbin2v4"  # to draw money plot mbb.
+selection="SR_mix_met125_mt50_twobtag" # this is the SR
+selection="SR_mix_met125_mt50_mbb_twobtag" # pre selection + mbb cut
+selection="SR_mix_SRMultiBin_V4_yield_mbb_mct170_mt150_met125_twobtag" # get yields in SR
 ./runTemplateLooper $selection $analysis_version data&

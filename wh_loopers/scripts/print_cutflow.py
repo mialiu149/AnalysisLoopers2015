@@ -61,17 +61,17 @@ if __name__ == "__main__":
    #cuts = ['total','>= 1 good vertex ','1 good lep','2nd lep veto','track veto','tau veto','met > 100','mt > 150','==2jets','==2 btags','mbb window','mct > 150' ]
    cuts = ['total','>= 1 good vertex ','1 good lep','2nd lep veto','track veto','tau veto','==2jets','==2 btags','in mbb window','\mct\ $>$ 170 GeV','\met\ $>$ 125 GeV','\mt\ $>$ 150 GeV',"total"]
    cuteff = [getcuteff(sample) for sample in samples]
-   #cuteff = [getcf(sample) for sample in samples]
+   cf = [getcf(sample) for sample in samples]
    #for sample,ce in zip(samples,cuteff):       
    #for cut,y in zip(cuts,ce):
    printtableheader(samples, "selection efficiency") 
-   cf = getcf(samples[0])
+   #cf = getcf(samples[0])
    print cf
    for i,cut in enumerate(cuts):
        stringtoprint = ''
        for sample in samples:
-           stringtoprint+= "{:.3f}".format(cuteff[samples.index(sample)][i])+'&'
-           #stringtoprint+= "{:.3f}".format(cf[samples.index(sample)][i])+'&'
+           #stringtoprint+= "{:.3f}".format(cuteff[samples.index(sample)][i])+'&'
+           stringtoprint+= "{:.1f}".format(cf[samples.index(sample)][i])+'&'
        print cut, '&',stringtoprint
 
    printtableend()

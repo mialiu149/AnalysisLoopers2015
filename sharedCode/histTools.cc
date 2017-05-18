@@ -12,7 +12,7 @@
 #include "TCanvas.h"
 #include "TLatex.h"
 #include "TMath.h"
-
+#include "histTools.h"
 
 using namespace std;
 
@@ -62,7 +62,7 @@ void saveHist(const string filename, const string pat)
   delete iter ;
 }
 
-void drawCMSLatex( TCanvas * &canvas, float luminosity )
+void drawCMSLatex( TCanvas * &canvas, float luminosity , bool is_simulation)
 {
 
   canvas->cd();
@@ -75,7 +75,8 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity )
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.18,0.95, "CMS Preliminary" );    
+ if( !is_simulation) cmstex = new TLatex(0.18,0.95, "CMS" );    
+ else if (is_simulation) cmstex = new TLatex(0.18,0.95, "CMS Simulation" );
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.04);    
   cmstex->SetLineWidth(2);
@@ -189,3 +190,115 @@ string getVariableName(const std::string& var)
   return var; 
 }
 
+TGraphAsymmErrors* getPoissonGraph( TH1F* histo, bool drawZeros, const std::string& xerrType, float nSigma ) {
+
+  //  histo->SetBinErrorOption(TH1::kPoisson);
+  const double alpha = 1 - 0.6827;
+
+  unsigned int nBins = histo->GetNbinsX();
+  int emptyBins=0;
+  for( unsigned i=1; i < nBins; ++i ) {
+    if( histo->GetBinContent(i)==0 ) emptyBins += 1;
+  }
+  if( (float)emptyBins/(float)nBins > 0.4 ) drawZeros=false;
+
+  TGraphAsymmErrors* graph = new TGraphAsymmErrors(0);
+
+  for( int iBin=1; iBin<(histo->GetXaxis()->GetNbins()+1); ++iBin ) {
+
+    int y; // these are data histograms, so y has to be integer
+    double x, xerr, yerrplus, yerrminus;
+    x = histo->GetBinCenter(iBin);
+    if( xerrType=="0" )
+      xerr = 0.;
+    else if( xerrType=="binWidth" )
+      xerr = histo->GetBinWidth(iBin)/2.;
+    else if( xerrType=="sqrt12" )
+      xerr = histo->GetBinWidth(iBin)/sqrt(12.);
+    else {
+      std::cout << "[MT2DrawTools::getPoissonGraph] Unkown xerrType '" << xerrType << "'. Setting to bin width." << std::endl;
+      xerr = histo->GetBinWidth(iBin);
+    }
+
+    y = (int)histo->GetBinContent(iBin);
+
+    if( y==0 && !drawZeros ) continue;     
+    
+    double ym =  (y==0) ? 0  : (ROOT::Math::gamma_quantile(alpha/2,y,1.));
+    double yp =  ROOT::Math::gamma_quantile_c(alpha/2,y+1,1) ;
+    
+    //    yerrminus = histo->GetBinErrorLow(iBin);
+    //    yerrplus = histo->GetBinErrorUp(iBin);
+    
+    //double ym, yp;
+    //RooHistError::instance().getPoissonInterval(y,ym,yp,nSigma);
+    
+    yerrplus = yp - y;
+    yerrminus = y - ym;
+
+    if(y==0)
+      std::cout << yerrplus << "\t" << yerrminus << std::endl;
+
+    int thisPoint = graph->GetN();
+    graph->SetPoint( thisPoint, x, y );
+    graph->SetPointError( thisPoint, xerr, xerr, yerrminus, yerrplus );
+
+  }
+
+  return graph;
+}
+
+TGraphAsymmErrors* getRatioGraph( TH1F* histo_data, TH1F* histo_mc, const std::string& xerrType){
+
+  if( !histo_data || !histo_mc ) return 0;
+
+  TGraphAsymmErrors* graph  = new TGraphAsymmErrors();
+  
+  //  TGraphAsymmErrors* graph_data = getPoissonGraph(histo_data, false);
+  TGraphAsymmErrors* graph_data = getPoissonGraph(histo_data, true);
+  
+  for( int i=0; i < graph_data->GetN(); ++i){
+    
+    Double_t x_tmp, data;
+    graph_data->GetPoint( i, x_tmp, data );
+
+    Double_t data_errUp = graph_data->GetErrorYhigh(i);
+    Double_t data_errDn = graph_data->GetErrorYlow(i);
+    
+    int iBin = histo_mc->FindBin(x_tmp);
+    float mc = histo_mc->GetBinContent(iBin);
+    float mc_err = histo_mc->GetBinError(iBin);
+
+
+    float ratio = data/mc;
+    float ratio_errUp = sqrt( data_errUp*data_errUp/(mc*mc) + mc_err*mc_err*data*data/(mc*mc*mc*mc) );
+    float ratio_errDn = sqrt( data_errDn*data_errDn/(mc*mc) + mc_err*mc_err*data*data/(mc*mc*mc*mc) );
+
+    double xerr;
+    
+    if( xerrType=="0" )
+      xerr = 0.;
+    else if( xerrType=="binWidth" )
+      xerr = histo_mc->GetBinWidth(iBin)/2.;
+    else if( xerrType=="sqrt12" )
+      xerr = histo_mc->GetBinWidth(iBin)/sqrt(12.);
+    else {
+      std::cout << "[MT2DrawTools::getPoissonGraph] Unkown xerrType '" << xerrType << "'. Setting to bin width." << std::endl;
+      xerr = histo_mc->GetBinWidth(iBin);
+    }
+
+    graph->SetPoint(i, x_tmp, ratio );
+    graph->SetPointEYhigh(i, ratio_errUp );
+    graph->SetPointEYlow(i, ratio_errDn );
+    graph->SetPointEXhigh(i, xerr );
+    graph->SetPointEXlow(i, xerr );
+
+  }
+
+  graph->SetLineColor(1);
+  graph->SetMarkerColor(1);
+  graph->SetMarkerStyle(20);
+
+  return graph;
+
+}

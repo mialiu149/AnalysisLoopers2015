@@ -16,6 +16,8 @@ export analysis="wh_loopers"
 # allregions-36fbv11_2p1 is the version used to check the effect of bad muon filter.
 #export analysis_version="allregions-36fbv21_2p1"
 export analysis_version="allregions-36fbv22_2p1"  # version for reminiaod
+#export analysis_version="allregions-36fbv23_2p1"  # 2*lumi
+#export analysis_version="allregions-36fbv24_2p1"  # 3*lumi
 #export analysis_version="allregions-16-v02"
 
 export study="datavsmc"

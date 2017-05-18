@@ -55,12 +55,13 @@ bool passWJetsValidation(){
 bool passcutflow( std::string selection){
  bool passTrigger =  HLT_SingleMu()|| HLT_SingleEl();
 // passTrigger = true; // fast sim doesn't have the right trigger information.
- bool passOneLep = (lep1type()==1);
+ bool passOneLep = (lep1type()==1 && lep1_relIso()*lep1_p4().pt() < 5);
  bool passLepSel = !(lep2type()==1||lep2type()==2);
  std::pair<vector<int>,vector<int>> jets = btaggedjets(true); vector<int> seljets = jets.first;// btagged jets.
  int goodbtags = seljets.size();
  float m_bb = getmbb();  float mctbb = getmct(); float mt = mt_met_lep(); float event_met_pt = pfmet();
  if(TString(selection).Contains("genmet")   ) {event_met_pt = genmet();mt = calculateMt(lep1_p4(),event_met_pt,genmet_phi());}
+  std::pair<vector<int>,vector<int>> mjets = btaggedjets(false); vector<int> mbjets = mjets.first;// mediummedium  btagged jets.
 
   bool step0 = passTrigger; 
   bool step1 = step0 && passOneLep; 
@@ -68,7 +69,7 @@ bool passcutflow( std::string selection){
   bool step3 = step2 && PassTrackVeto();
   bool step4 = step3 && PassTauVeto();
   bool step5 = step4 && (ngoodjets()==2);
-  bool step6 = step5 && (goodbtags==2);
+  bool step6 = step5 && (goodbtags==2 && mbjets.size() >0);
   bool step7 = step6 && (m_bb>90&&m_bb<150);
   bool step8 = step7 && (mctbb>170); 
   bool step9 = step8 && (event_met_pt > 125);
@@ -128,7 +129,7 @@ bool passbin(std::string selection ) {
   std::pair<vector<int>,vector<int>> jets = btaggedjets(true); vector<int> bjets = jets.first;// btagged jets.
   vector<int> seljets = selectedjets();
   int goodbtags = bjets.size();
-  std::pair<vector<int>,vector<int>> mjets = btaggedjets(false); vector<int> mbjets = mjets.first;// btagged jets.
+  std::pair<vector<int>,vector<int>> mjets = btaggedjets(false); vector<int> mbjets = mjets.first;// mediummedium  btagged jets.
   float m_bb = getmbb(); float mctbb = getmct(); float ptbb=getptbb();float event_met_pt = pfmet(); float mt = mt_met_lep(); bool met_mt_cut;
   if(TString(selection).Contains("worseMET") ) {event_met_pt = worseMETrel(0.2);mt = calculateMt(lep1_p4(),event_met_pt,pfmet_phi());}
   if(TString(selection).Contains("genMET")   ) {event_met_pt = genmet();mt = calculateMt(lep1_p4(),event_met_pt,genmet_phi());}

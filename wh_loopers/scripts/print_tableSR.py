@@ -80,8 +80,8 @@ for j in range(nbins):
     sum_row=''
     ratio_row=''
     for i in range((len(label_col)-1)*j,(len(label_col)-1)*j+(len(label_col)-1)):
-        sum_row+="&${:.2f}".format(sum_bkg.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(sum_bkg.GetBinError(i+1))
-        ratio_row+="&${:.2f}".format(ratio.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(ratio.GetBinError(i+1))        
+        sum_row+="&${:.1f}".format(sum_bkg.GetBinContent(i+1))+'\\pm'+"{:.1f}".format(sum_bkg.GetBinError(i+1))
+        ratio_row+="&${:.1f}".format(ratio.GetBinContent(i+1))+'\\pm'+"{:.1f}".format(ratio.GetBinError(i+1))        
     sum_rows.append(sum_row)
     ratio_rows.append(ratio_row)
 
@@ -115,12 +115,12 @@ for j in range(nbins):
         for i in range((len(label_col)-1)*j,(len(label_col)-1)*j+(len(label_col)-1)):
             yieldbin = hist.GetBinContent(i+1)
             if hist.GetBinContent(i+1)<0:yieldbin=0.00 
-            row_to_print+='&$'+"{:.2f}".format(yieldbin)+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'\\pm'+"{:.2f}".format(row['sys']*yieldbin)+'$'
+            row_to_print+='&$'+"{:.1f}".format(yieldbin)+'\\pm'+"{:.1f}".format(hist.GetBinError(i+1))+'\\pm'+"{:.1f}".format(row['sys']*yieldbin)+'$'
             sys[i]+=(row['sys']*yieldbin)**2
         table.write(row_to_print+'\\\\\n')
     sumrow =""
     for i in range((len(label_col)-1)*j,(len(label_col)-1)*j+(len(label_col)-1)):
-        sumrow+='&$'+"{:.2f}".format(sum_bkg.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(sum_bkg.GetBinError(i+1))+'\\pm'+"{:.2f}".format(sqrt(sys[i]))+'$'
+        sumrow+='&$'+"{:.1f}".format(sum_bkg.GetBinContent(i+1))+'\\pm'+"{:.1f}".format(sum_bkg.GetBinError(i+1))+'\\pm'+"{:.1f}".format(sqrt(sys[i]))+'$'
 #    table.write("kfactor"+ratio_rows[j]+'\\\\\n') 
     table.write('\\hline\n')
     table.write("Total bkg"+sumrow+'\\\\\n')
@@ -133,7 +133,7 @@ for j in range(nbins):
         row_to_print = row['row_label']
         ### print out the table
         for i in range((len(label_col)-1)*j,(len(label_col)-1)*j+(len(label_col)-1)):
-            row_to_print+='&$'+"{:.2f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.2f}".format(hist.GetBinError(i+1))+'$'
+            row_to_print+='&$'+"{:.1f}".format(hist.GetBinContent(i+1))+'\\pm'+"{:.1f}".format(hist.GetBinError(i+1))+'$'
         table.write(row_to_print+'\\\\\n')
 table.write('\\hline\n')
 table.write('\\hline\n')

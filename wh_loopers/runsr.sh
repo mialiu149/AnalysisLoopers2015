@@ -10,8 +10,8 @@ selection="SR_mix_met125_mt50_twobtag" # this is the SR
 ./runTemplateLooper $selection $analysis_version SMS_wh_225_75_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_250_1_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_300_75_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_350_1_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_400_1_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_350_100_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_500_1_noskim&
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
@@ -25,8 +25,8 @@ selection="SR_mix_met125_mt150_mbb_mct170_twobtag" # this is the SR
 ./runTemplateLooper $selection $analysis_version SMS_wh_225_75_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_250_1_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_300_75_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_350_1_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_400_1_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_350_100_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_500_1_noskim&
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
@@ -40,8 +40,8 @@ selection="SR_mix_met125_mt150_mct170_twobtag"  # to draw money plot mbb.
 ./runTemplateLooper $selection $analysis_version SMS_wh_225_75_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_250_1_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_300_75_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_350_1_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_400_1_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_350_100_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_500_1_noskim&
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
@@ -52,8 +52,8 @@ selection="SR_mix_met125_mt150_mct170_twobtag_metbin1v4"  # to draw money plot m
 ./runTemplateLooper $selection $analysis_version SMS_wh_225_75_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_250_1_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_300_75_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_350_1_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_400_1_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_350_100_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_500_1_noskim&
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
@@ -64,8 +64,8 @@ selection="SR_mix_met125_mt150_mct170_twobtag_metbin2v4"  # to draw money plot m
 ./runTemplateLooper $selection $analysis_version SMS_wh_225_75_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_250_1_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_300_75_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_350_1_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_400_1_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_350_100_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_500_1_noskim&
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &
@@ -90,8 +90,8 @@ selection="SR_mix_SRMultiBin_V4_yield_mbb_mct170_mt150_met125_twobtag" # get yie
 ./runTemplateLooper $selection $analysis_version SMS_wh_225_75_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_250_1_noskim&
 ./runTemplateLooper $selection $analysis_version SMS_wh_300_75_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_350_1_noskim&
-./runTemplateLooper $selection $analysis_version SMS_wh_400_1_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_350_100_noskim&
+./runTemplateLooper $selection $analysis_version SMS_wh_500_1_noskim&
 ./runTemplateLooper $selection $analysis_version data  &
 ./runTemplateLooper $selection $analysis_version tops_mad &
 ./runTemplateLooper $selection $analysis_version ws_ht100 &

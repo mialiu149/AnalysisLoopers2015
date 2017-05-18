@@ -44,7 +44,7 @@ const bool applybtagsf = true;
 const bool applytriggerweight = false ;
 const bool applytriggersf = true ;
 const bool applylepsf = true;
-
+const bool halfsigxsec = true;
 templateLooper::templateLooper()
 {
 };
@@ -291,6 +291,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
  const char* json_file ="/home/users/olivito/mt2_80x/MT2Analysis/babymaker/jsons/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_unblind18_sorted_snt.txt";
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
   set_goodrun_file(json_file);
+	  string histname = "dummy";
+	  string version = "dummy";
   //---------------------------------------------------//
   //         read reweighting/counter hists            //
   //---------------------------------------------------//
@@ -613,7 +615,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           bool skim_isFastsim = (TString(sample).Contains("SMS"));           
 	  if (is_data() && usejson && !goodrun(run(), ls()) ) continue;
-          if(!applytriggerweight && !skim_isFastsim) {if (!(HLT_SingleMu()|| HLT_SingleEl() || HLT_SingleMuNoIso()))   continue;}
+//          if(!applytriggerweight && !skim_isFastsim) {if (!(HLT_SingleMu()|| HLT_SingleEl() || HLT_SingleMuNoIso()))   continue;}
           //if (!(HLT_SingleMu()|| HLT_SingleEl()))   continue;
           //if (is_data() &&!(HLT_SingleMu()|| HLT_SingleEl() || HLT_SingleMuNoIso()))   continue;
           //if (is_data() &&!filt_cscbeamhalo2015())   continue;
@@ -623,7 +625,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if (is_data() &&!filt_jetWithBadMuon())   continue;
           if (is_data() &&!filt_pfovercalomet())   continue;
           //if (is_data() &&filt_badmuons())   continue;
-
           // Lep1 SF
           // Lepton SFs
           float lepSF_pt_cutoff(99.999),lepSF_pt_min(10.001);
@@ -749,7 +750,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		  weight *= 1.0;
 	   } else if( !is_data()){
                   weight *= scale1fb();//event_weight(selection.c_str());
-                  if( TString(selection).Contains("yield"))  weight *= lumi;//scale by lumi
+                  if( TString(selection).Contains("yield")||TString(selection).Contains("cutflow"))  weight *= lumi;//scale by lumi
                   //scale1fb for private signal points
 	  }
 	  if( !is_data() && dovtxreweighting ){	
@@ -871,9 +872,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           float trigdn = 1;
           float pileupup =1;
           float pileupdn =1;
+           histname = Form("h_%s_event_NEventsSRCutflow","lep");
+//          histos_cutflow[histname]->Fill(1,1/26661.0*1165.09*36*0.58*0.3); //Nevents in the skim
 
           if(TString(sample).Contains("SMS")){
-             if(!TString(selection).Contains("yield")) weight=1;
+             if(!TString(selection).Contains("yield")&&!TString(selection).Contains("cutflow")) lumi=1;
              c1mass = mass_chargino(); 
              n1mass = mass_lsp();
              xsec  = h_xsecweight->GetBinContent(h_xsecweight->FindBin(c1mass));
@@ -882,6 +885,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            // xsec weight
              float nevents = h_scanN->GetBinContent(c1massbin,n1massbin);
              sigweight = 1/nevents*lumi*xsec*0.58*0.3*1000; // lumi*xsec*branchratio(0.58*0.3*pb/fb)
+             if(halfsigxsec) sigweight*=0.5;
              weight*=sigweight;
            //btag variations
              btagsfup = 1/weight_btagsf()*weight_btagsf_fastsim_UP()/h_scanSys->GetBinContent(c1massbin,n1massbin,22)*h_scanSys->GetBinContent(c1massbin,n1massbin,14);//need to add normalization
@@ -923,8 +927,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflows and counters  // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-	  string histname = "dummy";
-	  string version = "dummy";
            if( TString(selection).Contains("V0")) version = "v0";
            if( TString(selection).Contains("V1")) version = "v1";
            if( TString(selection).Contains("V2")) version = "v2";
@@ -940,7 +942,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 //          weight=1;
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : cutflow" <<endl;
            histname = Form("h_%s_event_NEventsSRCutflow","lep");
-          histos_cutflow[histname]->Fill(1,weight); //Nevents in the skim
+//          histos_cutflow[histname]->Fill(1,weight); //Nevents in the skim
           histos_cutflow[histname]->Fill(2,weight); //trigger
           if(passcutflow("step1")) histos_cutflow[histname]->Fill(3,weight); //one lept
           if(passcutflow("step2")) histos_cutflow[histname]->Fill(4,weight); //lep_veto
@@ -1003,6 +1005,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(TString(selection).Contains("SRMultiBin")){
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
            if(!passSR(selection.c_str()))   continue;
+//          cout<<run()<<":"<< ls() << ":"<<evt()<<endl; 
            for (int binn = 1; binn < 5; binn ++){
            histname = Form("h_%s_event_NEventsSRMultiBin","lep");
            string binstring = to_string(binn);

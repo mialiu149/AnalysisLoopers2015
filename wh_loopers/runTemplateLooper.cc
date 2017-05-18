@@ -49,7 +49,7 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
        helper = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/whsignoskim/TChiWH_250_1.root"; ch->Add(helper.c_str());
  }
   else if (sample == "SMS_wh_350_1_noskim"){
-       helper = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/whsignoskim_moriond/TChiWH_350_1.root"; ch->Add(helper.c_str());
+       helper = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/whsignoskim_moriond_v1/TChiWH_350_1.root"; ch->Add(helper.c_str());
  }
   else if (sample == "SMS_wh_300_75_noskim"){
        helper = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/whsignoskim_moriond_v1/TChiWH_300_75.root"; ch->Add(helper.c_str());
@@ -59,6 +59,9 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
  }
   else if (sample == "SMS_wh_500_1_noskim"){
        helper = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/whsignoskim_moriond_v1/TChiWH_500_1.root"; ch->Add(helper.c_str());
+ }
+  else if (sample == "SMS_wh_700_1_noskim"){
+       helper = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/whsignoskim_moriond_v1/TChiWH_700_1.root"; ch->Add(helper.c_str());
  }
   else if (sample == "SMS_wh_350_100_noskim"){
        helper = "/nfs-7/userdata/mliu/tupler_babies/merged/onelepbabymaker/whsignoskim_moriond_v1/TChiWH_350_100.root"; ch->Add(helper.c_str());
