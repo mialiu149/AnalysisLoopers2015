@@ -73,5 +73,6 @@ void setcounterLabel3D(TH3D* hist, string* labels);
 vector<float> getupdownerr( TH2D* hist, float pt, float eta, float pt_cutoff, float pt_min,float eta_cutoff ,bool pteta);
 float getMT(TLorentzVector lep,TLorentzVector met);
 float getMT(LorentzVector lep,LorentzVector met);
-float getdphi( float phi1 , float phi2 );
+  float  DeltaR(float phi1, float phi2, float eta1, float eta2);
+  float  deltaR(LorentzVector jet1, LorentzVector jet2);
 #endif

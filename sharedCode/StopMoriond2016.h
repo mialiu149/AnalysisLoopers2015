@@ -1,5 +1,5 @@
-#ifndef ANALYSISSELECTIONS_H
-#define ANALYSISSELECTIONS_H
+#ifndef STOPMORIOND2016_H
+#define STOPMORIOND2016_H
 
 #include "StopSelections.h"
 bool passPreselection(std::string selection);

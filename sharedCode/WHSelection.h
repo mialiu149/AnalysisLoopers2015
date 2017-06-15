@@ -1,5 +1,5 @@
-#ifndef ANALYSISSELECTIONS_H
-#define ANALYSISSELECTIONS_H
+#ifndef WHSELECTION_H
+#define WHSELECTION_H
 
 #include "StopSelections.h"
 namespace whsel{

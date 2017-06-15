@@ -13,7 +13,7 @@
 #include "StopMoriond2016.h"
 #include "EventTypeSel.h"
 #include "histTools.h"
-#include "V00_00_05.h"
+#include "../classFiles/V00_00_05.h"
 
 using namespace std;
 using namespace V00_00_05_np; 
@@ -204,8 +204,7 @@ vector<vector<int>> lep_nu_fromW()
 
 // do we need to match to the reco lepton????
 
- for (int i=0;i<genleps_p4().size();i++) 
- {
+ for (unsigned int i=0;i<genleps_p4().size();i++) {
     //if(genleps_motherid()[i] == 24  && genleps_p4()[i].pt() > 20 && genleps_fromHardProcessDecayed()[i])  leps_plus.push_back(i);
    // if(genleps_motherid()[i] == -24 && genleps_p4()[i].pt() > 20 && genleps_fromHardProcessDecayed()[i])  leps_minus.push_back(i);
 //    if(genleps_motherid()[i] == 24  && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1 || genleps_status()[i] == 23))  leps_plus.push_back(i);
@@ -217,7 +216,7 @@ vector<vector<int>> lep_nu_fromW()
 //   if(genleps_motherid()[i] == -24 && (abs(genleps_id()[i]) == 11||abs(genleps_id()[i]) == 13)  && genleps_p4()[i].pt() > 1 )  {leps_minus.push_back(i);cout<< "status of minus genlep : "<<genleps_id()[i]<<endl;}
  }
 
- for (int i=0;i<gennus_p4().size();i++){
+ for (unsigned int i=0;i<gennus_p4().size();i++) {
      if(gennus_motherid()[i] == 24 && (abs(gennus_id()[i]) == 12||abs(gennus_id()[i]) == 14) && gennus_p4()[i].pt() > 1 && (gennus_status()[i] == 1)) nus_plus.push_back(i);
      if(gennus_motherid()[i] == -24 && (abs(gennus_id()[i]) == 12||abs(gennus_id()[i]) == 14) && gennus_p4()[i].pt() > 1 && (gennus_status()[i] == 1)) nus_minus.push_back(i);
 //    if(gennus_motherid()[i] == 24  && gennus_p4()[i].pt() > 20 && gennus_status()[i] == 1)  nus_plus.push_back(i);

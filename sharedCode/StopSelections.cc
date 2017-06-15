@@ -49,6 +49,7 @@ float getMT(TLorentzVector lep,TLorentzVector met){
 float getMT(LorentzVector lep,LorentzVector met){
   return sqrt(2*met.Et()*lep.Et()*(1-cos(getdphi(lep.Phi(),met.Phi()) ) ) );
 }
+
 float calculateMt(const LorentzVector p4, double met, double met_phi){
   float phi1 = p4.Phi();
   float phi2 = met_phi;
@@ -57,6 +58,7 @@ float calculateMt(const LorentzVector p4, double met, double met_phi){
 
   return sqrt(2*Et1*Et2*(1.0 - cos(phi1-phi2)));
 }
+
 float getdphi( float phi1 , float phi2 ){                                                                                                                                      
   float dphi = fabs( phi1 - phi2 );
   if( dphi > TMath::Pi() ) dphi = TMath::TwoPi() - dphi;
@@ -125,3 +127,21 @@ vector<float> getupdownerr( TH2D* hist, float pt, float eta, float pt_cutoff, fl
      updownerr.push_back(lepSF_Dn);
   return updownerr;
 }
+//helper function for DeltaR, using two phi's and eta's
+  float DeltaR(float phi1, float phi2, float eta1, float eta2){
+    // From cmssw reco::deltaPhi()
+    float dphi = phi1 - phi2;
+    while( dphi >   TMath::Pi() ) dphi -= TMath::TwoPi();
+    while( dphi <= -TMath::Pi() ) dphi += TMath::TwoPi();
+    return TMath::Sqrt(TMath::Power(dphi,2)+TMath::Power(eta1-eta2,2));
+  }
+
+  //helper function for DeltaR, using two Math::LorentzVector's
+  float deltaR(LorentzVector jet1, LorentzVector jet2){
+    // From cmssw reco::deltaPhi()
+    float dphi = jet1.Phi() - jet2.Phi();
+    while( dphi >   TMath::Pi() ) dphi -= TMath::TwoPi();
+    while( dphi <= -TMath::Pi() ) dphi += TMath::TwoPi();
+    return TMath::Sqrt(TMath::Power(dphi,2)+TMath::Power(jet1.Eta()-jet2.Eta(),2));
+  }
+  

@@ -12,7 +12,7 @@
 
 #include "GenSelection.h"
 #include "histTools.h"
-#include "V80_03.h"
+#include "../classFiles/V80_03.h"
 
 using namespace std;
 using namespace V80_03_np; 
@@ -36,11 +36,11 @@ vector<vector<int>> lep_nu_fromW() {
  vector<int> nus_minus;
  vector <vector<int>> lep_nu;
 
- for (int i=0;i<genleps_p4().size();i++) {
+ for (unsigned int i=0;i<genleps_p4().size();i++) {
      if(genleps_motherid()[i] == 24 && (abs(genleps_id()[i]) == 11||abs(genleps_id()[i]) == 13) && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1)) leps_plus.push_back(i);
      if(genleps_motherid()[i] == -24 && (abs(genleps_id()[i]) == 11||abs(genleps_id()[i]) == 13) && genleps_p4()[i].pt() > 1 && (genleps_status()[i] == 1)) leps_minus.push_back(i);
  }
- for (int i=0;i<gennus_p4().size();i++){
+ for (unsigned int i=0;i<gennus_p4().size();i++){
      if(gennus_motherid()[i] == 24 && (abs(gennus_id()[i]) == 12||abs(gennus_id()[i]) == 14) && gennus_p4()[i].pt() > 1 && (gennus_status()[i] == 1)) nus_plus.push_back(i);
      if(gennus_motherid()[i] == -24 && (abs(gennus_id()[i]) == 12||abs(gennus_id()[i]) == 14) && gennus_p4()[i].pt() > 1 && (gennus_status()[i] == 1)) nus_minus.push_back(i);
  }
@@ -54,7 +54,7 @@ vector<vector<int>> lep_nu_fromW() {
 
 vector<int> bs_fromH() {
  vector<int> bs_fromHiggs;
- for (int i=0; i<genqs_p4().size();i++){
+ for (unsigned int i=0; i<genqs_p4().size();i++){
     //if(genqs_motherid()[i] == 25 && fabs(genqs_id()[i]) == 5) {bs_fromHiggs.push_back(i); cout<< "status:" <<genqs_status()[i]<<endl;} 
    if(genqs_motherid()[i] == 25 && abs(genqs_id()[i]) == 5 && (genqs_status()[i] == 23)) bs_fromHiggs.push_back(i); 
  }
@@ -64,7 +64,7 @@ vector<int> bs_fromH() {
 }
 int isHF(){
   int isHF = 0;
-  for (int i=0;i<ak4pfjets_p4().size();i++){
+  for (unsigned int i=0;i<ak4pfjets_p4().size();i++){
   if (ak4pfjets_hadron_flavor().at(i)==5) isHF++;
 }
  return isHF; 

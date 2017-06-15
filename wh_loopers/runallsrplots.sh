@@ -17,9 +17,9 @@ usesig=true
 selection="SR_mix_met125_mt50_twobtag" # pre selection cut
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"mbb\",\"$selection\" ,$sigscaleup,10,10,490,$setlog,$usedata,$usesig)" 
 selection="SR_mix_met125_mt50_mbb_twobtag" # pre selection + mbb cut
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"mt\",\"$selection\" ,$sigscaleup,10,50,500,$setlog,$usedata,$usesig)" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MCT\",\"$selection\",$sigscaleup,10,0,500,$setlog,$usedata,$usesig)" 
-root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"met\",\"$selection\",$sigscaleup,5,125,405,$setlog,$usedata,$usesig)" 
+root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"mt\",\"$selection\" ,$sigscaleup,25,50,500,$setlog,$usedata,$usesig)" 
+root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"MCT\",\"$selection\",$sigscaleup,20,0,500,$setlog,$usedata,$usesig)" 
+root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"met\",\"$selection\",$sigscaleup,25,125,405,$setlog,$usedata,$usesig)" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptl1\",\"$selection\",$sigscaleup,10,0,500,$setlog,$usedata,$usesig)" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptb1\",\"$selection\",$sigscaleup,10,0,500,$setlog,$usedata,$usesig)" 
 root -b -q "drawBkgvsSig.cc+( \"$analysis_version\", $lumi, \"$selection\", \"lep\", \"ptb2\",\"$selection\",$sigscaleup,10,0,500,$setlog,$usedata,$usesig)" 

@@ -51,7 +51,7 @@ void saveHist(const string filename, const string pat)
   TObject *obj;
   TFile outf(filename.c_str(),"RECREATE") ;
   while((obj=iter->Next())) {
-	if (TString(obj->GetName()).Index(re)>=0) {
+	if (TString(obj->GetName()).Index(re)>=0 && !TString(obj->GetName()).Contains("_obs") && !TString(obj->GetName()).Contains("err2")) {
 	  obj->Write() ;
 	  cout << "." ;
 	  cout.flush() ;
@@ -112,8 +112,9 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity, float cmsleftmargin, flo
 
 void getBackground( TH1F* &backgroundhist, std::string iter, std::string bgfileprefix, std::string variable, std::string leptype, std::string selection )
 {
-  std::string filename = Form("$analysis_output/%s_hists.root", bgfileprefix.c_str() );
+  std::string filename = Form("$analysis_output/%s_hists.root", bgfileprefix.c_str() );  
   TFile *infile = TFile::Open(filename.c_str(),"READ");
+  if(infile->IsZombie())  cout<<"can not red from file :"<<filename<<endl;
   backgroundhist = dynamic_cast<TH1F*>(infile->Get(Form("h_%s_event_%s_%s", leptype.c_str(), variable.c_str(), selection.c_str() ))->Clone("backgroundhist"));
   return;
 }

@@ -19,6 +19,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   const double alpha = 1 - 0.6827;
   bool usetemplates   = false;
   bool drawsys= false;
+  bool debug=false;
   if( TString(selection).Contains("SR_mix_met125_mt150_mct170_twobtag")){
      setlog = false;
      drawsys = true;
@@ -29,7 +30,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   bool use_top(false),use_ttv(true),use_diboson(true);
   bool use_250 = use_sig||drawmoneyplot;
   bool use_norm_factor(false); float norm_factor = 1.;
-
+  if(debug)  cout<<__LINE__<<endl;
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
   TH1F * h_ttbar1l = NULL;
@@ -64,6 +65,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   //if(use_250)   getBackground(  h_sig_250_1, iter, Form("SMS_wh_700_1_noskim_%s", selection.c_str() ), variable, type, region );
   if(use_sig)   getBackground(  h_sig_225_75, iter, Form("SMS_wh_225_75_noskim_%s", selection.c_str() ), variable, type, region );
 
+  if(debug)  cout<<__LINE__<<endl;
   //------------------------------------------------------------------------------------------------------//
   //-----------------------------              normalization               -------------------------------//
   //------------------------------------------------------------------------------------------------------//
@@ -89,6 +91,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_250) {
    h_sig_250_1->Scale(luminosity*sigscaleup);
   } 
+  if(debug)  cout<<__LINE__<<endl;
   //------------------------------------------------------------------------------------------------------//
   //------------------------------MAKE PLOTS --> binning etc ---------------------------------------------//
   //------------------------------------------------------------------------------------------------------//
@@ -166,8 +169,9 @@ else {
   float l2_xmin = 0.3, l2_xmax=0.65, l2_ymin=0.4,l2_ymax=0.68;
   if(use_sig && !use_data){ 
     l1_xmin = 0.55, l1_xmax=0.9, l1_ymin=0.58,l1_ymax=0.9; 
-    l2_xmin = 0.55, l2_xmax=0.9, l2_ymin=0.3,l2_ymax=0.58;
+    l2_xmin = 0.55, l2_xmax=0.9, l2_ymin=0.28,l2_ymax=0.58;
   }
+
   TLegend *l1 = new TLegend(l1_xmin, l1_ymin,l1_xmax,l1_ymax);    
   TLegend *l2 = new TLegend(l2_xmin, l2_ymin, l2_xmax, l2_ymax);    
   l1->SetLineColor(kWhite);    
@@ -176,28 +180,30 @@ else {
   l2->SetLineColor(kWhite);    
   l2->SetShadowColor(kWhite);    
   l2->SetFillColor(kWhite);    
-  if(use_sig)      l2->AddEntry(h_sig_350_1, Form("#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{1} (350,100) x %i",sigscaleup), "l");
-  if(use_250&&!drawmoneyplot)      l2->AddEntry(h_sig_250_1, Form("#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{1} (250,1) x %i",sigscaleup), "l");
-  else if (use_250&&drawmoneyplot)  l2->AddEntry(h_sig_250_1, Form("#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{1} (250,1)"), "l");
-  if(use_sig)      l2->AddEntry(h_sig_300_75,Form("#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{1} (500,1) x %i",sigscaleup), "l");
-  if(use_sig)      l2->AddEntry(h_sig_225_75,Form("#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{1} (225,75) x %i",sigscaleup), "l");
+  if(debug) cout<<__LINE__<<endl; 
+  if(use_sig)      l2->AddEntry(h_sig_350_1, Form("m_{#tilde{#chi}^{#pm}_{1}},m_{#tilde{#chi}^{0}_{1}} (350,100) x %i",sigscaleup), "l");
+  if(use_250&&!drawmoneyplot)      l2->AddEntry(h_sig_250_1, Form("m_{#tilde{#chi}^{#pm}_{1}},m_{#tilde{#chi}^{0}_{1}} (250,1) x %i",sigscaleup), "l");
+  else if (use_250&&drawmoneyplot)  l2->AddEntry(h_sig_250_1, Form("m_{#tilde{#chi}^{#pm}_{1}},m_{#tilde{#chi}^{0}_{1}} (250,1)"), "l");
+  if(use_sig)      l2->AddEntry(h_sig_300_75,Form("m_{#tilde{#chi}^{#pm}_{1}},m_{#tilde{#chi}^{0}_{1}} (500,1) x %i",sigscaleup), "l");
+  if(use_sig)      l2->AddEntry(h_sig_225_75,Form("m_{#tilde{#chi}^{#pm}_{1}},m_{#tilde{#chi}^{0}_{1}} (225,75) x %i",sigscaleup), "l");
   if(!use_sig)  l1->SetNColumns(2);
-  if(use_data)  l1->AddEntry( h_data  , "data"              , "lpe");
+  if(use_data)  l1->AddEntry( h_data  , "Data"              , "lpe");
   if(use_ttbar2l)	l1->AddEntry( h_ttbar2l , "2l top quark"       , "f");    
   if(use_ttbar1l)	l1->AddEntry( h_ttbar1l , "1l top quark"       , "f");    
   if(use_wbb) l1->AddEntry( h_wbb , "W+HF"          , "f");               
   if(use_wjets) l1->AddEntry( h_wjets , "W+LF "         , "f");            
   if(use_top)   l1->AddEntry( h_top , "single top"            , "f"); 
   if(use_ttv)   l1->AddEntry( h_ttv ,  "W+Z(b#bar{b})"            , "f");
-  if(use_diboson) l1->AddEntry( h_diboson , "rare"          , "f");
+  if(use_diboson) l1->AddEntry( h_diboson , "Rare"          , "f");
   if(use_zjets) l1->AddEntry( h_zjets , "DY"            , "f");
-  if(use_250&&drawmoneyplot)      l1->AddEntry(h_sig_250_1, Form("#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{1} (250,1)"), "l");
-  TGraphAsymmErrors* h_data_gr = getPoissonGraph( h_data);
+  if(use_250&&drawmoneyplot)      l1->AddEntry(h_sig_250_1, Form("m_{#tilde{#chi}^{#pm}_{1}}, m_{#tilde{#chi}^{0}_{1}} (250,1)"), "l");
+ if(debug) cout<<__LINE__<<endl; 
   TCanvas * c1 = new TCanvas("c1","");
 //  c1->SetWindowSize(800, 600);
   c1->SetTopMargin(0.06);
   c1->SetRightMargin(0.07);
   if(use_data) {
+  TGraphAsymmErrors* h_data_gr = getPoissonGraph( h_data);
   TPad *pad = new TPad( "p_main", "p_main", 0.0, 0.3, 1.0, 1.0);
   pad->SetBottomMargin(0.05);
   pad->SetRightMargin(0.07);
@@ -208,18 +214,21 @@ else {
  if(setlog)   pad->SetLogy();
   } 
   h_data_gr->GetXaxis()->SetLabelSize(0);
-  h_data_gr->GetYaxis()->SetLabelSize(0.05);
+  h_data_gr->GetYaxis()->SetLabelSize(0.04);
   h_data_gr->GetYaxis()->SetTitleOffset(1.5);
   h_data_gr->GetYaxis()->SetTitleSize(0.05);
   h_data_gr->SetMarkerStyle(20);
   h_data_gr->SetMarkerSize(0.75);
   stack->Draw("hist");
-  stack->SetMaximum(ymax);
+  stack->SetMaximum(ymax*h_data->GetMaximum());
+  stack->SetMinimum(ymin*luminosity);
+  stack->GetXaxis()->SetLimits(xmin, xmax);
   stack->GetXaxis()->SetLabelSize(0);
   stack->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
+  stack->GetYaxis()->SetLabelSize(0.05);
   h_data_gr->Draw("pe,same");
+  h_data_gr->GetXaxis()->SetRangeUser(xmin, xmax);
   if(!drawmoneyplot)  {
-    h_data_gr->GetXaxis()->SetRangeUser(xmin, xmax);
     h_data_gr->GetYaxis()->SetRangeUser(ymin*luminosity, h_data_gr->GetMaximum() * ymax );
   }
   else {
@@ -274,13 +283,13 @@ else {
   TGraphAsymmErrors* h_rat_gr = getRatioGraph( h_data, h_den); 
   rat_pad->cd();
   rat_pad->SetGridy();
-  TH2F * h_axis = new TH2F("h_axis","h_axis",nbins,bins,3,ybins);
+  //TH2F * h_axis = new TH2F("h_axis","h_axis",nbins,bins,2,ybins);
+  TH2F * h_axis = new TH2F("h_axis","h_axis",(xmax-xmin)/rebin+1,xmin,xmax,2,ybins);
   h_axis->Draw();
   h_rat_gr->SetMarkerStyle(20);
   h_rat_gr->SetMarkerSize(0.75);
   h_rat_gr->Draw("ep,same");
-  h_rat_gr->GetYaxis()->SetRangeUser(0.0,3.0);
-  h_rat_gr->Print();
+  h_rat_gr->GetYaxis()->SetRangeUser(0.0,2.0);
 
   if( TString(variable).Contains("met") ){
   if(drawmoneyplot) h_rat_gr->GetYaxis()->SetRangeUser(0.0,3.0);
@@ -293,7 +302,7 @@ else {
   h_axis->GetXaxis()->SetLabelSize(0.12);
   h_axis->GetYaxis()->SetNdivisions(5);
   h_axis->GetYaxis()->SetTitle("#frac{Data}{MC}");
-  h_axis->GetYaxis()->SetTitleSize(0.12);
+  h_axis->GetYaxis()->SetTitleSize(0.15);
   h_axis->GetYaxis()->SetTitleOffset(0.5);
   h_axis->GetYaxis()->CenterTitle();
 
@@ -340,7 +349,7 @@ else {
   TString met_label= "E_{T}^{miss} > 125 GeV ";
   if (TString(selection).Contains("metbin1")) met_label = "125 #leq E_{T}^{miss} < 200 GeV";
   if (TString(selection).Contains("metbin2")) met_label = "E_{T}^{miss} #geq 200 GeV";
-  if (drawmoneyplot) {label.SetTextSize(0.03);label.DrawLatex(0.58,0.68,met_label);}
+  if (drawmoneyplot) {label.SetTextSize(0.03);label.DrawLatex(0.5,0.7,met_label);}
   }
 
   if(!use_data){
@@ -370,7 +379,7 @@ else {
   stack->GetXaxis()->SetLabelSize(0.04);
   stack->GetXaxis()->SetTitleOffset(1.);
   stack->GetXaxis()->SetTitleSize(0.05);
-  stack->GetYaxis()->SetLabelSize(0.05);
+  stack->GetYaxis()->SetLabelSize(0.04);
   stack->GetYaxis()->SetTitleOffset(1.5);
   stack->GetYaxis()->SetTitleSize(0.05);
   stack->SetMaximum(ymax*stack->GetMaximum());
@@ -378,6 +387,7 @@ else {
   stack->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
   }
 
+ if(debug) cout<<__LINE__<<endl; 
   if(use_sig) { 
      h_sig_300_75->SetLineColor(kRed+1); h_sig_300_75->SetLineStyle(5);h_sig_300_75->SetLineWidth(4); updateoverflow(h_sig_300_75,xmax);
      h_sig_225_75->SetLineColor(kOrange); h_sig_225_75->SetLineStyle(5);h_sig_225_75->SetLineWidth(4); updateoverflow(h_sig_225_75,xmax);  
@@ -404,7 +414,7 @@ else {
   c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_log_ht.png", variable.c_str(), type.c_str(), selection.c_str() ));
   c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_log_ht.pdf", variable.c_str(), type.c_str(), selection.c_str() ));
   } 
- cout<<__LINE__<<endl; 
+ if(debug) cout<<__LINE__<<endl; 
  return;
 }
 
