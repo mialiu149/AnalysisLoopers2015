@@ -26,6 +26,8 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   bool use_250 = use_sig||drawmoneyplot;
   bool use_norm_factor(false); float norm_factor = 1.;
 
+  defineColors();  
+
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
   TH1F * h_ttbar1l = NULL;
@@ -126,15 +128,43 @@ else {
 //drawing on canvas and all that.
   if(debug)  cout<<"LINE::"<<__LINE__<<" set color for the histograms"<<endl;
   if(use_data) { updateoverflow( h_data , xmax );  h_data->SetMarkerStyle(8); h_data->SetMarkerSize(0.75); }
-  if(use_ttbar2l) { h_ttbar2l->SetFillStyle(1001);h_ttbar2l->SetFillColor(kAzure+4);h_ttbar2l->SetLineColor(kAzure+4) ;updateoverflow( h_ttbar2l, xmax );}
-  if(use_ttbar1l) { h_ttbar1l->SetFillStyle(1001);h_ttbar1l->SetFillColorAlpha(kAzure+4,0.8);h_ttbar1l->SetLineColor(kAzure-5) ;updateoverflow( h_ttbar1l, xmax );}
-  if(use_wjets) { h_wjets->SetFillColor(kRed-7); updateoverflow( h_wjets, xmax );h_wjets->SetLineColor(kRed-7);}
-  if(use_zjets) { h_zjets->SetLineColorAlpha(kRed-7,0.8);updateoverflow( h_zjets, xmax );h_zjets->SetFillColorAlpha(kRed-7,0.8);}
-  if(use_singletop) { h_singletop->SetFillColorAlpha(kOrange-3,0.9); updateoverflow( h_singletop, xmax );h_singletop->SetLineColor(kOrange-3);}
-  if(use_ttv) { h_ttv->SetFillColor(kMagenta-5);updateoverflow( h_ttv, xmax );h_ttv->SetLineColor(kMagenta-5);}
-  if(use_ww) { h_ww->SetLineColor(kMagenta-5);updateoverflow( h_ww, xmax );h_ww->SetFillColorAlpha(kMagenta-5,0.7);}
-  if(use_wz) { h_wz->SetLineColor(kGreen+2);updateoverflow( h_wz, xmax );h_wz->SetFillColor(kGreen+2);}
-  if(use_zz) { h_zz->SetLineColorAlpha(kGreen+2,0.7);updateoverflow( h_zz, xmax );h_zz->SetFillColorAlpha(kGreen+2,0.7);}
+  if(use_ttbar2l) { h_ttbar2l->SetFillStyle(1001);h_ttbar2l->SetFillColor(getColorSplitByMC_tribosonana(tt2l));h_ttbar2l->SetLineColor(getColorSplitByMC_tribosonana(tt2l)) ;updateoverflow( h_ttbar2l, xmax );}
+  if(use_ttbar1l) { h_ttbar1l->SetFillStyle(1001);h_ttbar1l->SetFillColor(getColorSplitByMC_tribosonana(tt1l));h_ttbar1l->SetLineColor(getColorSplitByMC_tribosonana(tt1l)) ;updateoverflow( h_ttbar1l, xmax );}
+  if(use_wjets) { 
+     h_wjets->SetFillColor(getColorSplitByMC_tribosonana(Wjets));
+     h_wjets->SetLineColor(getColorSplitByMC_tribosonana(Wjets));
+     updateoverflow( h_wjets, xmax );
+  }
+  if(use_zjets) { 
+     h_zjets->SetFillColor(getColorSplitByMC_tribosonana(Zjets));
+     h_zjets->SetLineColor(getColorSplitByMC_tribosonana(Zjets));
+     updateoverflow( h_zjets, xmax );
+  }
+  if(use_singletop) { 
+     h_singletop->SetFillColor(getColorSplitByMC_tribosonana(singleTop));
+     h_singletop->SetLineColor(getColorSplitByMC_tribosonana(singleTop));
+     updateoverflow(  h_singletop, xmax );
+  }
+  if(use_ttv) {
+     h_ttv->SetFillColor(getColorSplitByMC_tribosonana(ttV));
+     h_ttv->SetLineColor(getColorSplitByMC_tribosonana(ttV));
+     updateoverflow(  h_ttv, xmax ); 
+  }
+  if(use_ww) { 
+     h_ww->SetLineColor(getColorSplitByMC_tribosonana(WW));
+     h_ww->SetFillColor(getColorSplitByMC_tribosonana(WW));
+     updateoverflow( h_ww, xmax );
+  }
+  if(use_wz) { 
+     h_wz->SetLineColor(getColorSplitByMC_tribosonana(WZ));
+     h_wz->SetFillColor(getColorSplitByMC_tribosonana(WZ));
+     updateoverflow( h_wz, xmax );
+  }
+  if(use_zz) { 
+     h_zz->SetLineColor(getColorSplitByMC_tribosonana(ZZ));
+     h_zz->SetFillColor(getColorSplitByMC_tribosonana(ZZ));
+     updateoverflow( h_zz, xmax );
+  }
    
   //some special settings
 //  cout<< h_ttbar2l->GetMaximum() <<endl;

@@ -287,19 +287,58 @@ TGraphAsymmErrors* getRatioGraph( TH1F* histo_data, TH1F* histo_mc, const std::s
       std::cout << "[MT2DrawTools::getPoissonGraph] Unkown xerrType '" << xerrType << "'. Setting to bin width." << std::endl;
       xerr = histo_mc->GetBinWidth(iBin);
     }
-
     graph->SetPoint(i, x_tmp, ratio );
     graph->SetPointEYhigh(i, ratio_errUp );
     graph->SetPointEYlow(i, ratio_errDn );
     graph->SetPointEXhigh(i, xerr );
     graph->SetPointEXlow(i, xerr );
-
   }
-
   graph->SetLineColor(1);
   graph->SetMarkerColor(1);
   graph->SetMarkerStyle(20);
-
   return graph;
+}
 
+void defineColors(){
+  TColor *clightblue = new TColor(2001,91/255.,187/255.,241/255.);//light-blue
+  TColor *cblue = new TColor(2002,60/255.,144/255.,196/255.);//blue
+  TColor *corange= new TColor(2003,230/255.,159/255.,0/255.);// orange
+  TColor *cbrown = new TColor(2004,180/255.,117/255.,0/255.);//
+  TColor *cyellow = new TColor(2005,245/255.,236/255.,69/255.); 
+  TColor *cdarkyellow = new TColor(2006,215/255.,200/255.,0/255.);
+  TColor *cblueviolet = new TColor(2007,70/255.,109/255.,171/255.);
+  TColor *cviolet = new TColor(2008,70/255.,90/255.,134/255.); 
+  TColor *cdarkviolet = new TColor(2009,55/255.,65/255.,100/255.);
+  TColor *clightgreen = new TColor(2010,120/255.,160/255.,0/255.);
+  TColor *cgreen = new TColor(2011,0/255.,158/255.,115/255.); 
+  TColor *cpink = new TColor(2012,204/255.,121/255.,167/255.);
+}
+
+int getColorSplitByMC_tribosonana( mc_sample_tribosonana mc_sample) {
+    switch(mc_sample){
+    case(WWW):        return 632; //kRed
+    case(WWZ_WZZ):    return 616; //kMagenta
+    case(tt1l):       return 2005; 
+    case(tt2l):       return 2008; 
+    case(singleTop):  return 2009;
+    case(Wjets):      return 2006;
+    case(Zjets):      return 2010;
+    case(WW):         return 2007;
+    case(WZ):         return 2003;
+    case(ZZ):         return 2011;
+    case(ttV):        return 2004;
+    case(Other):      return 2012; 
+    default: return 0; // blank
+  } 
+}
+
+int getColorSplitByBg_ss(bkg_type_ss bkg_type){
+    switch(bkg_type){
+    case(WWW):        return 632; //kRed
+    case(WWZ_WZZ):    return 616; //kMagenta
+    case(loselepton): return 2003;
+    case(fake):       return 2005;
+    case(chargeflip): return 2007;
+    case(truess):     return 2001;
+   }   
 }
