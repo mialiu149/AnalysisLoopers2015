@@ -19,10 +19,12 @@
 #define HISTTOOLS_H
 
 enum mc_sample_tribosonana{WWW,WWZ_WZZ,tt1l,tt2l,singleTop,Wjets,Zjets,WW,WZ,ZZ,ttV,Other};
-enum bkg_type_ss{ WWW,WWZ_WZZ,loselepton,fake,chargeflip,truess};
+enum bkg_type_ss{loselepton,fake,chargeflip,truess};
 
 void fillUnderOverFlow(TH1F * &h1, float value, float weight);
 void fillUnderOverFlow(TH1D * &h1, double value, float weight);
+void setxaxistitle( TH2F * &hist, string var);
+void setxaxistitle( THStack * &stack, string var);
 void saveHist(const std::string filename, const std::string pat="*");
 void drawCMSLatex( TCanvas * &canvas, float luminosity ,bool is_simulation);
 void drawCMSLatex( TCanvas * &canvas, float luminosity, float cmsleftmargin, float lumileftmargin );

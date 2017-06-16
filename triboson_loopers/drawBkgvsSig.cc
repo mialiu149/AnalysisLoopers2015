@@ -14,6 +14,7 @@
 #include "../sharedCode/histTools.cc"
 
 using namespace std;
+
 void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string selection = "_inclusive", string type = "ll", string variable = "mll", string region = "passtrig" , int sigscaleup = 1.0,  int rebin=10,float xmin = 50, float xmax = 500, bool setlog =false, bool use_data=false,bool use_sig=false, bool drawmoneyplot=false)
 {
   bool debug = false;
@@ -23,11 +24,11 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if (TString(variable).Contains("deltaphi")) setlog = false;
   bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(true);
   bool use_singletop(true),use_ttv(true),use_wz(true),use_ww(true),use_zz(true);
-  bool use_250 = use_sig||drawmoneyplot;
+  bool use_www = use_sig||drawmoneyplot;
   bool use_norm_factor(false); float norm_factor = 1.;
 
-  defineColors();  
-
+  defineColors();  //colors are defined here: ../sharedCode/histTools.cc
+  //get histograms from root files
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
   TH1F * h_ttbar1l = NULL;
@@ -39,10 +40,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   TH1F * h_wz= NULL;  
   TH1F * h_ww= NULL;  
   TH1F * h_zz = NULL;  
-
   TH1F * h_sig_www = NULL;
-
-  cout<<"entries"<<endl;
  
   if(use_data)  {getBackground(  h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );h_data->SetBinErrorOption(TH1::kPoisson);}
   if(use_ttbar)   getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ),variable, type, region );
@@ -55,18 +53,12 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_ww)   getBackground(  h_ww, iter, Form("ww_%s", selection.c_str() ), variable, type, region );
   if(use_wz)   getBackground(  h_wz, iter, Form("wz_%s", selection.c_str() ), variable, type, region );
   if(use_zz)   getBackground(  h_zz, iter, Form("zz_%s", selection.c_str() ), variable, type, region );
-  if(use_250)   getBackground(  h_sig_www, iter, Form("www_stitch_%s", selection.c_str() ), variable, type, region );
-  //if(use_250)   getBackground(  h_sig_www, iter, Form("SMS_wh_700_1_noskim_%s", selection.c_str() ), variable, type, region );
+  if(use_www)   getBackground(  h_sig_www, iter, Form("www_stitch_%s", selection.c_str() ), variable, type, region );
 
   if(debug)  cout<<"LINE::"<<__LINE__<<" read from files"<<endl;
   //------------------------------------------------------------------------------------------------------//
   //-----------------------------              normalization               -------------------------------//
   //------------------------------------------------------------------------------------------------------//
-
-//        norm_factor =   h_data->Integral(h_data->FindBin(81),h_data->FindBin(100)-1)/
-//	(h_wjets->Integral(h_wjets->FindBin(81),h_wjets->FindBin(101)-1) +
-//	 h_ttbar->Integral(h_ttbar->FindBin(81),h_ttbar->FindBin(101)-1));
- //        cout<<"Norm factor for Z+jets: "<<norm_factor<<endl;
   if(use_wjets) h_wjets->Scale(norm_factor*luminosity);
   if(use_ttbar1l) h_ttbar1l->Scale(norm_factor*luminosity);
   if(use_ttbar2l) h_ttbar2l->Scale(norm_factor*luminosity);
@@ -77,48 +69,69 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_wz)   h_wz->Scale(luminosity);
   if(use_zz)   h_zz->Scale(luminosity);
  // normalization for signals.
-  if(use_250) {
-   h_sig_www->Scale(luminosity*sigscaleup);
-  } 
+  if(use_www)  h_sig_www->Scale(luminosity*sigscaleup);
   if(debug)  cout<<"LINE::"<<__LINE__<<" : normalized to luminosity of "<<luminosity<<endl;
   //------------------------------------------------------------------------------------------------------//
-  //------------------------------MAKE PLOTS --> binning etc ---------------------------------------------//
+  //---------------------------------------------binning---- ---------------------------------------------//
   //------------------------------------------------------------------------------------------------------//
 
   float ymin = 1e-2; float ymax = 20;
   if(TString(selection).Contains("SR_mix_met125_mt50_twobtag")) {ymin = 1e-5;ymax =2.0;}
   else if(!setlog) {ymin = 1e-5;ymax =2;}
- int nbins = 7, nybins=3;
- double bins[8] = {30,60,90,120,150,210,270,410};
- double ybins[4] = {0,1,2,3};
- if(drawmoneyplot) {
+// these are special variable binning if needed.
+  int nbins = 7, nybins=3;
+  double bins[8] = {30,60,90,120,150,210,270,410};
+  double ybins[4] = {0,1,2,3};
+  if(drawmoneyplot) {
     xmin=30;xmax=410;
     if(TString(selection).Contains("metbin1")) {ymin=0; ymax=9;}
     else if(TString(selection).Contains("metbin2")) {ymin=0; ymax=14;}
- }
+  }
  if( variable == "dphibb" || variable == "deltaphi_lep_met" )   {	xmin = 0;	xmax = 6.4;         ymin = 0;	 ymax=1000; rebin=5;}
  if(!drawmoneyplot){ 
-  if(debug)  cout<<"LINE::"<<__LINE__<<" going to rebin histograms, not money plot"<<endl;
- if(use_data)    h_data->Rebin(rebin);
- if(use_wjets)   h_wjets->Rebin(rebin);
- if(use_ttbar1l) h_ttbar1l->Rebin(rebin);
- if(use_ttbar2l) h_ttbar2l->Rebin(rebin);
- if(use_singletop)     h_singletop->Rebin(rebin);
- if(use_ttv)     h_ttv->Rebin(rebin);
- if(use_zjets)   h_zjets->Rebin(rebin);
- if(use_wz) h_wz->Rebin(rebin);
- if(use_ww) h_ww->Rebin(rebin);
- if(use_zz) h_zz->Rebin(rebin);
- if(use_250)  h_sig_www->Rebin(rebin);
+    if(debug)  cout<<"LINE::"<<__LINE__<<" going to rebin histograms, not money plot"<<endl;
+    if(use_data)    h_data->Rebin(rebin);
+    if(use_wjets)   h_wjets->Rebin(rebin);
+    if(use_ttbar1l) h_ttbar1l->Rebin(rebin);
+    if(use_ttbar2l) h_ttbar2l->Rebin(rebin);
+    if(use_singletop)     h_singletop->Rebin(rebin);
+    if(use_ttv)     h_ttv->Rebin(rebin);
+    if(use_zjets)   h_zjets->Rebin(rebin);
+    if(use_wz) h_wz->Rebin(rebin);
+    if(use_ww) h_ww->Rebin(rebin);
+    if(use_zz) h_zz->Rebin(rebin);
+    if(use_www)  h_sig_www->Rebin(rebin);
 }
 else {
-  xmax=410; 
-  if(use_data) {updateoverflow( h_data , xmax );h_data = (TH1F*) h_data    ->Rebin(nbins, "h_data_rebinned", bins);renormalizebins(h_data);updateoverflow( h_data , xmax );}
-  if(use_250)  {h_sig_www = (TH1F*) h_sig_www    ->Rebin(nbins, "h_sig_www_rebinned", bins);renormalizebins(h_sig_www);}
-  if(use_wjets) {updateoverflow( h_wjets, xmax );h_wjets = (TH1F*) h_wjets    ->Rebin(nbins, "h_wjets_rebinned", bins); renormalizebins(h_wjets);updateoverflow( h_wjets, xmax );}
-  if(use_ttbar1l) { updateoverflow( h_ttbar1l, xmax );h_ttbar1l = (TH1F*) h_ttbar1l    ->Rebin(nbins, "h_ttbar1l_rebinned", bins); renormalizebins(h_ttbar1l);updateoverflow( h_ttbar1l, xmax );}
-  if(use_ttbar2l) { updateoverflow( h_ttbar2l, xmax );h_ttbar2l = (TH1F*) h_ttbar2l    ->Rebin(nbins, "h_ttbar2l_rebinned", bins);  renormalizebins(h_ttbar2l); updateoverflow( h_ttbar2l, xmax );}
-  if(use_singletop) {updateoverflow( h_singletop, xmax );h_singletop = (TH1F*) h_singletop    ->Rebin(nbins, "h_singletop_rebinned", bins);  renormalizebins(h_singletop); updateoverflow( h_singletop, xmax );}
+    xmax=410; 
+    if(use_data) {
+      updateoverflow( h_data , xmax );
+      h_data = (TH1F*) h_data->Rebin(nbins, "h_data_rebinned", bins);
+      renormalizebins(h_data);
+    //  updateoverflow( h_data , xmax );
+    }
+    if(use_www)  {
+       h_sig_www = (TH1F*) h_sig_www->Rebin(nbins, "h_sig_www_rebinned", bins);
+       renormalizebins(h_sig_www);
+    }
+    if(use_wjets) {
+       updateoverflow( h_wjets, xmax );
+       h_wjets = (TH1F*) h_wjets->Rebin(nbins, "h_wjets_rebinned", bins); 
+       renormalizebins(h_wjets);
+       updateoverflow( h_wjets, xmax );
+    }
+    if(use_ttbar1l) {
+       updateoverflow( h_ttbar1l, xmax );
+       h_ttbar1l = (TH1F*) h_ttbar1l->Rebin(nbins, "h_ttbar1l_rebinned", bins);
+       renormalizebins(h_ttbar1l);updateoverflow( h_ttbar1l, xmax );
+    }
+    if(use_ttbar2l) { 
+       updateoverflow( h_ttbar2l, xmax );
+       h_ttbar2l = (TH1F*) h_ttbar2l ->Rebin(nbins, "h_ttbar2l_rebinned", bins); 
+       renormalizebins(h_ttbar2l); updateoverflow( h_ttbar2l, xmax );}
+    if(use_singletop) {
+       updateoverflow( h_singletop, xmax );
+       h_singletop = (TH1F*) h_singletop    ->Rebin(nbins, "h_singletop_rebinned", bins);  renormalizebins(h_singletop); updateoverflow( h_singletop, xmax );}
   if(use_ttv) {updateoverflow( h_ttv, xmax );h_ttv = (TH1F*) h_ttv    ->Rebin(nbins, "h_ttv_rebinned", bins);  renormalizebins(h_ttv);updateoverflow( h_ttv, xmax );}
   if(use_zjets) { updateoverflow( h_zjets, xmax );h_zjets = (TH1F*) h_zjets    ->Rebin(nbins, "h_zjets_rebinned", bins);  renormalizebins(h_zjets);updateoverflow( h_zjets, xmax );}
   if(use_ww) {updateoverflow( h_ww, xmax );h_ww = (TH1F*) h_ww    ->Rebin(nbins, "h_ww_rebinned", bins);  renormalizebins(h_ww);updateoverflow( h_ww, xmax );}
@@ -127,7 +140,11 @@ else {
 }
 //drawing on canvas and all that.
   if(debug)  cout<<"LINE::"<<__LINE__<<" set color for the histograms"<<endl;
-  if(use_data) { updateoverflow( h_data , xmax );  h_data->SetMarkerStyle(8); h_data->SetMarkerSize(0.75); }
+  if(use_data) { 
+     updateoverflow( h_data , xmax ); 
+     h_data->SetMarkerStyle(8);
+     h_data->SetMarkerSize(0.75); 
+  }
   if(use_ttbar2l) { h_ttbar2l->SetFillStyle(1001);h_ttbar2l->SetFillColor(getColorSplitByMC_tribosonana(tt2l));h_ttbar2l->SetLineColor(getColorSplitByMC_tribosonana(tt2l)) ;updateoverflow( h_ttbar2l, xmax );}
   if(use_ttbar1l) { h_ttbar1l->SetFillStyle(1001);h_ttbar1l->SetFillColor(getColorSplitByMC_tribosonana(tt1l));h_ttbar1l->SetLineColor(getColorSplitByMC_tribosonana(tt1l)) ;updateoverflow( h_ttbar1l, xmax );}
   if(use_wjets) { 
@@ -203,7 +220,7 @@ else {
   l2->SetLineColor(kWhite);    
   l2->SetShadowColor(kWhite);    
   l2->SetFillColor(kWhite);    
-  if(use_250)      l2->AddEntry(h_sig_www,Form("WWW x %i",sigscaleup), "l");
+  if(use_www)      l2->AddEntry(h_sig_www,Form("WWW x %i",sigscaleup), "l");
   if(!use_sig)  l1->SetNColumns(2);
   if(use_data)  l1->AddEntry( h_data  , "data"              , "lpe");
   if(use_ttbar2l)	l1->AddEntry( h_ttbar2l , "2l top quark"       , "f");    
@@ -215,10 +232,9 @@ else {
   if(use_zz) l1->AddEntry( h_zz , "ZZ"          , "f");
   if(use_wz) l1->AddEntry( h_wz , "WZ"          , "f");
   if(use_ww) l1->AddEntry( h_ww , "WW"          , "f");
-  if(use_250&&drawmoneyplot)      l1->AddEntry(h_sig_www, Form("#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{1} (250,1)"), "l");
+  if(use_www&&drawmoneyplot)      l1->AddEntry(h_sig_www, Form("#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{1} (250,1)"), "l");
 
   TCanvas * c1 = new TCanvas("c1","");
-//  c1->SetWindowSize(800, 600);
   c1->SetTopMargin(0.06);
   c1->SetRightMargin(0.07);
   if(use_data) {
@@ -250,11 +266,10 @@ else {
   else {
     h_data_gr->GetYaxis()->SetRangeUser(ymin, ymax);
   }
-  h_data_gr->Draw("pe,same");
-  pad->Update();
- //h_data_gr->Draw("sameE0x0");
-     if(use_250&&use_data) {h_sig_www->SetLineColor(kSpring-1);  h_sig_www->SetLineStyle(5); h_sig_www->SetLineWidth(4);  updateoverflow(h_sig_www,xmax);
-     h_sig_www->Draw("SAMEHIST");}
+    h_data_gr->Draw("pe,same");
+    pad->Update();
+    if(use_www&&use_data) {h_sig_www->SetLineColor(kSpring-1);  h_sig_www->SetLineStyle(5); h_sig_www->SetLineWidth(4);  updateoverflow(h_sig_www,xmax);
+    h_sig_www->Draw("SAMEHIST");}
 
   pad->RedrawAxis();
   if(use_sig) l2->Draw();
@@ -279,7 +294,6 @@ else {
   rat_pad->SetTopMargin(0.07);
   rat_pad->SetLeftMargin(0.18);
   rat_pad->Draw();
-
 
 // TH1F* h_sum = (TH1F*)h_den -> Clone("h_sum");// save the h_sum histogram
  //  saveHist(Form("MCsum_%s.root",selection.c_str()),"h_sum");
@@ -326,24 +340,7 @@ else {
   h_axis->GetYaxis()->CenterTitle();
 
   // FUN.
-  if( variable == "nVert"               )    h_axis->GetXaxis()->SetTitle("N_{vtx}");
-  if( TString(variable).Contains("met") )    h_axis->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
-  if( TString(variable).Contains("absIso") )    h_axis->GetXaxis()->SetTitle("absIso03 [GeV]");
-  if( TString(variable).Contains("mt") )     h_axis->GetXaxis()->SetTitle("M_{T} [GeV]");
-  if( TString(variable).Contains("MHT") )    h_axis->GetXaxis()->SetTitle("H_{T}^{miss} [GeV]");
-  if( TString(variable).Contains("mhtphi") ) h_axis->GetXaxis()->SetTitle("H_{T} Phi");
-  if( variable == "ht"                  ) h_axis->GetXaxis()->SetTitle("H_{T} [GeV]");
-  if( TString(variable).Contains("ptl1")  ) h_axis->GetXaxis()->SetTitle("lep p_{T} [GeV]");
-  if( TString(variable).Contains("ptb1")  ) h_axis->GetXaxis()->SetTitle("leading b jet p_{T} [GeV]");
-  if( TString(variable).Contains("ptb2")  ) h_axis->GetXaxis()->SetTitle("subleading b jet p_{T} [GeV]");
-  if( TString(variable).Contains("ptb1overptb2")  ) h_axis->GetXaxis()->SetTitle("ptb1/ptb2");
-  if( TString(variable).Contains("MCT")  ) h_axis->GetXaxis()->SetTitle("M_{CT} [GeV]");
-  if( variable == "njets"               ) h_axis->GetXaxis()->SetTitle("N_{jets}");  
-  if( variable == "mll"                 ) h_axis->GetXaxis()->SetTitle("M_{\\ell\\ell} [GeV]");
-  if( variable == "mbb"                 ) h_axis->GetXaxis()->SetTitle("M_{b#bar{b}} [GeV]");
-  if( TString(variable).Contains("phi") && !TString(variable).Contains("dphi")) h_axis->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
-  if( TString(variable).Contains("_pt") ) h_axis->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
-
+  setxaxistitle(h_axis,variable);
   TH1F* h_rat_sys = (TH1F*)h_rat -> Clone("h_rat_sys");
   if(drawsys){
    for(int i = 1; i<=h_rat->GetNbinsX(); ++i){
@@ -373,25 +370,7 @@ else {
 
   if(!use_data){
   stack->Draw();
-  if( variable == "nVert"               )    stack->GetXaxis()->SetTitle("N_{vtx}");
-  if( variable == "mbb"                 ) stack->GetXaxis()->SetTitle("M_{b#bar{b}} [GeV]");
-  if( variable == "MCT"               )    stack->GetXaxis()->SetTitle("M_{CT} [GeV]");
-  if( TString(variable).Contains("ptl1")  ) stack->GetXaxis()->SetTitle("lep p_{T} [GeV]");
-  if( TString(variable).Contains("ptb1")  ) stack->GetXaxis()->SetTitle("leading b jet p_{T} [GeV]");
-  if( TString(variable).Contains("ptb2")  ) stack->GetXaxis()->SetTitle("subleading b jet p_{T} [GeV]");
-  if( TString(variable).Contains("met") )    stack->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
-  if( TString(variable).Contains("MT2W") )    stack->GetXaxis()->SetTitle("MT2W [GeV]");
-  if( TString(variable).Contains("absIso") )    stack->GetXaxis()->SetTitle("absIso03 [GeV]");
-  if( TString(variable).Contains("mt") )     stack->GetXaxis()->SetTitle("M_{T} [GeV]");
-  if( TString(variable).Contains("MHT") )    stack->GetXaxis()->SetTitle("H_{T}^{miss} [GeV]");
-  if( TString(variable).Contains("mhtphi") ) stack->GetXaxis()->SetTitle("H_{T} Phi");
-  if( variable == "ht"                  ) stack->GetXaxis()->SetTitle("H_{T} [GeV]");
-  //if( TString(variable).Contains("pt")  ) stack->GetXaxis()->SetTitle("p_{T} GeV");
-  if( variable == "njets"               ) stack->GetXaxis()->SetTitle("N_{jets}");  
-  if( variable == "nbjets"               ) stack->GetXaxis()->SetTitle("N_{bjets}");  
-  if( variable == "mll"                 ) stack->GetXaxis()->SetTitle("M_{\\ell\\ell} [GeV]");
-  if( TString(variable).Contains("phi") && !TString(variable).Contains("dphi")) stack->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
-  if( TString(variable).Contains("_pt") ) stack->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
+  setxaxistitle(stack,variable);
   stack->GetXaxis()->SetLimits(xmin,xmax);
   stack->GetXaxis()->SetTitleOffset(0.9);
   stack->GetXaxis()->SetTitleSize(0.15);
@@ -405,12 +384,8 @@ else {
   stack->SetMinimum(ymin*luminosity);
   stack->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
   }
-
   if(use_sig) { 
-//     h_sig_300_75->SetLineColor(kRed+1); h_sig_300_75->SetLineStyle(5);h_sig_300_75->SetLineWidth(4); updateoverflow(h_sig_300_75,xmax);
-//     h_sig_225_75->SetLineColor(kOrange); h_sig_225_75->SetLineStyle(5);h_sig_225_75->SetLineWidth(4); updateoverflow(h_sig_225_75,xmax);  
      h_sig_www->SetLineColor(kSpring-1); h_sig_www->SetLineStyle(5);h_sig_www->SetLineWidth(4); updateoverflow(h_sig_www,xmax);  
-//     h_sig_350_1->SetLineColor(kBlack+3);  h_sig_350_1->SetLineStyle(5);h_sig_350_1->SetLineWidth(4);   updateoverflow(h_sig_350_1,xmax);
      h_sig_www->Draw("SAMEHIST");
   }
   if(!use_data) {
@@ -429,7 +404,6 @@ else {
   c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_log_ht.png", variable.c_str(), type.c_str(), selection.c_str() ));
   c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_log_ht.pdf", variable.c_str(), type.c_str(), selection.c_str() ));
   } 
- cout<<__LINE__<<endl; 
  return;
 }
 

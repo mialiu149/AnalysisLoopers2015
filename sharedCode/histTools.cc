@@ -170,9 +170,21 @@ void renormalizebins( TH1F * &hist )
   return;
 }
 
+void setxaxistitle( TH2F * &hist, string var){
+  string xlabel = getVariableName(var);
+  hist->GetXaxis()->SetTitle(TString(xlabel));
+}
+
+void setxaxistitle( THStack * &stack, string var){
+  string xlabel = getVariableName(var);
+  stack->GetXaxis()->SetTitle(TString(xlabel));
+}
+
 string getVariableName(const std::string& var)
 {
   if (var.find("nVert")  != string::npos)   return "N_{vtx}";
+  if (var.find("nbjets")  != string::npos)  return "N_{bjets}";
+  if (var.find("njet")  != string::npos)    return "N_{jet}";
   if (var.find("met") != string::npos)      return "E_{T}^{miss} [GeV]";
   if (var.find("absIso") != string::npos)   return "absIso03 [GeV]";
   if (var.find("mt") != string::npos)       return "m_{T}(l;#nu) [GeV]";
@@ -185,6 +197,8 @@ string getVariableName(const std::string& var)
   if (var.find("njets") != string::npos)    return "N_{jets}";
   if (var.find("mll") != string::npos)      return "M_{\\ell\\ell} [GeV]";
   if (var.find("mbb") != string::npos)      return "M_{b#bar{b}} [GeV]";
+  if (var.find("MCT") != string::npos)      return "M_{CT} [GeV]";
+  if (var.find("ptlll") != string::npos)    return "pT_{\\ell\\ell\\ell} [GeV]";
  // if (sample.find("") != string::npos) return "";
   cout << "getVariableName: WARNING: didn't recognize : " << var << endl;
 
@@ -334,8 +348,6 @@ int getColorSplitByMC_tribosonana( mc_sample_tribosonana mc_sample) {
 
 int getColorSplitByBg_ss(bkg_type_ss bkg_type){
     switch(bkg_type){
-    case(WWW):        return 632; //kRed
-    case(WWZ_WZZ):    return 616; //kMagenta
     case(loselepton): return 2003;
     case(fake):       return 2005;
     case(chargeflip): return 2007;
