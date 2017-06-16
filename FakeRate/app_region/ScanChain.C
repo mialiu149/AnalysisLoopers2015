@@ -32,7 +32,8 @@ using namespace duplicate_removal;
 
 bool doLatex = true;
 bool doRatio = false;
-bool inclHT = false;
+bool inclHT = true;
+bool debug = false; 
 
 std::map<std::string, TH1F*> event_hists;
 TH1D * evtCounter = new TH1D("","",1000,0,1000); 
@@ -74,7 +75,7 @@ bool isFakeLeg(int lep, bool doData=false){
       //doublecheck
       //unsigned int lep1_index = 0;
       //unsigned int lep2_index = 1;
-      vector<int> ilep = tribosonsel::selectedLooseLeps("ss");
+      vector<int> ilep = tribosonsel::selectedLooseLeps("SS_veto_noiso_v5");
       if(ilep.size()<2)  return 1; 
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
@@ -88,7 +89,7 @@ bool isFakeLeg(int lep, bool doData=false){
 bool isGoodLeg(int lep, bool doData=false){
   if (doData) return true;
   //doublecheck
-      vector<int> ilep = tribosonsel::selectedLooseLeps("ss");
+      vector<int> ilep = tribosonsel::selectedLooseLeps("SS_veto_noiso_v5");
       if(ilep.size()<2)  return 1; 
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
@@ -687,6 +688,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       float weight = triboson_np::isData() ? 1.0 : triboson_np::evt_scale1fb()*luminosity; // *getTruePUw_Moriond(triboson_np::trueNumInt()[0]);
 
       TString filename = fname;
+      if( debug) cout<<__LINE__<<endl;
 
       // // ignore MC part of chain when looking at data, except for contamination subtraction
       // if(doData && !triboson_np::isData()) weight = 0; 
@@ -700,8 +702,9 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       }
   */  
  //   define and initialize variables here, so it's easier to switch to new ntuples 
-      vector<int> ilep = tribosonsel::selectedLooseLeps("ss");
+      vector<int> ilep = tribosonsel::selectedLooseLeps("SS_veto_noiso_v5");
       if(ilep.size()!=2) continue; 
+      if( debug) cout<<__LINE__<<endl;
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
       float lep1_ptrel_v1 = triboson_np::lep_ptRel().at(lep1_index);
@@ -734,6 +737,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       float lep1_etaSC = triboson_np::lep_etaSC().at(lep1_index);
       float lep2_etaSC = triboson_np::lep_etaSC().at(lep2_index);
 
+      if( debug) cout<<__LINE__<<endl;
       if (doLowHT) {
 	if (triboson_np::ht()>300.) continue;
       }
@@ -767,6 +771,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
 //      assert(fabs(lep1_ptrel_v1 - computePtRel(triboson_np::lep_p4().at(lep1_index),jet_close_lep1, true))<0.0001);
 //      assert(fabs(lep2_ptrel_v1 - computePtRel(triboson_np::lep_p4().at(lep2_index),jet_close_lep2, true))<0.0001);
 
+      if( debug) cout<<__LINE__<<endl;
       if (fabs(triboson_np::lep_ip3d().at(lep1_index)/triboson_np::lep_ip3derr().at(lep1_index))>4.) continue;
       if (fabs(triboson_np::lep_ip3d().at(lep2_index)/triboson_np::lep_ip3derr().at(lep2_index))>4.) continue;
       
@@ -794,7 +799,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
         lep2_pT = jet_close_lep2;
       }
 
-
+      if( debug) cout<<__LINE__<<endl;
       if (abs(lep1_id)==11 && lep1_pT<30.) continue;
       if (abs(lep2_id)==11 && lep2_pT<30.) continue;
       //doublecheck
@@ -858,9 +863,11 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       }
 
       //Determine SR and BR
+      if(debug)   cout<<"going to find out which region are we at"<< __LINE__<<endl;
       int br = tribosonsel::preselRegion(); // 1:ss_ee, 2:ss_em,3:ss_mm,4:0SFOS, 5:1SFOS, 6:2SFOS
       int sr = tribosonsel::signalRegion2016();
       if (br<0) continue;
+      if(debug)   cout<<"event passed baseline selection"<< __LINE__<<endl;
       //if (verbose) std::cout << " inSitu: " << inSitu << " br: " << br << " ac_base: " << ac_base << " tribosonsel::hyp_class(): " << tribosonsel::hyp_class() << std::endl;
 
       // SS Z veto -- this is to match the inSitu FR derivation macro

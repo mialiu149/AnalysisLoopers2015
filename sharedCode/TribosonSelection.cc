@@ -371,7 +371,7 @@ bool isGoodLepton(int lepindex, string selection){
   float iso_cut_mu = 0.06;
   bool pass_cut = false;
   if(TString(selection).Contains("ss"))  pt_cut=30.0;
-  if(TString(selection).Contains("ss")) pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el &&abs(lep_ip3d().at(lepindex))<0.015 && (abs(lep_pdgId().at(lepindex))==13 || lep_tightCharge().at(lepindex) == 2);
+  if(TString(selection).Contains("ss")) pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el &&abs(lep_ip3d().at(lepindex))<0.015 && (abs(lep_pdgId().at(lepindex))==13 || lep_tightCharge().at(lepindex) == 2) && lep_pass_VVV_cutbased_tight_noiso().at(lepindex);
   else pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el &&abs(lep_ip3d().at(lepindex))<0.015;
   return pass_cut;
 }
@@ -597,10 +597,10 @@ pair <int, int> lepMotherID_v2(int lepindex){
     if (sgn(id_reco) == sgn(id)) return make_pair(1, idx);
     else return make_pair(2, idx);
   }
-  //else if (lep_isFromW().at(idx)) return make_pair(1, idx);
-  else if (lep_isFromB().at(idx)) return make_pair(-1, idx);
-  else if (lep_isFromC().at(idx)) return make_pair(-2, idx);
-  else if (lep_isFromLF().at(idx)) return make_pair(-4, idx);
+  else if (lep_isFromW().at(lepindex)) return make_pair(1, idx);
+  else if (lep_isFromB().at(lepindex)) return make_pair(-1, idx);
+  else if (lep_isFromC().at(lepindex)) return make_pair(-2, idx);
+  else if (lep_isFromLF().at(lepindex)) return make_pair(-4, idx);
   return make_pair(0, idx);
  }
 }//end of namespace
