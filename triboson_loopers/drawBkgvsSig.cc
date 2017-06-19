@@ -17,9 +17,9 @@ using namespace std;
 
 void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string selection = "_inclusive", string type = "ll", string variable = "mll", string region = "passtrig" , int sigscaleup = 1.0,  int rebin=10,float xmin = 50, float xmax = 500, bool setlog =false, bool use_data=false,bool use_sig=false, bool drawmoneyplot=false)
 {
-  bool debug = false;
+  const bool debug(false);
+  const bool save_mcsum(false);
   const double alpha = 1 - 0.6827;
-  bool usetemplates   = false;
   bool drawsys= false;
   if (TString(variable).Contains("deltaphi")) setlog = false;
   bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(true);
@@ -29,6 +29,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
 
   defineColors();  //colors are defined here: ../sharedCode/histTools.cc
   //get histograms from root files
+  vector<pair<bool,TH1F *>> hists;
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
   TH1F * h_ttbar1l = NULL;
@@ -42,34 +43,64 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   TH1F * h_zz = NULL;  
   TH1F * h_sig_www = NULL;
  
-  if(use_data)  {getBackground(  h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );h_data->SetBinErrorOption(TH1::kPoisson);}
-  if(use_ttbar)   getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ),variable, type, region );
-  if(use_ttbar1l) getBackground(  h_ttbar1l, iter, Form("ttbar_onelep_%s", selection.c_str() ), variable,type, region );
-  if(use_ttbar2l) getBackground(  h_ttbar2l, iter, Form("ttbar_dilep_%s", selection.c_str() ), variable,type, region );
-  if(use_wjets) getBackground(  h_wjets, iter, Form("wjets_stitch_%s", selection.c_str() ), variable,type, region );
-  if(use_zjets) getBackground(  h_zjets, iter, Form("zjets_stitch_%s", selection.c_str() ), variable, type, region );
-  if(use_singletop)   getBackground(  h_singletop, iter, Form("singletop_%s", selection.c_str() ), variable, type, region );
-  if(use_ttv)   getBackground(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region );
-  if(use_ww)   getBackground(  h_ww, iter, Form("ww_%s", selection.c_str() ), variable, type, region );
-  if(use_wz)   getBackground(  h_wz, iter, Form("wz_%s", selection.c_str() ), variable, type, region );
-  if(use_zz)   getBackground(  h_zz, iter, Form("zz_%s", selection.c_str() ), variable, type, region );
-  if(use_www)   getBackground(  h_sig_www, iter, Form("www_stitch_%s", selection.c_str() ), variable, type, region );
+  if(use_data)  {
+    getBackground(  h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );h_data->SetBinErrorOption(TH1::kPoisson); 
+    //hists.push_back(make_pair(use_data,h_data));
+  }
+  if(use_ttbar){ 
+    getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ),variable, type, region );
+    hists.push_back(make_pair(use_ttbar,h_ttbar)); 
+  }
+  if(use_ttbar1l) {
+    getBackground(  h_ttbar1l, iter, Form("ttbar_onelep_%s", selection.c_str() ), variable,type, region );
+    hists.push_back(make_pair(use_ttbar1l,h_ttbar1l)); 
+  }
+  if(use_ttbar2l) {
+    getBackground(  h_ttbar2l, iter, Form("ttbar_dilep_%s", selection.c_str() ), variable,type, region );
+    hists.push_back(make_pair(use_ttbar2l,h_ttbar2l)); 
+  }
+  if(use_wjets) {
+    getBackground(  h_wjets, iter, Form("wjets_stitch_%s", selection.c_str() ), variable,type, region );
+    hists.push_back(make_pair(use_wjets,h_wjets)); 
+  }
+  if(use_zjets){
+    getBackground(  h_zjets, iter, Form("zjets_stitch_%s", selection.c_str() ), variable, type, region );
+    hists.push_back(make_pair(use_zjets,h_zjets)); 
+  } 
+  if(use_singletop)  { 
+    getBackground(  h_singletop, iter, Form("singletop_%s", selection.c_str() ), variable, type, region );
+    hists.push_back(make_pair(use_singletop,h_singletop)); 
+  }
+  if(use_ttv) {
+    getBackground(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region ); 
+    hists.push_back(make_pair(use_ttv,h_ttv)); 
+  }
+  if(use_ww) {
+    getBackground(  h_ww, iter, Form("ww_%s", selection.c_str() ), variable, type, region );
+    hists.push_back(make_pair(use_ww,h_ww)); 
+  }
+  if(use_wz)  {
+    getBackground(  h_wz, iter, Form("wz_%s", selection.c_str() ), variable, type, region );
+    hists.push_back(make_pair(use_wz,h_wz)); 
+  }
+  if(use_zz)   {
+    getBackground(  h_zz, iter, Form("zz_%s", selection.c_str() ), variable, type, region );
+    hists.push_back(make_pair(use_zz,h_zz)); 
+  }
+  if(use_www)   {
+    getBackground(  h_sig_www, iter, Form("www_stitch_%s", selection.c_str() ), variable, type, region );
+   hists.push_back(make_pair(use_www,h_sig_www)); 
+  }
 
-  if(debug)  cout<<"LINE::"<<__LINE__<<" read from files"<<endl;
+  if(debug)  cout<<"LINE::"<<__LINE__<<" got histograms from files"<<endl;
   //------------------------------------------------------------------------------------------------------//
   //-----------------------------              normalization               -------------------------------//
   //------------------------------------------------------------------------------------------------------//
-  if(use_wjets) h_wjets->Scale(norm_factor*luminosity);
-  if(use_ttbar1l) h_ttbar1l->Scale(norm_factor*luminosity);
-  if(use_ttbar2l) h_ttbar2l->Scale(norm_factor*luminosity);
-  if(use_singletop)   h_singletop->Scale(luminosity);
-  if(use_ttv)   h_ttv->Scale(luminosity);
-  if(use_zjets) h_zjets->Scale(luminosity);
-  if(use_ww)   h_ww->Scale(luminosity);
-  if(use_wz)   h_wz->Scale(luminosity);
-  if(use_zz)   h_zz->Scale(luminosity);
+  for(unsigned int ihist=0;ihist<hists.size();++ihist){
+     if(hists.at(ihist).first)  hists.at(ihist).second->Scale(luminosity);
+  }
  // normalization for signals.
-  if(use_www)  h_sig_www->Scale(luminosity*sigscaleup);
+  if(use_www)  h_sig_www->Scale(sigscaleup);
   if(debug)  cout<<"LINE::"<<__LINE__<<" : normalized to luminosity of "<<luminosity<<endl;
   //------------------------------------------------------------------------------------------------------//
   //---------------------------------------------binning---- ---------------------------------------------//
@@ -89,20 +120,12 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   }
  if( variable == "dphibb" || variable == "deltaphi_lep_met" )   {	xmin = 0;	xmax = 6.4;         ymin = 0;	 ymax=1000; rebin=5;}
  if(!drawmoneyplot){ 
+  for(unsigned int ihist=0;ihist<hists.size();++ihist){
+     if(hists.at(ihist).first)  hists.at(ihist).second->Rebin(rebin);
+  }
     if(debug)  cout<<"LINE::"<<__LINE__<<" going to rebin histograms, not money plot"<<endl;
-    if(use_data)    h_data->Rebin(rebin);
-    if(use_wjets)   h_wjets->Rebin(rebin);
-    if(use_ttbar1l) h_ttbar1l->Rebin(rebin);
-    if(use_ttbar2l) h_ttbar2l->Rebin(rebin);
-    if(use_singletop)     h_singletop->Rebin(rebin);
-    if(use_ttv)     h_ttv->Rebin(rebin);
-    if(use_zjets)   h_zjets->Rebin(rebin);
-    if(use_wz) h_wz->Rebin(rebin);
-    if(use_ww) h_ww->Rebin(rebin);
-    if(use_zz) h_zz->Rebin(rebin);
-    if(use_www)  h_sig_www->Rebin(rebin);
-}
-else {
+ }
+ else {
     xmax=410; 
     if(use_data) {
       updateoverflow( h_data , xmax );
@@ -131,13 +154,36 @@ else {
        renormalizebins(h_ttbar2l); updateoverflow( h_ttbar2l, xmax );}
     if(use_singletop) {
        updateoverflow( h_singletop, xmax );
-       h_singletop = (TH1F*) h_singletop    ->Rebin(nbins, "h_singletop_rebinned", bins);  renormalizebins(h_singletop); updateoverflow( h_singletop, xmax );}
-  if(use_ttv) {updateoverflow( h_ttv, xmax );h_ttv = (TH1F*) h_ttv    ->Rebin(nbins, "h_ttv_rebinned", bins);  renormalizebins(h_ttv);updateoverflow( h_ttv, xmax );}
-  if(use_zjets) { updateoverflow( h_zjets, xmax );h_zjets = (TH1F*) h_zjets    ->Rebin(nbins, "h_zjets_rebinned", bins);  renormalizebins(h_zjets);updateoverflow( h_zjets, xmax );}
-  if(use_ww) {updateoverflow( h_ww, xmax );h_ww = (TH1F*) h_ww    ->Rebin(nbins, "h_ww_rebinned", bins);  renormalizebins(h_ww);updateoverflow( h_ww, xmax );}
-  if(use_wz) {updateoverflow( h_wz, xmax );h_wz = (TH1F*) h_wz    ->Rebin(nbins, "h_wz_rebinned", bins);  renormalizebins(h_wz);updateoverflow( h_wz, xmax );}
-  if(use_zz) {updateoverflow( h_zz, xmax );h_zz = (TH1F*) h_zz    ->Rebin(nbins, "h_zz_rebinned", bins);  renormalizebins(h_zz);updateoverflow( h_zz, xmax );}
-}
+       h_singletop = (TH1F*) h_singletop    ->Rebin(nbins, "h_singletop_rebinned", bins);  
+       renormalizebins(h_singletop); updateoverflow( h_singletop, xmax );
+    }
+    if(use_ttv) {
+       updateoverflow( h_ttv, xmax );
+       h_ttv = (TH1F*) h_ttv ->Rebin(nbins, "h_ttv_rebinned", bins);  
+       renormalizebins(h_ttv);updateoverflow( h_ttv, xmax );
+    }
+    if(use_zjets) { 
+       updateoverflow( h_zjets, xmax );
+       h_zjets = (TH1F*) h_zjets    ->Rebin(nbins, "h_zjets_rebinned", bins);  
+       renormalizebins(h_zjets);updateoverflow( h_zjets, xmax );
+   }
+    if(use_ww) {updateoverflow( h_ww, xmax );
+       h_ww = (TH1F*) h_ww    ->Rebin(nbins, "h_ww_rebinned", bins);  
+       renormalizebins(h_ww);
+       updateoverflow( h_ww, xmax );
+   }
+    if(use_wz) {
+       updateoverflow( h_wz, xmax );
+       h_wz = (TH1F*) h_wz    ->Rebin(nbins, "h_wz_rebinned", bins); 
+       renormalizebins(h_wz);
+       updateoverflow( h_wz, xmax );
+   }
+    if(use_zz) {
+       updateoverflow( h_zz, xmax );
+       h_zz = (TH1F*) h_zz    ->Rebin(nbins, "h_zz_rebinned", bins);  
+       renormalizebins(h_zz);updateoverflow( h_zz, xmax );
+   }
+ }
 //drawing on canvas and all that.
   if(debug)  cout<<"LINE::"<<__LINE__<<" set color for the histograms"<<endl;
   if(use_data) { 
@@ -145,8 +191,16 @@ else {
      h_data->SetMarkerStyle(8);
      h_data->SetMarkerSize(0.75); 
   }
-  if(use_ttbar2l) { h_ttbar2l->SetFillStyle(1001);h_ttbar2l->SetFillColor(getColorSplitByMC_tribosonana(tt2l));h_ttbar2l->SetLineColor(getColorSplitByMC_tribosonana(tt2l)) ;updateoverflow( h_ttbar2l, xmax );}
-  if(use_ttbar1l) { h_ttbar1l->SetFillStyle(1001);h_ttbar1l->SetFillColor(getColorSplitByMC_tribosonana(tt1l));h_ttbar1l->SetLineColor(getColorSplitByMC_tribosonana(tt1l)) ;updateoverflow( h_ttbar1l, xmax );}
+  if(use_ttbar2l) { 
+     h_ttbar2l->SetFillColor(getColorSplitByMC_tribosonana(tt2l));
+     h_ttbar2l->SetLineColor(getColorSplitByMC_tribosonana(tt2l));
+     updateoverflow( h_ttbar2l, xmax );
+  }
+  if(use_ttbar1l) {
+     h_ttbar1l->SetFillColor(getColorSplitByMC_tribosonana(tt1l));
+     h_ttbar1l->SetLineColor(getColorSplitByMC_tribosonana(tt1l)) ;
+     updateoverflow( h_ttbar1l, xmax );
+ }
   if(use_wjets) { 
      h_wjets->SetFillColor(getColorSplitByMC_tribosonana(Wjets));
      h_wjets->SetLineColor(getColorSplitByMC_tribosonana(Wjets));
@@ -182,9 +236,7 @@ else {
      h_zz->SetFillColor(getColorSplitByMC_tribosonana(ZZ));
      updateoverflow( h_zz, xmax );
   }
-   
   //some special settings
-//  cout<< h_ttbar2l->GetMaximum() <<endl;
   if(   TString(variable).Contains("dphi") ||  variable == "mhtphi" || type    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
     {h_ttbar2l->GetYaxis()->SetRangeUser(0, h_ttbar2l->GetMaximum()*5 ); } 
   }
@@ -195,7 +247,11 @@ else {
  //stacked histograms 
   if(debug)  cout<<"LINE::"<<__LINE__<<" stack them up"<<endl;
   THStack * stack = new THStack("stack","stacked");
-  if(use_ww) stack->Add(h_ww,"hist");
+  /*for(unsigned int ihist=0;ihist<hists.size();++ihist){
+     if(hists.at(ihist).first)  stack->Add(hists.at(ihist).second,"hist");
+  }
+*/ 
+ if(use_ww) stack->Add(h_ww,"hist");
   if(use_zz) stack->Add(h_zz,"hist");
   if(use_ttv)   stack->Add(h_ttv,"hist");
   if(use_zjets) stack->Add(h_zjets,"hist");
@@ -204,10 +260,11 @@ else {
   if(use_ttbar2l) stack->Add(h_ttbar2l,"hist");
   if(use_singletop)   stack->Add(h_singletop,"hist");
   if(use_wz) stack->Add(h_wz,"hist");
- //legend to draw 
+  
+//legend to draw 
   if(debug)  cout<<"LINE::"<<__LINE__<<" create legends"<<endl;
-  float l1_xmin = 0.4, l1_xmax=0.9, l1_ymin=0.68,l1_ymax=0.9;
-  float l2_xmin = 0.3, l2_xmax=0.65, l2_ymin=0.4,l2_ymax=0.68;
+  float l1_xmin(0.4),l1_xmax(0.9),l1_ymin(0.68),l1_ymax(0.9);
+  float l2_xmin(0.3),l2_xmax(0.65),l2_ymin(0.4),l2_ymax(0.68);
   if(use_sig && !use_data){ 
     l1_xmin = 0.55, l1_xmax=0.9, l1_ymin=0.58,l1_ymax=0.9; 
     l2_xmin = 0.2, l2_xmax=0.5, l2_ymin=0.8,l2_ymax=0.9;
@@ -268,9 +325,13 @@ else {
   }
     h_data_gr->Draw("pe,same");
     pad->Update();
-    if(use_www&&use_data) {h_sig_www->SetLineColor(kSpring-1);  h_sig_www->SetLineStyle(5); h_sig_www->SetLineWidth(4);  updateoverflow(h_sig_www,xmax);
-    h_sig_www->Draw("SAMEHIST");}
-
+    if(use_www&&use_data) {
+      h_sig_www->SetLineColor(getColorSplitByMC_tribosonana(WWW)); 
+      h_sig_www->SetLineStyle(5); 
+      h_sig_www->SetLineWidth(4);  
+      updateoverflow(h_sig_www,xmax);
+      h_sig_www->Draw("SAMEHIST");
+   }
   pad->RedrawAxis();
   if(use_sig) l2->Draw();
   l1->Draw("same");
@@ -295,9 +356,10 @@ else {
   rat_pad->SetLeftMargin(0.18);
   rat_pad->Draw();
 
-// TH1F* h_sum = (TH1F*)h_den -> Clone("h_sum");// save the h_sum histogram
- //  saveHist(Form("MCsum_%s.root",selection.c_str()),"h_sum");
-
+  if(save_mcsum){
+    TH1F* h_sum = (TH1F*)h_den -> Clone("h_sum");// save the h_sum histogram
+    saveHist(Form("MCsum_%s.root",selection.c_str()),"h_sum");
+  }
   if(drawsys){
    for(int i = 1; i<=h_den->GetNbinsX(); ++i){
     h_den->SetBinError(i,h_den->GetBinContent(i)*0.3);
@@ -339,7 +401,7 @@ else {
   h_axis->GetYaxis()->SetTitleOffset(0.5);
   h_axis->GetYaxis()->CenterTitle();
 
-  // FUN.
+  // set Xaxis titles.
   setxaxistitle(h_axis,variable);
   TH1F* h_rat_sys = (TH1F*)h_rat -> Clone("h_rat_sys");
   if(drawsys){
@@ -385,7 +447,7 @@ else {
   stack->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
   }
   if(use_sig) { 
-     h_sig_www->SetLineColor(kSpring-1); h_sig_www->SetLineStyle(5);h_sig_www->SetLineWidth(4); updateoverflow(h_sig_www,xmax);  
+     h_sig_www->SetLineColor(getColorSplitByMC_tribosonana(WWW)); h_sig_www->SetLineStyle(5);h_sig_www->SetLineWidth(4); updateoverflow(h_sig_www,xmax);  
      h_sig_www->Draw("SAMEHIST");
   }
   if(!use_data) {
@@ -406,4 +468,3 @@ else {
   } 
  return;
 }
-
