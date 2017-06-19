@@ -29,7 +29,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
 
   defineColors();  //colors are defined here: ../sharedCode/histTools.cc
   //get histograms from root files
-  vector<pair<bool,TH1F *>> hists;
+  vector<pair<bool,TH1F *>> bkghists;
   TH1F * h_data  = NULL;
   TH1F * h_ttbar = NULL;
   TH1F * h_ttbar1l = NULL;
@@ -45,71 +45,68 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
  
   if(use_data)  {
     getBackground(  h_data, iter, Form("data_%s" , selection.c_str() ), variable, type, region );h_data->SetBinErrorOption(TH1::kPoisson); 
-    //hists.push_back(make_pair(use_data,h_data));
   }
   if(use_ttbar){ 
     getBackground(  h_ttbar, iter, Form("ttbar_%s", selection.c_str() ),variable, type, region );
-    hists.push_back(make_pair(use_ttbar,h_ttbar)); 
+    bkghists.push_back(make_pair(use_ttbar,h_ttbar)); 
   }
   if(use_ttbar1l) {
     getBackground(  h_ttbar1l, iter, Form("ttbar_onelep_%s", selection.c_str() ), variable,type, region );
-    hists.push_back(make_pair(use_ttbar1l,h_ttbar1l)); 
+    bkghists.push_back(make_pair(use_ttbar1l,h_ttbar1l)); 
   }
   if(use_ttbar2l) {
     getBackground(  h_ttbar2l, iter, Form("ttbar_dilep_%s", selection.c_str() ), variable,type, region );
-    hists.push_back(make_pair(use_ttbar2l,h_ttbar2l)); 
+    bkghists.push_back(make_pair(use_ttbar2l,h_ttbar2l)); 
   }
   if(use_wjets) {
     getBackground(  h_wjets, iter, Form("wjets_stitch_%s", selection.c_str() ), variable,type, region );
-    hists.push_back(make_pair(use_wjets,h_wjets)); 
+    bkghists.push_back(make_pair(use_wjets,h_wjets)); 
   }
   if(use_zjets){
     getBackground(  h_zjets, iter, Form("zjets_stitch_%s", selection.c_str() ), variable, type, region );
-    hists.push_back(make_pair(use_zjets,h_zjets)); 
+    bkghists.push_back(make_pair(use_zjets,h_zjets)); 
   } 
   if(use_singletop)  { 
     getBackground(  h_singletop, iter, Form("singletop_%s", selection.c_str() ), variable, type, region );
-    hists.push_back(make_pair(use_singletop,h_singletop)); 
+    bkghists.push_back(make_pair(use_singletop,h_singletop)); 
   }
   if(use_ttv) {
     getBackground(  h_ttv, iter, Form("ttv_%s", selection.c_str() ), variable, type, region ); 
-    hists.push_back(make_pair(use_ttv,h_ttv)); 
+    bkghists.push_back(make_pair(use_ttv,h_ttv)); 
   }
   if(use_ww) {
     getBackground(  h_ww, iter, Form("ww_%s", selection.c_str() ), variable, type, region );
-    hists.push_back(make_pair(use_ww,h_ww)); 
+    bkghists.push_back(make_pair(use_ww,h_ww)); 
   }
   if(use_wz)  {
     getBackground(  h_wz, iter, Form("wz_%s", selection.c_str() ), variable, type, region );
-    hists.push_back(make_pair(use_wz,h_wz)); 
+    bkghists.push_back(make_pair(use_wz,h_wz)); 
   }
   if(use_zz)   {
     getBackground(  h_zz, iter, Form("zz_%s", selection.c_str() ), variable, type, region );
-    hists.push_back(make_pair(use_zz,h_zz)); 
+    bkghists.push_back(make_pair(use_zz,h_zz)); 
   }
   if(use_www)   {
     getBackground(  h_sig_www, iter, Form("www_stitch_%s", selection.c_str() ), variable, type, region );
-   hists.push_back(make_pair(use_www,h_sig_www)); 
   }
 
   if(debug)  cout<<"LINE::"<<__LINE__<<" got histograms from files"<<endl;
   //------------------------------------------------------------------------------------------------------//
   //-----------------------------              normalization               -------------------------------//
   //------------------------------------------------------------------------------------------------------//
-  for(unsigned int ihist=0;ihist<hists.size();++ihist){
-     if(hists.at(ihist).first)  hists.at(ihist).second->Scale(luminosity);
+  if(debug)  cout<<"LINE::"<<__LINE__<<" : normalized to luminosity of "<<luminosity<<endl;
+  for(unsigned int ihist=0;ihist<bkghists.size();++ihist){
+     if(bkghists.at(ihist).first)  bkghists.at(ihist).second->Scale(luminosity);
   }
  // normalization for signals.
-  if(use_www)  h_sig_www->Scale(sigscaleup);
-  if(debug)  cout<<"LINE::"<<__LINE__<<" : normalized to luminosity of "<<luminosity<<endl;
+  if(use_www)  h_sig_www->Scale(sigscaleup*luminosity);
   //------------------------------------------------------------------------------------------------------//
   //---------------------------------------------binning---- ---------------------------------------------//
   //------------------------------------------------------------------------------------------------------//
 
   float ymin = 1e-2; float ymax = 20;
-  if(TString(selection).Contains("SR_mix_met125_mt50_twobtag")) {ymin = 1e-5;ymax =2.0;}
-  else if(!setlog) {ymin = 1e-5;ymax =2;}
-// these are special variable binning if needed.
+  if(!setlog) {ymin = 1e-5;ymax =2;}
+// these are special variable binning (legacy from WH) if needed.
   int nbins = 7, nybins=3;
   double bins[8] = {30,60,90,120,150,210,270,410};
   double ybins[4] = {0,1,2,3};
@@ -118,12 +115,17 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
     if(TString(selection).Contains("metbin1")) {ymin=0; ymax=9;}
     else if(TString(selection).Contains("metbin2")) {ymin=0; ymax=14;}
   }
- if( variable == "dphibb" || variable == "deltaphi_lep_met" )   {	xmin = 0;	xmax = 6.4;         ymin = 0;	 ymax=1000; rebin=5;}
+ //special binning for phi
+ if( variable == "dphibb" || variable == "deltaphi_lep_met" )   {
+     xmin = 0;	xmax = 6.4;  ymin = 0;	 ymax=1000; rebin=5;
+ }
  if(!drawmoneyplot){ 
-  for(unsigned int ihist=0;ihist<hists.size();++ihist){
-     if(hists.at(ihist).first)  hists.at(ihist).second->Rebin(rebin);
-  }
     if(debug)  cout<<"LINE::"<<__LINE__<<" going to rebin histograms, not money plot"<<endl;
+    for(unsigned int ihist=0;ihist<bkghists.size();++ihist){
+       if(bkghists.at(ihist).first)  bkghists.at(ihist).second->Rebin(rebin);
+  }
+    if(use_data) h_data->Rebin(rebin);
+    if(use_www) h_sig_www->Rebin(rebin);
  }
  else {
     xmax=410; 
@@ -184,7 +186,10 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
        renormalizebins(h_zz);updateoverflow( h_zz, xmax );
    }
  }
-//drawing on canvas and all that.
+  //drawing on canvas and all that.
+  //------------------------------------------------------------------------------------------------------//
+  //----------------------------- ----------set colors and xmin/xmax -------------------------------------//
+  //------------------------------------------------------------------------------------------------------//
   if(debug)  cout<<"LINE::"<<__LINE__<<" set color for the histograms"<<endl;
   if(use_data) { 
      updateoverflow( h_data , xmax ); 
@@ -236,32 +241,27 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
      h_zz->SetFillColor(getColorSplitByMC_tribosonana(ZZ));
      updateoverflow( h_zz, xmax );
   }
-  //some special settings
+  //------------------------------------------------------------------------------------------------------//
+  //----------------------------- ----------set ymax------------------------------------------------------//
+  //------------------------------------------------------------------------------------------------------//
   if(   TString(variable).Contains("dphi") ||  variable == "mhtphi" || type    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
-    {h_ttbar2l->GetYaxis()->SetRangeUser(0, h_ttbar2l->GetMaximum()*5 ); } 
+    h_ttbar2l->GetYaxis()->SetRangeUser(0, h_ttbar2l->GetMaximum()*5 );  
   }
   else{
      h_ttbar2l->GetYaxis()->SetRangeUser(ymin*luminosity, h_ttbar2l->GetMaximum() * ymax );
      if(drawmoneyplot) h_ttbar2l->GetYaxis()->SetRangeUser(ymin,ymax );
    }
- //stacked histograms 
+  //------------------------------------------------------------------------------------------------------//
+  //----------------------------- ----------stacked histograms--------------------------------------------// 
+  //------------------------------------------------------------------------------------------------------//
   if(debug)  cout<<"LINE::"<<__LINE__<<" stack them up"<<endl;
   THStack * stack = new THStack("stack","stacked");
-  /*for(unsigned int ihist=0;ihist<hists.size();++ihist){
-     if(hists.at(ihist).first)  stack->Add(hists.at(ihist).second,"hist");
+  for(unsigned int ihist=0;ihist<bkghists.size();++ihist){
+     if(bkghists.at(ihist).first)  stack->Add(bkghists.at(ihist).second,"hist");
   }
-*/ 
- if(use_ww) stack->Add(h_ww,"hist");
-  if(use_zz) stack->Add(h_zz,"hist");
-  if(use_ttv)   stack->Add(h_ttv,"hist");
-  if(use_zjets) stack->Add(h_zjets,"hist");
-  if(use_wjets) stack->Add(h_wjets,"hist");
-  if(use_ttbar1l) stack->Add(h_ttbar1l,"hist");
-  if(use_ttbar2l) stack->Add(h_ttbar2l,"hist");
-  if(use_singletop)   stack->Add(h_singletop,"hist");
-  if(use_wz) stack->Add(h_wz,"hist");
-  
-//legend to draw 
+  //------------------------------------------------------------------------------------------------------//
+  //----------------------------- ----------legends----------------------------- -------------------------// 
+  //------------------------------------------------------------------------------------------------------//
   if(debug)  cout<<"LINE::"<<__LINE__<<" create legends"<<endl;
   float l1_xmin(0.4),l1_xmax(0.9),l1_ymin(0.68),l1_ymax(0.9);
   float l2_xmin(0.3),l2_xmax(0.65),l2_ymin(0.4),l2_ymax(0.68);
@@ -291,19 +291,22 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_ww) l1->AddEntry( h_ww , "WW"          , "f");
   if(use_www&&drawmoneyplot)      l1->AddEntry(h_sig_www, Form("#tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{1} (250,1)"), "l");
 
+  //------------------------------------------------------------------------------------------------------//
+  //----------------------------- ----------draw on canvas---------------------- -------------------------// 
+  //------------------------------------------------------------------------------------------------------//
   TCanvas * c1 = new TCanvas("c1","");
   c1->SetTopMargin(0.06);
   c1->SetRightMargin(0.07);
   if(use_data) {
   TGraphAsymmErrors* h_data_gr = getPoissonGraph( h_data);
-  TPad *pad = new TPad( "p_main", "p_main", 0.0, 0.3, 1.0, 1.0);
+  TPad *pad = new TPad( "p_main", "p_main", 0.0, 0.3, 1.0, 1.0); //top pad to draw histograms
   pad->SetBottomMargin(0.05);
   pad->SetRightMargin(0.07);
   pad->SetTopMargin(0.08);
   pad->SetLeftMargin(0.18);
   pad->Draw(); pad->cd();
   if( !( TString(variable).Contains("dphi") || variable == "nVert" || variable == "mhtphi" || type == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir") ){
- if(setlog)   pad->SetLogy();
+     if(setlog)   pad->SetLogy();
   } 
   h_data_gr->GetXaxis()->SetLabelSize(0);
   h_data_gr->GetYaxis()->SetLabelSize(0.05);
@@ -363,7 +366,6 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(drawsys){
    for(int i = 1; i<=h_den->GetNbinsX(); ++i){
     h_den->SetBinError(i,h_den->GetBinContent(i)*0.3);
-    //h_den->SetBinError(i,1);
   }
    pad->cd();
    gStyle->SetErrorX(0.5);
@@ -375,19 +377,17 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
    h_den->Draw("e2same");
    } 
 
-  TGraphAsymmErrors* h_rat_gr = getRatioGraph( h_data, h_den); 
+  TGraphAsymmErrors* h_rat_gr = getRatioGraph( h_data, h_den);//ratioi of data/mc 
   rat_pad->cd();
   rat_pad->SetGridy();
-  TH2F * h_axis = new TH2F("h_axis","h_axis",nbins,bins,3,ybins);
+  TH2F * h_axis = new TH2F("h_axis","h_axis",nbins,bins,2,ybins);// 2-d hists to set x/y axis
   h_axis->Draw();
   h_rat_gr->SetMarkerStyle(20);
   h_rat_gr->SetMarkerSize(0.75);
   h_rat_gr->Draw("ep,same");
-  h_rat_gr->GetYaxis()->SetRangeUser(0.0,3.0);
-  h_rat_gr->Print();
 
   if( TString(variable).Contains("met") ){
-  if(drawmoneyplot) h_rat_gr->GetYaxis()->SetRangeUser(0.0,3.0);
+     if(drawmoneyplot) h_rat_gr->GetYaxis()->SetRangeUser(0.0,3.0);
   }
   h_rat_gr->Draw("pe,same");
 
@@ -406,7 +406,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   TH1F* h_rat_sys = (TH1F*)h_rat -> Clone("h_rat_sys");
   if(drawsys){
    for(int i = 1; i<=h_rat->GetNbinsX(); ++i){
-    h_rat_sys->SetBinError(i,0.28);
+    h_rat_sys->SetBinError(i,0.3);
     h_rat_sys->SetBinContent(i,1);
   }
    gStyle->SetErrorX(0.5);
@@ -417,10 +417,12 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
    h_rat_sys->SetMarkerStyle(0);
    h_rat_sys->Draw("e2same");
   } 
-
   TLine * xaxis = new TLine(xmin,1,xmax,1);
   xaxis->SetLineWidth(2);
   xaxis->Draw("same");  
+  //------------------------------------------------------------------------------------------------------//
+  //------------------------------------------     labels          ---------------------------------------//
+  //------------------------------------------------------------------------------------------------------//
   drawCMSLatex( c1, luminosity,use_sig);
   TLatex label;
   label.SetNDC();
@@ -430,13 +432,13 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if (drawmoneyplot) {label.SetTextSize(0.03);label.DrawLatex(0.58,0.68,met_label);}
   }
 
+  //------------------------------------------------------------------------------------------------------//
+  //----------------------------------- use stack to set axis when not using data ------------------------//
+  //------------------------------------------------------------------------------------------------------//
   if(!use_data){
   stack->Draw();
   setxaxistitle(stack,variable);
   stack->GetXaxis()->SetLimits(xmin,xmax);
-  stack->GetXaxis()->SetTitleOffset(0.9);
-  stack->GetXaxis()->SetTitleSize(0.15);
-  stack->GetXaxis()->SetLabelSize(0.04);
   stack->GetXaxis()->SetTitleOffset(1.);
   stack->GetXaxis()->SetTitleSize(0.05);
   stack->GetYaxis()->SetLabelSize(0.05);
@@ -457,7 +459,10 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
     l1->Draw();
     if(use_sig) l2->Draw();
     drawCMSLatex( c1, luminosity*norm_factor ,use_sig);
-  }
+  } 
+  //------------------------------------------------------------------------------------------------------//
+  //----------------------------------- save histograms---------------------------------------------------//
+  //------------------------------------------------------------------------------------------------------//
   if(!setlog){
   c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_ht.png", variable.c_str(), type.c_str(), selection.c_str() ));
   c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_ht.pdf", variable.c_str(), type.c_str(), selection.c_str() ));
