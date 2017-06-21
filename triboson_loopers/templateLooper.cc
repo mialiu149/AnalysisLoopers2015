@@ -19,7 +19,7 @@
 #include "TGraphAsymmErrors.h"
 
 #include "templateLooper.h"
-#include "../classFiles/triboson_v3/triboson.h"
+#include "../classFiles/triboson_v0.1.9/triboson.h"
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/METTemplateSelections.h"
 #include "../sharedCode/TribosonSelection.h"

@@ -337,11 +337,11 @@ int getColorSplitByMC_tribosonana( mc_sample_tribosonana mc_sample) {
     case(singleTop):  return 2009;
     case(Wjets):      return 2006;
     case(Zjets):      return 2010;
-    case(WW):         return 2007;
+    case(ww):         return 2007;
     case(WZ):         return 2003;
     case(ZZ):         return 2011;
     case(ttV):        return 2004;
-    case(Other):      return 2012; 
+    case(other):      return 2012; 
     default: return 0; // blank
   } 
 }
@@ -352,5 +352,6 @@ int getColorSplitByBg_ss(bkg_type_ss bkg_type){
     case(fake):       return 2005;
     case(chargeflip): return 2007;
     case(truess):     return 2001;
+    default: return 0; // blank
    }   
 }

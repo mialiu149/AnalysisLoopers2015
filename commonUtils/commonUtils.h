@@ -123,7 +123,7 @@ TString getTagData() { return "v8.07"; }
 // #include "inSituFR/mc_test_4.h"
 // #include "fake_rates_insitu.h"
 // #include "fake_rates_insitu_mva_soup.h"
-
+#include "fake_rates_www_v0.h"
 bool applyThirdLeptonVeto() { return false; }
 
 
@@ -307,6 +307,12 @@ float fakeRateErrorNoCC(int id, float pt, float eta, float ht) {
   }
 }
 
+float qcdMCFakeRateWWW(int id, float pt, float eta, float ht) { 
+    if (abs(id)==11) return electronQCDMCFakeRateWWW(pt,eta);
+    else if (abs(id)==13) return muonQCDMCFakeRateWWW(pt,eta);
+    else return 0.;
+}
+
 float qcdMCFakeRateNoCC(int id, float pt, float eta, float ht) { 
   if (ht>300.) {
     if (abs(id)==11) return electronQCDMCFakeRateNoCC(pt,eta);
@@ -318,6 +324,4 @@ float qcdMCFakeRateNoCC(int id, float pt, float eta, float ht) {
     else return 0.;
   }
 }
-
-
 #endif
