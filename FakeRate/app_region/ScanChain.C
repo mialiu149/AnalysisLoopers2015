@@ -19,7 +19,7 @@
 #include "../../CORE/IsolationTools.h"
 #include "../../CORE/Tools/utils.h"
 #include "../../CORE/Tools/dorky/dorky.cc"
-#include "../../classFiles/triboson_v3/triboson.h"
+#include "../../classFiles/triboson_v0.1.9/triboson.h"
 #include "../../software/dataMCplotMaker/PlotMaker2D.h"
 #include "../../software/dataMCplotMaker/dataMCplotMaker.h"
 #include "../../commonUtils/commonUtils.h"
@@ -34,6 +34,7 @@ bool doLatex = true;
 bool doRatio = false;
 bool inclHT = true;
 bool debug = false; 
+std::string looselep = "ss_VVV_cutbased_fo";
 
 std::map<std::string, TH1F*> event_hists;
 TH1D * evtCounter = new TH1D("","",1000,0,1000); 
@@ -73,14 +74,14 @@ void printCounter(bool file = false) {
 bool isFakeLeg(int lep, bool doData=false){
      if (doData) return true;
       //doublecheck
-      //unsigned int lep1_index = 0;
-      //unsigned int lep2_index = 1;
-      vector<int> ilep = tribosonsel::selectedLooseLeps("SS_veto_noiso_v5");
+      vector<int> ilep = tribosonsel::selectedLooseLeps(looselep);
       if(ilep.size()<2)  return 1; 
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
-      int   lep1_motherID = tribosonsel::lepMotherID_v2(lep1_index).first;//write this function
-      int   lep2_motherID = tribosonsel::lepMotherID_v2(lep2_index).first;
+  //    int   lep1_motherID = tribosonsel::lepMotherID_v2(lep1_index).first;//write this function
+  //    int   lep2_motherID = tribosonsel::lepMotherID_v2(lep2_index).first;
+      int lep1_motherID = triboson_np::lep_motherIdSS().at(lep1_index);
+      int lep2_motherID = triboson_np::lep_motherIdSS().at(lep2_index);
       if (lep == 1) return (lep1_motherID <= 0);
       if (lep == 2) return (lep2_motherID <= 0);
   return 0;
@@ -89,12 +90,14 @@ bool isFakeLeg(int lep, bool doData=false){
 bool isGoodLeg(int lep, bool doData=false){
   if (doData) return true;
   //doublecheck
-      vector<int> ilep = tribosonsel::selectedLooseLeps("SS_veto_noiso_v5");
+      vector<int> ilep = tribosonsel::selectedLooseLeps("looselep");
       if(ilep.size()<2)  return 1; 
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
-      int   lep1_motherID = tribosonsel::lepMotherID_v2(lep1_index).first;//write this function
-      int   lep2_motherID = tribosonsel::lepMotherID_v2(lep2_index).first;
+ //     int   lep1_motherID = tribosonsel::lepMotherID_v2(lep1_index).first;//write this function
+  //    int   lep2_motherID = tribosonsel::lepMotherID_v2(lep2_index).first;
+      int lep1_motherID = triboson_np::lep_motherIdSS().at(lep1_index);
+      int lep2_motherID = triboson_np::lep_motherIdSS().at(lep2_index);
       if (lep == 1) return (lep1_motherID == 1);
       if (lep == 2) return (lep2_motherID == 1);
   return 0;
@@ -137,7 +140,7 @@ float getFakeRate(int id, float pt, float eta, float ht, bool extrPtRel = false,
 
     if (doInSitu) return fakeRateInSitu(id, pt, eta, ht);
     else if (doData ) return fakeRate(id, pt, eta, ht);
-    else return qcdMCFakeRate(id, pt, eta, ht);
+    else return qcdMCFakeRateWWW(id, pt, eta, ht);
 }
 
 float getFakeRateError(int id, float pt, float eta, float ht, bool doInSitu = false) { 
@@ -217,8 +220,6 @@ TH1F* histCreator(string str1, string str2, int nbins, float xbins[]){
 }
 
 vector <TH1F*> hists; 
-
-// int getHist(string name){
 int getHist(TString name){
   for (unsigned int i = 0; i < hists.size(); i++){
     if (hists[i]->GetName() == name) return i; 
@@ -262,20 +263,21 @@ void printClosureNumbers(std::vector<TString> filenames) {
     }
 }
 
-void fillHist( string obj, string var, string sel, float value, float weight ){
+void fillHist( string obj, string var, string sel,int lepid ,float value, float weight ){
   string hist = "h_";
   try
 	{
-//          if( evt_type()==1 ){
-//		hist = Form("h_lep_dilep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
-//		fillUnderOverFlow(event_hists.at( hist ), value, weight);
- //         }
-  //        if( evt_type()==0 ){
-//		hist = Form("h_lep_trilep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
-//		fillUnderOverFlow(event_hists.at( hist ), value, weight);
- //         }
-         hist = Form("h_lep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
-         fillUnderOverFlow(event_hists.at( hist ), value, weight);
+          if( abs(lepid) ==11 ){
+		hist = Form("h_el_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+		fillUnderOverFlow(event_hists.at( hist ), value, weight);
+         }
+          if( abs(lepid) ==13 ){
+		hist = Form("h_mu_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+		fillUnderOverFlow(event_hists.at( hist ), value, weight);
+         }
+ 
+        hist = Form("h_lep_%s_%s_%s", obj.c_str(), var.c_str(), sel.c_str());
+        fillUnderOverFlow(event_hists.at( hist ), value, weight);
 	}
   catch(exception &e)
 	{
@@ -297,8 +299,8 @@ void bookHistos(std::string region){
   // hist naming convention: "h_<leptype>_<object>_<variable>_<selection>"
   vector <string> leptype;
   leptype.push_back("lep");
-  //leptype.push_back("lep_trilep");
-  //leptype.push_back("lep_dilep");
+  leptype.push_back("el");
+  leptype.push_back("mu");
   vector <string> object;
   object.push_back("event");
   vector <string> selection; 
@@ -327,7 +329,38 @@ void bookHistos(std::string region){
 		}
 	  }
      }
+  }//hists with integer binning
+
+  vector <string> phivars;
+  phivars.push_back("metphi");
+  phivars.push_back("fakerate_weight");
+ 
+  for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
+	for( unsigned int objind = 0; objind < object.size(); objind++ ){
+	  for( unsigned int varind = 0; varind < phivars.size(); varind++ ){
+		for( unsigned int selind = 0; selind < selection.size(); selind++ ){
+		  bookHist(Form("h_%s_%s_%s_%s",
+						leptype  .at(lepind).c_str(),
+						object   .at(objind).c_str(),
+					        phivars  .at(varind).c_str(),
+					        selection.at(selind).c_str()
+						),
+				   Form("h_%s_%s_%s_%s",
+						leptype  .at(lepind).c_str(),
+						object   .at(objind).c_str(),
+					        phivars  .at(varind).c_str(),
+					        selection.at(selind).c_str()
+						),
+				   200   ,
+				   -3.2  ,
+				   3.2   );
+		}
+	  }
+	}
   }
+
+  //----------------------// 
+  // book counting hists  //
 }//end of booking hists
 int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool doData = false, int nEvents = -1){
 
@@ -455,7 +488,6 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       hists.push_back( histCreator("NBs_BR_histo_mu"                , "Number of FOs from B's vs Nbtags (muons)"          ,  4, 0,    4) );
       hists.push_back( histCreator("NnotBs_BR_histo_e"              , "Number of FOs NOT from B's vs Nbtags (els)"        ,  4, 0,    4) );
       hists.push_back( histCreator("NnotBs_BR_histo_mu"             , "Number of FOs NOT from B's vs Nbtags (muons)"      ,  4, 0,    4) );
-      hists.push_back( histCreator("N_hyp_class_BR_histo"           , "hyp_classification"      ,  4, 0,    4) );
       hists.push_back( histCreator("pTrel_histo_el"                 , "pTrel (Electrons)"                                 , 15, 0,   30) );
       hists.push_back( histCreator("pTrel_histo_mu"                 , "pTrel (Muons)"                                     , 15, 0,   30) );
   }
@@ -702,7 +734,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       }
   */  
  //   define and initialize variables here, so it's easier to switch to new ntuples 
-      vector<int> ilep = tribosonsel::selectedLooseLeps("SS_veto_noiso_v5");
+      vector<int> ilep = tribosonsel::selectedLooseLeps(looselep);
       if(ilep.size()!=2) continue; 
       if( debug) cout<<__LINE__<<endl;
       unsigned int lep1_index = ilep.at(0);
@@ -726,8 +758,10 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       float lep2_ip3d = triboson_np::lep_ip3d().at(lep2_index);
       float lep1_ip3d_err = triboson_np::lep_ip3derr().at(lep1_index);
       float lep2_ip3d_err = triboson_np::lep_ip3derr().at(lep2_index);
-      int   lep1_motherID = tribosonsel::lepMotherID_v2(lep1_index).first;//write this function
-      int   lep2_motherID = tribosonsel::lepMotherID_v2(lep2_index).first;
+      int lep1_motherID = triboson_np::lep_motherIdSS().at(lep1_index);
+      int lep2_motherID = triboson_np::lep_motherIdSS().at(lep2_index);
+      //int   lep1_motherID = tribosonsel::lepMotherID_v2(lep1_index).first;//write this function
+      //int   lep2_motherID = tribosonsel::lepMotherID_v2(lep2_index).first;
       float jet_close_lep1 = lep1_pT_org/triboson_np::lep_ptRatio().at(lep1_index);
       float jet_close_lep2 = lep2_pT_org/triboson_np::lep_ptRatio().at(lep2_index);
       float lep1_closejetpt = jet_close_lep1;
@@ -767,9 +801,10 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
         // }
 
       }
-//doublecheck
-//      assert(fabs(lep1_ptrel_v1 - computePtRel(triboson_np::lep_p4().at(lep1_index),jet_close_lep1, true))<0.0001);
-//      assert(fabs(lep2_ptrel_v1 - computePtRel(triboson_np::lep_p4().at(lep2_index),jet_close_lep2, true))<0.0001);
+
+      //doublecheck
+      //assert(fabs(lep1_ptrel_v1 - computePtRel(triboson_np::lep_p4().at(lep1_index),jet_close_lep1, true))<0.0001);
+      //assert(fabs(lep2_ptrel_v1 - computePtRel(triboson_np::lep_p4().at(lep2_index),jet_close_lep2, true))<0.0001);
 
       if( debug) cout<<__LINE__<<endl;
       if (fabs(triboson_np::lep_ip3d().at(lep1_index)/triboson_np::lep_ip3derr().at(lep1_index))>4.) continue;
@@ -800,29 +835,18 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       }
 
       if( debug) cout<<__LINE__<<endl;
-      if (abs(lep1_id)==11 && lep1_pT<30.) continue;
-      if (abs(lep2_id)==11 && lep2_pT<30.) continue;
+      if (lep1_pT<30.) continue;
+      if (lep2_pT<30.) continue;
       //doublecheck
-      /*assert(fabs(lep1_pT - triboson_np::lep1_coneCorrPt())<0.0001);
-      assert(fabs(lep2_pT - triboson_np::lep2_coneCorrPt())<0.0001);
+      /*
+ *      assert(fabs(lep1_pT - triboson_np::lep1_coneCorrPt())<0.0001);
+        assert(fabs(lep2_pT - triboson_np::lep2_coneCorrPt())<0.0001);
       */
-
       bool verbose = false;
-      // if (triboson_np::lumi() != 144401 || triboson_np::event() != 23132887) continue;
-      // if (triboson_np::lumi() != 204117 || triboson_np::event() != 32699566) continue;
-      // if (triboson_np::lumi() != 228769 || triboson_np::event() != 36648858) continue;
-      // if (triboson_np::lumi() != 247804 || triboson_np::event() != 39698163) continue;
-      // if (triboson_np::lumi() != 319965 || triboson_np::event() != 51258393) continue;
-      // if (triboson_np::lumi() != 402409 || triboson_np::event() != 64465899) continue;
-      // if (triboson_np::lumi() != 447023 || triboson_np::event() != 71613202) continue;
-      // if (triboson_np::lumi() != 477223 || triboson_np::event() != 76451090) continue;
-
-      //Determine passes ID
-      bool lep1_passes_id = tribosonsel::isGoodLepton(lep1_index, "ss");
-      bool lep2_passes_id = tribosonsel::isGoodLepton(lep2_index, "ss");
-//      cout<<tribosonsel::hyp_class()<<"lep1_passes_id"<<lep1_passes_id<<":lep2_passes_id"<<lep2_passes_id<<":lep1_index:" << lep1_index<<":lep2_index:"<<lep2_index<<endl;
-      hists[getHist("N_hyp_class_BR_histo")]->Fill(tribosonsel::hyp_class(),1);
-      fillHist( "event", "hyp_class", selection.c_str(), tribosonsel::hyp_class(), 1);
+     //Determine passes ID
+      bool lep1_passes_id = tribosonsel::isGoodLepton(lep1_index, "ss_VVV_cutbased_tight");
+      bool lep2_passes_id = tribosonsel::isGoodLepton(lep2_index, "ss_VVV_cutbased_tight");
+//      if(lep1_passes_id&&lep2_passes_id) cout<<tribosonsel::hyp_class()<<":lep1_passes_id:"<<lep1_passes_id<<":lep2_passes_id:"<<lep2_passes_id<<":lep1_motherID:" << triboson_np::lep_motherIdSS().at(lep1_index)<<":lep2_motherID:"<<triboson_np::lep_motherIdSS().at(lep2_index)<<endl;
       //doublecheck
       if (verbose) {
           bool lep1prompt = lep1_motherID==1;
@@ -853,7 +877,6 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
           }
       }
 
-
       //Determine mtMin
       float mtmin(-999);
       if (coneCorr){
@@ -866,8 +889,11 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       if(debug)   cout<<"going to find out which region are we at"<< __LINE__<<endl;
       int br = tribosonsel::preselRegion(); // 1:ss_ee, 2:ss_em,3:ss_mm,4:0SFOS, 5:1SFOS, 6:2SFOS
       int sr = tribosonsel::signalRegion2016();
-      if (br<0) continue;
+      if (br<0||br>4) continue;
+      br = 1; 
+      if (sr>0&&sr<4) sr =1;
       if(debug)   cout<<"event passed baseline selection"<< __LINE__<<endl;
+      fillHist( "event", "hyp_class", selection.c_str(),lep1_id ,tribosonsel::hyp_class(), weight);
       //if (verbose) std::cout << " inSitu: " << inSitu << " br: " << br << " ac_base: " << ac_base << " tribosonsel::hyp_class(): " << tribosonsel::hyp_class() << std::endl;
 
       // SS Z veto -- this is to match the inSitu FR derivation macro
@@ -877,7 +903,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       if(highhigh && ac_base!=HighHigh) continue;
       if(highlow  && ac_base!=HighLow ) continue;
       if(lowlow   && ac_base!=LowLow  ) continue;
-*/
+      */
       //pTrel plots
       if(!triboson_np::isData()) {
         if ( (lep1_pT > 25. && lep2_pT > 25.) ){
@@ -919,10 +945,10 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       // and leave all MC in class 3 observations (if they have truth fakes)
 
       // doublecheck
-          bool isLep1Prompt =  triboson_np::lep_isFromW().at(lep1_index);
-          bool isLep2Prompt =  triboson_np::lep_isFromW().at(lep2_index);
-          //bool isLep1Prompt = lep1_motherID==1;
-          //bool isLep2Prompt = lep2_motherID==1;
+          //bool isLep1Prompt =  triboson_np::lep_isFromW().at(lep1_index);
+          //bool isLep2Prompt =  triboson_np::lep_isFromW().at(lep2_index);
+          bool isLep1Prompt = lep1_motherID==1;
+          bool isLep2Prompt = lep2_motherID==1;
           bool isLep1NonPrompt = lep1_motherID<=0;
           bool isLep2NonPrompt = lep2_motherID<=0;
         //Counters
@@ -1096,8 +1122,8 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
         float mini_cut_1     = (abs(lep1_id) == 11 ? 0.12 : 0.16);
         float mini_cut_2     = (abs(lep2_id) == 11 ? 0.12 : 0.16);
         //doublecheck  denominator isolation definition
-        bool lep1_denom_iso  = ((lep1_miniIso < 0.4) && ((lep1_ptrel_v1 > ptrel_cut_1) ));
-        bool lep2_denom_iso  = ((lep2_miniIso < 0.4) && ((lep2_ptrel_v1 > ptrel_cut_2) ));
+        bool lep1_denom_iso  = ((lep1_miniIso < 0.4));
+        bool lep2_denom_iso  = ((lep2_miniIso < 0.4));
       //bool lep1_denom_iso  = ((lep1_miniIso < 0.4) && ((lep1_ptrel_v1 > ptrel_cut_1) || ((triboson_np::lep1_closeJet().pt()/lep1_p4.pt()) < (1.0/ptratio_cut_1 + lep1_miniIso))));
       //bool lep2_denom_iso  = ((lep2_miniIso < 0.4) && ((lep2_ptrel_v1 > ptrel_cut_2) || ((triboson_np::lep2_closeJet().pt()/lep2_p4.pt()) < (1.0/ptratio_cut_2 + lep2_miniIso))));
 
@@ -1138,12 +1164,14 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
           }
 
           if (abs(lep2_id) == 11){  
-
             e2 = getFakeRate(11, lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData, inSitu );
             e2a = getFakeRate2(11, lep2_p4.pt(), fabs(lep2_p4.eta()), triboson_np::ht(), false, doData); 
             w = coneCorr ? (e2/(1-e2))*weight : (e2a/(1-e2a))*weight;
-            if(weightOne) w = 1.0;
-            if(subtractContamination) w = mult*weight;
+           //cout<< e2/(1-e2)<<endl;
+           //w = weight;
+           
+           if(weightOne) w = 1.0;
+           if(subtractContamination) w = mult*weight;
 
             addToCounter(filename+Form("_pred_el_BR%i", br), w);
             if (fabs(lep2_p4.eta()) < 0.8 && lep2_pT >= 70) addToCounter(filename+"_pred_el_pteta2", w);
@@ -1160,10 +1188,9 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
             if(isFakeLeg(2)) hists[getHist("Npn_histo_LFake_pred_el")] ->Fill(coneCorr ? lep2_pT : lep2_p4.pt(), w);
             // if(isFakeLeg(2)) hists[getHist("Npn_histo_LFake_pred_el_rebin")] ->Fill(min(coneCorr ? lep2_pT : lep2_p4.pt(),69.F), w);
             if (sr>=0) Npn_histo_sr_err2_pred_el[(triboson_np::ht() > 300)][sr-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
-          //  Npn_histo_br_err2_pred_el[triboson_np::ht() > 300][br]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
+            Npn_histo_br_err2_pred_el[triboson_np::ht() > 300][br]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_HT_err2_pred_el[(triboson_np::ht() > 300)][hists[getHist("Npn_histo_HT_pred_el")]->FindBin(triboson_np::ht())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_MET_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_MET_pred_el")]->FindBin(triboson_np::met_pt())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
-          //  Npn_histo_MTMIN_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_MTMIN_pred_el")]->FindBin(mtmin)-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_L1PT_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_L1PT_pred_el")]->FindBin(coneCorr ? lep1_pT : lep1_p4.pt())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_L2PT_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_L2PT_pred_el")]->FindBin(coneCorr ? lep2_pT : lep2_p4.pt())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_LTrue_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_LTrue_pred_el")]->FindBin(coneCorr ? lep1_pT : lep1_p4.pt())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
@@ -1178,6 +1205,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
             e2 = getFakeRate(13, lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData, inSitu );
             e2a = getFakeRate2(13, lep2_p4.pt(), fabs(lep2_p4.eta()), triboson_np::ht(), false, doData); 
             w = coneCorr ? (e2/(1-e2))*weight : (e2a/(1-e2a))*weight;
+            //w = weight;
             if(weightOne) w = 1.0;
             if(subtractContamination) w = mult*weight;
 
@@ -1185,6 +1213,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
             if (fabs(lep2_p4.eta()) < 1.2 && lep2_pT >= 50) addToCounter(filename+"_pred_mu_pteta2", w);
             if (fabs(lep2_p4.eta()) < 1.2 && lep2_pT >= 50) addToCounter(filename+"_prednotf_mu_pteta2", 1);
 
+            fillHist( "event", "fakerate_weight", selection.c_str(),lep2_id,e2/(1-e2), 1);
             if(sr > 0) hists[getHist("Npn_histo_sr_pred_mu")]->Fill(sr, w);
             hists[getHist("Npn_histo_br_pred_mu")]->Fill(br, w);
             hists[getHist("Npn_histo_HT_pred_mu")]->Fill(triboson_np::ht(), w);
@@ -1198,7 +1227,6 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
           //  Npn_histo_br_err2_pred_mu[triboson_np::ht() > 300][br]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_HT_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_HT_pred_mu")]->FindBin(triboson_np::ht())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_MET_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_MET_pred_mu")]->FindBin(triboson_np::met_pt())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
-//            Npn_histo_MTMIN_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_MTMIN_pred_mu")]->FindBin(mtmin)-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_L1PT_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_L1PT_pred_mu")]->FindBin(coneCorr ? lep1_pT : lep1_p4.pt())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_L2PT_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_L2PT_pred_mu")]->FindBin(coneCorr ? lep2_pT : lep2_p4.pt())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
             Npn_histo_LTrue_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_LTrue_pred_mu")]->FindBin(coneCorr ? lep1_pT : lep1_p4.pt())-1]->Fill(lep2_pT, fabs(lep2_p4.eta()), w);
@@ -1223,14 +1251,12 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
 
         //2) Lep1 is loose!tight, lep2 is tight
         if (!lep1_passes_id && lep2_passes_id){
-
           //Baseline selections
           if (!inSitu && triboson_np::hyp_type() != 2) continue;
-//         doublecheck
-//          if (inSitu && (triboson_np::lep1_multiIso() || !isFakeLeg(1, doData) || !isGoodLeg(2, doData) || !lep1_denom_iso)) continue;
-
-          // if(doData && !triboson_np::isData() && isGoodLeg(1)) weight = -triboson_np::scale1fb(); 
-          // else weight = 0;
+          //doublecheck
+          //if (inSitu && (triboson_np::lep1_multiIso() || !isFakeLeg(1, doData) || !isGoodLeg(2, doData) || !lep1_denom_iso)) continue;
+          //if(doData && !triboson_np::isData() && isGoodLeg(1)) weight = -triboson_np::scale1fb(); 
+          //else weight = 0;
 
           if (usePtRatioCor){
             if ( abs(lep1_id)==11 ){
@@ -1243,10 +1269,10 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
             }
           }
           if( abs(lep1_id) == 11 ){	//if el, use el rate.  FILL WITH NONPROMPT			  
-
             e1 = getFakeRate(11, lep1_pT, fabs(lep1_p4.eta()), triboson_np::ht(), false, doData, inSitu );
             e1a = getFakeRate2(11, lep1_p4.pt(), fabs(lep1_p4.eta()), triboson_np::ht(), false, doData); 
             w = coneCorr ? (e1/(1-e1))*weight : (e1a/(1-e1a))*weight;
+            //w = weight;
             if(weightOne) w = 1.0;
             if(subtractContamination) w = mult*weight;
             addToCounter(filename+Form("_pred_el_BR%i", br), w);
@@ -1268,7 +1294,6 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
           //  Npn_histo_br_err2_pred_el[triboson_np::ht() > 300][br]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
             Npn_histo_HT_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_HT_pred_el")]->FindBin(triboson_np::ht())-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
             Npn_histo_MET_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_MET_pred_el")]->FindBin(triboson_np::met_pt())-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
-          //  Npn_histo_MTMIN_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_MTMIN_pred_el")]->FindBin(mtmin)-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
             Npn_histo_L1PT_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_L1PT_pred_el")]->FindBin(coneCorr ? lep1_pT : lep1_p4.pt())-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
             Npn_histo_L2PT_err2_pred_el[triboson_np::ht() > 300][hists[getHist("Npn_histo_L2PT_pred_el")]->FindBin(coneCorr ? lep2_pT : lep2_p4.pt())-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
 
@@ -1284,6 +1309,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
             e1 = getFakeRate(13, lep1_pT, fabs(lep1_p4.eta()), triboson_np::ht(), false, doData, inSitu );
             e1a = getFakeRate2(13, lep1_p4.pt(), fabs(lep1_p4.eta()), triboson_np::ht(), false, doData); 
             w = coneCorr ? (e1/(1-e1))*weight : (e1a/(1-e1a))*weight;
+            //w = weight;
             if(weightOne) w = 1.0;
             if(subtractContamination) w = mult*weight;
 
@@ -1291,6 +1317,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
             if (fabs(lep1_p4.eta()) < 1.2 && lep1_pT >= 50) addToCounter(filename+"_pred_mu_pteta1", w);
             if (fabs(lep1_p4.eta()) < 1.2 && lep1_pT >= 50) addToCounter(filename+"_prednotf_mu_pteta1", 1);
 
+            fillHist( "event", "fakerate_weight", selection.c_str(),lep1_id, e2/(1-e2), 1);
             if(sr > 0) hists[getHist("Npn_histo_sr_pred_mu")]->Fill(sr, w);
             hists[getHist("Npn_histo_br_pred_mu")]->Fill(br, w);
             hists[getHist("Npn_histo_HT_pred_mu")]->Fill(triboson_np::ht(), w);
@@ -1305,7 +1332,6 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
           //  Npn_histo_br_err2_pred_mu[triboson_np::ht() > 300][br]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
             Npn_histo_HT_err2_pred_mu[(triboson_np::ht() > 300)][hists[getHist("Npn_histo_HT_pred_mu")]->FindBin(triboson_np::ht())-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
             Npn_histo_MET_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_MET_pred_mu")]->FindBin(triboson_np::met_pt())-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
-       //     Npn_histo_MTMIN_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_MTMIN_pred_mu")]->FindBin(mtmin)-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
             Npn_histo_L1PT_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_L1PT_pred_mu")]->FindBin(coneCorr ? lep1_pT : lep1_p4.pt())-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
             Npn_histo_L2PT_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_L2PT_pred_mu")]->FindBin(coneCorr ? lep2_pT : lep2_p4.pt())-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
             Npn_histo_LFake_err2_pred_mu[triboson_np::ht() > 300][hists[getHist("Npn_histo_LFake_pred_mu")]->FindBin(coneCorr ? lep1_pT : lep1_p4.pt())-1]->Fill(lep1_pT, fabs(lep1_p4.eta()), w);
@@ -1381,7 +1407,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
   //redefine option to save also ptRegion in output files
   option=option+"_"+ptRegion;
 
-  std::string plotdir="~mliu/public_html/www_closure/plots/";
+  std::string plotdir="~mliu/public_html/www_closure/plots/iso012/";
 
   // TString commonOptions = Form(" --isLinear --outOfFrame --type Supplementary (Simulation) --dataName Data --noDivisionLabel --noRatioPlot --lumi %.2f --yTitleOffset -0.2", luminosity);// --systBlack --systFillStyle 3345
   TString commonOptions = Form(" --legendCounts --isLinear --outOfFrame --type Supplementary (Simulation) --dataName Prediction --noDivisionLabel --lumi %.2f --yTitleOffset -0.2 --legendTaller 0.07 --legendRight -0.06", luminosity);// --systBlack --systFillStyle 3345
@@ -1414,7 +1440,6 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
   dataMCplotMaker(hists[getHist("Npn_histo_br_pred")], getBackgrounds("Npn_histo_br_obs", -1, filenames), obs_types, "BRs", mc_type+"", Form("--outputName %s --xAxisLabel Baseline Region --noXaxisUnit"+commonOptions, (plotdir+"br_all"+option).Data()), {}, {}, colors); 
   dataMCplotMaker(hists[getHist("Npn_histo_br_pred_mu")], getBackgrounds("Npn_histo_br_obs", 1, filenames), obs_types, "BRs", mc_type+", Nonprompt muons", Form("--outputName %s --xAxisLabel Baseline Region --noXaxisUnit"+commonOptions, (plotdir+"br_mu"+option).Data()), {}, {}, colors); 
   dataMCplotMaker(hists[getHist("Npn_histo_br_pred_el")], getBackgrounds("Npn_histo_br_obs", 0, filenames), obs_types, "BRs", mc_type+", Nonprompt electrons", Form("--outputName %s --xAxisLabel Baseline Region --noXaxisUnit"+commonOptions, (plotdir+"br_el"+option).Data()), {}, {}, colors); 
-  //dataMCplotMaker(hists[getHist("N_hyp_class_BR_histo")], getBackgrounds("N_hyp_class_BR_histo", -1, filenames), obs_types, "BRs", mc_type+", hyp class", Form("--outputName %s --xAxisLabel Baseline Region --noXaxisUnit"+commonOptions, (plotdir+"br_all"+option).Data()), {}, {}, colors); 
 
   //SR plots
   string typeAG = "HH";
