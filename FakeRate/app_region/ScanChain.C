@@ -90,7 +90,7 @@ bool isFakeLeg(int lep, bool doData=false){
 bool isGoodLeg(int lep, bool doData=false){
   if (doData) return true;
   //doublecheck
-      vector<int> ilep = tribosonsel::selectedLooseLeps("looselep");
+      vector<int> ilep = tribosonsel::selectedLooseLeps(looselep);
       if(ilep.size()<2)  return 1; 
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
@@ -783,6 +783,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       if (doBonly) {
       //consider only prompt or bs
         if (lep2_motherID!=1 && lep2_motherID!=-1) continue;
+        if (lep1_motherID!=1 && lep1_motherID!=-1) continue;
       }
       else if (doConly) {
        //consider only prompt or cs
@@ -893,7 +894,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       br = 1; 
       if (sr>0&&sr<4) sr =1;
       if(debug)   cout<<"event passed baseline selection"<< __LINE__<<endl;
-      fillHist( "event", "hyp_class", selection.c_str(),lep1_id ,tribosonsel::hyp_class(), weight);
+      fillHist( "event", "hyp_class", selection.c_str(),-1 ,tribosonsel::hyp_class(), weight);
       //if (verbose) std::cout << " inSitu: " << inSitu << " br: " << br << " ac_base: " << ac_base << " tribosonsel::hyp_class(): " << tribosonsel::hyp_class() << std::endl;
 
       // SS Z veto -- this is to match the inSitu FR derivation macro
@@ -1407,7 +1408,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
   //redefine option to save also ptRegion in output files
   option=option+"_"+ptRegion;
 
-  std::string plotdir="~mliu/public_html/www_closure/plots/iso012/";
+  std::string plotdir="~mliu/public_html/www_closure/plots/iso01/";
 
   // TString commonOptions = Form(" --isLinear --outOfFrame --type Supplementary (Simulation) --dataName Data --noDivisionLabel --noRatioPlot --lumi %.2f --yTitleOffset -0.2", luminosity);// --systBlack --systFillStyle 3345
   TString commonOptions = Form(" --legendCounts --isLinear --outOfFrame --type Supplementary (Simulation) --dataName Prediction --noDivisionLabel --lumi %.2f --yTitleOffset -0.2 --legendTaller 0.07 --legendRight -0.06", luminosity);// --systBlack --systFillStyle 3345

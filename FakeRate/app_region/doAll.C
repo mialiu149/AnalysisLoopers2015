@@ -19,7 +19,7 @@
   bool doJetCorr    = 0;
   bool doPtRatioCor = 0;
   bool doConly      = 0;
-
+  bool doConeCorr   =1;
   bool doData          = 0;
 
   bool doInSitu        = 0;
@@ -27,7 +27,7 @@
   bool extrPt          = 0; // extra Ptbin for electrons
   bool inclusiveHT     = 0; // use inclusive HT FR
 
-  bool doBonly         = 0;
+  bool doBonly         = 1;
   bool doLightonly     = 0;
 
   //For both inSitu and not-in-Situ
