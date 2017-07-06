@@ -3,7 +3,7 @@ from ROOT import TH1F,TFile
 import os
 from math import sqrt
 lumi = '36.5'
-selection="sr_yield_crwz"
+selection="sr_yield_raw"
 #selection="sr_yield_v1_CRWZ_noisotrackveto_jetveto_removejetcuts"
 #selection="sr_yield_v1_CRWZ_noisotrackveto_jetveto"
 #selection = "sr_yield_isotrackveto_loosebtag_tightiso_v1"

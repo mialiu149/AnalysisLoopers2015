@@ -12,7 +12,8 @@
 
       TFile* fmc = TFile::Open("rate_histos_qcd_"+ll+suffix+".root");
 
-      TH2D* mc = (TH2D*) fmc->Get("rate_histo_"+l);
+      //TH2D* mc = (TH2D*) fmc->Get("rate_histo_"+l);
+      TH2D* mc = (TH2D*) fmc->Get("rate_cone_histo_"+l);
 
       cout << "float "+lep+"QCDMCFakeRate"+suffix+"WWW"+"(float pt, float eta) {" << endl;
       for (int xbin=1;xbin<=mc->GetNbinsX();xbin++) {

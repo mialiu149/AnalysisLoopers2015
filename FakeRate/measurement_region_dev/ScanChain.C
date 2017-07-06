@@ -62,8 +62,8 @@ bool myAnalysisID(bool& passId, bool& passFO)
   ///
   ///
 
-  passId = passes_VVV_cutbased_tight() && RelIso03EA() < 0.06;
-  passFO = (abs(id()) == 13&& passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.12) || (passes_VVV_cutbased_fo()&&abs(id()) == 11 && RelIso03EA() < 0.1);
+  passId = passes_VVV_cutbased_tight_noiso() && RelIso03EA() < 0.06;
+  passFO = (abs(id()) == 13&& passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.4) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2);
   //passFO = passes_SS_fo_v5();
 
   // We use isolated auxiliary single lepton trigger.
@@ -178,7 +178,7 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
 
   int nptbins = 4;
   int netabins = 3;
-  float ptbins[6] = { 20., 30., 40., 50., 70.};
+  float ptbins[5] = { 10., 30., 40., 50., 70.};
   float etabins_mu[4] = {0., 1.2, 2.1, 2.4};
   float etabins_el[4] = {0., 0.8, 1.479, 2.5};
 
@@ -894,10 +894,10 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
       // FIXME Modify me to get the right ID FIXME
       // FIXME Modify me to get the right ID FIXME
       // FIXME Modify me to get the right ID FIXME
-      bool passId = false;
-      bool passFO = false;
-      bool passId_noiso = false;
-      bool passFO_noiso = false;
+      bool passId = passes_VVV_cutbased_tight_noiso() && RelIso03EA() < 0.06;
+      bool passFO = (abs(id()) == 13&& passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.4) || (passes_VVV_cutbased_fo()&&abs(id()) == 11 && RelIso03EA() < 0.1);
+      bool passId_noiso = passes_VVV_cutbased_tight_noiso();
+      bool passFO_noiso = passes_VVV_cutbased_fo_noiso();
       if (!passMyAnalysisID(passId, passFO)) continue;
       // FIXME Modify me to get the right ID FIXME
       // FIXME Modify me to get the right ID FIXME
@@ -956,7 +956,7 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
         }
       }
 
-      float coneptcorr = 0.;
+      float coneptcorr = 1.;
       if (abs(id())==11) {
         if (ptrel>7.2) {
           coneptcorr = std::max(0.,miniiso()-0.12);
@@ -970,10 +970,11 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
           coneptcorr = max(double(0.),(closejetpt*0.76/p4().pt()-1.));
         }
       }
+ 
       if (useRelIso) {
         passId = passId_noiso && relIso<0.1;
         passFO = passFO_noiso && relIso<0.5;
-        coneptcorr = std::max(0.,relIso-0.1);
+      coneptcorr = std::max(0.,relIso-0.06);
       }
 
       if (debug) cout << Form("check FO miniiso=%.2f ptratio=%.2f ptrel=%5.2f mva=%5.2f",miniiso(),p4().pt()/closejetpt,ptrel,mva_25ns()) << endl;

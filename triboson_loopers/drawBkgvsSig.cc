@@ -227,8 +227,8 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
      updateoverflow(  h_ttv, xmax ); 
   }
   if(use_ww) { 
-     h_ww->SetLineColor(getColorSplitByMC_tribosonana(WW));
-     h_ww->SetFillColor(getColorSplitByMC_tribosonana(WW));
+     h_ww->SetLineColor(getColorSplitByMC_tribosonana(ww));
+     h_ww->SetFillColor(getColorSplitByMC_tribosonana(ww));
      updateoverflow( h_ww, xmax );
   }
   if(use_wz) { 

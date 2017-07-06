@@ -79,21 +79,22 @@ if(TString(selection).Contains("ss")){
  vector<int> goodleps = selectedLeps(selection);                           //find good leptons
  if (TString(selection).Contains("loose")) goodleps = selectedLooseLeps(selection);
  int nvetoleps = countvetoleps(5);
- int type_looper = hyp_type_looper(goodleps);                              //find event type
+ int type_looper = hyp_type_looper(goodleps);            //find event type
  if( !passTrigger)                                        return false; 
- if( !TString(selection).Contains("crwz")&&(goodleps.size()!=2||nlep()!=2||nveto_leptons()>0))    return false; 
+ if( !TString(selection).Contains("crwz")&&(goodleps.size()!=2||nlep_VVV_cutbased_veto()>2))    return false; 
  if( TString(selection).Contains("crwz")&&goodleps.size()!=3)                                  return false;
  if( type_looper<0)                                       return false; //event not SS type
+ if( !TString(selection).Contains("noisotrackveto") && !TString(selection).Contains("crwz")&& nisoTrack_mt2_cleaned_VVV_cutbased_veto()>0) return false; //isotrackveto, on bydefault now
  if( njets_sel<2)                                         return false; // at least two jets
- if( !TString(selection).Contains("noisotrackveto") && !TString(selection).Contains("crwz")&& nisoTrack_mt2()>0) return false; //isotrackveto, on bydefault now
  if( TString(selection).Contains("jetveto") && njets()>4) return false; //isotrackveto
  if( TString(selection).Contains("ee") && type_looper!=0) return false;    //ee
  if( TString(selection).Contains("mm") && type_looper!=1) return false;    //mm
  if( TString(selection).Contains("em") && type_looper!=2) return false;    //em
- float dilepmass = (lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).mass();// calculate dilepton mass
- if( type_looper==0 && dilepmass>80 && dilepmass<100)     return false;    //for ee events, veto zmass
- if( dilepmass<40)                    return false;                                  // dilepmass>40
- if( type_looper!=1&&met_pt()<40)     return false;                                  // met cut for ee/emu
+// float dilepmass = (lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).mass();// calculate dilepton mass
+// if( dilepmass<40)                    return false;                                  // dilepmass>40
+//cout<<"Run_Number:"<<run()<<":lumi:"<<lumi()<<":EventNumber:"<< evt()<<endl; 
+// cout<<"lep1:"<<goodleps.at(0)<<":lep2:"<<goodleps.at(1)<<endl;
+ if(met_pt()<40) return false;
  return true;
  }
 
@@ -246,7 +247,18 @@ bool passSR( std::string selection ){
 
 if(!passPreselection(selection)) return false;
 
+ vector<int> goodleps = selectedLeps(selection);                           //find good leptons
+ if (TString(selection).Contains("loose")) goodleps = selectedLooseLeps(selection);
+ int type_looper = hyp_type_looper(goodleps);            //find event type
+
 if(TString(selection).Contains("ss")){
+ float dilepmass = (lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).mass();// calculate dilepton mass
+ if( type_looper==0 && dilepmass>80 && dilepmass<100)     return false;    //for ee events, veto zmass
+ if( type_looper==0 && dilepmass<40)                      return false;
+ if( type_looper==1 && dilepmass<40)                      return false;
+ if( type_looper==2 && dilepmass<30)                      return false;    // dilepmass>40
+ if( type_looper==2 && maxMt(goodleps)<90)                return false;
+ if( type_looper!=1 && met_pt()<40)     return false;                                  // met cut for ee/emu
  float mjj = mjj_dRmin(goodjets);
  float mjj_lead = (jets_p4().at(goodjets.at(0))+jets_p4().at(goodjets.at(1))).mass();                    // dijet mass
  double deta_jj = abs(jets_p4().at(goodjets.at(0)).eta() - jets_p4().at(goodjets.at(1)).eta());      // dijet eta
@@ -259,7 +271,6 @@ if(TString(selection).Contains("ss")){
  if( jets_p4().at(goodjets.at(1)).pt()<20||fabs(jets_p4().at(goodjets.at(1)).eta())>2.5)         return false;                                  // leading jet pt
  return true;
  }
- 
  if( mjj>100 || mjj<60)               return false;                                  // w mass window cut
  if( mjj_lead >400)                   return false;
  if( deta_jj>1.5)                     return false;                                  // delta eta cut
@@ -284,7 +295,7 @@ if(TString(selection).Contains("trilep")){
      pass_SFOS2 = (trileptype==2 && abs(dilepmass-ZMASS)>20);
  }
 float   ptlll=(lep_p4().at(leps_index.at(0))+lep_p4().at(leps_index.at(1))+lep_p4().at(leps_index.at(2))).pt();  
- if( TString(selection).Contains("ptlll60")&&ptlll<60) return false;  
+ if(!TString(selection).Contains("noptlll60")&&ptlll<60)  return false;  
  if(!pass_SFOS0&&!pass_SFOS1&&!pass_SFOS2) return false;
  if( TString(selection).Contains("SFOS0") && !pass_SFOS0) return false; 
  if( TString(selection).Contains("SFOS1") && !pass_SFOS1) return false; 
@@ -370,34 +381,42 @@ bool isGoodLepton(int lepindex, string selection){
   float iso_cut_el = 0.06;
   float iso_cut_mu = 0.06;
   bool pass_cut = false;
-  if(TString(selection).Contains("ss"))  pt_cut=30.0;
-  //if(TString(selection).Contains("ss")) pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el &&abs(lep_ip3d().at(lepindex))<0.015 && (abs(lep_pdgId().at(lepindex))==13 || lep_tightCharge().at(lepindex) == 2) && lep_pass_VVV_cutbased_tight_noiso().at(lepindex);
-  if(TString(selection).Contains("VVV_cutbased_tight")) pass_cut =  lep_p4().at(lepindex).pt() > pt_cut && lep_pass_VVV_cutbased_tight().at(lepindex); 
-  else pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el &&abs(lep_ip3d().at(lepindex))<0.015;
+  bool eta_cut = false;
+  if (abs(lep_pdgId().at(lepindex))==13) eta_cut = fabs(lep_eta().at(lepindex))<2.4;
+  if (abs(lep_pdgId().at(lepindex))==11) eta_cut = fabs(lep_eta().at(lepindex))<2.5 && (fabs(lep_eta().at(lepindex))<1.4 || fabs(lep_eta().at(lepindex))>1.6) ;
+  if(TString(selection).Contains("looseiso")) {iso_cut_el=0.1;iso_cut_mu=0.1;}
+  if(TString(selection).Contains("ss"))  { pt_cut=30.0;}
+  //if(TString(selection).Contains("ss")) pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EAv2().at(lepindex)<iso_cut_el &&abs(lep_ip3d().at(lepindex))<0.015 && (abs(lep_pdgId().at(lepindex))==13 || lep_tightCharge().at(lepindex) == 2) && lep_pass_VVV_cutbased_tight_noiso().at(lepindex);
+//  if(TString(selection).Contains("VVV_cutbased_tight")) pass_cut =  lep_p4().at(lepindex).pt() > pt_cut && lep_pass_VVV_cutbased_tight().at(lepindex) && (abs(lep_pdgId().at(lepindex))==13 || lep_tightCharge().at(lepindex) == 2); 
+  if(TString(selection).Contains("VVV_baseline") ) pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EAv2().at(lepindex)<iso_cut_el &&abs(lep_ip3d().at(lepindex))<0.015 && (abs(lep_pdgId().at(lepindex))==13 || lep_tightCharge().at(lepindex) == 2) && lep_pass_VVV_baseline().at(lepindex);
+  //else pass_cut =  lep_p4().at(lepindex).pt() > pt_cut && lep_pass_VVV_cutbased_tight().at(lepindex); // default is cutbased tight.
+  //else pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_pass_VVV_cutbased_tight_noiso().at(lepindex)&&lep_relIso03EAv2().at(lepindex)<iso_cut_el && (abs(lep_pdgId().at(lepindex))==13 || lep_tightCharge().at(lepindex) == 2) && abs(lep_ip3d().at(lepindex))<0.015 && eta_cut;
+  else pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_pass_VVV_cutbased_tight_noiso().at(lepindex)&&lep_relIso03EAv2().at(lepindex)<iso_cut_el;
   return pass_cut;
 }
 
 bool isLooseLepton(int lepindex, string selection){
   float pt_cut = 20.0;
-  float iso_cut_el = 0.1;
-  float iso_cut_mu = 0.12;
+  float iso_cut_el = 0.2;
+  float iso_cut_mu = 0.4;
   bool  pass_cut = false;
+  bool cut_el = (lep_pass_VVV_cutbased_fo_noiso().at(lepindex)&&lep_relIso03EAv2().at(lepindex)<iso_cut_el);
+  bool cut_mu = (lep_pass_VVV_cutbased_fo_noiso().at(lepindex) &&  lep_relIso03EAv2().at(lepindex)<iso_cut_mu);
 
   if(TString(selection).Contains("ss")) { pt_cut=30.0;}
 
   if(TString(selection).Contains("SS_veto_noiso_v5")) {
    pt_cut=30.0;
-   pass_cut =  lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el && lep_pass_VVV_cutbased_fo_noiso().at(lepindex);    
+   pass_cut =  lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EAv2().at(lepindex)<iso_cut_el && lep_pass_VVV_cutbased_fo_noiso().at(lepindex);    
 }
    
-  if(TString(selection).Contains("VVV_cutbased_fo")) {
-   bool cut_el = (lep_pass_VVV_cutbased_fo().at(lepindex)&&lep_relIso03EA().at(lepindex)<iso_cut_el);
-   bool cut_mu = (lep_pass_VVV_cutbased_fo_noiso().at(lepindex) &&  lep_relIso03EA().at(lepindex)<iso_cut_mu);
+//  if(TString(selection).Contains("VVV_cutbased_fo")) {
    if (abs(lep_pdgId().at(lepindex)) ==11) pass_cut =  lep_p4().at(lepindex).pt() > pt_cut && cut_el; 
    if (abs(lep_pdgId().at(lepindex)) ==13) pass_cut =  lep_p4().at(lepindex).pt() > pt_cut && cut_mu; 
- }
-// pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el;}
-//  else pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el;
+// }
+// pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EAv2().at(lepindex)<iso_cut_el;}
+//  else pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EAv2().at(lepindex)<iso_cut_el;
+  
   return pass_cut;
 }
 
@@ -411,21 +430,12 @@ return selectedlooseleps;
 
 vector<int> selectedLeps(string selection){
   vector<int> selectedleps;
-  float pt_cut = 20.0;
-  float iso_cut_el = 0.06;
-  float iso_cut_mu = 0.06;
-  if(TString(selection).Contains("ss"))  pt_cut=30.0;
-  if(TString(selection).Contains("looseiso")) {iso_cut_el=0.1;iso_cut_mu=0.1;}
   for (unsigned int lepindex = 0;lepindex<lep_p4().size();++lepindex){
-      bool pass_cut = false;
-      if(TString(selection).Contains("ss")) pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el &&abs(lep_ip3d().at(lepindex))<0.015 && (abs(lep_pdgId().at(lepindex))==13 || lep_tightCharge().at(lepindex) == 2);
-      else pass_cut = lep_p4().at(lepindex).pt() > pt_cut && lep_relIso03EA().at(lepindex)<iso_cut_el &&abs(lep_ip3d().at(lepindex))<0.015;
-      if(pass_cut)
-       selectedleps.push_back(lepindex);
+      bool pass_cut = isGoodLepton(lepindex,selection);
+      if(pass_cut)  selectedleps.push_back(lepindex);
   }
 return selectedleps;
 }
-
 
 int countvetoleps(float pt_cut){
   int nvetolep = 0;
@@ -459,7 +469,8 @@ int hyp_class(){
           && !isGoodLepton(looseleps.at(1),"ss_VVV_cutbased_tight")
           || isGoodLepton(looseleps.at(1),"ss_VVV_cutbased_tight")
           && !isGoodLepton(looseleps.at(0),"ss_VVV_cutbased_tight")) 
-          &&hyp_type_looper(looseleps) >-1 ) return 2;}// ss tight-loose; loose-tight
+          && hyp_type_looper(looseleps) >-1 ) return 2;
+    }// ss tight-loose; loose-tight
     if(goodleps.size()==0&&looseleps.size()==2) { if(hyp_type_looper(looseleps) >-1 ) return 1;}  //ss loose-loose
     if(looseleps.size()==2&&hyp_type_looper(looseleps)<0)  return -1;
   return 0; //should not end up here
@@ -512,13 +523,13 @@ float mct(vector<int> selbjets_idx) {
   return mct;
 }
 
-float minMt(vector<int>leps){
-   float mt_min = 99999;
+float maxMt(vector<int>leps){
+   float mt_max = 0;
    for(unsigned int i=0;i<leps.size();++i){
       float mt = calculateMt(lep_p4().at(leps.at(i)),met_pt(),met_phi());
-      if(mt<mt_min) mt_min = mt; 
+      if(mt>mt_max) mt_max = mt; 
   } 
- return mt_min;
+ return mt_max;
 }
 
 float dphi3lmet(vector<int>leps, float met_phi){
@@ -533,7 +544,7 @@ float dphi3lmet(vector<int>leps, float met_phi){
 float mjj_dRmin(vector<int> jets){
  float mjj(-999), dRjj_min(999),dRjj(999);
  std::pair <int,int> jetpair;
- if(jets.size()<2) {cout<<"need at least two jets"<<endl;return mjj;}
+ if(jets.size()<2) return mjj;
  for (unsigned int i=0;i<jets.size();++i){
     for(unsigned int j = i;j<jets.size();++j){
       if( j==i) continue;
@@ -603,4 +614,11 @@ pair <int, int> lepMotherID_v2(int lepindex){
   else if (lep_isFromLF().at(lepindex)) return make_pair(-4, idx);
   return make_pair(0, idx);
  }
+
+float getmjj(){ 
+ vector<int> goodjets =  selectedjets();
+ float mjj =  mjj_dRmin( goodjets );
+ return mjj;
+ }
+ 
 }//end of namespace

@@ -21,9 +21,9 @@
   if(doIso) postfix+="_IsoTrigs";
   // postfix+="_PtRatioCor";
   // postfix+="_doBonly";
-  // postfix+="_doLightonly";
+   postfix+="_doLightonly";
   TString var = "";
-  //var="_cone";
+  var="_cone";
   // var="_jet";
   // var="_jet_highpt";
   // var="_jet_lowpt";

@@ -18,7 +18,6 @@
 
   bool doJetCorr    = 0;
   bool doPtRatioCor = 0;
-  bool doConly      = 0;
   bool doConeCorr   =1;
   bool doData          = 0;
 
@@ -27,7 +26,9 @@
   bool extrPt          = 0; // extra Ptbin for electrons
   bool inclusiveHT     = 0; // use inclusive HT FR
 
-  bool doBonly         = 1;
+  bool doBonly         = 0;
+  bool doTauonly       = 0;
+  bool doConly         = 0;
   bool doLightonly     = 0;
 
   //For both inSitu and not-in-Situ
@@ -46,6 +47,7 @@
   if (!doInSitu){
     if (doPtRatioCor) option+="_PtRatioCor";
     if (doBonly) option+="_doBonly";
+    if (doTauonly) option+="_doTauonly";
     if (doConly) option+="_doConly";
     if (doLightonly) option+="_doLightonly";
     if (doIsoTrigs) option+="_IsoTrigs";
@@ -57,6 +59,7 @@
     if (ssZ) option += "_ssZ";
     if (PCssZ) option += "_PCssZ";
     if (doBonly) option+="_doBonly";
+    if (doTauonly) option+="_doTauonly";
     if (doLightonly) option+="_doLightonly";
     if (testMVA) option+="_mva";
     if (extrPt) option+="_ept";
@@ -81,7 +84,7 @@
   } else {
     if (doLooseEMVA){
         ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/ttbar_1l*mgmlm*_ext1_*");
-//        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/wjets_incl_mgmlm_*.root");  
+        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/wjets_*ht*_mgmlm_*.root");  
 //          ch->Add("/home/users/bhashemi/Projects/GIT/ZMET2016/dilepbabymaker/unknown_test_mia_WWW_v0110.root"); 
    }
     else ch->Add("/nfs-7/userdata/ss2015/ssBabies/"+tag1+"/TTBAR.root");

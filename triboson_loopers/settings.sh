@@ -1,6 +1,6 @@
 #! /bin/bash
 export analysis="triboson_loopers" 
-export analysis_version="sr_studies_v4"  # version for reminiaod
+export analysis_version="sr_studies_v5"  # version for reminiaod
 export study="sr_studies"
 localdirectory=`pwd`
 export analysis_output=$HOME/public_html/analysis/$analysis/$analysis_version/$study/rootfiles

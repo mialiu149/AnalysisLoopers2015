@@ -18,8 +18,8 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
   //string baby_base = "/hadoop/cms/store/user/haweber/AutoTwopler_babies/WWW/merged/ZMET/WWW_vX/output/";
   //string skim_base = "/hadoop/cms/store/user/haweber/AutoTwopler_babies/WWW/merged/ZMET/WWW_vX/skim/";
-  string baby_base = "/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.5/output/";
-  string skim_base = "/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.5/skim/";
+  string baby_base = "/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/output/";
+  string skim_base = "/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/";
   string helper;
 
   if ( sample == "ttbar"){
@@ -55,7 +55,11 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
         helper = datalocation+"data_single_electron_Run2016*.root"; ch->Add(helper.c_str());
         helper = datalocation+"data_single_muon_Run2016*.root"; ch->Add(helper.c_str());
   }
- */ else if( sample == "zjets_htbin" ){
+ */
+   else if(sample == "zjets_test"){
+      ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/dy_m50_mgmlm_ht400_ext1_skim_1.root");
+  }
+   else if( sample == "zjets_htbin" ){
        helper = skim_base+"dy_m1050_mgmlm_*.root"; ch->Add(helper.c_str());
        helper = skim_base+"dy_m50_mgmlm_ht*"; ch->Add(helper.c_str());
   }
