@@ -53,6 +53,16 @@ static const float BTAGWP = 0.5426;
 // FIXME
 // FIXME
 // FIXME
+bool isLooseMuonPOG(){
+  if (!pid_PFMuon()) return false;    
+  bool isGlobal  = true;
+  bool isTracker = true;
+  if (((type()) & (1<<1)) == 0) isGlobal  = false;
+  if (((type()) & (1<<2)) == 0) isTracker = false;
+  if (!(isGlobal || isTracker)) return false;  
+  return true;
+}
+
 bool myAnalysisID(bool& passId, bool& passFO)
 {
 
@@ -61,10 +71,27 @@ bool myAnalysisID(bool& passId, bool& passFO)
   /// Define the ID you want to use here!
   ///
   ///
+  passId = passes_VVV_cutbased_tight_noiso() && RelIso03EA() < 0.06 && (threeChargeAgree()||abs(id())==13) && fabs(ip3d())<0.015;
+  //v1
+  //passFO = ((abs(id()) == 13&& passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.4) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2));
+  //v2 
+  //passFO = ((abs(id()) == 13&& passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.4) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2 )) && (threeChargeAgree()||abs(id())==13);
+  //v3
+  //passFO = ((abs(id()) == 13&&passes_POG_looseID() && RelIso03EA() < 0.4  && fabs(ip3d())<0.015) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2  )) && (threeChargeAgree()||abs(id())==13); /// this one works!!! 
+  //v4
+  //passFO = ((abs(id()) == 13 && passes_POG_looseID()&& RelIso03EA() < 0.2  && fabs(ip3d())<0.015 && dZ()<0.1 && dxyPV()<0.05) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2 )) && (threeChargeAgree()||abs(id())==13); 
+  //passFO = ((abs(id()) == 13 && passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.2  && fabs(ip3d())<0.015 && dZ()<0.1 && dxyPV()<0.05) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2 )) && (threeChargeAgree()||abs(id())==13); 
+  passFO = ((abs(id()) == 13 && passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.2 && dZ()<0.1 && dxyPV()<0.05) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2 )) && (threeChargeAgree()||abs(id())==13); 
+  //v5
+  //passFO = ((abs(id()) == 13 && passes_POG_looseID()&& RelIso03EA() < 0.4  && fabs(ip3d())<0.015 && dZ()<0.1 && dxyPV()<0.05) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2 && threeChargeAgree() ) ); 
+  //passFO = ((abs(id()) == 13 && passes_POG_looseID()&& RelIso03EA() < 0.4  && fabs(ip3d())<0.015 && dZ()<0.1 && dxyPV()<0.05) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2 )); 
 
-  passId = passes_VVV_cutbased_tight_noiso() && RelIso03EA() < 0.06;
-  passFO = (abs(id()) == 13&& passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.4) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2);
-  //passFO = passes_SS_fo_v5();
+  //passFO = ((abs(id()) == 13&& passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.4) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2)) && (threeChargeAgree()||abs(id())==13) && fabs(ip3d())<0.015 && (exp_innerlayers()==0||abs(id())==13);
+  //passFO = ((abs(id()) == 13 && passes_POG_mediumID()  && RelIso03EA() < 0.2) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2)) && (threeChargeAgree()||abs(id())==13) && (exp_innerlayers()==0||abs(id())==13);
+  
+  //passId = passes_VVV_cutbased_tight_noiso() && RelIso03EA() < 0.06 && (threeChargeAgree()||abs(id())==13) && fabs(ip3d())<0.015;
+  //passFO = ((abs(id()) == 13&& passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.4) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.2)) && (threeChargeAgree()||abs(id())==13) && fabs(ip3d())<0.015;
+//  passFO = (abs(id()) == 13&& passes_VVV_cutbased_fo_noiso() && RelIso03EA() < 0.4) || (passes_VVV_cutbased_fo_noiso()&&abs(id()) == 11 && RelIso03EA() < 0.1);
 
   // We use isolated auxiliary single lepton trigger.
   // Modify the passFO for electrons for two things, (1) online HLT ID, and (2) online isolation.
@@ -176,9 +203,9 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
 
   bool applyDataVtxWeight = false;
 
-  int nptbins = 4;
+  int nptbins = 3;
   int netabins = 3;
-  float ptbins[5] = { 10., 30., 40., 50., 70.};
+  float ptbins[4] = { 20., 30., 50., 200};
   float etabins_mu[4] = {0., 1.2, 2.1, 2.4};
   float etabins_el[4] = {0., 0.8, 1.479, 2.5};
 
@@ -746,7 +773,7 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
       LorentzVector closejet = (jet_close_lep_p4*jet_close_lep_undoJEC()*jet_close_L1() - p4())*jet_close_L2L3() + p4(); // V5
       float ptrel =  computePtRel(p4(),closejet,true);//ptrelv1();
       float closejetpt = closejet.pt(); // V5
-      //float miniIso = miniiso();
+      //float miniIso = RelIso03EA();
       float relIso = RelIso03EA();
       if (debug) cout << "close jet raw p4=" << jet_close_lep_p4*jet_close_lep_undoJEC()
         << " pt=" << (jet_close_lep_p4*jet_close_lep_undoJEC()).pt()
@@ -887,7 +914,7 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
       if (doLightonly && abs(id())==11 && p4().pt() < 20.) continue;//because EMEnriched does not go below 20 GeV
 
       if (debug) cout << "check sip " << fabs(ip3d()/ip3derr()) << endl;
-      if (fabs(ip3d()/ip3derr())>4. ) continue;
+      //if (fabs(ip3d()/ip3derr())>4. ) continue;
 
       
       //============================================================================================
@@ -948,24 +975,24 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
 
       if (usePtRatioCor) {
         if (abs(id())==11) {
-          float ptratiocor = closejetpt>0. ? p4().pt()*(1+std::max(0.,miniiso()-0.12))/closejetpt : 1.;
-          passFO = passes_SS_fo_v5() && (ptratiocor > 0.76 || ptrel > 7.2);
+          float ptratiocor = closejetpt>0. ? p4().pt()*(1+std::max(0.,RelIso03EA()-0.06))/closejetpt : 1.;
+          if(!  (ptratiocor > 0.76 || ptrel > 7.2)) continue;
         } else {
-          float ptratiocor = closejetpt>0. ? p4().pt()*(1+std::max(0.,miniiso()-0.16))/closejetpt : 1.;
-          passFO = passes_SS_fo_v5() && (ptratiocor > 0.80 || ptrel > 7.2);
+          float ptratiocor = closejetpt>0. ? p4().pt()*(1+std::max(0.,RelIso03EA()-0.06))/closejetpt : 1.;
+           if(! (ptratiocor > 0.80 || ptrel > 7.2)) continue;
         }
       }
 
       float coneptcorr = 1.;
       if (abs(id())==11) {
         if (ptrel>7.2) {
-          coneptcorr = std::max(0.,miniiso()-0.12);
+          coneptcorr = std::max(0.,RelIso03EA()-0.06);
         } else {
           coneptcorr = max(double(0.),(closejetpt*0.80/p4().pt()-1.));
         }
       } else {
         if (ptrel>7.2) {
-          coneptcorr = std::max(0.,miniiso()-0.16);
+          coneptcorr = std::max(0.,RelIso03EA()-0.06);
         } else {
           coneptcorr = max(double(0.),(closejetpt*0.76/p4().pt()-1.));
         }
@@ -977,7 +1004,7 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
       coneptcorr = std::max(0.,relIso-0.06);
       }
 
-      if (debug) cout << Form("check FO miniiso=%.2f ptratio=%.2f ptrel=%5.2f mva=%5.2f",miniiso(),p4().pt()/closejetpt,ptrel,mva_25ns()) << endl;
+      if (debug) cout << Form("check FO miniiso=%.2f ptratio=%.2f ptrel=%5.2f mva=%5.2f",RelIso03EA(),p4().pt()/closejetpt,ptrel,mva_25ns()) << endl;
       if (!passFO) continue;
       if (debug) cout << "passed FO" << endl;
 
@@ -996,6 +1023,7 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
       {
         if(abs(id())==11 &&passes_VVV_cutbased_tight_noiso() ) RelIso_BR_histo_el->Fill(RelIso03EA());
         if(abs(id())==13 &&passes_VVV_cutbased_tight_noiso() ) RelIso_BR_histo_mu->Fill(RelIso03EA());
+
         if( abs( id() ) == 11 ) //it's an el
         {
           if( passId )  //if el is tight
@@ -1085,7 +1113,7 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
 
             if (isSyncFile) {
               cout << Form("Electron FO raw pt=%6.2f corr pt=%6.2f eta=%5.2f miniiso=%.2f ptratio=%.2f ptrel=%5.2f mva=%5.2f isNum=%1i met=%5.2f mt=%5.2f event %i",
-                  p4().pt(),p4().pt()*(1+coneptcorr),p4().eta(),miniiso(),p4().pt()/closejetpt,ptrel,mva_25ns(),passId,evt_met,evt_mt,(int)evt_event()) << endl;
+                  p4().pt(),p4().pt()*(1+coneptcorr),p4().eta(),RelIso03EA(),p4().pt()/closejetpt,ptrel,mva_25ns(),passId,evt_met,evt_mt,(int)evt_event()) << endl;
             }
 
             njets30_histo->Fill(njets30, weight);
@@ -1107,7 +1135,6 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
         {
           if( passId )  //if mu is tight
           {
-           //if(getPt(p4().pt(), false)>40) cout<<"have muons with pt>40:"<< getPt(p4().pt(), false)<<":eta:"<<getEta(fabs(p4().eta()),ht,false)<<":line:"<<__LINE__<<":weight:"<<weight<<endl;
             //uncorrected and cone corrected FR
             Nt_histo_mu->Fill(getPt(p4().pt(),false), getEta(fabs(p4().eta()),ht,false), weight);   //
 
@@ -1138,7 +1165,7 @@ int ScanChain( TChain* chain, TString outfile, std::function<bool(bool&, bool&)>
 
             if (isSyncFile) {
 
-              cout << Form("%1llu %7.3f %7.3f %6.3f %6.3f %6.3f %6.3f %1i %6.3f %6.3f %6.0f",(unsigned long long)evt_event() , p4().pt(),p4().pt()*(1+coneptcorr),p4().eta(),miniiso(),p4().pt()/closejetpt,ptrel,passId,evt_met,evt_mt,weight) << endl;
+              cout << Form("%1llu %7.3f %7.3f %6.3f %6.3f %6.3f %6.3f %1i %6.3f %6.3f %6.0f",(unsigned long long)evt_event() , p4().pt(),p4().pt()*(1+coneptcorr),p4().eta(),RelIso03EA(),p4().pt()/closejetpt,ptrel,passId,evt_met,evt_mt,weight) << endl;
             }
 
             njets30_histo->Fill(njets30, weight);

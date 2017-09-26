@@ -20,8 +20,8 @@
 //  postfix+="_LooseEMVA";
   if(doIso) postfix+="_IsoTrigs";
   // postfix+="_PtRatioCor";
-  // postfix+="_doBonly";
-   postfix+="_doLightonly";
+//   postfix+="_doBonly";
+//     postfix+="_doLightonly";
   TString var = "";
   var="_cone";
   // var="_jet";
