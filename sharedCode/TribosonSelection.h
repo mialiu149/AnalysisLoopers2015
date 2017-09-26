@@ -49,14 +49,21 @@ float ptlljj(vector<int>leps,vector<int>jets);
 float maxMt(vector<int>leps);
 float dphi3lmet(vector<int>leps, float met_phi);
 float mjj_dRmin(vector<int> jets);
-int preselRegion();
+int preselRegion(string selection);
 int signalRegion2016();
+bool isgammafake(); 
 bool isGoodLepton(int lepindex, string selection);
 bool isLooseLepton(int lepindex, string selection);
+bool isLooseNotTight(int lepindex, string selection);
 pair <int, int> lepMotherID_v2(int lepindex);
 int hyp_class();
 template <typename T> int sgn(T val){
 	  return (T(0) < val) - (val < T(0));
 }
+float coneCorrPt(int lepi);
+int gentype();
+int gentype(unsigned lep1_index,unsigned ilep2_index);
+int gentype(unsigned lep1_index,unsigned ilep2_index,int lep3_index);
+float fakerateweight(bool substract, string selection,unsigned lep1_index,unsigned ilep2_index,int lep3_index);
 }
 #endif

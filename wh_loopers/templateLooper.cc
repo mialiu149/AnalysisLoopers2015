@@ -19,7 +19,7 @@
 #include "TGraphAsymmErrors.h"
 
 #include "templateLooper.h"
-#include "../sharedCode/V80_03.h"
+#include "../classFiles/V80_03.h"
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/METTemplateSelections.h"
 #include "../sharedCode/WHSelection.h"
@@ -888,8 +888,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
              if(halfsigxsec) sigweight*=0.5;
              weight*=sigweight;
            //btag variations
-             btagsfup = 1/weight_btagsf()*weight_btagsf_fastsim_UP()/h_scanSys->GetBinContent(c1massbin,n1massbin,22)*h_scanSys->GetBinContent(c1massbin,n1massbin,14);//need to add normalization
-             btagsfdn = 1/weight_btagsf()*weight_btagsf_fastsim_DN()/h_scanSys->GetBinContent(c1massbin,n1massbin,23)*h_scanSys->GetBinContent(c1massbin,n1massbin,14);//need to add normalization
+             //btagsfup = 1/weight_btagsf()*weight_btagsf_fastsim_UP()/h_scanSys->GetBinContent(c1massbin,n1massbin,22)*h_scanSys->GetBinContent(c1massbin,n1massbin,14);//need to add normalization
+             //btagsfdn = 1/weight_btagsf()*weight_btagsf_fastsim_DN()/h_scanSys->GetBinContent(c1massbin,n1massbin,23)*h_scanSys->GetBinContent(c1massbin,n1massbin,14);//need to add normalization
+             btagsfup = 1/weight_btagsf()*weight_btagsf_heavy_UP()/h_scanSys->GetBinContent(c1massbin,n1massbin,22)*h_scanSys->GetBinContent(c1massbin,n1massbin,14);//need to add normalization
+             btagsfdn = 1/weight_btagsf()*weight_btagsf_heavy_DN()/h_scanSys->GetBinContent(c1massbin,n1massbin,23)*h_scanSys->GetBinContent(c1massbin,n1massbin,14);//need to add normalization
             // lepton SF
             // lepsfup = weight_lepSF_up();
             // lepsfdn = weight_lepSF_fastSim_down();
@@ -1267,7 +1269,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            event_hists.at("h_reco_mt_up")->Fill(reco_mt_up); 
            event_hists.at("h_reco_mt_dn")->Fill(reco_mt_dn);
            //some validation plots
-/*           event_hists.at("h_gen_lep_pt")->Fill(genlep_t.Pt()); 
+/*         event_hists.at("h_gen_lep_pt")->Fill(genlep_t.Pt()); 
            event_hists.at("h_gen_nu_pt")->Fill(gennu_t.Pt()); 
            event_hists.at("h_gen_w_mass")->Fill((genlep_t+gennu_t).M()); 
            event_hists.at("h_gen_w_mass_up")->Fill((genlep_boosted_up+gennu_boosted_up).M()); 

@@ -28,7 +28,7 @@ vector< LorentzVector> getsortedp4(vector<pair <int, LorentzVector> > index_){
   return sorted_p4;
 }
 
-float getMinDphi(float metPhi, LorentzVector& vec1, LorentzVector& vec2 ) {                                                                                                    
+float getMinDphi(float metPhi, LorentzVector vec1, LorentzVector vec2 ) {                                                                                                    
   float dphimj1_    = getdphi(metPhi, vec1.phi() );
   float dphimj2_    = getdphi(metPhi, vec2.phi() );
   float dphimjmin_  = TMath::Min( dphimj1_ , dphimj2_ );

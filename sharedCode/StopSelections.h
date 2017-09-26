@@ -55,7 +55,7 @@ bool PassMuonVetoSelections(unsigned int muIdx, float pt, float eta);
 bool PassElectronVetoSelections(unsigned int elIdx, float pt, float eta);
 vector<pair <int, LorentzVector> > sort_pt( vector<LorentzVector> p4_, float pt_);
 vector< LorentzVector> getsortedp4(vector<pair <int, LorentzVector> > index_);
-float getMinDphi(float metPhi, LorentzVector& vec1, LorentzVector& vec2 );
+float getMinDphi(float metPhi, LorentzVector vec1, LorentzVector vec2 );
 float getdphi( float phi1 , float phi2 );
 float dRbetweenVectors(LorentzVector& vec1, LorentzVector& vec2 );
 float  calculateMt(const LorentzVector p4, double met, double met_phi);

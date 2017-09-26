@@ -18,7 +18,7 @@
 
   bool doJetCorr    = 0;
   bool doPtRatioCor = 0;
-  bool doConeCorr   =1;
+  bool doConeCorr   = 1;
   bool doData          = 0;
 
   bool doInSitu        = 0;
@@ -83,9 +83,8 @@
         ch->Add("../../inSituFR/skims_Jan25/Data_skim.root");
   } else {
     if (doLooseEMVA){
-        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/ttbar_1l*mgmlm*_ext1_*");
-        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/wjets_*ht*_mgmlm_*.root");  
-//          ch->Add("/home/users/bhashemi/Projects/GIT/ZMET2016/dilepbabymaker/unknown_test_mia_WWW_v0110.root"); 
+        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/ttbar_*mgmlm*_ext1_*");
+        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/wjets_*.root");  
    }
     else ch->Add("/nfs-7/userdata/ss2015/ssBabies/"+tag1+"/TTBAR.root");
   }

@@ -43,6 +43,22 @@ void fillUnderOverFlow(TH1D * &h1, double value, float weight){
   h1->Fill(value, weight);
 }
 
+void getenvelope(TH1F * &h1, TH1F* h1_up,TH1F* h1_down){
+  if (h1->GetNbinsX()!=h1_up->GetNbinsX() || h1->GetNbinsX()!=h1_down->GetNbinsX())
+  { cout<<"number of bins are not the same"<<endl; return;}
+  for (int bini = 0; bini < h1->GetNbinsX(); bini++){
+      double newerror = fabs( h1_up->GetBinContent(bini+1)-h1->GetBinContent(bini + 1)) > fabs( h1_down->GetBinContent(bini+1)-h1->GetBinContent(bini+1)) ? fabs( h1_up->GetBinContent(bini+1)-h1->GetBinContent(bini+1)):fabs( h1_down->GetBinContent(bini+1)-h1->GetBinContent(bini+1));
+       h1->SetBinError  ( bini + 1, newerror );
+  }
+}
+
+void setsys(TH1F * &h1, float sys){
+  for (int bini = 0; bini < h1->GetNbinsX(); bini++){
+       double newerror = sqrt(pow(h1->GetBinContent(bini+1)*sys,2)+ pow(h1->GetBinError(bini+1),2));
+       h1->SetBinError  ( bini + 1, newerror );
+   }
+}
+
 void saveHist(const string filename, const string pat)
 {
   TList* list = gDirectory->GetList() ;
@@ -51,7 +67,7 @@ void saveHist(const string filename, const string pat)
   TObject *obj;
   TFile outf(filename.c_str(),"RECREATE") ;
   while((obj=iter->Next())) {
-	if (TString(obj->GetName()).Index(re)>=0 && !TString(obj->GetName()).Contains("_obs") && !TString(obj->GetName()).Contains("err2")) {
+	if (TString(obj->GetName()).Index(re)>=0  && !TString(obj->GetName()).Contains("err2")) {
 	  obj->Write() ;
 	  cout << "." ;
 	  cout.flush() ;
@@ -183,15 +199,23 @@ void setxaxistitle( THStack * &stack, string var){
 string getVariableName(const std::string& var)
 {
   if (var.find("nVert")  != string::npos)   return "N_{vtx}";
+  if (var.find("bkgtype")  != string::npos)   return "";
+  if (var.find("flavorbin")  != string::npos)   return "";
   if (var.find("nbjets")  != string::npos)  return "N_{bjets}";
   if (var.find("njet")  != string::npos)    return "N_{jet}";
   if (var.find("met") != string::npos)      return "E_{T}^{miss} [GeV]";
   if (var.find("absIso") != string::npos)   return "absIso03 [GeV]";
+  if (var.find("mtMax") != string::npos)       return "m_{T}_max [GeV]";
   if (var.find("mt") != string::npos)       return "m_{T}(l;#nu) [GeV]";
   if (var.find("MHT") != string::npos)      return "H_{T}^{miss} [GeV]";
   if (var.find("ht") != string::npos)       return "H_{T} Phi";
-  if (var.find("ptl1") != string::npos)     return "lep p_{T} [GeV]";
+  if (var.find("ptl1") != string::npos)     return "leading lep p_{T} [GeV]";
+  if (var.find("ptl2") != string::npos)     return "subleading lep p_{T} [GeV]";
   if (var.find("ptb1") != string::npos)     return "leading b jet p_{T} [GeV]";
+  if (var.find("ptj1") != string::npos)     return "leading jet p_{T} [GeV]";
+  if (var.find("ptj2") != string::npos)     return "subleading jet p_{T} [GeV]";
+  if (var.find("etaj1") != string::npos)     return "leading jet #eta";
+  if (var.find("etaj2") != string::npos)     return "subleading jet #eta";
   if (var.find("ptb1overptb2") != string::npos) return "ptb1/ptb2";
   if (var.find("MCT") != string::npos)      return "M_{CT} [GeV]";
   if (var.find("njets") != string::npos)    return "N_{jets}";
@@ -313,6 +337,7 @@ TGraphAsymmErrors* getRatioGraph( TH1F* histo_data, TH1F* histo_mc, const std::s
   return graph;
 }
 
+
 void defineColors(){
   TColor *clightblue = new TColor(2001,91/255.,187/255.,241/255.);//light-blue
   TColor *cblue = new TColor(2002,60/255.,144/255.,196/255.);//blue
@@ -341,6 +366,8 @@ int getColorSplitByMC_tribosonana( mc_sample_tribosonana mc_sample) {
     case(WZ):         return 2003;
     case(ZZ):         return 2011;
     case(ttV):        return 2004;
+    case(WG):         return  920;
+    case(ZG):         return  921;
     case(other):      return 2012; 
     default: return 0; // blank
   } 
@@ -348,10 +375,13 @@ int getColorSplitByMC_tribosonana( mc_sample_tribosonana mc_sample) {
 
 int getColorSplitByBg_ss(bkg_type_ss bkg_type){
     switch(bkg_type){
-    case(loselepton): return 2003;
-    case(fake):       return 2005;
+    case(loselepton):   return 2003;
+    case(loselepton3l): return 2011;
+    case(threelep):   return 2003;
+    case(jetfake):    return 2005;
     case(chargeflip): return 2007;
     case(truess):     return 2001;
+    case(gammafake):  return  920;
     default: return 0; // blank
    }   
 }

@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <map>
+#include <math.h>
 #include <fstream>
 #include "TChain.h"
 #include "TDirectory.h"
@@ -34,8 +35,12 @@ bool doLatex = true;
 bool doRatio = false;
 bool inclHT = true;
 bool debug = false; 
-std::string looselep = "ss_VVV_cutbased_fo";
 
+std::string looselep = "ss_VVV_cutbased_fo_v5";
+std::string plotdir="~mliu/public_html/www_closure/plots/v5_2jets/";
+TString version = TString(looselep);
+
+const double coneCorrCut = 0.06;
 std::map<std::string, TH1F*> event_hists;
 TH1D * evtCounter = new TH1D("","",1000,0,1000); 
 map<TString, int> evtBinMap;
@@ -78,8 +83,6 @@ bool isFakeLeg(int lep, bool doData=false){
       if(ilep.size()<2)  return 1; 
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
-  //    int   lep1_motherID = tribosonsel::lepMotherID_v2(lep1_index).first;//write this function
-  //    int   lep2_motherID = tribosonsel::lepMotherID_v2(lep2_index).first;
       int lep1_motherID = triboson_np::lep_motherIdSS().at(lep1_index);
       int lep2_motherID = triboson_np::lep_motherIdSS().at(lep2_index);
       if (lep == 1) return (lep1_motherID <= 0);
@@ -98,8 +101,8 @@ bool isGoodLeg(int lep, bool doData=false){
   //    int   lep2_motherID = tribosonsel::lepMotherID_v2(lep2_index).first;
       int lep1_motherID = triboson_np::lep_motherIdSS().at(lep1_index);
       int lep2_motherID = triboson_np::lep_motherIdSS().at(lep2_index);
-      if (lep == 1) return (lep1_motherID == 1);
-      if (lep == 2) return (lep2_motherID == 1);
+      if (lep == 1) return (lep1_motherID == 1 || lep1_motherID == 2);
+      if (lep == 2) return (lep2_motherID == 1 || lep2_motherID == 2);
   return 0;
 }
 
@@ -134,7 +137,7 @@ float computePtRel(LorentzVector lepp4, LorentzVector jetp4, bool subtractLep){
 }
 
 int number = 0;
-
+/*
 float getFakeRate(int id, float pt, float eta, float ht, bool extrPtRel = false, bool doData = false, bool doInSitu = false){
     if (inclHT) ht = -1; // negative ht means use inclusive ht in commonUtils // FIXME
 
@@ -150,9 +153,9 @@ float getFakeRateError(int id, float pt, float eta, float ht, bool doInSitu = fa
 
 float getFakeRate2(int id, float pt, float eta, float ht, bool extrPtRel = false, bool doData = false){
   if (doData) return fakeRateNoCC(id, pt, eta, ht);
-  else return qcdMCFakeRateNoCC(id, pt, eta, ht);
+  else return qcdMCFakeRateWWW(id, pt, eta, ht);
 }
-
+*/
 void GetErrorPlot(TH1F *pred, vector< vector<TH2D*> > pred_err2_mu, vector< vector<TH2D*> > pred_err2_el, bool inSitu){
 
   for (int bin=1;bin<=pred->GetNbinsX();++bin) {
@@ -166,7 +169,7 @@ void GetErrorPlot(TH1F *pred, vector< vector<TH2D*> > pred_err2_mu, vector< vect
       if (pred_err2_mu[i][sr]!=0) { 
         for (int frbinx=1;frbinx<=pred_err2_mu[i][sr]->GetNbinsX();++frbinx) {
           for (int frbiny=1;frbiny<=pred_err2_mu[i][sr]->GetNbinsY();++frbiny) {
-            float fr = getFakeRate(13, pred_err2_mu[i][sr]->GetXaxis()->GetBinLowEdge(frbinx), pred_err2_mu[i][sr]->GetYaxis()->GetBinLowEdge(frbiny), i == 0 ? 500 : 150, false, inSitu); 
+            float fr = getFakeRate(13, pred_err2_mu[i][sr]->GetXaxis()->GetBinLowEdge(frbinx), pred_err2_mu[i][sr]->GetYaxis()->GetBinLowEdge(frbiny), i == 0 ? 500 : 150, false, inSitu,version); 
             float fre = getFakeRateError(13, pred_err2_mu[i][sr]->GetXaxis()->GetBinLowEdge(frbinx), pred_err2_mu[i][sr]->GetYaxis()->GetBinLowEdge(frbiny), i == 0 ? 500 : 150,  inSitu); 
             float tot = pred_err2_mu[i][sr]->GetBinContent(frbinx,frbiny);
             pefr2 += fre*fre*pow(1-fr,-4)*tot*tot;
@@ -176,7 +179,7 @@ void GetErrorPlot(TH1F *pred, vector< vector<TH2D*> > pred_err2_mu, vector< vect
       if (pred_err2_el[i][sr]!=0) { 
         for (int frbinx=1;frbinx<=pred_err2_el[i][sr]->GetNbinsX();++frbinx) {
           for (int frbiny=1;frbiny<=pred_err2_el[i][sr]->GetNbinsY();++frbiny) {
-            float fr = getFakeRate(11, pred_err2_el[i][sr]->GetXaxis()->GetBinLowEdge(frbinx), pred_err2_el[i][sr]->GetYaxis()->GetBinLowEdge(frbiny), i == 0 ? 500 : 150, false, inSitu);
+            float fr = getFakeRate(11, pred_err2_el[i][sr]->GetXaxis()->GetBinLowEdge(frbinx), pred_err2_el[i][sr]->GetYaxis()->GetBinLowEdge(frbiny), i == 0 ? 500 : 150, false, inSitu,version);
             float fre = getFakeRateError(11, pred_err2_el[i][sr]->GetXaxis()->GetBinLowEdge(frbinx), pred_err2_el[i][sr]->GetYaxis()->GetBinLowEdge(frbiny), i == 0 ? 500 : 150,  inSitu);
             float tot = pred_err2_el[i][sr]->GetBinContent(frbinx,frbiny);
             pefr2 += fre*fre*pow(1-fr,-4)*tot*tot;
@@ -249,17 +252,24 @@ void printClosureNumbers(std::vector<TString> filenames) {
         else if (imu == 0) musuffix = "_el";
 
         std::cout << "-- Closure for " << (imu >= 0 ? (imu == 1 ? "MU" : "EL" ) : "TOTAL") << " -- " << std::endl;
-        float val_pred = hists[getHist("Npn_histo_sr_pred"+musuffix)]->Integral();
+        float val_pred = hists[getHist("Npn_histo_br_pred"+musuffix)]->GetBinContent(2);
+        float val_pred_error = hists[getHist("Npn_histo_br_pred"+musuffix)]->GetBinError(2);
         std::cout << "  pred: " << val_pred << std::endl;
-        std::vector<std::pair<TH1F*,TH1F*> > vobs = getBackgrounds("Npn_histo_sr_obs",imu,filenames);
+        std::vector<std::pair<TH1F*,TH1F*> > vobs = getBackgrounds("Npn_histo_br_obs",imu,filenames);
         float tot_obs = 0.;
+        float tot_obs_error = 0.;
         for(unsigned int ifile = 0; ifile < filenames.size(); ifile++) {
-            float val_obs = vobs.at(ifile).first->Integral();
+           float val_obs = vobs.at(ifile).first->GetBinContent(2);
+           float val_obs_error = vobs.at(ifile).first->GetBinError(2);
             tot_obs += val_obs;
-            std::cout << "   " << filenames[ifile] << " obs: " << val_obs << std::endl;
-        }
+            tot_obs_error +=pow(val_obs_error,2);
+           std::cout << "   " << filenames[ifile] << " obs: " << val_obs << std::endl;
+       }
+         
         std::cout << "  --> pred/obs: " << val_pred/tot_obs << std::endl;
-        std::cout << std::endl;
+        std::cout << "  --> error: " << (val_pred/tot_obs)*sqrt(pow(val_pred_error/val_pred,2)+ tot_obs_error*pow(1/tot_obs,2)) << std::endl;
+         
+       std::cout << std::endl;
     }
 }
 
@@ -521,6 +531,8 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
       hists.push_back( histCreator("Npn_histo_LFake_pred_mu"        , "Predicted Prompt-NonPrompt Background (Single mu)" , 30, 0,  250) );
       hists.push_back( histCreator("Npn_histo_LFake_obs_el"  + fname, "Observed Prompt-NonPrompt Background (Single el)"  , 30, 0,  250) );
       hists.push_back( histCreator("Npn_histo_LFake_pred_el"        , "Predicted Prompt-NonPrompt Background (Single el)" , 30, 0,  250) );
+      hists.push_back( histCreator("Npn_histo_LFakeiso_obs_mu"  + fname, "Observed Prompt-NonPrompt Background (Single mu)"  , 100, 0,  0.4) );
+      hists.push_back( histCreator("Npn_histo_LFakeiso_pred_mu"        , "Predicted Prompt-NonPrompt Background (Single mu)" , 100, 0,  0.4) );
       hists.push_back( histCreator("NBs_BR_histo_e"                 , "Number of FOs from B's vs Nbtags (els)"            ,  4, 0,    4) );
       hists.push_back( histCreator("NBs_BR_histo_mu"                , "Number of FOs from B's vs Nbtags (muons)"          ,  4, 0,    4) );
       hists.push_back( histCreator("NnotBs_BR_histo_e"              , "Number of FOs NOT from B's vs Nbtags (els)"        ,  4, 0,    4) );
@@ -831,8 +843,7 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
       bool lep1_chargeflip  =triboson_np::genPart_charge().at(ilep1)!= triboson_np::lep_charge().at(lep1_index);
       bool lep2_chargeflip  =triboson_np::genPart_charge().at(ilep2)!= triboson_np::lep_charge().at(lep2_index);
     } 
-      //int   lep1_motherID = tribosonsel::lepMotherID_v2(lep1_index).first;//write this function
-      //int   lep2_motherID = tribosonsel::lepMotherID_v2(lep2_index).first;
+      //f((doBonly||doLightonly||doTauonly )&& (lep1_chargeflip||lep2_chargeflip))  continue;
       float jet_close_lep1 = lep1_pT_org/triboson_np::lep_ptRatio().at(lep1_index);
       float jet_close_lep2 = lep2_pT_org/triboson_np::lep_ptRatio().at(lep2_index);
       float lep1_closejetpt = jet_close_lep1;
@@ -849,25 +860,26 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
       if (doHighHT) {
 	if (triboson_np::ht()<300.) continue;
       }
-
+      bool isB(false),isC(false),isLight(false),isPhoton(false);
       //double check
       if (doBonly) {
       //consider only prompt or bs
-        if (lep2_motherID!=1 && lep2_motherID!=-1) continue;
-        if (lep1_motherID!=1 && lep1_motherID!=-1) continue;
-
+        if (lep2_motherID!=1&&lep2_motherID!=2 && lep2_motherID!=-1) continue;
+        if (lep1_motherID!=1&&lep1_motherID!=2 && lep1_motherID!=-1) continue;
       }
       else if (doConly) {
        //consider only prompt or cs
-        if (lep2_motherID!=1 && lep2_motherID!=-2) continue;
-        if (lep1_motherID!=1 && lep1_motherID!=-2) continue;
+        if (lep2_motherID!=1&&lep2_motherID!=2 && lep2_motherID!=-2) continue;
+        if (lep1_motherID!=1&&lep1_motherID!=2 && lep1_motherID!=-2) continue;
       }
       else if (doLightonly) {
         //consider only prompt or lights
 //        if (lep2_motherID!=1 && lep2_motherID!=-4 && lep2_motherID!=0 &&  lep2_motherID!=-3) continue;
  //       if (lep1_motherID!=1 && lep1_motherID!=-4 && lep1_motherID!=0 &&  lep2_motherID!=-3) continue;
-        if (lep2_motherID!=1 && lep2_motherID!=0) continue;
-        if (lep1_motherID!=1 && lep1_motherID!=0) continue;
+//        if (lep2_motherID!=1&&lep2_motherID!=2 && lep2_motherID!=-1 && lep2_motherID!=0 && lep2_motherID!=-2 && lep2_motherID!=-3) continue;
+ //       if (lep1_motherID!=1&&lep1_motherID!=2 && lep1_motherID!=-1 && lep1_motherID!=0 && lep1_motherID!=-2 && lep1_motherID!=-3) continue;
+        if (lep2_motherID!=1&&lep2_motherID!=2 && lep2_motherID!=0) continue;
+        if (lep1_motherID!=1&&lep1_motherID!=2 && lep1_motherID!=0) continue;
           
     //EMEnriched starts at 20 GeV
 
@@ -879,8 +891,8 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
       }
       else if(doTauonly){
    
-        if (lep2_motherID!=1 && lep2_motherID!=-3) continue;
-        if (lep1_motherID!=1 && lep1_motherID!=-3) continue;
+        if (lep2_motherID!=1&&lep2_motherID!=2 && lep2_motherID!=-3) continue;
+        if (lep1_motherID!=1&&lep1_motherID!=2 && lep1_motherID!=-3) continue;
 
       }
       //doublecheck
@@ -888,8 +900,8 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
       //assert(fabs(lep2_ptrel_v1 - computePtRel(triboson_np::lep_p4().at(lep2_index),jet_close_lep2, true))<0.0001);
 
       if( debug) cout<<__LINE__<<endl;
-      if (fabs(triboson_np::lep_ip3d().at(lep1_index)/triboson_np::lep_ip3derr().at(lep1_index))>4.) continue;
-      if (fabs(triboson_np::lep_ip3d().at(lep2_index)/triboson_np::lep_ip3derr().at(lep2_index))>4.) continue;
+//      if (fabs(triboson_np::lep_ip3d().at(lep1_index)/triboson_np::lep_ip3derr().at(lep1_index))>4.) continue;
+//      if (fabs(triboson_np::lep_ip3d().at(lep2_index)/triboson_np::lep_ip3derr().at(lep2_index))>4.) continue;
       
 /*      if (coneCorr){
         if (abs(lep1_id)==11){
@@ -911,30 +923,47 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
         }
         //lep1_p4.pt() = lep1_pT;
   }
-*/
+ */
+      if (coneCorr){
+        if (abs(lep1_id)==11){
+          if (lep1_ptrel_v1>7.2) lep1_pT = lep1_pT_org*(1+std::max(0.,lep1_iso-coneCorrCut));
+          else lep1_pT = std::max(lep1_pT_org,jet_close_lep1*float(0.80));
+        } 
+        else {
+          if (lep1_ptrel_v1>7.2) lep1_pT = lep1_pT_org*(1+std::max(0.,lep1_iso-coneCorrCut));
+          else lep1_pT = std::max(lep1_pT_org,jet_close_lep1*float(0.76));
+        }
+
+        if (abs(lep2_id)==11){
+          if (lep2_ptrel_v1>7.2) lep2_pT = lep2_pT_org*(1+std::max(0.,lep2_iso-coneCorrCut));
+          else lep2_pT = std::max(lep2_pT_org,jet_close_lep2*float(0.80));
+        } 
+        else {
+          if (lep2_ptrel_v1>7.2) lep2_pT = lep2_pT_org*(1+std::max(0.,lep2_iso-coneCorrCut));
+          else lep2_pT = std::max(lep2_pT_org,jet_close_lep2*float(0.76));
+        }
+        //lep1_p4.pt() = lep1_pT;
+  }
+
       if (jetCorr){
         lep1_pT = jet_close_lep1;
         lep2_pT = jet_close_lep2;
       }
-
+   
       if( debug) cout<<__LINE__<<endl;
-      if (lep1_pT<30.) continue;
-      if (lep2_pT<30.) continue;
       //doublecheck
-      /*
- *      assert(fabs(lep1_pT - triboson_np::lep1_coneCorrPt())<0.0001);
-        assert(fabs(lep2_pT - triboson_np::lep2_coneCorrPt())<0.0001);
-      */
+//       assert(fabs(lep1_pT - triboson_np::lep_coneCorrPt().at(lep1_index))<0.0001);
+ //      assert(fabs(lep2_pT - triboson_np::lep_coneCorrPt().at(lep2_index))<0.0001);
       bool verbose = false;
      //Determine passes ID
       bool lep1_passes_id = tribosonsel::isGoodLepton(lep1_index, "ss_VVV_cutbased_tight");
       bool lep2_passes_id = tribosonsel::isGoodLepton(lep2_index, "ss_VVV_cutbased_tight");
 //      if(lep1_passes_id&&lep2_passes_id) cout<<tribosonsel::hyp_class()<<":lep1_passes_id:"<<lep1_passes_id<<":lep2_passes_id:"<<lep2_passes_id<<":lep1_motherID:" << triboson_np::lep_motherIdSS().at(lep1_index)<<":lep2_motherID:"<<triboson_np::lep_motherIdSS().at(lep2_index)<<endl;
       //doublecheck
-      if(lep1_motherID==-3||lep2_motherID==-3) continue;
+      //if(lep1_motherID==-3||lep2_motherID==-3) continue;//skip photons
       if (verbose) {
-          bool lep1prompt = lep1_motherID==1;
-          bool lep2prompt = lep2_motherID==1;
+          bool lep1prompt = lep1_motherID>0;
+          bool lep2prompt = lep2_motherID>0;
           bool lep1nonprompt = lep1_motherID<=0;
           bool lep2nonprompt = lep2_motherID<=0;
           std::cout << " triboson_np::lep1_passes_id(): " << lep1_passes_id << " triboson_np::lep2_passes_id(): " << lep2_passes_id << std::endl;
@@ -969,18 +998,19 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
         mtmax = mtl1 < mtl2 ? mtl2 : mtl1;
       }
 
+      if (lep1_pT<30.) continue;
+      if (lep2_pT<30.) continue;
       float mll(-999);
       LorentzVector lep1_p4_coneCorr(lep1_pT,lep1_p4.eta(),lep1_p4.phi(),lep1_p4.energy()*lep1_pT/lep1_pT_org);    
       LorentzVector lep2_p4_coneCorr(lep2_pT,lep2_p4.eta(),lep2_p4.phi(),lep2_p4.energy()*lep2_pT/lep2_pT_org);    
-      //LorentzVector lep1_p4_coneCorr(lep1_pT,lep1_p4.eta(),lep1_p4.phi(),lep1_p4.energy());    
-      //LorentzVector lep2_p4_coneCorr(lep2_pT,lep2_p4.eta(),lep2_p4.phi(),lep2_p4.energy());    
       mll = (lep1_p4+lep2_p4).mass();
-      if(coneCorr)     mll = (lep1_p4_coneCorr+lep2_p4_coneCorr).mass();
+//      if(coneCorr)     mll = (lep1_p4_coneCorr+lep2_p4_coneCorr).mass();
       float mjj = tribosonsel::getmjj();
-//      cout<<mll<<":"<<(lep1_p4+lep2_p4).mass()<<endl;
+//      if(mll<50) cout<<mll<<":"<<(lep1_p4+lep2_p4).mass()<<endl;
       //Determine SR and BR
       if(debug)   cout<<"going to find out which region are we at"<< __LINE__<<endl;
-      int br = tribosonsel::preselRegion(); // 1:ss_ee, 2:ss_em,3:ss_mm,4:0SFOS, 5:1SFOS, 6:2SFOS
+      int br = tribosonsel::preselRegion(looselep); // 1:ss_ee, 2:ss_em,3:ss_mm,4:0SFOS, 5:1SFOS, 6:2SFOS
+      if(debug)   cout<<"found which baseline selection"<< __LINE__<<endl;
       int sr = tribosonsel::signalRegion2016();
       if (br<0||br>4) continue;
       br = 1; 
@@ -1040,8 +1070,8 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
       // doublecheck
           //bool isLep1Prompt =  triboson_np::lep_isFromW().at(lep1_index);
           //bool isLep2Prompt =  triboson_np::lep_isFromW().at(lep2_index);
-          bool isLep1Prompt = lep1_motherID>0;
-          bool isLep2Prompt = lep2_motherID>0;
+          bool isLep1Prompt = lep1_motherID > 0 && !lep1_chargeflip;// && (triboson_np::lep_isFromW().at(lep1_index) || triboson_np::lep_isFromZ().at(lep1_index));
+          bool isLep2Prompt = lep2_motherID > 0 && !lep2_chargeflip;//  && (triboson_np::lep_isFromW().at(lep2_index) || triboson_np::lep_isFromZ().at(lep2_index));
           bool isLep1NonPrompt = lep1_motherID<=0;
           bool isLep2NonPrompt = lep2_motherID<=0;
         //Counters
@@ -1061,7 +1091,6 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
 
           prompt1_reco += weight;  
           NpromptL1_reco += weight;  
-
           if(sr > 0) hists[getHist("Npn_histo_sr_obs"+fname)   ]->Fill(sr, weight);
           hists[getHist("Npn_histo_br_obs"+fname)   ]->Fill(br, weight);
           hists[getHist("Npn_histo_HT_obs"+fname)   ]->Fill(triboson_np::ht(), weight);
@@ -1110,7 +1139,6 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
             }
           }
         }
-
         //2) Lep 1 is non-prompt
         else if( isLep1NonPrompt && isLep2Prompt ){ 
 
@@ -1172,21 +1200,21 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
         else if( isLep1NonPrompt && isLep2NonPrompt ) prompt0_reco += weight;
 
         //check for charge misID on gen level.
-        //if (lep1_motherID==2 || lep2_motherID==2) sign_misid_gen += weight;
-        if (lep1_chargeflip || lep1_chargeflip) sign_misid_gen += weight;
+//        if (lep1_motherID==2 || lep2_motherID==2) sign_misid_gen += weight;
+        if (lep1_chargeflip || lep2_chargeflip) sign_misid_gen += weight;
 
         else {
           Nss_gen += weight;
-          if( lep1_motherID>0 && lep2_motherID>0 ){
+          if( isLep1Prompt && isLep2Prompt ){
             prompt2_gen += weight;
             NpromptL1_gen += weight;
             NpromptL2_gen += weight;
           }
-          else if( lep1_motherID>0 && lep2_motherID<=0 ){
+          else if( isLep1Prompt && lep2_motherID<=0 ){
             prompt1_gen += weight;
             NpromptL1_gen += weight;
           }
-          else if( lep1_motherID<=0 && lep2_motherID>0 ){
+          else if( lep1_motherID<=0 && isLep2Prompt ){
             prompt1_gen += weight;
             NpromptL2_gen += weight;
           }
@@ -1261,17 +1289,17 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
           if (usePtRatioCor){
             //this is a tighter FO than default, so skip if it does not pass
             if ( abs(lep2_id)==11 ){
-              float ptratiocor = lep2_closejetpt>0. ? lep2_pT_org*(1+std::max(0.,lep2_miniIso-0.10))/lep2_closejetpt : 1.;
+              float ptratiocor = lep2_closejetpt>0. ? lep2_pT_org*(1+std::max(0.,lep2_iso-coneCorrCut))/lep2_closejetpt : 1.;
               if (!(ptratiocor > 0.70 || lep2_ptrel_v1 > 7.0)) continue;
             } 
             else {
-              float ptratiocor = lep2_closejetpt>0. ? lep2_pT_org*(1+std::max(0.,lep2_miniIso-0.14))/lep2_closejetpt : 1.;
+              float ptratiocor = lep2_closejetpt>0. ? lep2_pT_org*(1+std::max(0.,lep2_iso-coneCorrCut))/lep2_closejetpt : 1.;
               if (!(ptratiocor > 0.68 || lep2_ptrel_v1 > 6.7)) continue;
             }
           }
 
           if (abs(lep2_id) == 11){  
-            e2 = getFakeRate(11, lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData, inSitu );
+            e2 = getFakeRate(11, lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData, inSitu, TString(looselep));
             e2a = getFakeRate2(11, lep2_pT_org, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData); 
             w = coneCorr ? (e2/(1-e2))*weight : (e2a/(1-e2a))*weight;
            //cout<< e2/(1-e2)<<endl;
@@ -1311,7 +1339,7 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
             if(lep2_motherID == -2 || lep2_motherID == 0) notBs_e = notBs_e + mult*weight;
           }
           else if (abs(lep2_id) == 13){ 
-            e2 = getFakeRate(13, lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData, inSitu );
+            e2 = getFakeRate(13, lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData, inSitu, TString(looselep));
             e2a = getFakeRate2(13, lep2_pT_org, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData); 
             w = coneCorr ? (e2/(1-e2))*weight : (e2a/(1-e2a))*weight;
             if(weightOne) w = 1.0;
@@ -1321,7 +1349,9 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
             if (fabs(lep2_p4.eta()) < 1.2 && lep2_pT >= 50) addToCounter(filename+"_pred_mu_pteta2", w);
             if (fabs(lep2_p4.eta()) < 1.2 && lep2_pT >= 50) addToCounter(filename+"_prednotf_mu_pteta2", 1);
 
+//            hists[getHist("Npn_histo_br_pred_mu")]->Fill(br, weight);
             fillHist( "event", "fakerate_weight", selection.c_str(),lep2_id,e2/(1-e2), 1);
+//            fillHist("event","Npn_histo_LFakeiso_pred_mu",selection.c_str(),)
             if(sr > 0) hists[getHist("Npn_histo_sr_pred_mu")]->Fill(sr, w);
             hists[getHist("Npn_histo_br_pred_mu")]->Fill(br, w);
             hists[getHist("Npn_histo_HT_pred_mu")]->Fill(triboson_np::ht(), w);
@@ -1347,7 +1377,7 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
             if(lep2_motherID == -2 || lep2_motherID == 0) notBs_mu = notBs_mu + mult*weight;
           }
           Npn = Npn + w;
-          if (lep2_motherID>0) Npn_s = Npn_s + w;
+          if (isLep2Prompt) Npn_s = Npn_s + w;
           if(sr > 0) hists[getHist("Npn_histo_sr_pred")]->Fill(sr, w);
           hists[getHist("Npn_histo_br_pred")]->Fill(br, w);
           hists[getHist("Npn_histo_HT_pred")]->Fill(triboson_np::ht(), w);
@@ -1372,13 +1402,11 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
 
           if (usePtRatioCor){
             if ( abs(lep1_id)==11 ){
-              //float ptratiocor = lep1_closejetpt>0. ? lep1_pT_org*(1+std::max(0.,lep1_miniIso-0.10))/lep1_closejetpt : 1.;
               float ptratiocor = lep1_closejetpt>0. ? lep1_pT_org*(1+std::max(0.,lep1_iso-0.06))/lep1_closejetpt : 1.;
               if (!(ptratiocor > 0.70 || lep1_ptrel_v1 > 7.0)) continue;
             } 
             else {
-              //float ptratiocor = lep1_closejetpt>0. ? lep1_pT_org*(1+std::max(0.,lep1_miniIso-0.14))/lep1_closejetpt : 1.;
-              float ptratiocor = lep1_closejetpt>0. ? lep1_pT_org*(1+std::max(0.,lep1_miniIso-0.06))/lep1_closejetpt : 1.;
+              float ptratiocor = lep1_closejetpt>0. ? lep1_pT_org*(1+std::max(0.,lep1_iso-0.06))/lep1_closejetpt : 1.;
               if (!(ptratiocor > 0.68 || lep1_ptrel_v1 > 6.7)) continue;
             }
           }
@@ -1527,7 +1555,6 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
   //redefine option to save also ptRegion in output files
   option=option+"_"+ptRegion;
 
-  std::string plotdir="~mliu/public_html/www_closure/plots/iso02/";
 
   // TString commonOptions = Form(" --isLinear --outOfFrame --type Supplementary (Simulation) --dataName Data --noDivisionLabel --noRatioPlot --lumi %.2f --yTitleOffset -0.2", luminosity);// --systBlack --systFillStyle 3345
   TString commonOptions = Form(" --legendCounts --isLinear --outOfFrame --type Supplementary (Simulation) --dataName Prediction --noDivisionLabel --lumi %.2f --yTitleOffset -0.2 --legendTaller 0.07 --legendRight -0.06", luminosity);// --systBlack --systFillStyle 3345

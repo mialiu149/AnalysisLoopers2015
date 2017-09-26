@@ -98,14 +98,14 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
 
   float ymin = 1e-2; float ymax = 20;
   if(TString(selection).Contains("SR_mix_met125_mt50_twobtag")) {ymin = 1e-5;ymax =2.0;}
-  else if(!setlog) {ymin = 1e-5;ymax =1.5;}
+  else if(!setlog) {ymin = 1e-5;ymax =3;}
  int nbins = 7, nybins=3;
  double bins[8] = {30,60,90,120,150,210,270,410};
  double ybins[4] = {0,1,2,3};
  if(drawmoneyplot) {
     xmin=30;xmax=410;
-    if(TString(selection).Contains("metbin1")) {ymin=0; ymax=9;}
-    else if(TString(selection).Contains("metbin2")) {ymin=0; ymax=14;}
+    if(TString(selection).Contains("metbin1")) {ymin=0; ymax=10;}
+    else if(TString(selection).Contains("metbin2")) {ymin=0; ymax=15;}
  }
  if( variable == "dphibb" || variable == "deltaphi_lep_met" )   {	xmin = 0;	xmax = 6.4;         ymin = 0;	 ymax=1000; rebin=5;}
  if(!drawmoneyplot){ 
@@ -151,7 +151,7 @@ else {
     {h_ttbar2l->GetYaxis()->SetRangeUser(0, h_ttbar2l->GetMaximum()*5 ); } 
   }
   else{
-     h_ttbar2l->GetYaxis()->SetRangeUser(ymin*luminosity, h_ttbar2l->GetMaximum() * ymax );
+//     h_ttbar2l->GetYaxis()->SetRangeUser(ymin*luminosity, h_ttbar2l->GetMaximum() * ymax );
      if(drawmoneyplot) h_ttbar2l->GetYaxis()->SetRangeUser(ymin,ymax );
    }
  //stacked histograms 
@@ -220,8 +220,10 @@ else {
   h_data_gr->SetMarkerStyle(20);
   h_data_gr->SetMarkerSize(0.75);
   stack->Draw("hist");
-  stack->SetMaximum(ymax*h_data->GetMaximum());
-  stack->SetMinimum(ymin*luminosity);
+  //stack->SetMaximum(ymax*h_data->GetMaximum());
+  //stack->SetMinimum(ymin*luminosity);
+  stack->SetMaximum(ymax);
+  stack->SetMinimum(ymin);
   stack->GetXaxis()->SetLimits(xmin, xmax);
   stack->GetXaxis()->SetLabelSize(0);
   stack->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
@@ -229,7 +231,7 @@ else {
   h_data_gr->Draw("pe,same");
   h_data_gr->GetXaxis()->SetRangeUser(xmin, xmax);
   if(!drawmoneyplot)  {
-    h_data_gr->GetYaxis()->SetRangeUser(ymin*luminosity, h_data_gr->GetMaximum() * ymax );
+//    h_data_gr->GetYaxis()->SetRangeUser(ymin*luminosity, h_data_gr->GetMaximum() * ymax );
   }
   else {
     h_data_gr->GetYaxis()->SetRangeUser(ymin, ymax);
@@ -253,6 +255,7 @@ else {
   if(use_zjets) h_den->Add(h_zjets);
   if(use_wbb)   h_den->Add(h_wbb);
   if(use_diboson)  h_den->Add(h_diboson);
+  if(use_ttv)  h_den->Add(h_ttv);
 
   TPad *rat_pad = new TPad( "p_main", "p_main", 0.0, 0.0, 1.0, 0.3);
   rat_pad->SetBottomMargin(0.36);
@@ -277,10 +280,12 @@ else {
    h_den->SetLineColor(1);
    h_den->SetLineStyle(0);
    h_den->SetMarkerStyle(0);
+   //h_den->Draw("e2same");
    h_den->Draw("e2same");
    } 
+  TH1F* h_den_copy = (TH1F*)h_den -> Clone("h_den_copy");
 
-  TGraphAsymmErrors* h_rat_gr = getRatioGraph( h_data, h_den); 
+  TGraphAsymmErrors* h_rat_gr = getRatioGraph( h_data, h_den_copy); 
   rat_pad->cd();
   rat_pad->SetGridy();
   //TH2F * h_axis = new TH2F("h_axis","h_axis",nbins,bins,2,ybins);
@@ -328,7 +333,7 @@ else {
   TH1F* h_rat_sys = (TH1F*)h_rat -> Clone("h_rat_sys");
   if(drawsys){
    for(int i = 1; i<=h_rat->GetNbinsX(); ++i){
-    h_rat_sys->SetBinError(i,0.28);
+    h_rat_sys->SetBinError(i,0.3);
     h_rat_sys->SetBinContent(i,1);
   }
    gStyle->SetErrorX(0.5);
@@ -382,8 +387,8 @@ else {
   stack->GetYaxis()->SetLabelSize(0.04);
   stack->GetYaxis()->SetTitleOffset(1.5);
   stack->GetYaxis()->SetTitleSize(0.05);
-  stack->SetMaximum(ymax*stack->GetMaximum());
-  stack->SetMinimum(ymin*luminosity);
+//  stack->SetMaximum(ymax*stack->GetMaximum());
+//  stack->SetMinimum(ymin*luminosity);
   stack->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
   }
 
@@ -414,6 +419,7 @@ else {
   c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_log_ht.png", variable.c_str(), type.c_str(), selection.c_str() ));
   c1->SaveAs(Form("${plot_output}/h_%s_%s_%s_log_ht.pdf", variable.c_str(), type.c_str(), selection.c_str() ));
   } 
+ c1->SaveAs(Form("${plot_output}/%s_%s.root", variable.c_str(),selection.c_str()));
  if(debug) cout<<__LINE__<<endl; 
  return;
 }

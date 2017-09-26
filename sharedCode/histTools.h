@@ -19,8 +19,8 @@
 #ifndef HISTTOOLS_H
 #define HISTTOOLS_H
 
-enum mc_sample_tribosonana{WWW,WWZ_WZZ,tt1l,tt2l,singleTop,Wjets,Zjets,ww,WZ,ZZ,ttV,other};
-enum bkg_type_ss{loselepton,fake,chargeflip,truess};
+enum mc_sample_tribosonana{WWW,WWZ_WZZ,tt1l,tt2l,singleTop,Wjets,Zjets,ww,WZ,ZZ,ttV,other,WG,ZG};
+enum bkg_type_ss{loselepton,jetfake,chargeflip,truess,gammafake,threelep,loselepton3l};
 
 void fillUnderOverFlow(TH1F * &h1, float value, float weight);
 void fillUnderOverFlow(TH1D * &h1, double value, float weight);
@@ -39,4 +39,6 @@ static TGraphAsymmErrors* getRatioGraph( TH1F* h1, TH1F* h2, const std::string& 
 void defineColors();
 int  getColorSplitByMC_tribosonana(mc_sample_tribosonana mc_sample);
 int  getColorSplitByBg_ss(bkg_type_ss bkg_type);
+void getenvelope(TH1F * &h1, TH1F* h1_up,TH1F* h1_down);
+void setsys(TH1F * &h1, float sys);
 #endif
