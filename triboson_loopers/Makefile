@@ -24,7 +24,7 @@ CC = g++
 EXTRACFLAGS=-Wall -Wextra -pedantic -Wcast-align -Wcast-qual -Wctor-dtor-privacy -Wdisabled-optimization -Winit-self -Wlogical-op -Wmissing-include-dirs -Wnoexcept -Woverloaded-virtual -Wredundant-decls -Wshadow -Wsign-promo -Wstrict-null-sentinel  -Wno-unused -Wno-variadic-macros -Wno-parentheses -fdiagnostics-show-option 
 #-Wold-style-cast -Wundef -Wstrict-overflow=5 -Wformat=2 -Werror
 CMSROOT = ${PWD}
-INCLUDE = $(shell root-config --cflags) -I$(CMSROOT) -I$(CMSROOT)/../sharedCode/ -I$(CMSROOT)/../classFiles/ -I$(CMSROOT)/../classFiles/triboson_v3/ 
+INCLUDE = $(shell root-config --cflags) -I$(CMSROOT) -I$(CMSROOT)/../sharedCode/ -I$(CMSROOT)/../classFiles/ -I$(CMSROOT)/../classFiles/triboson_v3/ -I$(CMSROOT)/../commonUtils/ 
 CFLAGS = -Wall -Wno-unused-function -g -O2 -fPIC $(INCLUDE) $(EXTRACFLAGS) 
 ROOTLIBS = $(shell root-config --ldflags --cflags --libs) -lTMVA #-lEG -lGenVector
 

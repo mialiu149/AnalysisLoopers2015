@@ -39,17 +39,17 @@ fout = TFile('myTest.root','RECREATE')
 for i,k in enumerate(keys):
     hZee = fZee.Get(k)
 #    hZee.Rebin(20)
-    hWgamma = fWgamma.Get(k.replace("mbbCR","SR_mbb"))
+    hWgamma = fWgamma.Get(k.replace("_up",""))
 #    hWgamma.Rebin(20)
-    if len(sys.argv)>min_argv+3: h3 = f3.Get(k)
+    if len(sys.argv)>min_argv+3: h3 = f3.Get(k.replace("_up","_down"))
     if len(sys.argv)>min_argv+4: h4 = f4.Get(k)
     if len(sys.argv)>min_argv+5: h5 = f5.Get(k)
     print k
     if not hZee.InheritsFrom("TH1") or not hWgamma.InheritsFrom("TH1"):
         continue
 
-    if hZee.Integral(): hZee.Scale(1/hZee.Integral())
-    if hWgamma.Integral() :hWgamma.Scale(1/hWgamma.Integral())
+    #if hZee.Integral(): hZee.Scale(1/hZee.Integral())
+    #if hWgamma.Integral() :hWgamma.Scale(1/hWgamma.Integral())
         
     if len(sys.argv)>min_argv+3:
        if h3.Integral():

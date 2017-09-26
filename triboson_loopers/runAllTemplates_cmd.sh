@@ -6,6 +6,9 @@ compile_looper
 
 selection=$1
 #selection="ss_sr_yield"
+./runTemplateLooper $selection $analysis_version data &
+./runTemplateLooper $selection $analysis_version wg &
+./runTemplateLooper $selection $analysis_version zg &
 ./runTemplateLooper $selection $analysis_version ttbar_dilep &
 ./runTemplateLooper $selection $analysis_version ttbar_onelep &
 ./runTemplateLooper $selection $analysis_version ww &

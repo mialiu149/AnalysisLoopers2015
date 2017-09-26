@@ -22,7 +22,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   const double alpha = 1 - 0.6827;
   bool drawsys= false;
   if (TString(variable).Contains("deltaphi")) setlog = false;
-  bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(true);
+  bool use_wjets(true),use_ttbar(false),use_ttbar1l(true),use_ttbar2l(true),use_zjets(true),use_wg(true), use_zg(true);
   bool use_singletop(true),use_ttv(true),use_wz(true),use_ww(true),use_zz(true);
   bool use_www = use_sig||drawmoneyplot;
   bool use_norm_factor(false); float norm_factor = 1.;
@@ -35,6 +35,8 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   TH1F * h_ttbar1l = NULL;
   TH1F * h_ttbar2l = NULL;
   TH1F * h_wjets = NULL;
+  TH1F * h_wg = NULL;
+  TH1F * h_zg = NULL;
   TH1F * h_singletop = NULL;
   TH1F * h_ttv = NULL;
   TH1F * h_zjets = NULL;  
@@ -57,6 +59,14 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_ttbar2l) {
     getBackground(  h_ttbar2l, iter, Form("ttbar_dilep_%s", selection.c_str() ), variable,type, region );
     bkghists.push_back(make_pair(use_ttbar2l,h_ttbar2l)); 
+  }
+  if(use_wg) {
+    getBackground(  h_wg, iter, Form("wg_%s", selection.c_str() ), variable,type, region );
+    bkghists.push_back(make_pair(use_wg,h_wg)); 
+  }
+  if(use_zg) {
+    getBackground(  h_zg, iter, Form("zg_%s", selection.c_str() ), variable,type, region );
+    bkghists.push_back(make_pair(use_zg,h_zg)); 
   }
   if(use_wjets) {
     getBackground(  h_wjets, iter, Form("wjets_stitch_%s", selection.c_str() ), variable,type, region );
@@ -105,7 +115,7 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   //------------------------------------------------------------------------------------------------------//
 
   float ymin = 1e-2; float ymax = 20;
-  if(!setlog) {ymin = 1e-5;ymax =2;}
+  if(!setlog) {ymin = 1e-5;ymax =2.5;}
 // these are special variable binning (legacy from WH) if needed.
   int nbins = 7, nybins=3;
   double bins[8] = {30,60,90,120,150,210,270,410};
@@ -144,6 +154,18 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
        h_wjets = (TH1F*) h_wjets->Rebin(nbins, "h_wjets_rebinned", bins); 
        renormalizebins(h_wjets);
        updateoverflow( h_wjets, xmax );
+    }
+    if(use_wg) {
+       updateoverflow( h_wg, xmax );
+       h_wg = (TH1F*) h_wg->Rebin(nbins, "h_wg_rebinned", bins); 
+       renormalizebins(h_wg);
+       updateoverflow( h_wg, xmax );
+    }
+    if(use_zg) {
+       updateoverflow( h_zg, xmax );
+       h_zg = (TH1F*) h_zg->Rebin(nbins, "h_zg_rebinned", bins); 
+       renormalizebins(h_zg);
+       updateoverflow( h_zg, xmax );
     }
     if(use_ttbar1l) {
        updateoverflow( h_ttbar1l, xmax );
@@ -206,6 +228,16 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
      h_ttbar1l->SetLineColor(getColorSplitByMC_tribosonana(tt1l)) ;
      updateoverflow( h_ttbar1l, xmax );
  }
+  if(use_wg) { 
+     h_wg->SetFillColor(getColorSplitByMC_tribosonana(WG));
+     h_wg->SetLineColor(getColorSplitByMC_tribosonana(WG));
+     updateoverflow( h_wg, xmax );
+  }
+  if(use_zg) { 
+     h_zg->SetFillColor(getColorSplitByMC_tribosonana(ZG));
+     h_zg->SetLineColor(getColorSplitByMC_tribosonana(ZG));
+     updateoverflow( h_zg, xmax );
+  }
   if(use_wjets) { 
      h_wjets->SetFillColor(getColorSplitByMC_tribosonana(Wjets));
      h_wjets->SetLineColor(getColorSplitByMC_tribosonana(Wjets));
@@ -247,10 +279,11 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(   TString(variable).Contains("dphi") ||  variable == "mhtphi" || type    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
     h_ttbar2l->GetYaxis()->SetRangeUser(0, h_ttbar2l->GetMaximum()*5 );  
   }
-  else{
+/*  else{
      h_ttbar2l->GetYaxis()->SetRangeUser(ymin*luminosity, h_ttbar2l->GetMaximum() * ymax );
      if(drawmoneyplot) h_ttbar2l->GetYaxis()->SetRangeUser(ymin,ymax );
    }
+*/
   //------------------------------------------------------------------------------------------------------//
   //----------------------------- ----------stacked histograms--------------------------------------------// 
   //------------------------------------------------------------------------------------------------------//
@@ -263,14 +296,15 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   //----------------------------- ----------legends----------------------------- -------------------------// 
   //------------------------------------------------------------------------------------------------------//
   if(debug)  cout<<"LINE::"<<__LINE__<<" create legends"<<endl;
-  float l1_xmin(0.4),l1_xmax(0.9),l1_ymin(0.68),l1_ymax(0.9);
-  float l2_xmin(0.3),l2_xmax(0.65),l2_ymin(0.4),l2_ymax(0.68);
+  float l1_xmin(0.5),l1_xmax(0.9),l1_ymin(0.58),l1_ymax(0.9);
+  float l2_xmin(0.6),l2_xmax(0.9),l2_ymin(0.3),l2_ymax(0.58);
   if(use_sig && !use_data){ 
     l1_xmin = 0.55, l1_xmax=0.9, l1_ymin=0.58,l1_ymax=0.9; 
     l2_xmin = 0.2, l2_xmax=0.5, l2_ymin=0.8,l2_ymax=0.9;
   }
   TLegend *l1 = new TLegend(l1_xmin, l1_ymin,l1_xmax,l1_ymax);    
   TLegend *l2 = new TLegend(l2_xmin, l2_ymin, l2_xmax, l2_ymax);    
+  l1->SetNColumns(2);
   l1->SetLineColor(kWhite);    
   l1->SetShadowColor(kWhite);    
   l1->SetFillColor(kWhite);    
@@ -284,6 +318,8 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   if(use_ttbar1l)	l1->AddEntry( h_ttbar1l , "1l top quark"       , "f");    
   if(use_zjets) l1->AddEntry( h_zjets , "DY"          , "f");               
   if(use_wjets) l1->AddEntry( h_wjets , "W+Jets "         , "f");            
+  if(use_wg) l1->AddEntry( h_wg , "W#gamma "         , "f");            
+  if(use_zg) l1->AddEntry( h_zg , "Z#gamma "         , "f");            
   if(use_singletop)   l1->AddEntry( h_singletop , "single top"            , "f"); 
   if(use_ttv)   l1->AddEntry( h_ttv ,  "ttv"            , "f");
   if(use_zz) l1->AddEntry( h_zz , "ZZ"          , "f");
@@ -315,19 +351,24 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   h_data_gr->SetMarkerStyle(20);
   h_data_gr->SetMarkerSize(0.75);
   stack->Draw("hist");
-  stack->SetMaximum(ymax);
+  stack->GetXaxis()->SetLimits(xmin,xmax);
+  stack->SetMaximum(stack->GetMaximum() * ymax);
   stack->GetXaxis()->SetLabelSize(0);
   stack->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
   h_data_gr->Draw("pe,same");
+
   if(!drawmoneyplot)  {
     h_data_gr->GetXaxis()->SetRangeUser(xmin, xmax);
-    h_data_gr->GetYaxis()->SetRangeUser(ymin*luminosity, h_data_gr->GetMaximum() * ymax );
+    //h_data_gr->GetYaxis()->SetRangeUser(ymin*luminosity, stack->GetMaximum() * ymax );
+    h_data_gr->GetYaxis()->SetRangeUser(ymin*luminosity, 1000);
   }
   else {
     h_data_gr->GetYaxis()->SetRangeUser(ymin, ymax);
+    h_data_gr->GetXaxis()->SetRangeUser(xmin, xmax);
   }
     h_data_gr->Draw("pe,same");
     pad->Update();
+
     if(use_www&&use_data) {
       h_sig_www->SetLineColor(getColorSplitByMC_tribosonana(WWW)); 
       h_sig_www->SetLineStyle(5); 
@@ -380,7 +421,9 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   TGraphAsymmErrors* h_rat_gr = getRatioGraph( h_data, h_den);//ratioi of data/mc 
   rat_pad->cd();
   rat_pad->SetGridy();
-  TH2F * h_axis = new TH2F("h_axis","h_axis",nbins,bins,2,ybins);// 2-d hists to set x/y axis
+  TH2F * h_axis;
+  if(drawmoneyplot) h_axis = new TH2F("h_axis","h_axis",nbins,bins,2,ybins);// 2-d hists to set x/y axis
+  else h_axis = new TH2F("h_axis","h_axis",(xmax-xmin)/rebin+1,xmin,xmax,2,ybins);
   h_axis->Draw();
   h_rat_gr->SetMarkerStyle(20);
   h_rat_gr->SetMarkerSize(0.75);
@@ -393,8 +436,8 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
 
   h_axis->GetXaxis()->SetTitleOffset(0.9);
   h_axis->GetXaxis()->SetTitleSize(0.15);
-  h_axis->GetYaxis()->SetLabelSize(0.12);
   h_axis->GetXaxis()->SetLabelSize(0.12);
+  h_axis->GetYaxis()->SetLabelSize(0.12);
   h_axis->GetYaxis()->SetNdivisions(5);
   h_axis->GetYaxis()->SetTitle("#frac{Data}{MC}");
   h_axis->GetYaxis()->SetTitleSize(0.12);
@@ -447,6 +490,13 @@ void drawBkgvsSig( std::string iter = "", float luminosity = 1.0, const string s
   stack->SetMaximum(ymax*stack->GetMaximum());
   stack->SetMinimum(ymin*luminosity);
   stack->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
+  if (variable.find("bkgtype")  != string::npos) { 
+     stack->GetXaxis()->SetBinLabel(1,"true ss");
+     stack->GetXaxis()->SetBinLabel(5,"charge flip");
+     stack->GetXaxis()->SetBinLabel(10,"lost lepton");
+     stack->GetXaxis()->SetBinLabel(14,"fake");
+     stack->GetXaxis()->SetBinLabel(18,"#gamma fake");
+     }
   }
   if(use_sig) { 
      h_sig_www->SetLineColor(getColorSplitByMC_tribosonana(WWW)); h_sig_www->SetLineStyle(5);h_sig_www->SetLineWidth(4); updateoverflow(h_sig_www,xmax);  

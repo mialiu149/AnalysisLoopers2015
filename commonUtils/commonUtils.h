@@ -123,7 +123,7 @@ TString getTagData() { return "v8.07"; }
 // #include "inSituFR/mc_test_4.h"
 // #include "fake_rates_insitu.h"
 // #include "fake_rates_insitu_mva_soup.h"
-#include "fake_rates_www_v0.h"
+#include "fake_rates_www_v1.h"
 bool applyThirdLeptonVeto() { return false; }
 
 
@@ -307,9 +307,43 @@ float fakeRateErrorNoCC(int id, float pt, float eta, float ht) {
   }
 }
 
-float qcdMCFakeRateWWW(int id, float pt, float eta, float ht) { 
-    if (abs(id)==11) return electronQCDMCFakeRateWWW(pt,eta);
-    else if (abs(id)==13) return muonQCDMCFakeRateWWW(pt,eta);
+float qcdMCFakeRateWWW(int id, float pt, float eta, float ht, TString version = "default") { 
+    if (abs(id)==11) {
+        if(version.Contains("v1")) return electronQCDMCFakeRate_v1_WWW(pt,eta);
+        else if(version.Contains("v2")) return electronQCDMCFakeRate_v2_WWW(pt,eta);
+        else if(version.Contains("v3")) return electronQCDMCFakeRate_v3_WWW(pt,eta);
+        else if(version.Contains("v4")) return electronQCDMCFakeRate_v4_WWW(pt,eta);
+        else if(version.Contains("v5")) return electronQCDMCFakeRate_v5_WWW(pt,eta);
+        else if(version.Contains("v6")) return electronQCDMCFakeRate_v6_WWW(pt,eta);
+        //else if(version.Contains("default")) return electronQCDMCFakeRate_v5_WWW(pt,eta);
+        else if(version.Contains("default")) return electronQCDMCFakeRate_20170911_WWW(pt,eta);
+        else {cout<<"using default fake rate"<<endl;return electronQCDMCFakeRateWWW(pt,eta);}
+ }   else if (abs(id)==13) {
+        if(version.Contains("v1")) return muonQCDMCFakeRate_v1_WWW(pt,eta);
+        else if(version.Contains("v2")) return muonQCDMCFakeRate_v2_WWW(pt,eta);
+        else if(version.Contains("v3")) return muonQCDMCFakeRate_v3_WWW(pt,eta);
+        else if(version.Contains("v4")) return muonQCDMCFakeRate_v4_WWW(pt,eta);
+        else if(version.Contains("v5")) return muonQCDMCFakeRate_v5_WWW(pt,eta);
+        else if(version.Contains("v6")) return muonQCDMCFakeRate_v6_WWW(pt,eta);
+        //else if(version.Contains("default")) return muonQCDMCFakeRate_v5_WWW(pt,eta);
+        else if(version.Contains("default")) return muonQCDMCFakeRate_20170911_WWW(pt,eta);
+        else {cout<<version<<":using default fake rate"<<endl;return muonQCDMCFakeRateWWW(pt,eta);}
+//        else return muonQCDMCFakeRateWWW(pt,eta);
+}
+    else return 0.;
+}
+
+float FakeRateErrorWWW(int id, float pt, float eta, float ht, TString version = "default") { 
+    if (abs(id)==11) {
+        //else if(version.Contains("default")) return electronQCDMCFakeRateError_v5_WWW(pt,eta);
+        if(version.Contains("default")) return electronQCDMCFakeRateError_20170911_WWW(pt,eta);
+         else return 0.;
+ }   else if (abs(id)==13) {
+        //else if(version.Contains("default")) return muonQCDMCFakeRateError_v5_WWW(pt,eta);
+        if(version.Contains("default")) return muonQCDMCFakeRateError_20170911_WWW(pt,eta);
+         else return 0.;
+//        else return muonQCDMCFakeRateErrorWWW(pt,eta);
+}
     else return 0.;
 }
 
@@ -324,4 +358,23 @@ float qcdMCFakeRateNoCC(int id, float pt, float eta, float ht) {
     else return 0.;
   }
 }
+
+float getFakeRate(int id, float pt, float eta, float ht, bool extrPtRel = false, bool doData = false, bool doInSitu = false, TString version = "default"){
+    //if (inclHT) ht = -1; // negative ht means use inclusive ht in commonUtils // FIXME
+
+    if (doInSitu) return fakeRateInSitu(id, pt, eta, ht);
+    else if (doData ) return fakeRate(id, pt, eta, ht);
+    else return qcdMCFakeRateWWW(id, pt, eta, ht, version);
+}
+
+float getFakeRateError(int id, float pt, float eta, float ht, bool doInSitu = false) { 
+    if (doInSitu) return fakeRateErrorInSitu(id, pt, eta, ht);
+    else return FakeRateErrorWWW(id, pt, eta, ht);
+}
+
+float getFakeRate2(int id, float pt, float eta, float ht, bool extrPtRel = false, bool doData = false){
+  if (doData) return fakeRateNoCC(id, pt, eta, ht);
+  else return qcdMCFakeRateWWW(id, pt, eta, ht);
+}
+
 #endif

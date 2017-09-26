@@ -28,6 +28,7 @@
 #include "../../CORE/Tools/dorky/dorky.h"
 #include "../../CORE/Tools/goodrun.h"
 #include "../../CORE/Tools/badEventFilter.h"
+#include "../../commonUtils/commonUtils.h"
 
 using namespace std;
 using namespace duplicate_removal;
@@ -63,6 +64,7 @@ void templateLooper::bookHistos(std::string region){
   selection.push_back(region.c_str());
   vector <string> variable;             vector <float> variable_bins;
   variable.push_back("ptl1");           variable_bins.push_back(1000);  
+  variable.push_back("ptl2");           variable_bins.push_back(1000);  
   variable.push_back("pt_ISR");         variable_bins.push_back(1000);  
   variable.push_back("ptl1_pass");      variable_bins.push_back(1000);  
   variable.push_back("ptj1");           variable_bins.push_back(1000);  
@@ -79,14 +81,14 @@ void templateLooper::bookHistos(std::string region){
   variable.push_back("mjj");	        variable_bins.push_back(1500);  
   variable.push_back("mjj_lead");	variable_bins.push_back(1500);  
   variable.push_back("MCT");	        variable_bins.push_back(1000);  
-  variable.push_back("relIso03EA");	variable_bins.push_back(1000);  
   variable.push_back("absIso03EA");	variable_bins.push_back(1000);  
   variable.push_back("absIso03EA_subleading");	variable_bins.push_back(1000);  
   variable.push_back("MT2W");	        variable_bins.push_back(1000);  
-  variable.push_back("dphi_Wlep");	variable_bins.push_back(1000);  
   variable.push_back("MT2lb");          variable_bins.push_back(1000);  
   variable.push_back("njets");          variable_bins.push_back(20  );  
+  variable.push_back("flavorbin");          variable_bins.push_back(7  );  
   variable.push_back("nleps");          variable_bins.push_back(20  );  
+  variable.push_back("bkgtype");          variable_bins.push_back(20  );  
   variable.push_back("nveto_leptons");          variable_bins.push_back(20  );  
   variable.push_back("nisoTrack_mt2");          variable_bins.push_back(20  );  
   variable.push_back("nbjets");              variable_bins.push_back(20  );  
@@ -121,10 +123,20 @@ void templateLooper::bookHistos(std::string region){
 
  //phi and eta plots, they have the same x and y limits.
   vector <string> phivars;
+  phivars.push_back("relIso03EA");
+  phivars.push_back("ip3d");
+  phivars.push_back("ip3derr");
+  phivars.push_back("fakerate_weight");
   phivars.push_back("metphi");
   phivars.push_back("dphibb");
+  phivars.push_back("dphijj");
   phivars.push_back("dphibMET");
-  phivars.push_back("dRbb");
+  phivars.push_back("dRjj");
+  phivars.push_back("dRl1j1");
+  phivars.push_back("dRl1j2");
+  phivars.push_back("dRl2j1");
+  phivars.push_back("dRl2j2");
+  phivars.push_back("dRll");
   phivars.push_back("deta_jj");
   phivars.push_back("deltaphi_lep_met");
   phivars.push_back("deltaphi_lep_leadb");
@@ -133,6 +145,10 @@ void templateLooper::bookHistos(std::string region){
   phivars.push_back("nbjets_diff");
   phivars.push_back("dR_lep_leadb");
   phivars.push_back("lep_gfit_ratio");   
+  phivars.push_back("etal1");   
+  phivars.push_back("etal2");   
+  phivars.push_back("etaj1");   
+  phivars.push_back("etaj2");   
  
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
 	for( unsigned int objind = 0; objind < object.size(); objind++ ){
@@ -150,7 +166,7 @@ void templateLooper::bookHistos(std::string region){
 					        phivars  .at(varind).c_str(),
 					        selection.at(selind).c_str()
 						),
-				   200   ,
+				   2000   ,
 				   -3.2  ,
 				   3.2   );
 		}
@@ -295,7 +311,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
     cms3_triboson.Init(tree);
     // event loop
     nEvents = tree->GetEntries();	
-    cout<<"Processing File: "<<TString(currentFile->GetTitle())<<endl;
+//    cout<<"Processing File: "<<TString(currentFile->GetTitle())<<endl;
 
     for (unsigned int event = 0 ; event < nEvents; ++event){
 	  cms3_triboson.GetEntry(event);
@@ -308,47 +324,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
                 fflush(stdout);
            } 
           }
-        
-         float genmetpt;
-	 float weight = 1.0;
-          // fix k-factors for MC samples 
-         if( !isData()) {
-          if( TString(sample).Contains("wjets_ht100")&&(gen_ht()>100)) continue; //stitch samples
-          if( TString(sample).Contains("zjets_ht100")&&(gen_ht()>100)) continue; //stitch samples
-         }
-	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-	  //         MET filter, trigger and json      //
-	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-  /*        bool skim_isFastsim = (TString(sample).Contains("SMS"));           
-	  if (isData() && usejson && !goodrun(run(), ls()) ) continue;
-          if (isData() &&!filt_met())   continue;
-          if (isData() &&!filt_badMuonFilter())   continue;
-          if (isData() &&!filt_badChargedCandidateFilter())   continue;
-          if (isData() &&!filt_jetWithBadMuon())   continue;
-          if (isData() &&!filt_pfovercalomet())   continue;
-*/	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
-	  //Deal with duplicates in data//
-	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
-
-	  if( isData() ) {
-		DorkyEventIdentifier id(run(), evt(), lumi());
-        	if (is_duplicate(id) ){
-		  ++nDuplicates;
-		  continue;
-		}
-          }
-          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : removed duplicates   " <<endl;
-
-	  //~-~-~-~-~-~-~-~~-~-~-//
-	  //    primary vertex   //
-	  //~-~-~-~-~-~-~-~-~-~-//
-
-	   if(nVert()<0)                                           continue;
-
-	  //-~-~-~-~-~-~-~-~-~-~-~-//
+ 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 	  //   event weights       //
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
           float luminosity = 35.9;
+	  float weight = 1.0;
 	  if( isData() || (TString(sample).Contains("SMS"))){
 		  weight *= 1.0;
 	   } else if( !isData()){
@@ -372,7 +352,44 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
                   if(TString(sample).Contains("SMS") ) {weight *=weight_lepSF();}
                   else { weight *= lepSF;}
            }
-  */       
+  */           
+         float genmetpt;
+         bool gammafake = isgammafake();
+         if( !isData()) {
+          if( TString(sample).Contains("ht100")&&(gen_ht()>100)) continue; //stitch samples
+          if( (TString(sample).Contains("wjets")|| TString(sample).Contains("zjets") || TString(sample).Contains("ttbar_onelep")) && gammafake) continue;
+         }
+          //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+	  //         MET filter, trigger and json      //
+	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
+  /*        bool skim_isFastsim = (TString(sample).Contains("SMS"));           
+	  if (isData() && usejson && !goodrun(run(), ls()) ) continue;
+          if (isData() &&!filt_met())   continue;
+          if (isData() &&!filt_badMuonFilter())   continue;
+          if (isData() &&!filt_badChargedCandidateFilter())   continue;
+          if (isData() &&!filt_jetWithBadMuon())   continue;
+          if (isData() &&!filt_pfovercalomet())   continue;
+*/	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
+	  //Deal with duplicates in data//
+	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
+  
+	  if( isData() ) {
+		DorkyEventIdentifier id(run(), evt(), lumi());
+        	if (is_duplicate(id) ){
+		  ++nDuplicates;
+		  continue;
+		}
+          if(!evt_passgoodrunlist()) continue;
+          }
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : removed duplicates   " <<endl;
+
+	  //~-~-~-~-~-~-~-~~-~-~-//
+	  //    primary vertex   //
+	  //~-~-~-~-~-~-~-~-~-~-//
+
+	   if(nVert()<0)                                           continue;
+
+   
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflows and counters  // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
@@ -392,26 +409,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if(passcutflow("step10"))  histos_cutflow[histname]->Fill(12,weight); //mct
         */ 
            }
-           if(TString(selection).Contains("sr_yield")){
-           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
-           if(TString(selection).Contains("raw")) weight = 1;
-           histname = Form("h_%s_event_NEventsSR_ss","lep");
-           if(passSR(Form("ss_%s",selection.c_str()))) histos_cutflow[histname]->Fill(hyp_type_looper(selectedLeps("ss")),weight);
-           if(passSR(Form("trilep_SFOS0_%s",selection.c_str()))) histos_cutflow[histname]->Fill(2.9,weight);
-           if(passSR(Form("trilep_SFOS1_%s",selection.c_str()))) histos_cutflow[histname]->Fill(3.9,weight);
-           if(passSR(Form("trilep_SFOS2_%s",selection.c_str()))) histos_cutflow[histname]->Fill(4.9,weight);
-           continue;
-          } 
-
-          if(TString(selection).Contains("trilep_yield")){
-           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
-           if(!passSR(selection.c_str()))   continue;
-           histname = Form("h_%s_event_NEventsSR_trilep","lep");
-           if(passSR("trilep_SFOS0")) histos_cutflow[histname]->Fill(-0.1,weight);
-           if(passSR("trilep_SFOS1")) histos_cutflow[histname]->Fill(0.9,weight);
-           if(passSR("trilep_SFOS2")) histos_cutflow[histname]->Fill(1.9,weight);
-           continue;
-         } 
          //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
          // gen selection  ---NEED CLEANUP//
          //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
@@ -437,20 +434,25 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           npass += weight;
           histname = Form("h_%s_event_NEventsSRCutflow","lep");
           //if(TString(selection).Contains("presel") && !passPreselection(selection, histos_cutflow[histname]))   continue;
+          if( !TString(selection).Contains("yield")){
           if(TString(selection).Contains("presel") && !passPreselection(selection))   continue;
           if(TString(selection).Contains("sr") &&  !passSR(selection)) continue;
+           }
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
-          cout<<"Run_Number:"<<run()<<":Lum:"<< lumi() <<":EventNumber:"<< evt()<<endl;
+          //if(met_pt()<20)         cout<<"Run_Number:"<<run()<<":Lum:"<< lumi() <<":EventNumber:"<< evt()<<endl;
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//
-          double mjj(-999),deta_jj(-999),pt_sys(-999),mctjj(-999),ptjj(-999),ptj1(-999),ptj2(-999), ptll(-999), mjj_lead(-999), ptlll(-999), mlll(-999);
+          double mjj(-999),deta_jj(-999),pt_sys(-999),mctjj(-999),ptjj(-999),ptj1(-999),ptj2(-999), ptll(-999), mjj_lead(-999), ptlll(-999), mlll(-999),dRjj(-999),mindphi_met_j1_j2(-999), dphijj(-999),dRll(-999), dRl1j1(-999), dRl1j2(-999), dRl2j1(-999),dRl2j2(-999);
           vector<int> goodleps = selectedLeps(selection);                                  //find good leptons
+          if (TString(selection).Contains("loose") || TString(selection).Contains("fakerate"))    goodleps = selectedLooseLeps(selection);
+          if (goodleps.size()<2) continue;
           vector<int> goodjets =  selectedjets();
           vector<int> veto_jets =  vetojets();
           vector<int> forward_jets =  forwardjets();
           pt_sys = ptlljj(goodleps,goodjets);
           mctjj = mct(goodjets); 
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
           if(goodjets.size()>1){
              mjj = mjj_dRmin(goodjets);
              mjj_lead = (jets_p4().at(goodjets.at(0))+jets_p4().at(goodjets.at(1))).mass();
@@ -458,41 +460,154 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
              deta_jj = fabs(jets_p4().at(goodjets.at(0)).eta() - jets_p4().at(goodjets.at(1)).eta());
              ptj1 = jets_p4().at(goodjets.at(0)).pt();
              ptj2 = jets_p4().at(goodjets.at(1)).pt();
-          }
-          if(goodleps.size()>1){
-           int ilep1 = lep_genPart_index().at(goodleps.at(0));
-           int ilep2 = lep_genPart_index().at(goodleps.at(1));
-          ptll=(lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).pt();  
-          cout<<hyp_class()<<":"<<lep_motherIdSS().at(goodleps.at(0))<<":"<<lep_motherIdSS().at(goodleps.at(1))<<":"<<lep_3ch_agree().at(0)<<":"<<lep_3ch_agree().at(1) <<endl;
-
- if(lep_charge().at(goodleps.at(0))!=genPart_charge().at(ilep1) || lep_charge().at(goodleps.at(1))!=genPart_charge().at(ilep2))          cout<<__LINE__<< lep_charge().at(goodleps.at(0))<<":"<<lep_charge().at(goodleps.at(1)) <<":"<<genPart_charge().at(ilep1)<<":"<<genPart_charge().at(ilep2)<<endl;
-
-          }
-          if(goodleps.size()>2){
-          ptlll=(lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))+lep_p4().at(goodleps.at(2))).pt();  
-          mlll=(lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))+lep_p4().at(goodleps.at(2))).mass();  
+             dRjj =  deltaR(jets_p4().at(goodjets.at(0)),jets_p4().at(goodjets.at(1)));
+             mindphi_met_j1_j2 = getMinDphi(met_phi(),jets_p4().at(goodjets.at(0)),jets_p4().at(goodjets.at(1)));
+             float phib1 = jets_p4().at(goodjets.at(0)).phi();
+             float phib2 = jets_p4().at(goodjets.at(1)).phi();
+             dphijj = getdphi(phib1,phib2);
           }
 
-          string region = selection;
-          fillHist( "event", "njets"  , region.c_str(), njets()    , weight );
+           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
+           float dilepmass(-999);
+           unsigned int lep1_index(0),lep2_index(0);
+           int lep3_index(-1);
+           unsigned int ilep1(0),ilep2(0),ilep3(0);
+           int lep1_id(0),lep2_id(0),lep3_id(0);
+           float lep1_pT_org(-999),lep2_pT_org(-999),lep3_pT_org(-999);
+           float lep1_pT(-999),lep2_pT(-999),lep3_pT(-999);
+           int type_looper = hyp_type_looper(goodleps);                              //find event type
+           int trileptype = trileptype_dilepmass(goodleps).first;
+           lep1_index = goodleps.at(0);
+           lep2_index = goodleps.at(1);
+           ilep1 = lep_genPart_index().at(lep1_index);
+           ilep2 = lep_genPart_index().at(lep2_index);
+           lep1_id = triboson_np::lep_pdgId().at(lep1_index);
+           lep2_id = triboson_np::lep_pdgId().at(lep2_index);
+           lep1_pT_org = triboson_np::lep_p4().at(lep1_index).pt();
+           lep2_pT_org = triboson_np::lep_p4().at(lep2_index).pt();
+           lep1_pT = (coneCorrPt(lep1_index)+1)*lep1_pT_org;
+           lep2_pT = (coneCorrPt(lep2_index)+1)*lep2_pT_org;
+           LorentzVector lep1_p4 = triboson_np::lep_p4().at(lep1_index);
+           LorentzVector lep2_p4 = triboson_np::lep_p4().at(lep2_index);
+           LorentzVector lep1_p4_coneCorr(lep1_pT,lep1_p4.eta(),lep1_p4.phi(),lep1_p4.energy()*lep1_pT/lep1_pT_org);    
+           LorentzVector lep2_p4_coneCorr(lep2_pT,lep2_p4.eta(),lep2_p4.phi(),lep2_p4.energy()*lep2_pT/lep2_pT_org);    
+           ptll=(lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).pt();  
+           dilepmass = (lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).mass();
+           dRll = deltaR(lep1_p4,lep2_p4);
+
+           if(goodleps.size()>2) {
+               lep3_index = goodleps.at(2);
+               ilep3 = lep_genPart_index().at(goodleps.at(2));
+               lep3_id = triboson_np::lep_pdgId().at(lep3_index);
+               lep3_pT_org = triboson_np::lep_p4().at(lep3_index).pt();
+               lep3_pT = (coneCorrPt(lep3_index)+1)*lep3_pT_org;
+               ptlll=(lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))+lep_p4().at(goodleps.at(2))).pt();  
+               mlll=(lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))+lep_p4().at(goodleps.at(2))).mass();  
+           }
+
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
+           if(goodjets.size()>1){ 
+           dRl1j1 = deltaR(lep1_p4,jets_p4().at(goodjets.at(0)));
+           dRl1j2 = deltaR(lep1_p4,jets_p4().at(goodjets.at(1)));
+           dRl2j1 = deltaR(lep2_p4,jets_p4().at(goodjets.at(0)));
+           dRl2j1 = deltaR(lep2_p4,jets_p4().at(goodjets.at(1)));
+           }
+          // dilepmass = (lep1_p4_coneCorr+lep2_p4_coneCorr).mass();
+           string region = selection;
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
+         //int  type = gentype(lep1_index,lep2_index);
+         int type = gentype(lep1_index,lep2_index,lep3_index); 
+          // fix k-factors for MC samples 
+         if( !isData() && TString(selection).Contains("ss")) {
+          if( TString(sample).Contains("truess") && type!=0) continue; 
+          if( TString(sample).Contains("threelep") && type!=1) continue; 
+          if( TString(sample).Contains("chargeflip") && type!=2) continue;
+          if( TString(sample).Contains("lostlep") && type!=3) continue;
+          if( TString(sample).Contains("jetfake") && type!=4) continue;
+          if( TString(sample).Contains("gammafake") && type!=5) continue;
+         }
+         else if( !isData() && TString(selection).Contains("trilep")) {
+          if( TString(sample).Contains("threelep") && type!=1 && type!=0) continue; 
+          if( TString(sample).Contains("lostlep") && type!=3) continue;
+          if( TString(sample).Contains("jetfake") && type!=4) continue;
+          if( TString(sample).Contains("gammafake") && type!=5) continue;
+         }
+	
+          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
+             if(TString(selection).Contains("fakerate")){                 
+             if(!isData() && !TString(selection).Contains("yield")) weight *=luminosity;
+             bool subtract = !isData()&& (type==0||type==1||type==2||type==3);
+             weight *= fakerateweight(subtract,selection,lep1_index,lep2_index,lep3_index);
+            }
+           if(TString(selection).Contains("sr_yield")){
+           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
+           if(TString(selection).Contains("raw")) weight = 1;
+           histname = Form("h_%s_event_NEventsSR_ss","lep");
+           if(passSR(Form("ss_%s",selection.c_str()))) histos_cutflow[histname]->Fill(hyp_type_looper(selectedLeps(Form("ss_%s",selection.c_str()))),weight);
+           if(passSR(Form("trilep_SFOS0_%s",selection.c_str()))) histos_cutflow[histname]->Fill(2.9,weight);
+           if(passSR(Form("trilep_SFOS1_%s",selection.c_str()))) histos_cutflow[histname]->Fill(3.9,weight);
+           if(passSR(Form("trilep_SFOS2_%s",selection.c_str()))) histos_cutflow[histname]->Fill(4.9,weight);
+           continue;
+          } 
+/*
+          if(TString(selection).Contains("trilep_yield")){
+           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
+           if(!passSR(selection.c_str()))   continue;
+           histname = Form("h_%s_event_NEventsSR_trilep","lep");
+           if(passSR("trilep_SFOS0")) histos_cutflow[histname]->Fill(-0.1,weight);
+           if(passSR("trilep_SFOS1")) histos_cutflow[histname]->Fill(0.9,weight);
+           if(passSR("trilep_SFOS2")) histos_cutflow[histname]->Fill(1.9,weight);
+           continue;
+         } 
+*/  
+  /*if(trileptype==0) cout<<"0SFOS "<<evt()<<" "<<run()<<" "<<lumi()<<endl;
+         if(trileptype==1) cout<<"1SFOS "<<evt()<<" "<<run()<<" "<<lumi()<<endl;
+         if(trileptype==2) cout<<"2SFOS "<<evt()<<" "<<run()<<" "<<lumi()<<endl;
+    */     fillHist( "event", "njets"  , region.c_str(), goodjets.size()    , weight );
+          fillHist( "event", "fakerate_weight"  , region.c_str(), weight   ,1 );
+          fillHist( "event", "bkgtype"  , region.c_str(), type  , weight );
+        if(TString(selection).Contains("ss")) {
+          if(type_looper==0) fillHist( "event", "flavorbin"  , region.c_str(), 1, weight );
+          if(type_looper==2) fillHist( "event", "flavorbin"  , region.c_str(), 2, weight );
+          if(type_looper==1) fillHist( "event", "flavorbin"  , region.c_str(), 3, weight );
+         }
+        if(TString(selection).Contains("trilep")) {
+         fillHist( "event", "flavorbin"  , region.c_str(), trileptype+1, weight );
+         }
           fillHist( "event", "nleps"  , region.c_str(), nlep()  , weight );
           fillHist( "event", "nveto_leptons"  , region.c_str(), nveto_leptons()    , weight );
           fillHist( "event", "nisoTrack_mt2"  , region.c_str(), nisoTrack_mt2()    , weight );
           fillHist( "event", "nbjets"  , region.c_str(), nBJetLoose(), weight );
           fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
-          fillHist( "event", "ptl1"   , region.c_str(), lep_p4().at(0).pt()      , weight );
+          fillHist( "event", "ptl1"   , region.c_str(), lep_p4().at(lep1_index).pt()      , weight );
+          fillHist( "event", "ptl2"   , region.c_str(), lep_p4().at(lep2_index).pt()      , weight );
+          fillHist( "event", "etal1"   , region.c_str(), lep_p4().at(lep1_index).eta()      , weight );
+          fillHist( "event", "etal2"   , region.c_str(), lep_p4().at(lep2_index).eta()      , weight );
+        if(goodjets.size()>0)  fillHist( "event", "etaj1"   , region.c_str(), jets_p4().at(goodjets.at(0)).eta()      , weight );
+        if(goodjets.size()>1)  fillHist( "event", "etaj2"   , region.c_str(), jets_p4().at(goodjets.at(1)).eta()      , weight );
           fillHist( "event", "deta_jj"   , region.c_str(), deta_jj     , weight );
-//         fillHist( "event", "mll"    , region.c_str(), trileptype_dilepmass(goodleps).second, weight );
+          fillHist( "event", "dRjj"   , region.c_str(), dRjj     , weight );
+          fillHist( "event", "dRll"   , region.c_str(), dRll     , weight );
+          fillHist( "event", "dRl1j1"   , region.c_str(), dRl1j1     , weight );
+          fillHist( "event", "dRl1j2"   , region.c_str(), dRl1j2     , weight );
+          fillHist( "event", "dRl2j1"   , region.c_str(), dRl2j1     , weight );
+          fillHist( "event", "dRl2j2"   , region.c_str(), dRl2j2     , weight );
+          fillHist( "event", "dphijj"   , region.c_str(), dphijj     , weight );
+          fillHist( "event", "mindphi_met_j1_j2"   , region.c_str(), mindphi_met_j1_j2     , weight );
+          fillHist( "event", "mll"    , region.c_str(),  dilepmass, weight);
           fillHist( "event", "mjj"    , region.c_str(),  mjj   , weight );
           fillHist( "event", "mjj_lead"    , region.c_str(),  mjj_lead , weight );
-	  //fillHist( "event", "relIso03EA" , region.c_str(), lep_relIso03().at(0)        , weight );	 
-	  fillHist( "event", "absIso03EA" , region.c_str(), lep_relIso03().at(goodleps.at(0))*lep_pt().at(goodleps.at(0))        , weight );	 
-	  fillHist( "event", "absIso03EA_subleading" , region.c_str(), lep_relIso03().at(goodleps.at(1))*lep_pt().at(goodleps.at(1))        , weight );	 
+          // check where the mismodeling come from.
+          fillHist( "event", "relIso03EA" , region.c_str(), lep_relIso03EAv2().at(lep2_index)    , weight );	 
+          fillHist( "event", "relIso03EA" , region.c_str(), lep_relIso03EAv2().at(lep1_index)    , weight );	 
+          fillHist( "event", "ip3d" , region.c_str(), lep_ip3d().at(lep1_index)    , weight );	 
+          fillHist( "event", "ip3d" , region.c_str(), lep_ip3d().at(lep2_index)    , weight );	 
+          fillHist( "event", "ip3derr" , region.c_str(), lep_ip3derr().at(lep1_index)    , weight );	 
+          fillHist( "event", "ip3derr" , region.c_str(), lep_ip3derr().at(lep2_index)    , weight );	 
+	  //fillHist( "event", "absIso03EA" , region.c_str(), lep_relIso03().at(goodleps.at(0))*lep_pt().at(goodleps.at(0))        , weight );	 
+	  //fillHist( "event", "absIso03EA_subleading" , region.c_str(), lep_relIso03().at(goodleps.at(1))*lep_pt().at(goodleps.at(1))        , weight );	 
           fillHist( "event", "ptlljj"   , region.c_str(),pt_sys     , weight );
 	  fillHist( "event", "mtMax"    , region.c_str(), maxMt(goodleps)   , weight );
-	  //fillHist( "event", "MT2lb"    , region.c_str(), MT2lb  , weight );
-          //fillHist( "event", "mbb"    , region.c_str(),  m_bb   , weight );
-	  //fillHist( "event", "dRbb"    , region.c_str(), dRbb   , weight );
 	  fillHist( "event", "MCT"    , region.c_str(),  mctjj   , weight );
 	  fillHist( "event", "ptjj"    , region.c_str(),  ptjj   , weight );
 	  fillHist( "event", "ptll"    , region.c_str(),  ptll   , weight );
@@ -504,10 +619,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           fillHist( "event", "ptj2"   , region.c_str(), ptj2    , weight );
           //fillHist( "event", "nVert"  , region.c_str(),nvtxs()        , weight );
           //fillHist( "event", "metphi" , region.c_str(),event_met_ph        , weight );
-	  //fillHist( "event", "MT2W" , region.c_str(), MT2W()       , weight );	 
-	  //fillHist( "event", "dphibb" , region.c_str(), getdphibb()       , weight );	 
-	  //fillHist( "event", "ptb1overptb2" , region.c_str(), ptb1/ptb2      , weight );	 
-	  //fillHist( "event", "deltaphi_lep_met" , region.c_str(), abs(ROOT::Math::VectorUtil::DeltaPhi(lep1_p4(),metlv)), weight );	 
           //histMCTvsMT->Fill(mctbb,mt_met_lep(),weight);
           //histMCTvsMET->Fill(mctbb,event_met_pt,weight);
           //histMCTvsMbb->Fill(mctbb,m_bb,weight);
@@ -547,7 +658,6 @@ void templateLooper::bookHistTH1D( string name, string title, int nbins, float x
   hist->SetTitle("Events");
   return;
 }  
-
 void templateLooper::fillHist( string obj, string var, string sel, float value, float weight ){
   string hist = "h_";
   try
