@@ -21,10 +21,7 @@
 #include "templateLooper.h"
 #include "../classFiles/triboson_v0.1.9/triboson.h"
 #include "../sharedCode/histTools.h"
-#include "../sharedCode/METTemplateSelections.h"
 #include "../sharedCode/TribosonSelection.h"
-#include "../sharedCode/AnalysisUtils.h"
-#include "../stop_variables/MT2_implementations.h"
 #include "../../CORE/Tools/dorky/dorky.h"
 #include "../../CORE/Tools/goodrun.h"
 #include "../../CORE/Tools/badEventFilter.h"
@@ -476,7 +473,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            float lep1_pT_org(-999),lep2_pT_org(-999),lep3_pT_org(-999);
            float lep1_pT(-999),lep2_pT(-999),lep3_pT(-999);
            int type_looper = hyp_type_looper(goodleps);                              //find event type
-           int trileptype = trileptype_dilepmass(goodleps).first;
+           int trileptype(-9999); if(TString(selection).Contains("trilep") ) trileptype = trileptype_dilepmass(goodleps).first;
            lep1_index = goodleps.at(0);
            lep2_index = goodleps.at(1);
            ilep1 = lep_genPart_index().at(lep1_index);
