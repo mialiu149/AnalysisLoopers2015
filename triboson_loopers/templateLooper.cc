@@ -347,7 +347,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if(TString(selection).Contains("presel") && !passPreselection(selection))   continue;
           if(TString(selection).Contains("sr") &&  !passSelection(selection, dummy)) continue;
            }
-          if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
+  if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//

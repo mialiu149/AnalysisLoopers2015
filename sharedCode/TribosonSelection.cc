@@ -236,7 +236,7 @@ cout<<"selection not defined"<<endl;
 return false;
 }
 
-bool passSelection( std::string selection, eventinfo &dummy){
+bool passSelection( std::string selection, eventinfo& dummy){
  bool passTrigger =  HLT_singleEl()||HLT_singleMu()||HLT_singleMu_noiso()||HLT_DoubleEl_noiso()|| HLT_DoubleEl_DZ_2();
  passTrigger = true;
  if( !TString(selection).Contains("btag") && nBJetLoose()>0) return false; //default is loose btag now.
@@ -257,6 +257,7 @@ bool passSelection( std::string selection, eventinfo &dummy){
  int type_looper = hyp_type_looper(goodleps);            //find event type
  
 if(TString(selection).Contains("ss")){
+
   unsigned int lep1_index = goodleps.at(0);
   unsigned int lep2_index = goodleps.at(1);
   LorentzVector lep1_p4 = triboson_np::lep_p4().at(lep1_index);
@@ -280,7 +281,7 @@ if(TString(selection).Contains("ss")){
  float mjj = mjj_dRmin(goodjets);
  float mjj_lead = (jets_p4().at(goodjets.at(0))+jets_p4().at(goodjets.at(1))).mass();                // dijet mass
  double deta_jj = abs(jets_p4().at(goodjets.at(0)).eta() - jets_p4().at(goodjets.at(1)).eta());      // dijet eta
-
+ dummy.eventtype = type_looper;
  if( TString(selection).Contains("atlas")) {
  if( fabs(mjj_lead-85)>20)                 return false;                                  // w mass window cut
  if( deta_jj>1.5)                          return false;                                  // delta eta cut

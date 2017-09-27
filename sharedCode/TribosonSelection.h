@@ -6,7 +6,7 @@ namespace tribosonsel{
 //enum eventtype{ss_ee,ss_em,ss_mm}
 
 struct eventinfo{
-  int eventype;
+  int eventtype;
   float mll;
   float mtmax  ; 
   float detajj ;
@@ -19,7 +19,7 @@ struct eventinfo{
   vector<unsigned int> jets;
 
   eventinfo(){
-   eventype = -999.0;
+   eventtype = -999.0;
    mll    = -999.0;
    mtmax  = -999.0; 
    detajj = -999.0;
@@ -35,7 +35,7 @@ bool passPreselection(std::string selection, TH1D* &hist);
 bool passPreselection(std::string selection);
 int  trilepEventtype();
 bool passBaseline( std::string selection);
-bool passSelection( std::string selection,eventinfo &);
+bool passSelection( std::string selection,eventinfo& );
 bool passcutflow( std::string selection );
 bool passRegion(std::string selection);
 bool passStudyRegion(std::string selection);
