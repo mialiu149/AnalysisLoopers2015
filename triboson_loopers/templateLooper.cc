@@ -438,7 +438,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //-~-~-~-~-~-~-~-~-//
           double mjj(-999),deta_jj(-999),pt_sys(-999),mctjj(-999),ptjj(-999),ptj1(-999),ptj2(-999), ptll(-999), mjj_lead(-999), ptlll(-999), mlll(-999),dRjj(-999),mindphi_met_j1_j2(-999), dphijj(-999),dRll(-999), dRl1j1(-999), dRl1j2(-999), dRl2j1(-999),dRl2j2(-999);
           vector<int> goodleps = selectedLeps(selection);                                  //find good leptons
-          if (TString(selection).Contains("loose") || TString(selection).Contains("fakerate"))    goodleps = selectedLooseLeps(selection);
           if (goodleps.size()<2) continue;
           vector<int> goodjets =  selectedjets();
           vector<int> veto_jets =  vetojets();

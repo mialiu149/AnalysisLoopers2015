@@ -28,14 +28,14 @@ const double ZMASS = 90.0;
 //--------------//
 int preselRegion( std::string looselep ){
     if(passPreselection(looselep)) {
-      vector<int> goodleps = selectedLooseLeps(looselep);                          //find loose leptons
+      vector<int> goodleps = selectedLeps(looselep);                          //find loose leptons
       int type_looper = hyp_type_looper(goodleps);                                 //find event type
       if(type_looper==0) return 1;
       if(type_looper==2) return 2;
       if(type_looper==1) return 3;
     }
     else if(passPreselection("trilep_loose_VVV_cutbased_fo")){
-      vector<int> leps_index = selectedLooseLeps("trilep"); 
+      vector<int> leps_index = selectedLeps("trilep"); 
       int trileptype = trileptype_dilepmass(leps_index).first;
       if(trileptype==1) return 4;
       if(trileptype==2) return 5;
@@ -46,14 +46,14 @@ int preselRegion( std::string looselep ){
 
 int signalRegion2016(){
     if(passSR("ss_loose_VVV_cutbased_fo_v5")) {
-      vector<int> goodleps = selectedLooseLeps("ss_VVV_cutbased_fo_v5");                                  //find loose leptons
+      vector<int> goodleps = selectedLeps("ss_VVV_cutbased_fo_v5");                                  //find loose leptons
       int type_looper = hyp_type_looper(goodleps);                              //find event type
       if(type_looper==0) return 1;
       if(type_looper==2) return 2;
       if(type_looper==1) return 3;
     }
     else if(passSR("trilep_loose")){
-      vector<int> leps_index = selectedLooseLeps("trilep"); 
+      vector<int> leps_index = selectedLeps("trilep"); 
       int trileptype = trileptype_dilepmass(leps_index).first;
       if(trileptype==1) return 4;
       if(trileptype==2) return 5;
@@ -81,7 +81,6 @@ bool passPreselection(string selection) {
 
 if(TString(selection).Contains("ss")){
  vector<int> goodleps = selectedLeps(selection);          //find good leptons
- if (TString(selection).Contains("loose") || TString(selection).Contains("fakerate") || TString(selection).Contains("_fo_"))    goodleps = selectedLooseLeps(selection);
  int nvetoleps = countvetoleps(5);
  int type_looper = hyp_type_looper(goodleps);            //find event type
  if( !passTrigger)                                        return false; 
@@ -109,7 +108,6 @@ if(TString(selection).Contains("ss")){
 
 if(TString(selection).Contains("trilep")){
  vector<int> leps_index = selectedLeps(selection); 
- if(TString(selection).Contains("loose") || TString(selection).Contains("fakerate")) leps_index = selectedLooseLeps(selection);
  //if( evt()== 578874) cout<<__LINE__<<endl;
  if( leps_index.size()!=3 || nlep()!=3) return false;
  float dphi = dphi3lmet(leps_index,met_phi());
@@ -254,7 +252,6 @@ bool passSR( std::string selection ){
  if(!passPreselection(selection)) return false;
 
  vector<int> goodleps = selectedLeps(selection);                           //find good leptons
- //if (TString(selection).Contains("loose") || TString(selection).Contains("fakerate"))    goodleps = selectedLooseLeps(selection);
  int type_looper = hyp_type_looper(goodleps);            //find event type
  
 if(TString(selection).Contains("ss")){
@@ -300,9 +297,7 @@ if(TString(selection).Contains("ss")){
 
 if(TString(selection).Contains("trilep")){
  vector<int> leps_index = selectedLeps(selection); 
-// if(TString(selection).Contains("loose") || TString(selection).Contains("fakerate")) leps_index = selectedLooseLeps(selection);
  if( leps_index.size()!=3) return false;
-
  int   trileptype = trileptype_dilepmass(leps_index).first;
  float dilepmass = trileptype_dilepmass(leps_index).second;
  bool pass_SFOS0 = (trileptype==0 && dilepmass>20 && ((abs(dilepmass-ZMASS)>15)||hyp_type()!=0));
@@ -345,6 +340,7 @@ for (unsigned int lep_index = 0;lep_index<3;++lep_index){
 }
 
 pair<int,float> trileptype_dilepmass(vector<int> sellep_index ){
+
 if( sellep_index.size() < 3) {  
  cout<<"event has less than three leptons, exiting"<<endl;
  return std::make_pair(-999,-999); 
@@ -379,7 +375,6 @@ for (unsigned int lep_index = 0;lep_index<3;++lep_index){
     dilepmass_min = dilepmass;
 }
 
-//if(trileptype ==2) return make_pair(trileptype,dilepmass_min);
 if(trileptype ==2) { if(dilepmass_min>20 && !eventfail) return make_pair(trileptype,dilepmass_min); else return make_pair(-999,-999);}
 // sort the leps so that muons are listed first
  std::sort(leps.begin(), leps.end(), sortByValue);
@@ -473,14 +468,6 @@ bool isLooseLepton(int lepindex, string selection){
 bool isLooseNotTight(int lepindex, string selection){
   if(!isGoodLepton(lepindex,selection) && isLooseLepton(lepindex,selection)) return true;
   return false; 
-}
-
-vector<int> selectedLooseLeps(string selection){
-  vector<int> selectedlooseleps;
-  for (unsigned int lepindex = 0;lepindex<lep_p4().size();++lepindex){
-      if(isLooseLepton(lepindex,selection)) selectedlooseleps.push_back(lepindex);
-  }
-return selectedlooseleps;
 }
 
 vector<int> selectedLeps(string selection){
@@ -843,17 +830,7 @@ float fakerateweight(bool subtract,string selection,unsigned lep1_index,unsigned
             }
             if(lep1_fakeable && lep2_fakeable){// skip double fakes for now
              weight = 0; 
-           /* if( lep1_id*lep2_id > 0 ){
-                 e2 = getFakeRate(abs(lep2_id), lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData, inSitu );
-                 e1 = getFakeRate(abs(lep1_id), lep1_pT, fabs(lep1_p4.eta()), triboson_np::ht(), false, doData, inSitu );
-               if(TString(selection).Contains("up")) e1 +=getFakeRateError(abs(lep1_id), lep1_pT, fabs(lep1_p4.eta()), triboson_np::ht(),inSitu);
-               if(TString(selection).Contains("down")) e1 +=-getFakeRateError(abs(lep1_id), lep1_pT, fabs(lep1_p4.eta()), triboson_np::ht(),inSitu);
-               if(TString(selection).Contains("up")) e2 +=getFakeRateError(abs(lep2_id), lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(),inSitu);
-               if(TString(selection).Contains("down")) e2 +=-getFakeRateError(abs(lep2_id), lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(),inSitu);
-                 weight = ((e1/(1-e1))*(1-e2/(1-e2))+(e2/(1-e2))*(1-e1/(1-e1))+(e1/(1-e1))*(e2/(1-e2)))*weight;//check this.
-             }
-            */
-            }
+           }
      
      return weight;      
 }
