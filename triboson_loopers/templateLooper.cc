@@ -53,8 +53,6 @@ void templateLooper::bookHistos(std::string region){
   leptype.push_back("lep");
   leptype.push_back("lep_trilep");
   leptype.push_back("lep_dilep");
-//  leptype.push_back("lep_HF");
-//  leptype.push_back("lep_LF");
   vector <string> object;
   object.push_back("event");
   vector <string> selection; 
@@ -430,13 +428,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : selection functions " <<endl;
           npass += weight;
           histname = Form("h_%s_event_NEventsSRCutflow","lep");
-          //if(TString(selection).Contains("presel") && !passPreselection(selection, histos_cutflow[histname]))   continue;
           if( !TString(selection).Contains("yield")){
           if(TString(selection).Contains("presel") && !passPreselection(selection))   continue;
           if(TString(selection).Contains("sr") &&  !passSR(selection)) continue;
            }
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
-          //if(met_pt()<20)         cout<<"Run_Number:"<<run()<<":Lum:"<< lumi() <<":EventNumber:"<< evt()<<endl;
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//
@@ -509,7 +505,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            dRl2j1 = deltaR(lep2_p4,jets_p4().at(goodjets.at(0)));
            dRl2j1 = deltaR(lep2_p4,jets_p4().at(goodjets.at(1)));
            }
-          // dilepmass = (lep1_p4_coneCorr+lep2_p4_coneCorr).mass();
            string region = selection;
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
          //int  type = gentype(lep1_index,lep2_index);
@@ -546,21 +541,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(passSR(Form("trilep_SFOS2_%s",selection.c_str()))) histos_cutflow[histname]->Fill(4.9,weight);
            continue;
           } 
-/*
-          if(TString(selection).Contains("trilep_yield")){
-           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
-           if(!passSR(selection.c_str()))   continue;
-           histname = Form("h_%s_event_NEventsSR_trilep","lep");
-           if(passSR("trilep_SFOS0")) histos_cutflow[histname]->Fill(-0.1,weight);
-           if(passSR("trilep_SFOS1")) histos_cutflow[histname]->Fill(0.9,weight);
-           if(passSR("trilep_SFOS2")) histos_cutflow[histname]->Fill(1.9,weight);
-           continue;
-         } 
-*/  
-  /*if(trileptype==0) cout<<"0SFOS "<<evt()<<" "<<run()<<" "<<lumi()<<endl;
-         if(trileptype==1) cout<<"1SFOS "<<evt()<<" "<<run()<<" "<<lumi()<<endl;
-         if(trileptype==2) cout<<"2SFOS "<<evt()<<" "<<run()<<" "<<lumi()<<endl;
-    */     fillHist( "event", "njets"  , region.c_str(), goodjets.size()    , weight );
+         fillHist( "event", "njets"  , region.c_str(), goodjets.size()    , weight );
           fillHist( "event", "fakerate_weight"  , region.c_str(), weight   ,1 );
           fillHist( "event", "bkgtype"  , region.c_str(), type  , weight );
         if(TString(selection).Contains("ss")) {
