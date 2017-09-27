@@ -38,4 +38,5 @@ namespace AnalysisUtils {
    float MtMass(std::vector<TLorentzVector>,int);
    void SortParticlesPt(std::vector<int>&,std::vector<TLorentzVector>&);
    bool DrPassed(std::vector<TLorentzVector>,TLorentzVector,float);
-}   
+   float Zbi(float sig, float bg, float bgrelunc);
+ }   
