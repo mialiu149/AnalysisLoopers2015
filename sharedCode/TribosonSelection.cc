@@ -601,12 +601,6 @@ float mjj_dRmin(vector<int> jets){
 return mjj; 
 }
 
-float getmjj(){ 
- vector<int> goodjets =  selectedjets();
- float mjj =  mjj_dRmin( goodjets );
- return mjj;
- }
-
 bool isgammafake(){ 
   bool gammafake = false;
   for (unsigned int lepindex = 0;lepindex<lep_p4().size();++lepindex){

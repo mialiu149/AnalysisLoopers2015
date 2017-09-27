@@ -600,7 +600,7 @@ void templateLooper::bookHists(vector <string> leptype, vector <string> object, 
   }
 }
 
-void templateLooper::fillHist( string obj, string var, string sel, float value, float weight ){
+void templateLooper::fillHist( string obj, string var, string sel, float value, float weight ) {
   string hist = "h_";
   try
 	{
