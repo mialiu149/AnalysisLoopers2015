@@ -339,12 +339,13 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           //-~-~-~-~-~-~-~-~-//
 	  //  selections     //
 	  //-~-~-~-~-~-~-~-~-//
+	  eventinfo dummy;
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : selection functions " <<endl;
           npass += weight;
           histname = Form("h_%s_event_NEventsSRCutflow","lep");
           if( !TString(selection).Contains("yield")){
           if(TString(selection).Contains("presel") && !passPreselection(selection))   continue;
-          if(TString(selection).Contains("sr") &&  !passSR(selection)) continue;
+          if(TString(selection).Contains("sr") &&  !passSelection(selection, dummy)) continue;
            }
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
 	  //-~-~-~-~-~-~-~-~-//
@@ -448,10 +449,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
            if(TString(selection).Contains("raw")) weight = 1;
            histname = Form("h_%s_event_NEventsSR_ss","lep");
-           if(passSR(Form("ss_%s",selection.c_str()))) histos_cutflow[histname]->Fill(hyp_type_looper(selectedLeps(Form("ss_%s",selection.c_str()))),weight);
-           if(passSR(Form("trilep_SFOS0_%s",selection.c_str()))) histos_cutflow[histname]->Fill(2.9,weight);
-           if(passSR(Form("trilep_SFOS1_%s",selection.c_str()))) histos_cutflow[histname]->Fill(3.9,weight);
-           if(passSR(Form("trilep_SFOS2_%s",selection.c_str()))) histos_cutflow[histname]->Fill(4.9,weight);
+           if(passSelection(Form("ss_%s",selection.c_str()), dummy)) histos_cutflow[histname]->Fill(hyp_type_looper(selectedLeps(Form("ss_%s",selection.c_str()))),weight);
+           if(passSelection(Form("trilep_SFOS0_%s",selection.c_str()),dummy)) histos_cutflow[histname]->Fill(2.9,weight);
+           if(passSelection(Form("trilep_SFOS1_%s",selection.c_str()),dummy)) histos_cutflow[histname]->Fill(3.9,weight);
+           if(passSelection(Form("trilep_SFOS2_%s",selection.c_str()),dummy)) histos_cutflow[histname]->Fill(4.9,weight);
            continue;
           } 
          fillHist( "event", "njets"  , region.c_str(), goodjets.size()    , weight );

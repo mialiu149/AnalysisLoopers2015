@@ -27,7 +27,6 @@ const double ZMASS = 90.0;
 // preselection //
 //--------------//
 
-
 int preselRegion( std::string looselep ){
     if(passPreselection(looselep)) {
       vector<int> goodleps = selectedLeps(looselep);                          //find loose leptons
@@ -45,16 +44,17 @@ int preselRegion( std::string looselep ){
    }
    return -999; 
 }
-
+/*
 int signalRegion2016(){
-    if(passSR("ss_loose_VVV_cutbased_fo_v5")) {
+    eventinfo  &dummy;
+    if(passSelection("ss_loose_VVV_cutbased_fo_v5", dummy)) {
       vector<int> goodleps = selectedLeps("ss_VVV_cutbased_fo_v5");                                  //find loose leptons
       int type_looper = hyp_type_looper(goodleps);                              //find event type
       if(type_looper==0) return 1;
       if(type_looper==2) return 2;
       if(type_looper==1) return 3;
     }
-    else if(passSR("trilep_loose")){
+    else if(passSelection("trilep_loose", dummy)){
       vector<int> leps_index = selectedLeps("trilep"); 
       int trileptype = trileptype_dilepmass(leps_index).first;
       if(trileptype==1) return 4;
@@ -63,7 +63,7 @@ int signalRegion2016(){
    }
    return -999; 
 }
-
+*/
 bool passPreselection(string selection) {
  //bool passTrigger =  HLT_singleEl()||HLT_singleMu()||HLT_singleMu_noiso()||HLT_DoubleEl_noiso()|| HLT_DoubleEl_DZ_2()
   //                   || HLT_MuEG() || HLT_MuEG_noiso() || HLT_DoubleMu() || HLT_DoubleMu_noiso();
@@ -236,7 +236,7 @@ cout<<"selection not defined"<<endl;
 return false;
 }
 
-bool passSR( std::string selection ){
+bool passSelection( std::string selection, eventinfo &dummy){
  bool passTrigger =  HLT_singleEl()||HLT_singleMu()||HLT_singleMu_noiso()||HLT_DoubleEl_noiso()|| HLT_DoubleEl_DZ_2();
  passTrigger = true;
  if( !TString(selection).Contains("btag") && nBJetLoose()>0) return false; //default is loose btag now.

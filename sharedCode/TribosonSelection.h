@@ -7,34 +7,40 @@ namespace tribosonsel{
 
 struct eventinfo{
   int eventype;
+  float mll;
+  float mtmax  ; 
+  float detajj ;
+  float mjj    ;
+  float mjjlead ;
+  float mlll   ;
+  float ptlll   ;
+  float dphi3lmet ;
   vector<unsigned int> leps;
   vector<unsigned int> jets;
-  float mll    = -999;
-  float mtmax  = -999; 
-  float detajj = -999;
-  float mjj    = -999;
-  float mjjlead = -999;
-  float mlll   = -999;
-  float ptlll   = -999;
-  float dphijmet = -999;
-} ;
 
+  eventinfo(){
+   eventype = -999.0;
+   mll    = -999.0;
+   mtmax  = -999.0; 
+   detajj = -999.0;
+   mjj    = -999.0;
+   mjjlead = -999.0;
+   mlll   = -999.0;
+   ptlll   = -999.0;
+   dphi3lmet = -999.0;
+  }
+} ;
 
 bool passPreselection(std::string selection, TH1D* &hist);
 bool passPreselection(std::string selection);
 int  trilepEventtype();
 bool passBaseline( std::string selection);
-bool passSR( std::string selection );
+bool passSelection( std::string selection,eventinfo &);
 bool passcutflow( std::string selection );
 bool passRegion(std::string selection);
 bool passStudyRegion(std::string selection);
-bool pass1lCR( std::string selection );
-bool pass2lCR( std::string selection );
-bool passmbbCR( std::string selection );
 bool passbin( std::string selection);
 float event_weight(std::string selection);
-bool passISR();
-bool passWJetsValidation();
 std::pair<vector<int>,vector<int> >btaggedjets(bool isloose);
 vector<int> selectedjets();
 vector<int> vetojets();
