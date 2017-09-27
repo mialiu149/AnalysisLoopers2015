@@ -21,6 +21,8 @@ public:
   void bookHist( std::string name, std::string title, int nbins, float xmin, float xmax );
   void bookHistTH1D( std::string name, std::string title, int nbins, float xmin, float xmax );
   void fillHist( std::string obj, std::string var, std::string sel, float value, float weight );
+  void bookHists(std::vector <std::string> leptype, std::vector <std::string> object, std::vector <std::string> variable, std::vector <std::string> selection, int nbins, float xmin, float xmax);
+  void bookHists(std::vector <std::string> leptype, std::vector <std::string> object, std::vector <std::string> variable, std::vector <std::string> selection, std::vector <float> variable_bins);
   
 private:
 

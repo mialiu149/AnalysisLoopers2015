@@ -91,31 +91,7 @@ void templateLooper::bookHistos(std::string region){
   variable.push_back("ptb1overptb2");        variable_bins.push_back(10  );
   variable.push_back("lep_gfit_pt");         variable_bins.push_back(1000);
   variable.push_back("lep_gfit_ptErr");      variable_bins.push_back(10  );
-
-  for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
-	for( unsigned int objind = 0; objind < object.size(); objind++ ){
-	  for( unsigned int varind = 0; varind < variable.size(); varind++ ){
-		for( unsigned int selind = 0; selind < selection.size(); selind++ ){
-		  bookHist(Form("h_%s_%s_%s_%s",
-						leptype.at(lepind).c_str(),
-						object.at(objind).c_str(),
-					        variable.at(varind).c_str(),
-					        selection.at(selind).c_str()
-						),
-				   Form("h_%s_%s_%s_%s",
-						leptype  .at(lepind).c_str(),
-						object   .at(objind).c_str(),
-					        variable .at(varind).c_str(),
-					        selection.at(selind).c_str()
-						),
-				   static_cast<int>(variable_bins.at(varind)),
-				   0.0,
-				   variable_bins.at(varind));
-		}
-	  }
-     }
-  }
-
+  bookHists(leptype,object,variable,selection,variable_bins);
  //phi and eta plots, they have the same x and y limits.
   vector <string> phivars;
   phivars.push_back("relIso03EA");
@@ -144,35 +120,10 @@ void templateLooper::bookHistos(std::string region){
   phivars.push_back("etal2");   
   phivars.push_back("etaj1");   
   phivars.push_back("etaj2");   
- 
-  for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
-	for( unsigned int objind = 0; objind < object.size(); objind++ ){
-	  for( unsigned int varind = 0; varind < phivars.size(); varind++ ){
-		for( unsigned int selind = 0; selind < selection.size(); selind++ ){
-		  bookHist(Form("h_%s_%s_%s_%s",
-						leptype  .at(lepind).c_str(),
-						object   .at(objind).c_str(),
-					        phivars  .at(varind).c_str(),
-					        selection.at(selind).c_str()
-						),
-				   Form("h_%s_%s_%s_%s",
-						leptype  .at(lepind).c_str(),
-						object   .at(objind).c_str(),
-					        phivars  .at(varind).c_str(),
-					        selection.at(selind).c_str()
-						),
-				   2000   ,
-				   -3.2  ,
-				   3.2   );
-		}
-	  }
-	}
-  }
-
+  bookHists(leptype,object,phivars,selection,2000,-3.2,3.2); 
   //----------------------// 
   // book counting hists  //
   //----------------------//
-
   vector <string> genvars;
   genvars.push_back("gen_H");
   genvars.push_back("gen_W");
@@ -181,31 +132,7 @@ void templateLooper::bookHistos(std::string region){
   genvars.push_back("gen_ch");
   genvars.push_back("gen_n2");
   genvars.push_back("gen_lsp");
- 
-  for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
-	for( unsigned int objind = 0; objind < object.size(); objind++ ){
-	  for( unsigned int varind = 0; varind < genvars.size(); varind++ ){
-		for( unsigned int selind = 0; selind < selection.size(); selind++ ){
-		  bookHist(Form("h_%s_%s_%s_%s",
-						leptype  .at(lepind).c_str(),
-						object   .at(objind).c_str(),
-					        genvars  .at(varind).c_str(),
-					        selection.at(selind).c_str()
-						),
-				   Form("h_%s_%s_%s_%s",
-						leptype  .at(lepind).c_str(),
-						object   .at(objind).c_str(),
-					        genvars  .at(varind).c_str(),
-					        selection.at(selind).c_str()
-						),
-				   10    ,
-				   -0.5  ,
-				   9.5   );
-		} // end of selection loop
-	   } // end of variable
-	} //end of object loop
-  }//end of loop over leptons
-
+  bookHists(leptype,object,genvars,selection, 10,-0.5,9.5); 
   // some gen level variables
   bookHist("h_gen_sys_pt", "h_gen_sys_pt", 1000,0,1000);
   bookHist("h_gen_b_pt", "h_gen_b_pt", 1000,0,1000);
@@ -384,7 +311,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 	   if(nVert()<0)                                           continue;
 
-   
           //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
           //    fill cutflows and counters  // 
 	  //~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
@@ -405,24 +331,12 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
         */ 
            }
          //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
-         // gen selection  ---NEED CLEANUP//
+         //         gen selection         //
          //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
 
         if(TString(selection).Contains("gensel")){ cout<<" genselection needs to be written, exit"<<endl; return;}
          
-	  //-~-~-~-~-~-~-~-~-//
-	  //calculate variables//
-	  //-~-~-~-~-~-~-~-~-//
-
-	  float event_met_pt = met_pt();
-	  float event_met_ph = met_phi();
-          float MET = met_pt();
-          float METPhi = met_phi();
-          float METx = MET*TMath::Cos(METPhi);
-          float METy = MET*TMath::Sin(METPhi);
-          ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > metlv;
-          metlv.SetPxPyPzE(METx,METy,0.,MET);
-	  //-~-~-~-~-~-~-~-~-//
+          //-~-~-~-~-~-~-~-~-//
 	  //  selections     //
 	  //-~-~-~-~-~-~-~-~-//
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : selection functions " <<endl;
@@ -555,7 +469,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           fillHist( "event", "nveto_leptons"  , region.c_str(), nveto_leptons()    , weight );
           fillHist( "event", "nisoTrack_mt2"  , region.c_str(), nisoTrack_mt2()    , weight );
           fillHist( "event", "nbjets"  , region.c_str(), nBJetLoose(), weight );
-          fillHist( "event", "met"    , region.c_str(), event_met_pt        , weight );
+          fillHist( "event", "met"    , region.c_str(), met_pt(), weight );
           fillHist( "event", "ptl1"   , region.c_str(), lep_p4().at(lep1_index).pt()      , weight );
           fillHist( "event", "ptl2"   , region.c_str(), lep_p4().at(lep2_index).pt()      , weight );
           fillHist( "event", "etal1"   , region.c_str(), lep_p4().at(lep1_index).eta()      , weight );
@@ -595,7 +509,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           fillHist( "event", "ptj1"   , region.c_str(), ptj1   , weight );
           fillHist( "event", "ptj2"   , region.c_str(), ptj2    , weight );
           //fillHist( "event", "nVert"  , region.c_str(),nvtxs()        , weight );
-          //fillHist( "event", "metphi" , region.c_str(),event_met_ph        , weight );
           //histMCTvsMT->Fill(mctbb,mt_met_lep(),weight);
           //histMCTvsMET->Fill(mctbb,event_met_pt,weight);
           //histMCTvsMbb->Fill(mctbb,m_bb,weight);
@@ -635,6 +548,58 @@ void templateLooper::bookHistTH1D( string name, string title, int nbins, float x
   hist->SetTitle("Events");
   return;
 }  
+void templateLooper::bookHists(vector <string> leptype, vector <string> object, vector <string> variable, vector <string> selection, int nbins, float xmin, float xmax){
+  for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
+	for( unsigned int objind = 0; objind < object.size(); objind++ ){
+	  for( unsigned int varind = 0; varind < variable.size(); varind++ ){
+		for( unsigned int selind = 0; selind < selection.size(); selind++ ){
+		  bookHist(Form("h_%s_%s_%s_%s",
+						leptype.at(lepind).c_str(),
+						object.at(objind).c_str(),
+					        variable.at(varind).c_str(),
+					        selection.at(selind).c_str()
+						),
+				   Form("h_%s_%s_%s_%s",
+						leptype  .at(lepind).c_str(),
+						object   .at(objind).c_str(),
+					        variable .at(varind).c_str(),
+					        selection.at(selind).c_str()
+						),
+                                   nbins,                  
+				   xmin,
+				   xmax);
+		}
+	  }
+     }
+  }
+}
+
+void templateLooper::bookHists(vector <string> leptype, vector <string> object, vector <string> variable, vector <string> selection, vector <float> variable_bins){
+  for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
+	for( unsigned int objind = 0; objind < object.size(); objind++ ){
+	  for( unsigned int varind = 0; varind < variable.size(); varind++ ){
+		for( unsigned int selind = 0; selind < selection.size(); selind++ ){
+		  bookHist(Form("h_%s_%s_%s_%s",
+						leptype.at(lepind).c_str(),
+						object.at(objind).c_str(),
+					        variable.at(varind).c_str(),
+					        selection.at(selind).c_str()
+						),
+				   Form("h_%s_%s_%s_%s",
+						leptype  .at(lepind).c_str(),
+						object   .at(objind).c_str(),
+					        variable .at(varind).c_str(),
+					        selection.at(selind).c_str()
+						),
+				   static_cast<int>(variable_bins.at(varind)),
+				   0.0,
+				   variable_bins.at(varind));
+		}
+	  }
+     }
+  }
+}
+
 void templateLooper::fillHist( string obj, string var, string sel, float value, float weight ){
   string hist = "h_";
   try
