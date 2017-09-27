@@ -4,6 +4,22 @@
 #include "StopSelections.h"
 namespace tribosonsel{
 //enum eventtype{ss_ee,ss_em,ss_mm}
+
+struct eventinfo{
+  int eventype;
+  vector<unsigned int> leps;
+  vector<unsigned int> jets;
+  float mll    = -999;
+  float mtmax  = -999; 
+  float detajj = -999;
+  float mjj    = -999;
+  float mjjlead = -999;
+  float mlll   = -999;
+  float ptlll   = -999;
+  float dphijmet = -999;
+} ;
+
+
 bool passPreselection(std::string selection, TH1D* &hist);
 bool passPreselection(std::string selection);
 int  trilepEventtype();
