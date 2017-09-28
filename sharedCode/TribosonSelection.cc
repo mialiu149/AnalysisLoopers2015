@@ -29,14 +29,14 @@ const double ZMASS = 90.0;
 
 int preselRegion( std::string looselep ){
     if(passPreselection(looselep)) {
-      vector<int> goodleps = selectedLeps(looselep);                          //find loose leptons
+      vector<unsigned int> goodleps = selectedLeps(looselep);                          //find loose leptons
       int type_looper = hyp_type_looper(goodleps);                                 //find event type
       if(type_looper==0) return 1;
       if(type_looper==2) return 2;
       if(type_looper==1) return 3;
     }
     else if(passPreselection("trilep_loose_VVV_cutbased_fo")){
-      vector<int> leps_index = selectedLeps("trilep"); 
+      vector<unsigned int> leps_index = selectedLeps("trilep"); 
       int trileptype = trileptype_dilepmass(leps_index).first;
       if(trileptype==1) return 4;
       if(trileptype==2) return 5;
@@ -48,14 +48,14 @@ int preselRegion( std::string looselep ){
 int signalRegion2016(){
     eventinfo  &dummy;
     if(passSelection("ss_loose_VVV_cutbased_fo_v5", dummy)) {
-      vector<int> goodleps = selectedLeps("ss_VVV_cutbased_fo_v5");                                  //find loose leptons
+      vector<unsigned int> goodleps = selectedLeps("ss_VVV_cutbased_fo_v5");                                  //find loose leptons
       int type_looper = hyp_type_looper(goodleps);                              //find event type
       if(type_looper==0) return 1;
       if(type_looper==2) return 2;
       if(type_looper==1) return 3;
     }
     else if(passSelection("trilep_loose", dummy)){
-      vector<int> leps_index = selectedLeps("trilep"); 
+      vector<unsigned int> leps_index = selectedLeps("trilep"); 
       int trileptype = trileptype_dilepmass(leps_index).first;
       if(trileptype==1) return 4;
       if(trileptype==2) return 5;
@@ -71,9 +71,9 @@ bool passPreselection(string selection) {
  bool passTrigger =   HLT_DoubleEl_DZ_2() || HLT_MuEG() || HLT_DoubleMu();
  if( !TString(selection).Contains("btag") && nBJetLoose()>0) return false; //default is loose btag now.
  if( TString(selection).Contains("btag") && nBJetLoose()<1) return false;
- vector<int> goodjets =  selectedjets();
- vector<int> veto_jets =  vetojets();
- vector<int> forward_jets =  forwardjets();
+ vector<unsigned int> goodjets =  selectedjets();
+ vector<unsigned int> veto_jets =  vetojets();
+ vector<unsigned int> forward_jets =  forwardjets();
  int njets_sel = goodjets.size();
  int njets_veto = veto_jets.size();
  int njets_forward = forward_jets.size();
@@ -82,7 +82,7 @@ bool passPreselection(string selection) {
  if( TString(selection).Contains("jecdown"))  njets_sel = njets_dn();
 
 if(TString(selection).Contains("ss")){
- vector<int> goodleps = selectedLeps(selection);          //find good leptons
+ vector<unsigned int> goodleps = selectedLeps(selection);          //find good leptons
  int nvetoleps = countvetoleps(5);
  int type_looper = hyp_type_looper(goodleps);            //find event type
  if( !passTrigger)                                        return false; 
@@ -109,7 +109,7 @@ if(TString(selection).Contains("ss")){
  }
 
 if(TString(selection).Contains("trilep")){
- vector<int> leps_index = selectedLeps(selection); 
+ vector<unsigned int> leps_index = selectedLeps(selection); 
  //if( evt()== 578874) cout<<__LINE__<<endl;
  if( leps_index.size()!=3 || nlep()!=3) return false;
  float dphi = dphi3lmet(leps_index,met_phi());
@@ -141,8 +141,8 @@ bool passPreselection(string selection, TH1D* &counterhist) {
  counterhist->Fill(1);
  if( TString(selection).Contains("btag") && nBJetLoose()>1) return false;
  counterhist->Fill(2);
- vector<int> goodjets =  selectedjets();
- vector<int> veto_jets =  vetojets();
+ vector<unsigned int> goodjets =  selectedjets();
+ vector<unsigned int> veto_jets =  vetojets();
 
  int njets_veto = veto_jets.size();
  int njets_sel = goodjets.size();
@@ -151,7 +151,7 @@ bool passPreselection(string selection, TH1D* &counterhist) {
  if( TString(selection).Contains("jecdown"))  njets_sel = njets_dn();
 
 if(TString(selection).Contains("ss")){
- vector<int> goodleps = selectedLeps(selection);                           //find good leptons
+ vector<unsigned int> goodleps = selectedLeps(selection);                           //find good leptons
  int nvetoleps = countvetoleps(5);
  int type_looper = hyp_type_looper(goodleps);                              //find event type
  if( !passTrigger)                                        return false; counterhist->Fill(3);
@@ -200,7 +200,7 @@ if(TString(selection).Contains("ss")){
  }
 
 if(TString(selection).Contains("trilep")){
- vector<int> leps_index = selectedLeps(selection); 
+ vector<unsigned int> leps_index = selectedLeps(selection); 
  if( leps_index.size()!=3 || nlep()!=3) return false;
  counterhist->Fill(41);
  float dphi = dphi3lmet(leps_index,met_phi());
@@ -241,9 +241,9 @@ bool passSelection( std::string selection, eventinfo& dummy){
  passTrigger = true;
  if( !TString(selection).Contains("btag") && nBJetLoose()>0) return false; //default is loose btag now.
  if( TString(selection).Contains("btag") && nBJetLoose()<1) return false;
- vector<int> goodjets =  selectedjets();
- vector<int> veto_jets =  vetojets();
- vector<int> forward_jets =  forwardjets();
+ vector<unsigned int> goodjets =  selectedjets();
+ vector<unsigned int> veto_jets =  vetojets();
+ vector<unsigned int> forward_jets =  forwardjets();
  int njets_sel = goodjets.size();
  int njets_veto = veto_jets.size();
  int njets_forward = forward_jets.size();
@@ -253,7 +253,7 @@ bool passSelection( std::string selection, eventinfo& dummy){
 
  if(!passPreselection(selection)) return false;
 
- vector<int> goodleps = selectedLeps(selection);                           //find good leptons
+ vector<unsigned int> goodleps = selectedLeps(selection);                           //find good leptons
  int type_looper = hyp_type_looper(goodleps);            //find event type
  
 if(TString(selection).Contains("ss")){
@@ -299,7 +299,7 @@ if(TString(selection).Contains("ss")){
 }
 
 if(TString(selection).Contains("trilep")){
- vector<int> leps_index = selectedLeps(selection); 
+ vector<unsigned int> leps_index = selectedLeps(selection); 
  if( leps_index.size()!=3) return false;
  int   trileptype = trileptype_dilepmass(leps_index).first;
  float dilepmass = trileptype_dilepmass(leps_index).second;
@@ -342,7 +342,7 @@ for (unsigned int lep_index = 0;lep_index<3;++lep_index){
  return 1;
 }
 
-pair<int,float> trileptype_dilepmass(vector<int> sellep_index ){
+pair<int,float> trileptype_dilepmass(vector<unsigned int> sellep_index ){
 
 if( sellep_index.size() < 3) {  
  cout<<"event has less than three leptons, exiting"<<endl;
@@ -473,8 +473,8 @@ bool isLooseNotTight(int lepindex, string selection){
   return false; 
 }
 
-vector<int> selectedLeps(string selection){
-  vector<int> selectedleps;
+vector<unsigned int> selectedLeps(string selection){
+  vector<unsigned int> selectedleps;
   for (unsigned int lepindex = 0;lepindex<lep_p4().size();++lepindex){
       bool pass_cut(false);
       if(TString(selection).Contains("fakerate") || TString(selection).Contains("loose") || TString(selection).Contains("_fo_")) pass_cut = isLooseLepton(lepindex,selection);
@@ -493,7 +493,7 @@ int countvetoleps(float pt_cut){
 return nvetolep;
 }
 
-int hyp_type_looper(vector<int> lepindex){
+int hyp_type_looper(vector<unsigned int> lepindex){
   if (lepindex.size()<2 )  return -999;
   if (lep_pdgId().at(lepindex.at(0))*lep_pdgId().at(lepindex.at(1)) < 0) return -999;
   if ((lep_pdgId().at(lepindex.at(0)))==(lep_pdgId().at(lepindex.at(1))) && abs(lep_pdgId().at(lepindex.at(0))) ==11) return 0;
@@ -504,7 +504,7 @@ int hyp_type_looper(vector<int> lepindex){
 
 // tight loose catorgorizations for FR
 int hyp_class(){
-    vector<int> goodleps,looseleps,selleps;
+    vector<unsigned int> goodleps,looseleps,selleps;
     for (unsigned int lepindex = 0;lepindex<lep_p4().size();++lepindex){
         if(isGoodLepton(lepindex,"ss_VVV_cutbased_tight")) goodleps.push_back(lepindex);
         if(isLooseLepton(lepindex,"ss_VVV_cutbased_fo_v5")) looseleps.push_back(lepindex);
@@ -523,24 +523,24 @@ int hyp_class(){
   return 0; //should not end up here
 }
 
-vector<int> vetojets(){
- vector<int> vetojets;
+vector<unsigned int> vetojets(){
+ vector<unsigned int> vetojets;
  for(unsigned int jetindex=0;jetindex<jets_p4().size();++jetindex){
  if( jets_p4().at(jetindex).pt()>20 &&fabs(jets_p4().at(jetindex).eta())<5) vetojets.push_back(jetindex); 
  }
 return vetojets;
 }
 
-vector<int> forwardjets(){
- vector<int> forwardjets;
+vector<unsigned int> forwardjets(){
+ vector<unsigned int> forwardjets;
  for(unsigned int jetindex=0;jetindex<jets_p4().size();++jetindex){
  if( jets_p4().at(jetindex).pt()>30&&fabs(jets_p4().at(jetindex).eta())>2.5) forwardjets.push_back(jetindex); 
  }
 return forwardjets;
 }
 
-vector<int> selectedjets(){
- vector<int> goodjets;
+vector<unsigned int> selectedjets(){
+ vector<unsigned int> goodjets;
  for(unsigned int jetindex=0;jetindex<jets_p4().size();++jetindex){
  if( fabs(jets_p4().at(jetindex).eta())<2.5 && jets_p4().at(jetindex).pt()>30) goodjets.push_back(jetindex); 
  }
@@ -551,7 +551,7 @@ inline bool sortByValue(const std::pair<int,int>& pair1, const std::pair<int,int
   return pair1.second > pair2.second;
 }
 
-float ptlljj(vector<int>leps,vector<int>jets) {
+float ptlljj(vector<unsigned int>leps,vector<unsigned int>jets) {
  if(leps.size()<2||jets.size()<2)   return -999;
   ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > p4_system; 
   for (unsigned int i =0;i<leps.size();++i) {p4_system +=lep_p4().at(leps.at(i));}
@@ -559,7 +559,7 @@ float ptlljj(vector<int>leps,vector<int>jets) {
   return p4_system.pt();
 }
 
-float mct(vector<int> selbjets_idx) {
+float mct(vector<unsigned int> selbjets_idx) {
    if (selbjets_idx.size()<2)  return -999;
    float ptb1 = jets_p4().at(selbjets_idx.at(0)).pt();
    float ptb2 = jets_p4().at(selbjets_idx.at(1)).pt();
@@ -570,7 +570,7 @@ float mct(vector<int> selbjets_idx) {
   return mct;
 }
 
-float maxMt(vector<int>leps){
+float maxMt(vector<unsigned int>leps){
    float mt_max = 0;
    for(unsigned int i=0;i<leps.size();++i){
       float mt = calculateMt(lep_p4().at(leps.at(i)),met_pt(),met_phi());
@@ -579,7 +579,7 @@ float maxMt(vector<int>leps){
  return mt_max;
 }
 
-float dphi3lmet(vector<int>leps, float met_phi){
+float dphi3lmet(vector<unsigned int>leps, float met_phi){
  float dphi = 0;
  if(leps.size()!=3) {cout<< "not exactly three leptons, wtf"<<endl;return dphi;}
  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > p4_3l = 
@@ -588,7 +588,7 @@ float dphi3lmet(vector<int>leps, float met_phi){
  return dphi;
 }
 
-float mjj_dRmin(vector<int> jets){
+float mjj_dRmin(vector<unsigned int> jets){
  float mjj(-999), dRjj_min(999),dRjj(999);
  std::pair <int,int> jetpair;
  if(jets.size()<2) return mjj;
@@ -616,7 +616,7 @@ int gentype(){
   bool gammafake = false;
   unsigned int ngenlep = ngenLepFromTau()+ ngenLep();
   unsigned int nW(0), nZ(0);
-  vector<int> reallepindex;
+  vector<unsigned int> reallepindex;
   for (unsigned int lepindex = 0;lepindex<lep_p4().size();++lepindex){
       if(lep_motherIdSS().at(lepindex) > 0) reallepindex.push_back(lepindex);
       if(lep_motherIdSS().at(lepindex) == -3) gammafake = true;
@@ -649,7 +649,7 @@ int gentype(unsigned lep1_index,unsigned lep2_index){
   unsigned int nW(0), nZ(0);
   bool lep1_real = lep_motherIdSS().at(lep1_index) > 0;
   bool lep2_real = lep_motherIdSS().at(lep2_index) > 0;
-  vector<int> reallepindex;
+  vector<unsigned int> reallepindex;
 
   for (unsigned int lepindex = 0;lepindex<lep_p4().size();++lepindex){
       if(lep_motherIdSS().at(lepindex) > 0) reallepindex.push_back(lepindex);
@@ -685,7 +685,7 @@ int gentype(unsigned lep1_index=0,unsigned lep2_index=1, int lep3_index=-1){
   bool lep2_real = lep_motherIdSS().at(lep2_index) > 0;
   bool lep3_real = false;
   if(lep3_index>0) lep3_real = lep_motherIdSS().at(lep2_index) > 0;
-  vector<int> reallepindex;
+  vector<unsigned int> reallepindex;
 
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
   for (unsigned int lepindex = 0;lepindex<lep_p4().size();++lepindex){

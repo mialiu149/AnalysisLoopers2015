@@ -347,16 +347,17 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if(TString(selection).Contains("presel") && !passPreselection(selection))   continue;
           if(TString(selection).Contains("sr") &&  !passSelection(selection, dummy)) continue;
            }
-  if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
+         if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//
           double mjj(-999),deta_jj(-999),pt_sys(-999),mctjj(-999),ptjj(-999),ptj1(-999),ptj2(-999), ptll(-999), mjj_lead(-999), ptlll(-999), mlll(-999),dRjj(-999),mindphi_met_j1_j2(-999), dphijj(-999),dRll(-999), dRl1j1(-999), dRl1j2(-999), dRl2j1(-999),dRl2j2(-999);
-          vector<int> goodleps = selectedLeps(selection);                                  //find good leptons
+          //vector<unsigned int> goodleps = selectedLeps(selection);                                  //find good leptons
+          vector<unsigned int> goodleps = dummy.leps;                                  //find good leptons
+          vector<unsigned int> goodjets = dummy.jets; 
           if (goodleps.size()<2) continue;
-          vector<int> goodjets =  selectedjets();
-          vector<int> veto_jets =  vetojets();
-          vector<int> forward_jets =  forwardjets();
+          vector<unsigned int> veto_jets =  vetojets();
+          vector<unsigned int> forward_jets =  forwardjets();
           pt_sys = ptlljj(goodleps,goodjets);
           mctjj = mct(goodjets); 
           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : will fill histograms " <<endl;
