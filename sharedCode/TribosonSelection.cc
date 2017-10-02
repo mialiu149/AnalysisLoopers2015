@@ -30,10 +30,7 @@ const double ZMASS = 90.0;
 int preselRegion( std::string looselep ){
     if(passPreselection(looselep)) {
       vector<unsigned int> goodleps = selectedLeps(looselep);                          //find loose leptons
-      int type_looper = hyp_type_looper(goodleps);                                 //find event type
-      if(type_looper==0) return 1;
-      if(type_looper==2) return 2;
-      if(type_looper==1) return 3;
+      return hyp_type_looper(goodleps);                                 //find event type
     }
     else if(passPreselection("trilep_loose_VVV_cutbased_fo")){
       vector<unsigned int> leps_index = selectedLeps("trilep"); 
@@ -101,16 +98,15 @@ if(TString(selection).Contains("ss")){
  if( TString(selection).Contains("em") && type_looper!=2) return false;    //em
  float dilepmass = (lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).mass();// calculate dilepton mass
  if(TString(selection).Contains("lowmet") && met_pt()>40) return false;
- if( type_looper==0 && dilepmass>80 && dilepmass<100)     return false;    //for ee events, veto zmass
- if( type_looper==0 && dilepmass<40)                      return false;
+ if( type_looper==1 && dilepmass>80 && dilepmass<100)     return false;    //for ee events, veto zmass
  if( type_looper==1 && dilepmass<40)                      return false;
  if( type_looper==2 && dilepmass<30)                      return false;    // dilepmass>40
+ if( type_looper= 3 && dilepmass<40)                      return false;
  return true;
  }
 
 if(TString(selection).Contains("trilep")){
  vector<unsigned int> leps_index = selectedLeps(selection); 
- //if( evt()== 578874) cout<<__LINE__<<endl;
  if( leps_index.size()!=3 || nlep()!=3) return false;
  float dphi = dphi3lmet(leps_index,met_phi());
  if( dphi<2.5)                 return false;
@@ -126,7 +122,6 @@ if(TString(selection).Contains("trilep")){
  if( TString(selection).Contains("SFOS0") && !pass_SFOS0) return false; 
  if( TString(selection).Contains("SFOS1") && !pass_SFOS1) return false; 
  if( TString(selection).Contains("SFOS2") && !pass_SFOS2) return false;
- //if( TString(selection).Contains("SFOS1")) cout<<evt()<<":"<< trileptype <<":"<<lep_pdgId().at(leps_index.at(0))<<":"<<lep_pdgId().at(leps_index.at(1))<<":"<<lep_pdgId().at(leps_index.at(2))<<endl;
  return true;
  }
 
@@ -172,7 +167,6 @@ if(TString(selection).Contains("ss")){
  if( TString(selection).Contains("em")) counterhist->Fill(22);
  if( TString(selection).Contains("mm")) counterhist->Fill(32);
  double mjj =  mjj_dRmin( goodjets );
-//(jets_p4().at(goodjets.at(0))+jets_p4().at(goodjets.at(1))).mass();                    // dijet mass
  double deta_jj = abs(jets_p4().at(goodjets.at(0)).eta() - jets_p4().at(goodjets.at(1)).eta());      // dijet eta
  if( dilepmass<40)                    return false;                                  // dilepmass>40
  if( TString(selection).Contains("ee")) counterhist->Fill(10);
@@ -237,7 +231,8 @@ return false;
 }
 
 bool passSelection( std::string selection, eventinfo& dummy){
- bool passTrigger =  HLT_singleEl()||HLT_singleMu()||HLT_singleMu_noiso()||HLT_DoubleEl_noiso()|| HLT_DoubleEl_DZ_2();
+ //bool passTrigger =  HLT_singleEl()||HLT_singleMu()||HLT_singleMu_noiso()||HLT_DoubleEl_noiso()|| HLT_DoubleEl_DZ_2();
+ bool passTrigger =   HLT_DoubleEl_DZ_2() || HLT_MuEG() || HLT_DoubleMu();
  passTrigger = true;
  if( !TString(selection).Contains("btag") && nBJetLoose()>0) return false; //default is loose btag now.
  if( TString(selection).Contains("btag") && nBJetLoose()<1) return false;
@@ -251,13 +246,62 @@ bool passSelection( std::string selection, eventinfo& dummy){
  if( TString(selection).Contains("jecup"))    njets_sel = njets_up();
  if( TString(selection).Contains("jecdown"))  njets_sel = njets_dn();
 
- if(!passPreselection(selection)) return false;
+ vector<unsigned int> goodleps = selectedLeps(selection);  //find good leptons
+ int type_looper = hyp_type_looper(goodleps);              //find event type
+ int nvetoleps = countvetoleps(5);
+// if(!passPreselection(selection))          return false;
+ float dilepmass(-999), mlll(-999),ptlll(-999), dphi(-999), mjj_lead(-999),deta_jj(-999),mjj(-999); int trileptype(-999);
+ bool pass_SFOS0(false), pass_SFOS1(false),pass_SFOS2(false);
+ if(TString(selection).Contains("ss")){
+ if( !passTrigger)                                        return false; 
+ if( !TString(selection).Contains("crwz")&&(goodleps.size()!=2||nvetoleps>2))   return false; 
+ if( TString(selection).Contains("crwz")&&goodleps.size()!=3)                                  return false;
+  if (TString(selection).Contains("onetight") && (isGoodLepton(goodleps.at(0),selection)    &&isGoodLepton(goodleps.at(1),selection))) return false;
+ if (TString(selection).Contains("onetight") && (!isGoodLepton(goodleps.at(0),selection)    &&!isGoodLepton(goodleps.at(1),selection))) return false;
+ if (TString(selection).Contains("doublefakable")&&(!isLooseNotTight(goodleps.at(0),selection)||!isLooseNotTight(goodleps.at(1),selection))) return false;
+ if( type_looper<0)                                       return false; //event not SS type
+ if( !TString(selection).Contains("noisotrackveto") && !TString(selection).Contains("crwz")&& nisoTrack_mt2_cleaned_VVV_cutbased_veto()>0) return false; //isotrackveto, on bydefault now
+ if( !TString(selection).Contains("nojetcut")&&njets_sel<2)                                         return false; // at least two jets
+ if( TString(selection).Contains("jetveto") && njets()>4) return false; //isotrackveto
+ if( TString(selection).Contains("ee") && type_looper!=0) return false;    //ee
+ if( TString(selection).Contains("mm") && type_looper!=1) return false;    //mm
+ if( TString(selection).Contains("em") && type_looper!=2) return false;    //em
+ dilepmass = (lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).mass();// calculate dilepton mass
+ if(TString(selection).Contains("lowmet") && met_pt()>40) return false;
+ if( type_looper==0 && dilepmass>80 && dilepmass<100)     return false;    //for ee events, veto zmass
+ if( type_looper==0 && dilepmass<40)                      return false;
+ if( type_looper==1 && dilepmass<40)                      return false;
+ if( type_looper==2 && dilepmass<30)                      return false;    // dilepmass>40
+ }
 
- vector<unsigned int> goodleps = selectedLeps(selection);                           //find good leptons
- int type_looper = hyp_type_looper(goodleps);            //find event type
+if(TString(selection).Contains("trilep")){
+ vector<unsigned int> leps_index = selectedLeps(selection); 
+ if( leps_index.size()!=3 || nlep()!=3) return false;
+ ptlll=(lep_p4().at(leps_index.at(0))+lep_p4().at(leps_index.at(1))+lep_p4().at(leps_index.at(2))).pt();  
+ mlll=(lep_p4().at(leps_index.at(0))+lep_p4().at(leps_index.at(1))+lep_p4().at(leps_index.at(2))).mass();  
+ dphi = dphi3lmet(leps_index,met_phi());
+ if( dphi<2.5)                 return false;
+ if( njets_veto >1 )           return false;
+ trileptype = trileptype_dilepmass(leps_index).first;
+ dilepmass = trileptype_dilepmass(leps_index).second;
+ dummy.eventtype = trileptype+4; // count trilep events from 4.
+ if(lep_p4().at(leps_index.at(0)).pt()<25) return false; 
+ pass_SFOS0 = (trileptype==0 && dilepmass>20  && dphi>2.7);
+ pass_SFOS1 = (trileptype==1 && dilepmass>20 && met_pt()>45 );
+ pass_SFOS2 = (trileptype==2 && dilepmass>20 && met_pt()>55 );
  
-if(TString(selection).Contains("ss")){
+ if(!pass_SFOS0&&!pass_SFOS1&&!pass_SFOS2) return false;
+ if( TString(selection).Contains("SFOS0") && !pass_SFOS0) return false; 
+ if( TString(selection).Contains("SFOS1") && !pass_SFOS1) return false; 
+ if( TString(selection).Contains("SFOS2") && !pass_SFOS2) return false;
+ }
+ dummy.mll = dilepmass; 
+ dummy.mlll = mlll;
+ dummy.ptlll = ptlll;
 
+ if(TString(selection).Contains("presel")) return true;
+ 
+ if(TString(selection).Contains("ss")){
   unsigned int lep1_index = goodleps.at(0);
   unsigned int lep2_index = goodleps.at(1);
   LorentzVector lep1_p4 = triboson_np::lep_p4().at(lep1_index);
@@ -266,22 +310,24 @@ if(TString(selection).Contains("ss")){
   float lep2_pT_org = triboson_np::lep_p4().at(lep2_index).pt();
   float lep1_pT = lep_coneCorrPt().at(lep1_index);
   float lep2_pT = lep_coneCorrPt().at(lep2_index);
-  float dilepmass(-999);
   LorentzVector lep1_p4_coneCorr(lep1_pT,lep1_p4.eta(),lep1_p4.phi(),lep1_p4.energy()*lep1_pT/lep1_pT_org);    
   LorentzVector lep2_p4_coneCorr(lep2_pT,lep2_p4.eta(),lep2_p4.phi(),lep2_p4.energy()*lep2_pT/lep2_pT_org);    
- // dilepmass = (lep1_p4_coneCorr+lep2_p4_coneCorr).mass();
- dilepmass = (lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).mass();// calculate dilepton mass
  if( type_looper==0 && dilepmass>80 && dilepmass<100)     return false;    //for ee events, veto zmass
  if( type_looper==0 && dilepmass<40)                      return false;
  if( type_looper==1 && dilepmass<40)                      return false;
  if( type_looper==2 && dilepmass<30)                      return false;    // dilepmass>40
- if( type_looper==2 && maxMt(goodleps)<90)                return false;
+ dummy.mtmax = maxMt(goodleps);
+ if( type_looper==2 && dummy.mtmax<90)                return false;
  if( type_looper!=1 && met_pt()<40)     return false;                                  // met cut for ee/emu
  if( njets_sel < 2) return false;
- float mjj = mjj_dRmin(goodjets);
- float mjj_lead = (jets_p4().at(goodjets.at(0))+jets_p4().at(goodjets.at(1))).mass();                // dijet mass
- double deta_jj = abs(jets_p4().at(goodjets.at(0)).eta() - jets_p4().at(goodjets.at(1)).eta());      // dijet eta
- dummy.eventtype = type_looper;
+ mjj = mjj_dRmin(goodjets);
+ mjj_lead = (jets_p4().at(goodjets.at(0))+jets_p4().at(goodjets.at(1))).mass();                // dijet mass
+ deta_jj = abs(jets_p4().at(goodjets.at(0)).eta() - jets_p4().at(goodjets.at(1)).eta());      // dijet eta
+
+ dummy.mjj = mjj;
+ dummy.detajj = deta_jj;
+ dummy.mjjlead = mjj_lead; 
+ 
  if( TString(selection).Contains("atlas")) {
  if( fabs(mjj_lead-85)>20)                 return false;                                  // w mass window cut
  if( deta_jj>1.5)                          return false;                                  // delta eta cut
@@ -299,21 +345,15 @@ if(TString(selection).Contains("ss")){
 }
 
 if(TString(selection).Contains("trilep")){
- vector<unsigned int> leps_index = selectedLeps(selection); 
- if( leps_index.size()!=3) return false;
- int   trileptype = trileptype_dilepmass(leps_index).first;
- float dilepmass = trileptype_dilepmass(leps_index).second;
- bool pass_SFOS0 = (trileptype==0 && dilepmass>20 && ((abs(dilepmass-ZMASS)>15)||hyp_type()!=0));
- bool pass_SFOS1 = (trileptype==1 && dilepmass>20 && met_pt()>45 && (dilepmass-ZMASS>20 || ZMASS-dilepmass>35));
- bool pass_SFOS2 = (trileptype==2 && dilepmass>20 && met_pt()>55 && abs(dilepmass-ZMASS)>20);
+    pass_SFOS0 = (trileptype==0 && dilepmass>20 && ((abs(dilepmass-ZMASS)>15)||hyp_type()!=0));
+    pass_SFOS1 = (trileptype==1 && dilepmass>20 && met_pt()>45 && (dilepmass-ZMASS>20 || ZMASS-dilepmass>35));
+    pass_SFOS2 = (trileptype==2 && dilepmass>20 && met_pt()>55 && abs(dilepmass-ZMASS)>20);
 
  if( TString(selection).Contains("nomet")) {
      pass_SFOS1 = (trileptype==1 && (dilepmass-ZMASS>20 || ZMASS-dilepmass>35)); 
      pass_SFOS2 = (trileptype==2 && abs(dilepmass-ZMASS)>20);
  }
 
-float   ptlll=(lep_p4().at(leps_index.at(0))+lep_p4().at(leps_index.at(1))+lep_p4().at(leps_index.at(2))).pt();  
-float   mlll=(lep_p4().at(leps_index.at(0))+lep_p4().at(leps_index.at(1))+lep_p4().at(leps_index.at(2))).mass();  
  if(!TString(selection).Contains("noptlll60") && ptlll<60)  return false;  
  if(!TString(selection).Contains("mlll") && fabs(mlll-ZMASS)<10)       return false;  
  if(!pass_SFOS0&&!pass_SFOS1&&!pass_SFOS2) return false;
@@ -496,8 +536,8 @@ return nvetolep;
 int hyp_type_looper(vector<unsigned int> lepindex){
   if (lepindex.size()<2 )  return -999;
   if (lep_pdgId().at(lepindex.at(0))*lep_pdgId().at(lepindex.at(1)) < 0) return -999;
-  if ((lep_pdgId().at(lepindex.at(0)))==(lep_pdgId().at(lepindex.at(1))) && abs(lep_pdgId().at(lepindex.at(0))) ==11) return 0;
-  if ((lep_pdgId().at(lepindex.at(0)))==(lep_pdgId().at(lepindex.at(1))) && abs(lep_pdgId().at(lepindex.at(0))) ==13) return 1;
+  if ((lep_pdgId().at(lepindex.at(0)))==(lep_pdgId().at(lepindex.at(1))) && abs(lep_pdgId().at(lepindex.at(0))) ==11) return 1;
+  if ((lep_pdgId().at(lepindex.at(0)))==(lep_pdgId().at(lepindex.at(1))) && abs(lep_pdgId().at(lepindex.at(0))) ==13) return 3;
   if (abs(lep_pdgId().at(lepindex.at(0)))!=abs(lep_pdgId().at(lepindex.at(1))) && lep_pdgId().at(lepindex.at(0))*lep_pdgId().at(lepindex.at(1)) >0 ) return 2;
   return -999;
 }
