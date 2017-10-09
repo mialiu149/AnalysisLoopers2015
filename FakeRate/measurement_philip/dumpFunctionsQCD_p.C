@@ -5,7 +5,8 @@
     for (int doMu=0;doMu<2;doMu++) {
 
 //      TString suffix = Form("_v%i",doIso);
-      TString suffix = "_20170911";
+      //TString suffix = "_20170911";
+      TString suffix = "";
       TString lep = doMu ? "muon" : "electron";
       TString l = doMu ? "muon" : "elec";
       TString ll = doMu ? "mu" : "el";
