@@ -1,4 +1,4 @@
-/*float electronQCDMCFakeRateWWW(float pt, float eta) {
+/*float electronqcdmcfakeratewww(float pt, float eta) {
    if (pt>=10 && pt<30 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.217206;
    if (pt>=10 && pt<30 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.193411;
    if (pt>=10 && pt<30 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.345574;
@@ -13,7 +13,7 @@
    if (pt>=50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.209257;
    return 0.;
 }
-float muonQCDMCFakeRateWWW(float pt, float eta) {
+float muonqcdmcfakeratewww(float pt, float eta) {
    if (pt>=10 && pt<30 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.0933023;
    if (pt>=10 && pt<30 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.17767;
    if (pt>=10 && pt<30 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.273373;
@@ -28,7 +28,7 @@ float muonQCDMCFakeRateWWW(float pt, float eta) {
    if (pt>=50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.00419796;
    return 0.;
 } */
-/*float electronQCDMCFakeRateWWW(float pt, float eta) {
+/*float electronqcdmcfakeratewww(float pt, float eta) {
    if (pt>=10 && pt<30 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.219323;
    if (pt>=10 && pt<30 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.184194;
    if (pt>=10 && pt<30 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.34185;
@@ -43,7 +43,7 @@ float muonQCDMCFakeRateWWW(float pt, float eta) {
    if (pt>=50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.214096;
    return 0.;
 }
-float muonQCDMCFakeRateWWW(float pt, float eta) {
+float muonqcdmcfakeratewww(float pt, float eta) {
    if (pt>=10 && pt<30 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.0957453;
    if (pt>=10 && pt<30 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.183525;
    if (pt>=10 && pt<30 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.278973;
@@ -60,7 +60,7 @@ float muonQCDMCFakeRateWWW(float pt, float eta) {
 }
 */
 //v1
-/*float electronQCDMCFakeRateWWW(float pt, float eta) {
+/*float electronqcdmcfakeratewww(float pt, float eta) {
    if (pt>=10 && pt<30 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.216693;
    if (pt>=10 && pt<30 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.161483;
    if (pt>=10 && pt<30 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.263455;
@@ -76,7 +76,7 @@ float muonQCDMCFakeRateWWW(float pt, float eta) {
    return 0.;
 }
 
-float muonQCDMCFakeRateWWW(float pt, float eta) {
+float muonqcdmcfakeratewww(float pt, float eta) {
    if (pt>=10 && pt<30 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.115294;
    if (pt>=10 && pt<30 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.226115;
    if (pt>=10 && pt<30 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.319202;
@@ -93,7 +93,7 @@ float muonQCDMCFakeRateWWW(float pt, float eta) {
 }
 */
 //v2
-/*float electronQCDMCFakeRateWWW(float pt, float eta) {
+/*float electronqcdmcfakeratewww(float pt, float eta) {
    if (pt>=10 && pt<30 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.219081;
    if (pt>=10 && pt<30 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.165657;
    if (pt>=10 && pt<30 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.297851;
@@ -108,7 +108,7 @@ float muonQCDMCFakeRateWWW(float pt, float eta) {
    if (pt>=50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.131341;
    return 0.;
 }
-float muonQCDMCFakeRateWWW(float pt, float eta) {
+float muonqcdmcfakeratewww(float pt, float eta) {
    if (pt>=10 && pt<30 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.115294;
    if (pt>=10 && pt<30 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.226115;
    if (pt>=10 && pt<30 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.319202;
@@ -850,3 +850,124 @@ float muonQCDMCFakeRateError_20170911_WWW(float pt, float eta) {
    if (pt>=50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0417386;
    return 0.;
 }
+float electronFakeRate_WWW(float pt, float eta) {
+   if (pt>=10 && pt<20 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.180863;
+   if (pt>=10 && pt<20 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.151654;
+   if (pt>=10 && pt<20 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.166857;
+   if (pt>=20 && pt<30 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.13346;
+   if (pt>=20 && pt<30 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.108987;
+   if (pt>=20 && pt<30 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.127049;
+   if (pt>=30 && pt<50 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.115078;
+   if (pt>=30 && pt<50 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.0997162;
+   if (pt>=30 && pt<50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.106396;
+   if (pt>=50 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0793936;
+   if (pt>=50 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.079424;
+   if (pt>=50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.0995945;
+   return 0.;
+}
+float electronFakeRateError_WWW(float pt, float eta) {
+   if (pt>=10 && pt<20 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0117806;
+   if (pt>=10 && pt<20 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.00866844;
+   if (pt>=10 && pt<20 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.00867508;
+   if (pt>=20 && pt<30 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0146961;
+   if (pt>=20 && pt<30 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.0112594;
+   if (pt>=20 && pt<30 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.0116392;
+   if (pt>=30 && pt<50 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0116122;
+   if (pt>=30 && pt<50 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.00995091;
+   if (pt>=30 && pt<50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.00678264;
+   if (pt>=50 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0340196;
+   if (pt>=50 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.0289512;
+   if (pt>=50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.0122391;
+   return 0.;
+}
+float muonFakeRate_WWW(float pt, float eta) {
+   if (pt>=10 && pt<20 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.181629;
+   if (pt>=10 && pt<20 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.228556;
+   if (pt>=10 && pt<20 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.284502;
+   if (pt>=20 && pt<30 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.059308;
+   if (pt>=20 && pt<30 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.0812574;
+   if (pt>=20 && pt<30 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.120472;
+   if (pt>=30 && pt<50 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.0502797;
+   if (pt>=30 && pt<50 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.0755524;
+   if (pt>=30 && pt<50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.102111;
+   if (pt>=50 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.0504603;
+   if (pt>=50 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.06998;
+   if (pt>=50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.06998;
+   return 0.;
+}
+float muonFakeRateError_WWW(float pt, float eta) {
+   if (pt>=10 && pt<20 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.00419139;
+   if (pt>=10 && pt<20 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.00643408;
+   if (pt>=10 && pt<20 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0138531;
+   if (pt>=20 && pt<30 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.00429932;
+   if (pt>=20 && pt<30 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.00690134;
+   if (pt>=20 && pt<30 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0154601;
+   if (pt>=30 && pt<50 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.00337692;
+   if (pt>=30 && pt<50 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.004541;
+   if (pt>=30 && pt<50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0116372;
+   if (pt>=50 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.0223031;
+   if (pt>=50 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.0249675;
+   if (pt>=50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0249675;
+   return 0.;
+}
+float electronFakeRate_qcd_WWW(float pt, float eta) {
+   if (pt>=10 && pt<20 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.230089;
+   if (pt>=10 && pt<20 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.187919;
+   if (pt>=10 && pt<20 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.181326;
+   if (pt>=20 && pt<30 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.17306;
+   if (pt>=20 && pt<30 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.127839;
+   if (pt>=20 && pt<30 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.106022;
+   if (pt>=30 && pt<50 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0515026;
+   if (pt>=30 && pt<50 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.141964;
+   if (pt>=30 && pt<50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.0987933;
+   if (pt>=50 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0854687;
+   if (pt>=50 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.10156;
+   if (pt>=50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.0892399;
+   return 0.;
+}
+float electronFakeRateError_qcd_WWW(float pt, float eta) {
+   if (pt>=10 && pt<20 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0136355;
+   if (pt>=10 && pt<20 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.0301967;
+   if (pt>=10 && pt<20 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.0229038;
+   if (pt>=20 && pt<30 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0540544;
+   if (pt>=20 && pt<30 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.0578527;
+   if (pt>=20 && pt<30 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.0311611;
+   if (pt>=30 && pt<50 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0163129;
+   if (pt>=30 && pt<50 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.070563;
+   if (pt>=30 && pt<50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.0221528;
+   if (pt>=50 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.0367682;
+   if (pt>=50 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.0386389;
+   if (pt>=50 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.0199718;
+   return 0.;
+}
+float muonFakeRate_qcd_WWW(float pt, float eta) {
+   if (pt>=10 && pt<20 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.192454;
+   if (pt>=10 && pt<20 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.252128;
+   if (pt>=10 && pt<20 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.299959;
+   if (pt>=20 && pt<30 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.0592033;
+   if (pt>=20 && pt<30 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.109371;
+   if (pt>=20 && pt<30 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.124618;
+   if (pt>=30 && pt<50 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.045541;
+   if (pt>=30 && pt<50 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.0673591;
+   if (pt>=30 && pt<50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0674571;
+   if (pt>=50 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.0317323;
+   if (pt>=50 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.0554221;
+   if (pt>=50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0583592;
+   return 0.;
+}
+float muonFakeRateError_qcd_WWW(float pt, float eta) {
+   if (pt>=10 && pt<20 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.00435652;
+   if (pt>=10 && pt<20 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.00673523;
+   if (pt>=10 && pt<20 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0139497;
+   if (pt>=20 && pt<30 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.00397246;
+   if (pt>=20 && pt<30 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.00733365;
+   if (pt>=20 && pt<30 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0126553;
+   if (pt>=30 && pt<50 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.00546544;
+   if (pt>=30 && pt<50 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.00792283;
+   if (pt>=30 && pt<50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0151419;
+   if (pt>=50 && fabs(eta)>=0 && fabs(eta)<1.2 ) return 0.00831419;
+   if (pt>=50 && fabs(eta)>=1.2 && fabs(eta)<2.1 ) return 0.0171941;
+   if (pt>=50 && fabs(eta)>=2.1 && fabs(eta)<2.4 ) return 0.0227116;
+   return 0.;
+}
+

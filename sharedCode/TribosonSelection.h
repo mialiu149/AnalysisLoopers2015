@@ -60,6 +60,7 @@ float ptlljj(vector<unsigned int>leps,vector<unsigned int>jets);
 float maxMt(vector<unsigned int>leps);
 float dphi3lmet(vector<unsigned int>leps, float met_phi);
 float mjj_dRmin(vector<unsigned int> jets);
+float getmjj();
 int preselRegion(string selection);
 int signalRegion2016();
 bool isgammafake(); 

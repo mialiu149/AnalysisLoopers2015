@@ -307,7 +307,7 @@ float fakeRateErrorNoCC(int id, float pt, float eta, float ht) {
   }
 }
 
-float qcdMCFakeRateWWW(int id, float pt, float eta, float ht, TString version = "default") { 
+float qcdMCFakeRateWWW(int id, float pt, float eta, float ht, TString version = "triggersafev1") { 
     if (abs(id)==11) {
         if(version.Contains("v1")) return electronQCDMCFakeRate_v1_WWW(pt,eta);
         else if(version.Contains("v2")) return electronQCDMCFakeRate_v2_WWW(pt,eta);
@@ -317,6 +317,7 @@ float qcdMCFakeRateWWW(int id, float pt, float eta, float ht, TString version = 
         else if(version.Contains("v6")) return electronQCDMCFakeRate_v6_WWW(pt,eta);
         //else if(version.Contains("default")) return electronQCDMCFakeRate_v5_WWW(pt,eta);
         else if(version.Contains("default")) return electronQCDMCFakeRate_20170911_WWW(pt,eta);
+        else if(version.Contains("triggersafev1")) return electronFakeRate_qcd_WWW(pt,eta);
         else {cout<<"using default fake rate"<<endl;return electronQCDMCFakeRateWWW(pt,eta);}
  }   else if (abs(id)==13) {
         if(version.Contains("v1")) return muonQCDMCFakeRate_v1_WWW(pt,eta);
@@ -327,6 +328,7 @@ float qcdMCFakeRateWWW(int id, float pt, float eta, float ht, TString version = 
         else if(version.Contains("v6")) return muonQCDMCFakeRate_v6_WWW(pt,eta);
         //else if(version.Contains("default")) return muonQCDMCFakeRate_v5_WWW(pt,eta);
         else if(version.Contains("default")) return muonQCDMCFakeRate_20170911_WWW(pt,eta);
+        else if(version.Contains("triggersafev1")) return muonFakeRate_qcd_WWW(pt,eta);
         else {cout<<version<<":using default fake rate"<<endl;return muonQCDMCFakeRateWWW(pt,eta);}
 //        else return muonQCDMCFakeRateWWW(pt,eta);
 }

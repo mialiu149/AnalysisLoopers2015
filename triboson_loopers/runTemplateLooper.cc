@@ -18,8 +18,8 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
   //string baby_base = "/hadoop/cms/store/user/haweber/AutoTwopler_babies/WWW/merged/ZMET/WWW_vX/output/";
   //string skim_base = "/hadoop/cms/store/user/haweber/AutoTwopler_babies/WWW/merged/ZMET/WWW_vX/skim/";
-  string baby_base = "/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/output/";
-  string skim_base = "/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/";
+  string baby_base = "/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.16/output/";
+  string skim_base = "/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.16/skim/";
   string helper;
 
   if ( sample == "ttbar"){

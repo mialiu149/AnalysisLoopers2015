@@ -41,9 +41,9 @@ int preselRegion( std::string looselep ){
    }
    return -999; 
 }
-/*
+
 int signalRegion2016(){
-    eventinfo  &dummy;
+    eventinfo  dummy;
     if(passSelection("ss_loose_VVV_cutbased_fo_v5", dummy)) {
       vector<unsigned int> goodleps = selectedLeps("ss_VVV_cutbased_fo_v5");                                  //find loose leptons
       int type_looper = hyp_type_looper(goodleps);                              //find event type
@@ -60,7 +60,7 @@ int signalRegion2016(){
    }
    return -999; 
 }
-*/
+
 bool passPreselection(string selection) {
  //bool passTrigger =  HLT_singleEl()||HLT_singleMu()||HLT_singleMu_noiso()||HLT_DoubleEl_noiso()|| HLT_DoubleEl_DZ_2()
   //                   || HLT_MuEG() || HLT_MuEG_noiso() || HLT_DoubleMu() || HLT_DoubleMu_noiso();
@@ -871,5 +871,9 @@ float fakerateweight(bool subtract,string selection,unsigned lep1_index,unsigned
      
      return weight;      
 }
-
+float getmjj(){ 
+ vector<unsigned int> goodjets =  selectedjets();
+ float mjj =  mjj_dRmin( goodjets );
+ return mjj;
+ }
 }//end of namespace
