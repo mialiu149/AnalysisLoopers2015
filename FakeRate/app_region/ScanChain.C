@@ -20,7 +20,7 @@
 #include "../../CORE/IsolationTools.h"
 #include "../../CORE/Tools/utils.h"
 #include "../../CORE/Tools/dorky/dorky.cc"
-#include "../../classFiles/triboson_v0.1.9/triboson.h"
+#include "../../classFiles/triboson_v0.1.16/triboson.h"
 #include "../../software/dataMCplotMaker/PlotMaker2D.h"
 #include "../../software/dataMCplotMaker/dataMCplotMaker.h"
 #include "../../commonUtils/commonUtils.h"
@@ -36,8 +36,10 @@ bool doRatio = false;
 bool inclHT = true;
 bool debug = false; 
 
-std::string looselep = "ss_VVV_cutbased_fo_v5";
-std::string plotdir="~mliu/public_html/www_closure/plots/v5_2jets/";
+std::string looselep = "ss_VVV_cutbased_fo_default";
+std::string plotdir="~mliu/public_html/www_closure/plots/triggersafev1/";
+//std::string looselep = "ss_VVV_cutbased_fo_v5";
+//std::string plotdir="~mliu/public_html/www_closure/plots/v5_2jets/";
 TString version = TString(looselep);
 
 const double coneCorrCut = 0.06;
@@ -79,7 +81,7 @@ void printCounter(bool file = false) {
 bool isFakeLeg(int lep, bool doData=false){
      if (doData) return true;
       //doublecheck
-      vector<int> ilep = tribosonsel::selectedLooseLeps(looselep);
+      vector<unsigned int> ilep = tribosonsel::selectedLeps(looselep);
       if(ilep.size()<2)  return 1; 
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
@@ -93,7 +95,7 @@ bool isFakeLeg(int lep, bool doData=false){
 bool isGoodLeg(int lep, bool doData=false){
   if (doData) return true;
   //doublecheck
-      vector<int> ilep = tribosonsel::selectedLooseLeps(looselep);
+      vector<unsigned int> ilep = tribosonsel::selectedLeps(looselep);
       if(ilep.size()<2)  return 1; 
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
@@ -809,7 +811,7 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
       }
   */  
  //   define and initialize variables here, so it's easier to switch to new ntuples 
-      vector<int> ilep = tribosonsel::selectedLooseLeps(looselep);
+      vector<unsigned int> ilep = tribosonsel::selectedLeps(looselep);
       if(ilep.size()!=2) continue; 
       if( debug) cout<<__LINE__<<endl;
       unsigned int lep1_index = ilep.at(0);

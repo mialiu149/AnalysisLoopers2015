@@ -911,6 +911,7 @@ float muonFakeRateError_WWW(float pt, float eta) {
    return 0.;
 }
 float electronFakeRate_qcd_WWW(float pt, float eta) {
+   cout<<"reading the correct function"<<endl;
    if (pt>=10 && pt<20 && fabs(eta)>=0 && fabs(eta)<0.8 ) return 0.230089;
    if (pt>=10 && pt<20 && fabs(eta)>=0.8 && fabs(eta)<1.479 ) return 0.187919;
    if (pt>=10 && pt<20 && fabs(eta)>=1.479 && fabs(eta)<2.5 ) return 0.181326;

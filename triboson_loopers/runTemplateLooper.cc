@@ -62,9 +62,9 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
        helper = skim_base+"wgjets_incl_mgmlm*"; ch->Add(helper.c_str());
  }
  else if ( sample == "data" ){
-       ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.11//skim/data_*ee*");
-       ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.11//skim/data_*em*");
-       ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.11//skim/data_*mm*");
+       ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.16//skim/data_*ee*");
+       ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.16//skim/data_*em*");
+       ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.16//skim/data_*mm*");
   }
    else if(sample == "zjets_test"){
       ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/dy_m50_mgmlm_ht400_ext1_skim_1.root");

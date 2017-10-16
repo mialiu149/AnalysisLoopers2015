@@ -5,7 +5,7 @@
   gROOT->ProcessLine(".L ../../software/dataMCplotMaker/PlotMaker2D.cc+");
   gROOT->ProcessLine(".L ../../software/dataMCplotMaker/dataMCplotMaker.cc+");
   gSystem->Load("../../software/tableMaker/libSimpleTable.so");
-  gROOT->ProcessLine(".L ../../classFiles/triboson_v0.1.9/triboson.cc+");
+  gROOT->ProcessLine(".L ../../classFiles/triboson_v0.1.16/triboson.cc+");
   gROOT->ProcessLine(".L ../../sharedCode/histTools.cc+");
   gROOT->ProcessLine(".L ../../commonUtils/commonUtils.h");
   gROOT->ProcessLine(".L ScanChain.C++");
@@ -83,8 +83,8 @@
         ch->Add("../../inSituFR/skims_Jan25/Data_skim.root");
   } else {
     if (doLooseEMVA){
-        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/ttbar_*mgmlm*_ext1_*");
-        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.9/skim/wjets_*.root");  
+        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.16/skim/ttbar_*mgmlm*_ext1_*");
+        ch->Add("/nfs-7/userdata/bhashemi/WWW_babies/WWW_v0.1.16/skim/wjets_*.root");  
    }
     else ch->Add("/nfs-7/userdata/ss2015/ssBabies/"+tag1+"/TTBAR.root");
   }

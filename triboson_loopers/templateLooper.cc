@@ -19,7 +19,7 @@
 #include "TGraphAsymmErrors.h"
 
 #include "templateLooper.h"
-#include "../classFiles/triboson_v0.1.9/triboson.h"
+#include "../classFiles/triboson_v0.1.16/triboson.h"
 #include "../sharedCode/histTools.h"
 #include "../sharedCode/TribosonSelection.h"
 #include "../../CORE/Tools/dorky/dorky.h"
@@ -457,7 +457,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           fillHist( "event", "njets"  , region.c_str(), goodjets.size()    , weight );
           fillHist( "event", "fakerate_weight"  , region.c_str(), weight   ,1 );
           fillHist( "event", "bkgtype"  , region.c_str(), type  , weight );
-          if(type_looper==0) fillHist( "event", "flavorbin"  , region.c_str(), dummy.eventtype, weight );
+          fillHist( "event", "flavorbin"  , region.c_str(), dummy.eventtype, weight );
           fillHist( "event", "nleps"  , region.c_str(), nlep()  , weight );
           fillHist( "event", "nveto_leptons"  , region.c_str(), nveto_leptons()    , weight );
           fillHist( "event", "nisoTrack_mt2"  , region.c_str(), nisoTrack_mt2()    , weight );
