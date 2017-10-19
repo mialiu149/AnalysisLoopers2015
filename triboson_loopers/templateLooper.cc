@@ -279,7 +279,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
          bool gammafake = isgammafake();
          if( !isData()) {
           if( TString(sample).Contains("ht100")&&(gen_ht()>100)) continue; //stitch samples
-          if( (TString(sample).Contains("wjets")|| TString(sample).Contains("zjets") || TString(sample).Contains("ttbar_onelep")) && gammafake) continue;
          }
           //-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-//
 	  //         MET filter, trigger and json      //
@@ -294,7 +293,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 */	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
 	  //Deal with duplicates in data//
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
-  
+          if(evt()==152272281) cout<<"it's here"<<endl;  
 	  if( isData() ) {
 		DorkyEventIdentifier id(run(), evt(), lumi());
         	if (is_duplicate(id) ){
@@ -430,6 +429,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
           if( TString(sample).Contains("lostlep") && type!=3) continue;
           if( TString(sample).Contains("jetfake") && type!=4) continue;
           if( TString(sample).Contains("gammafake") && type!=5) continue;
+          if( (TString(sample).Contains("wjets")|| TString(sample).Contains("zjets") || TString(sample).Contains("ttbar_onelep")) && type==5) continue;
          }
          else if( !isData() && TString(selection).Contains("trilep")) {
           if( TString(sample).Contains("threelep") && type!=1 && type!=0) continue; 
@@ -445,8 +445,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
              weight *= fakerateweight(subtract,selection,lep1_index,lep2_index,lep3_index);
             }
            if(TString(selection).Contains("sr_yield")){
-           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
            if(TString(selection).Contains("raw")) weight = 1;
+           if(debug) cout<< "DEBUG::LINE:"<< __LINE__ <<" : fill cutflow histograms " <<endl;
            histname = Form("h_%s_event_NEventsSR_ss","lep");
            if(passSelection(Form("ss_%s",selection.c_str()), dummy)) histos_cutflow[histname]->Fill(hyp_type_looper(selectedLeps(Form("ss_%s",selection.c_str()))),weight);
            if(passSelection(Form("trilep_SFOS0_%s",selection.c_str()),dummy)) histos_cutflow[histname]->Fill(2.9,weight);
@@ -454,6 +454,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
            if(passSelection(Form("trilep_SFOS2_%s",selection.c_str()),dummy)) histos_cutflow[histname]->Fill(4.9,weight);
            continue;
           } 
+          if(TString(selection).Contains("raw")) weight = 1;
+          if(dummy.eventtype==3) cout<<evt()<<endl;
           fillHist( "event", "njets"  , region.c_str(), goodjets.size()    , weight );
           fillHist( "event", "fakerate_weight"  , region.c_str(), weight   ,1 );
           fillHist( "event", "bkgtype"  , region.c_str(), type  , weight );

@@ -408,6 +408,7 @@ int ScanChain( TChain* chain, TString option = "", TString ptRegion = "HH", bool
   bool doSpecial = option.Contains("special") ? true : false;
 
   bool weightOne = false;
+  bool rawcount = false;
   bool bypass = false;
   bool doSubtractContamination = false;
   bool requireIsoTriggers = false;
@@ -795,7 +796,7 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
 
       // Analysis Code
       float weight = triboson_np::isData() ? 1.0 : triboson_np::evt_scale1fb()*luminosity; // *getTruePUw_Moriond(triboson_np::trueNumInt()[0]);
-
+      if(rawcount) weight = 1;
       TString filename = fname;
       if( debug) cout<<__LINE__<<endl;
 
@@ -813,7 +814,6 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
  //   define and initialize variables here, so it's easier to switch to new ntuples 
       vector<unsigned int> ilep = tribosonsel::selectedLeps(looselep);
       if(ilep.size()!=2) continue; 
-      if( debug) cout<<__LINE__<<endl;
       unsigned int lep1_index = ilep.at(0);
       unsigned int lep2_index = ilep.at(1);
       float lep1_ptrel_v1 = triboson_np::lep_ptRel().at(lep1_index);
@@ -1240,7 +1240,8 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
 
       e1 = 0.; //rate for lep1
       e2 = 0.; //rate for lep2
-      float w = 0.;
+      //float w = weight;
+      float w = 1;
       
       //prompt-nonprompt background
       // if we're doing data, we want to only fill prompt-nonprompt prediction (class 2) with data
@@ -1303,11 +1304,11 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
           if (abs(lep2_id) == 11){  
             e2 = getFakeRate(11, lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData, inSitu, TString(looselep));
             e2a = getFakeRate2(11, lep2_pT_org, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData); 
+           if(!weightOne) 
             w = coneCorr ? (e2/(1-e2))*weight : (e2a/(1-e2a))*weight;
            //cout<< e2/(1-e2)<<endl;
            //w = weight;
            
-           if(weightOne) w = 1.0;
            if(subtractContamination) w = mult*weight;
 
             addToCounter(filename+Form("_pred_el_BR%i", br), w);
@@ -1343,8 +1344,9 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
           else if (abs(lep2_id) == 13){ 
             e2 = getFakeRate(13, lep2_pT, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData, inSitu, TString(looselep));
             e2a = getFakeRate2(13, lep2_pT_org, fabs(lep2_p4.eta()), triboson_np::ht(), false, doData); 
+           if(!weightOne) 
             w = coneCorr ? (e2/(1-e2))*weight : (e2a/(1-e2a))*weight;
-            if(weightOne) w = 1.0;
+           // if(weightOne) w = 1.0;
             if(subtractContamination) w = mult*weight;
 
             addToCounter(filename+Form("_pred_mu_BR%i", br), w);
@@ -1415,9 +1417,10 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
           if( abs(lep1_id) == 11 ){	//if el, use el rate.  FILL WITH NONPROMPT			  
             e1 = getFakeRate(11, lep1_pT, fabs(lep1_p4.eta()), triboson_np::ht(), false, doData, inSitu );
             e1a = getFakeRate2(11, lep1_pT_org, fabs(lep1_p4.eta()), triboson_np::ht(), false, doData); 
+           if(!weightOne) 
             w = coneCorr ? (e1/(1-e1))*weight : (e1a/(1-e1a))*weight;
             //w = weight;
-            if(weightOne) w = 1.0;
+            //if(weightOne) w = 1.0;
             if(subtractContamination) w = mult*weight;
             addToCounter(filename+Form("_pred_el_BR%i", br), w);
             if (fabs(lep1_p4.eta()) < 0.8 && lep1_pT >= 70) addToCounter(filename+"_pred_el_pteta1", w);
@@ -1454,9 +1457,10 @@ vector< vector<TH2D*> > Npn_histo_MTMAX_err2_pred_mu(2, vector<TH2D*>(50,0));
           else if( abs(lep1_id) == 13 ){ //if mu, use mu rate.  FILL WITH NONPROMPT				  
             e1 = getFakeRate(13, lep1_pT, fabs(lep1_p4.eta()), triboson_np::ht(), false, doData, inSitu );
             e1a = getFakeRate2(13, lep1_pT_org, fabs(lep1_p4.eta()), triboson_np::ht(), false, doData); 
+           if(!weightOne) 
             w = coneCorr ? (e1/(1-e1))*weight : (e1a/(1-e1a))*weight;
             //w = weight;
-            if(weightOne) w = 1.0;
+            //if(weightOne) w = 1.0;
             if(subtractContamination) w = mult*weight;
 
             addToCounter(filename+Form("_pred_mu_BR%i", br), w);

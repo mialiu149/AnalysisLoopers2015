@@ -66,6 +66,7 @@ bool passPreselection(string selection) {
   //                   || HLT_MuEG() || HLT_MuEG_noiso() || HLT_DoubleMu() || HLT_DoubleMu_noiso();
  //bool passTrigger =  HLT_DoubleEl_noiso()|| HLT_DoubleEl_DZ_2() || HLT_MuEG() || HLT_MuEG_noiso() || HLT_DoubleMu() || HLT_DoubleMu_noiso();
  bool passTrigger =   HLT_DoubleEl_DZ_2() || HLT_MuEG() || HLT_DoubleMu();
+ passTrigger= true;
  if( !TString(selection).Contains("btag") && nBJetLoose()>0) return false; //default is loose btag now.
  if( TString(selection).Contains("btag") && nBJetLoose()<1) return false;
  vector<unsigned int> goodjets =  selectedjets();
@@ -86,7 +87,7 @@ if(TString(selection).Contains("ss")){
  //if( !TString(selection).Contains("crwz")&&(goodleps.size()!=2||nlep_VVV_cutbased_veto()>2))   return false; 
  if( !TString(selection).Contains("crwz")&&(goodleps.size()!=2||nvetoleps>2))   return false; 
  if( TString(selection).Contains("crwz")&&goodleps.size()!=3)                                  return false;
-  if (TString(selection).Contains("onetight") && (isGoodLepton(goodleps.at(0),selection)    &&isGoodLepton(goodleps.at(1),selection))) return false;
+ if (TString(selection).Contains("onetight") && (isGoodLepton(goodleps.at(0),selection)    &&isGoodLepton(goodleps.at(1),selection))) return false;
  if (TString(selection).Contains("onetight") && (!isGoodLepton(goodleps.at(0),selection)    &&!isGoodLepton(goodleps.at(1),selection))) return false;
  if (TString(selection).Contains("doublefakable")&&(!isLooseNotTight(goodleps.at(0),selection)||!isLooseNotTight(goodleps.at(1),selection))) return false;
  if( type_looper<0)                                       return false; //event not SS type
@@ -99,9 +100,9 @@ if(TString(selection).Contains("ss")){
  float dilepmass = (lep_p4().at(goodleps.at(0))+lep_p4().at(goodleps.at(1))).mass();// calculate dilepton mass
  if(TString(selection).Contains("lowmet") && met_pt()>40) return false;
  if( type_looper==1 && dilepmass>80 && dilepmass<100)     return false;    //for ee events, veto zmass
- if( type_looper==1 && dilepmass<40)                      return false;
- if( type_looper==2 && dilepmass<30)                      return false;    // dilepmass>40
- if( type_looper= 3 && dilepmass<40)                      return false;
+// if( type_looper==1 && dilepmass<40)                      return false;
+// if( type_looper==2 && dilepmass<30)                      return false;    // dilepmass>40
+// if( type_looper= 3 && dilepmass<40)                      return false;
  return true;
  }
 
@@ -233,8 +234,10 @@ return false;
 bool passSelection( std::string selection, eventinfo& dummy){
  //bool passTrigger =  HLT_singleEl()||HLT_singleMu()||HLT_singleMu_noiso()||HLT_DoubleEl_noiso()|| HLT_DoubleEl_DZ_2();
  bool passTrigger =   HLT_DoubleEl_DZ_2() || HLT_MuEG() || HLT_DoubleMu();
+ passTrigger = true;
  if( !TString(selection).Contains("btag") && nBJetLoose()>0) return false; //default is loose btag now.
  if( TString(selection).Contains("btag") && nBJetLoose()<1) return false;
+ if(evt()==152272281) cout<<__LINE__<<endl;
  vector<unsigned int> goodjets =  selectedjets();
  vector<unsigned int> veto_jets =  vetojets();
  vector<unsigned int> forward_jets =  forwardjets();
@@ -867,9 +870,11 @@ float fakerateweight(bool subtract,string selection,unsigned lep1_index,unsigned
      
      return weight;      
 }
+
 float getmjj(){ 
  vector<unsigned int> goodjets =  selectedjets();
  float mjj =  mjj_dRmin( goodjets );
  return mjj;
  }
+
 }//end of namespace
